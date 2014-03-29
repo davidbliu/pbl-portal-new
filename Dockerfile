@@ -1,4 +1,4 @@
-FROM ubuntu:12.04
+FROM ubuntu:13.04
 MAINTAINER Docker Education Team <education@docker.com>
 
 RUN apt-get update
