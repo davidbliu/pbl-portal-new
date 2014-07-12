@@ -63,14 +63,34 @@ class Member < ActiveRecord::Base
 
   belongs_to :old_member
 
-
-
+  # scope :current_member
+  # scope :in_committee, ->(c) {where(committees.first == c)}
+  # scope :current_semester, -> {where(self.event.semester == Semester.current_semester)}
   # TODO: store in DB
   def primary_committee
     # self.committees.first
     self.committees.first
   end
 
+  def self.currently_in_committee(committee, semester = Semester.current_semester)
+    # cms = Member.where(committees)
+    current_committee_members = CommitteeMember.where(semester_id: semester.id).where(committee_id: committee.id).pluck(:member_id)
+    return Member.where('id IN (?)', current_committee_members)
+  end
+
+  def self.current_gm_ids(semester = Semester.current_semester)
+    # ids = Member
+    gm_id = Committee.find(1)
+    gm_ids = CommitteeMember.where(committee_id: gm_id).where(semester_id: semester.id).pluck(:member_id)
+  end
+
+  #
+  # excludes gms
+  #
+  def self.current_members(semester = Semester.current_semester)
+    current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).pluck(:member_id)
+    return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids)
+  end
   def current_committee(semester = Semester.current_semester)
     committee = self.committees.first
     cm = CommitteeMember.where(member_id: self.id).where(semester_id: semester.id)
@@ -84,18 +104,21 @@ class Member < ActiveRecord::Base
 
   # returns all members that are currently part of pbl (as in CMS or officers or execs)
   # some extra logic for secretary to be able to mark anyone not just his own committee
-  def self.current_members
-    all_current_members = Array.new
-    Member.all.each do |member|
-        # if chair or exec
-        if member.position == "chair" or (member.current_committee and member.current_committee.id == 2)
-            all_current_members << member
-        elsif member.current_committee and not member.current_committee.name.include? "General"
-          all_current_members << member
-        end
-    end
-    return all_current_members
-  end
+  #
+  # TODO NO LOOPS
+  #
+  # def self.current_members
+  #   all_current_members = Array.new
+  #   Member.find_each do |member|
+  #       # if chair or exec
+  #       if member.position == "chair" or (member.current_committee and member.current_committee.id == 2)
+  #           all_current_members << member
+  #       elsif member.current_committee and not member.current_committee.name.include? "General"
+  #         all_current_members << member
+  #       end
+  #   end
+  #   return all_current_members
+  # end
 
 
   # Position of the member.
@@ -175,23 +198,8 @@ class Member < ActiveRecord::Base
 
   # The other Members that are part of this member's committees
   def cms(semester = Semester.current_semester)
-    cms = Array.new
-    self.current_committee(semester).cms.each do |m|
-      cms << m.member
-    end
-    return cms
-    # cms = Array.new
-    # self.committees.each do |committee|
-    #   if committee.cms(semester).include? self
-    #     committee.cms(semester).each do |member|
-    #       cms << member
-    #     end
-    #   end
-    # end
-    # return cms
-    # self.committees.map do |committee|
-    #   committee.members
-    # end.flatten
+    mem_ids = self.current_committee.cms.pluck(:member_id)
+    return Member.where('id IN (?)', mem_ids)
   end
 
   # Create a new session token.
@@ -202,6 +210,22 @@ class Member < ActiveRecord::Base
   # Encrypt the token.
   def Member.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+
+
+  def attended_events(semester = Semester.current_semester)
+    # p EventMember.where(member_id: self.id).length
+    begin
+      event_ids = EventMember.where(member_id: self.id).pluck(:event_id)
+      return Event.where('id IN (?)', event_ids)
+    rescue
+      p 'failed'
+    end
+  end
+
+  def attendance_mapping(events)
+    attended_ids = self.attended_events.pluck(:id)
+    return events.map{|e| attended_ids.include? e.id}
   end
 
   # Checks attendance for an event.
@@ -325,44 +349,22 @@ class Member < ActiveRecord::Base
 
   # Calculate the total number of points this member has
   def total_points(semester = Semester.current_semester)
-    sum = 0
-
-    event_mems = Array.new
-    self.event_members.each do |em|
-      if em.semester == semester
-        event_mems << em
-      end
+    if semester == 'all'
+      curr_events = Event.pluck(:id).collect{|i| i.to_s}
+    else
+      curr_events = Event.where(semester: semester).pluck(:id).collect{|i| i.to_s}
     end
-
-    if semester == "all"
-      event_mems = self.event_members
-    end
-    # Calculate points from events
-    event_mems.each do |event_member|
-      sum += event_member.event_points.value if event_member.event_points
-    end
-
-    # Calculate points from tabling
-    # TODO only for this semester tabling slots
-    self.tabling_slot_members.where(
-      status_id: Status.where(name: :attended).first
-    ).each do |tsm|
-      # only add points if it was from this semester
-      if TablingSlot.find(tsm.tabling_slot_id).start_time >= Semester.current_semester.start_date
-        sum += TablingSlot::POINTS
-      end
-
-      # TODO: points for other statuses
-    end
-
-    return sum
+    # events = EventMember.joins('INNER JOIN events ON CAST(events.id AS varchar) = event_members.event_id').where(member_id: self.id).pluck(:event_id)
+    events_attended = EventMember.where('event_id IN (?)', curr_events).where(member_id: self.id).pluck(:event_id)
+    return EventPoints.where('event_id IN (?)', events_attended).sum(:value)
   end
 
   # Return all attended tabling slots
   def attended_slots
-    self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).map do |tsm|
-      tsm.tabling_slot
-    end
+    # self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).map do |tsm|
+    #   tsm.tabling_slot
+    # end
+    return self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).pluck(:tabling_slot)
   end
 
   private

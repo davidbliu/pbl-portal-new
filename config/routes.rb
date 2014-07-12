@@ -1,7 +1,25 @@
 Dockernotes::Application.routes.draw do
   resources :notes
   # root 'notes#index'
-  root 'notes#test'
+  root 'members#test'
+  resources :members
+
+  resources :points do
+    collection do
+      get 'rankings'
+      get 'mark_attendance'
+    end
+
+  end
+
+  resources :events do
+  end
+
+  resources :tabling
+    collection do
+      get 'generate'
+      get 'options'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

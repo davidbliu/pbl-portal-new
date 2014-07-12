@@ -1,0 +1,26 @@
+<h1>Listing Current Members</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current_members.each do |member| %>
+      <tr>
+        <td><%= member.name %></td>
+        <td>a</td>
+        <td>b</td>
+        <td>c</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
