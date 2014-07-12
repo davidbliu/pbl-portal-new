@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER Docker Education Team <education@docker.com>
+MAINTAINER David Liu <davidbliu@gmail.com>
 
 RUN apt-get update
 RUN apt-get install -y ruby ruby-dev libpq-dev build-essential
