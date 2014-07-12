@@ -1,0 +1,13 @@
+<li class="no-border" ondragover=showAdd(event) id='<%= @slot.id %>'>
+  <b><%= @slot.start_time.strftime("%l:%M%p") %></b>
+
+  <ul class = "list-group slot-list">
+    <% @slot.member_name_id_map.each do |data| %>
+    <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>"><%= data['name'] %></li> 
+    <% end %>
+    <!-- TODO show only for admin -->
+    <li class="delete" ondrop="deleteMember(event)" ondragover="allowDrop(event)">Drop here to delete</li>
+    <li class="add" ondrop="addMember(event)" ondragover="allowDrop(event)">Drop here to add</li>
+  </ul>
+
+</li>

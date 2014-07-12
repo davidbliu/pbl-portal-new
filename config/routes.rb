@@ -15,10 +15,19 @@ Dockernotes::Application.routes.draw do
   resources :events do
   end
 
-  resources :tabling
+  resources :tabling do
     collection do
       get 'generate'
       get 'options'
+      get 'edit_tabling'
+    end
+  end
+
+  #
+  # handle drag-drop events in tabling index view only
+  #
+  resources :tabling_slot_members, only: [ :create, :destroy, :update ] do
+    put :set_status_for, on: :member
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

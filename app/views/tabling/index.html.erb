@@ -1,25 +1,34 @@
-<h1>Listing Tabling Schedules</h1>
+<!-- TODO remove hardcoded bootstrap -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+<%= javascript_include_tag "tabling_slots.js" %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<style type='text/css'>
+.tabling-day-list{
+  float: left;
+  list-style-type:none;
+  margin: 20px;
+}
+.slot-list{
+  list-style-type:none;
+}
+</style>
+<h1>Tabling Schedule</h1>
 
-  <tbody>
+<% if @tabling_days.nil? %>
+    <h1>No tabling slots yet!</h1>
+<% else %>
+ <% @tabling_days.each do |day, slots| %>
+        <ul class="tabling list-group tabling-day-list">
+          <div class="label label-primary dayheading"><%= day.strftime("%A, %D") %></div>
+          <div style = "height:15px"></div>
+          <div class="slots">
+            <% slots.each do |slot| %>
+              <div><%= render "slot", object: @slot = slot %></div>
+            <% end %>
+          </div>
+        </ul>
+      </div>
 
-      <tr>
-        <td>d</td>
-        <td>c</td>
-        <td>b</td>
-        <td>a</td>
-      </tr>
-  </tbody>
-</table>
-
-<br>
-<%= @points %>
+ <% end %>
+<% end %>

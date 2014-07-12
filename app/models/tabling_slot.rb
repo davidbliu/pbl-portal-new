@@ -29,5 +29,12 @@ class TablingSlot < ActiveRecord::Base
   has_many :tabling_slot_members, dependent: :destroy
   has_many :members, through: :tabling_slot_members
 
-  
+  def member_names
+  	return self.members.pluck(:name)
+  end
+
+  def member_name_id_map
+
+  	return self.tabling_slot_members.map{|m| {"name"=>m.member.name, "id"=>m.id, "tsm_id"=>m.id}}
+  end
 end
