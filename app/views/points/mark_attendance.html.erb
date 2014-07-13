@@ -1,5 +1,4 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
+<%= javascript_include_tag 'attendance.js' %>
 <style type = 'text/css'>
 .locked{
 	/*background-color: red;*/
@@ -14,27 +13,51 @@
 #rowspacer{
 	/*height:200px;*/
 }
+#save-btn{
+	margin:25px;
+}
+#master-table{
+	margin-left: 0px;
+}
+.highlighted {
+    /*color: #261F1D !important;*/
+    background-color: #5bc0de;
+}
+#header-fixed {
+    position: fixed;
+    top: 0px; display:none;
+    background-color:white;
+}
 </style>
 
-<h1>Mark Attendance Chairs</h1>
+<h1>Attendance</h1>
 
-<table class='table table-condensed table-hover table-bordered'>
+<div id ='button-div'>
+<button type='button' class='btn btn-default' id = 'save-btn'>Save Changes</button>
+</div>
 
-	<thead class='locked'>
+
+<table class='table table-condensed table-hover table-bordered' id='table-1'>
+
+	<div id='original-thead'>
+	<thead class='locked' id = 'original-fixed-head'>
 		<th>Members</th>
 		<% @semester_events.pluck(:name).each do |event_name| %>
 		<th><%= event_name %></th>
 		<% end %>
 	</thead>
+	</div>
+
+	
 
 
 	<tbody>
 		<tr id='rowspacer'></tr>
 		<% @current_cms.each do |cm| %>
-		<tr>
+		<tr class = 'member-row'>
 			<td class='locked-left'><%= cm.name %></td>
 			<% @mappings_dict[cm.id].each do |bool|%>
-			<td><% if bool %>X<% end %></td>
+			<td class='attendance-checkbox' id='(event, member)'><% if bool %>X<% end %></td>
 			<% end %>
 		</tr>
 		<% end %>

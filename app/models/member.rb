@@ -91,6 +91,14 @@ class Member < ActiveRecord::Base
     current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).pluck(:member_id)
     return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids)
   end
+
+  def self.current_chairs(semester = Semester.current_semester)
+    chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
+    chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
+    return Member.where('id IN (?)', chair_ids)
+  end
+
+
   def current_committee(semester = Semester.current_semester)
     committee = self.committees.first
     cm = CommitteeMember.where(member_id: self.id).where(semester_id: semester.id)

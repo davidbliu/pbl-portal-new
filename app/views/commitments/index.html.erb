@@ -1,0 +1,80 @@
+<%= javascript_include_tag "commitments" %>
+<script type = "text/javascript">
+var marked_slots = {};
+marked_slots["0"] = [];
+marked_slots["1"] = [];
+marked_slots["2"] = [];
+marked_slots["3"] = [];
+marked_slots["4"] = [];
+marked_slots["5"] = [];
+marked_slots["6"] = [];
+<% @commitments.each do |commitment| %>
+marked_slots['<%= commitment.day %>'].push('<%= commitment.start_hour %>');
+<% end %>
+</script>
+
+<style type = "text/css">
+.timetable {
+  overflow: hidden;
+  border-left: 1px solid #C5C5C5;
+  /*border-radius: 10px 10px 0px 0px;*/
+  margin: 25px;
+  /*border-left: 1px solid black;*/
+}
+.day {
+  background-color: white;
+  /*border: 1px solid black;*/
+  float: left;
+  width: 65px;
+  text-align: center;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  border-bottom-right-radius:0px;
+  border-bottom-left-radius:0px;
+  margin-left: -1px;
+  /*box-shadow: 3px 3px 5px rgba(0,0,0,0.3);*/
+}
+.day:hover {
+  cursor: pointer;
+}
+.day div {
+  border: 1px solid #C5C5C5;
+  padding: 3px;
+  overflow: hidden;
+  margin-top: -1px;
+}
+.day_header {
+  /*color: rgb(255, 213, 213);*/
+  color: white;
+  background-color:black;
+  /*font-weight: bold;*/
+}
+.hour {
+  overflow: hidden;
+}
+.hour:hover {
+  cursor: pointer;
+}
+
+#current_member{
+  background-color: white;
+}
+#save_commitments {
+  margin-left: 25px;
+}
+</style>
+
+
+
+<h1>Commitments</h1>
+
+<div id='btn-div'>
+<button type = 'btn' id ='save_commitments'>Save</button>
+</div>
+
+<div id = "times" class = "timetable"></div>

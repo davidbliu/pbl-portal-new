@@ -1,0 +1,29 @@
+<style type = 'text/css'>
+#content-div{
+	margin: 25px;
+}
+</style>
+<h1>Points</h1>
+
+<div id='content-div'>
+<b>Attended Events</b>
+<% @attended_event_point_name_data.each do |data| %>
+<div id='attended-event-div'><%= data['event'] %> : <%= data['points'] %></div>
+<% end %>
+
+<b>Your Committee's Points</b>
+<% @cm_points_list.each do |data| %>
+<div><%= data['name'] %> earned <%= data['points'] %></div>
+<% end %>
+
+
+<b>Top CMS</b>
+<% @points_list.first(10).each do |data| %>
+<div><%= data['name'] %> earned <%= data['points'] %></div>
+<% end %>
+
+<b>All Points</b>
+<% @points_list.each do |data| %>
+  <%= data['points'] %>,
+<% end %>
+<div>

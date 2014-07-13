@@ -32,7 +32,21 @@ class PointsController < ApplicationController
 		@current_cms.each do |cm|
 			@mappings_dict[cm.id] = cm.attendance_mapping(@semester_events)
 		end
+	end
 
+	#
+	# cms can only view attendance
+	#
+	def view_attendance
+		@semester_events = Event.this_semester
+		@current_cms = Member.current_members
+		# event_member_join = Event.join(curr)
+		event_members = EventMember.all
+		# @attended_dict = 
 
+		@mappings_dict = Hash.new
+		@current_cms.each do |cm|
+			@mappings_dict[cm.id] = cm.attendance_mapping(@semester_events)
+		end
 	end
 end

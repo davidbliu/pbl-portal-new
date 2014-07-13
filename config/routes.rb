@@ -1,7 +1,7 @@
 Dockernotes::Application.routes.draw do
   resources :notes
   # root 'notes#index'
-  root 'members#test'
+  root 'members#index'
   resources :members
 
   resources :points do
@@ -17,12 +17,18 @@ Dockernotes::Application.routes.draw do
 
   resources :tabling do
     collection do
-      get 'generate'
+      post 'generate'
       get 'options'
       get 'edit_tabling'
+      get 'delete_slots'
     end
   end
 
+  resources :commitments do
+    collection do
+      get 'update_commitments'
+    end
+  end
   #
   # handle drag-drop events in tabling index view only
   #

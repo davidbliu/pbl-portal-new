@@ -8,7 +8,42 @@
 </head>
 <body>
 
-<%= yield %>
 
+<style type = "text/css">
+#navlist {
+  padding: 10px;
+}
+#navlist a {
+  color: black;
+}
+#navlist .logo a {
+  color: white;
+  background-color: black;
+}
+#navlist .logo {
+  margin-right: 10px;
+}
+#top_nav #navlist li a:hover {
+	background-color:black;
+	color: white;
+}
+</style>
+
+
+<!-- add a header -->
+<header class="header">
+  <nav  id = "top_nav" class = "navbar navbar-default navbar-fixed-top" role = "navigation">
+    <ul id = "navlist" class="nav nav-pills">
+      <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
+        <li><a href = "/tabling">Tabling</a></li>
+        <li><a href = "/points/rankings">Points</a></li>
+        <li><a href = "/points/mark_attendance">Attendance</a></li>
+        <li><a href = "/commitments">Commitments</a></li>
+    </ul>
+  </nav>
+  <div style = "height:75px;clear:both"></div>
+</header>
+<%= yield %>
+<!-- end of header -->
 </body>
 </html>

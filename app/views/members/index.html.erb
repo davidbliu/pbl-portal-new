@@ -1,22 +1,22 @@
-<h1>Listing Current Members</h1>
+<h1>Welcome to PBL Members Portal</h1>
 
-<table>
+<table class='table table-condensed table-hover table-bordered'>
   <thead>
     <tr>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @current_members.each do |member| %>
+    <% @data.each do |data| %>
       <tr>
-        <td><%= member.name %></td>
-        <td>a</td>
-        <td>b</td>
-        <td>c</td>
+        <td><%= data['name'] %></td>
+        <td><%= data['committee'] %></td>
+        <td><%= data['position'] %></td>
+        <td><%= data['semester'] %></td>
       </tr>
     <% end %>
   </tbody>
