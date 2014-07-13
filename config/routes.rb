@@ -8,6 +8,7 @@ Dockernotes::Application.routes.draw do
     collection do
       get 'rankings'
       get 'mark_attendance'
+      post 'update_attendance'
     end
 
   end

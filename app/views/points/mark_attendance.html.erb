@@ -1,4 +1,6 @@
-<%= javascript_include_tag 'attendance.js' %>
+<script type = 'text/javascript'>
+var admin = true;
+</script><%= javascript_include_tag 'attendance.js' %>
 <style type = 'text/css'>
 .locked{
 	/*background-color: red;*/
@@ -28,6 +30,15 @@
     top: 0px; display:none;
     background-color:white;
 }
+.attendance-checkbox:hover{
+	cursor:pointer;
+}
+.attendance-checkbox{
+	text-align:center;
+}
+.locked-left:hover{
+	cursor:default;
+}
 </style>
 
 <h1>Attendance</h1>
@@ -56,8 +67,8 @@
 		<% @current_cms.each do |cm| %>
 		<tr class = 'member-row'>
 			<td class='locked-left'><%= cm.name %></td>
-			<% @mappings_dict[cm.id].each do |bool|%>
-			<td class='attendance-checkbox' id='(event, member)'><% if bool %>X<% end %></td>
+			<% @mappings_dict[cm.id].each do |e_data|%>
+				<td class='attendance-checkbox' id='<%= e_data['id'] %>,<%= cm.id %>'><% if e_data['attended'] %>X<% end %></td>
 			<% end %>
 		</tr>
 		<% end %>

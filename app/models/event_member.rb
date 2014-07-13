@@ -31,6 +31,7 @@ class EventMember < ActiveRecord::Base
   belongs_to :event, foreign_key: :event_id
   has_one :event_points, foreign_key: :event_id, primary_key: :event_id
 
+  validates_uniqueness_of :member_id, :scope => :event_id
   # scope :current_semester, -> {where(self.event.semester == Semester.current_semester)}
 
   def event

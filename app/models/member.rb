@@ -231,9 +231,20 @@ class Member < ActiveRecord::Base
     end
   end
 
+  #
+  # for each event add boolean for attended or not
+  #
   def attendance_mapping(events)
     attended_ids = self.attended_events.pluck(:id)
     return events.map{|e| attended_ids.include? e.id}
+  end
+
+  #
+  # for each event adds id of event if attended or nil if not
+  #
+  def attendance_id_mapping(events)
+    attended_ids = self.attended_events.pluck(:id)
+    return events.map{|e| {'id'=>e.id,'attended'=> (attended_ids.include? e.id ) }}
   end
 
   # Checks attendance for an event.
