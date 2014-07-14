@@ -54,6 +54,7 @@ GEM
       activesupport (>= 3.0.0)
     arel (4.0.1)
     atomic (1.1.14)
+    bcrypt (3.1.7)
     bourbon (3.2.3)
       sass (~> 3.2)
       thor
@@ -67,6 +68,12 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     daemons (1.1.9)
+    devise (3.2.4)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     erubis (2.7.0)
     eventmachine (1.0.3)
     execjs (2.0.2)
@@ -122,6 +129,7 @@ GEM
     omniauth-oauth2 (1.1.1)
       oauth2 (~> 0.8.0)
       omniauth (~> 1.0)
+    orm_adapter (0.5.0)
     pg (0.17.0)
     polyamorous (1.0.0)
       activerecord (>= 3.0)
@@ -191,6 +199,8 @@ GEM
     uglifier (2.3.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -199,6 +209,7 @@ DEPENDENCIES
   activeadmin!
   chronic
   coffee-rails (~> 4.0.0)
+  devise
   execjs
   jbuilder (~> 1.2)
   jquery-rails

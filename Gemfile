@@ -47,7 +47,7 @@ gem 'mysql2'
 # active admin dependencies
 #
 gem 'activeadmin', github: 'gregbell/active_admin'
-
+gem 'devise'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
