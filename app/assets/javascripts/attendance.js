@@ -41,7 +41,7 @@ function saveActions(){
             alert("you cannot make changes to attendance")
             return;
         }
-        var r = confirm('would you like to save changes to attendance?')
+        var r = confirm('would you like to save changes to attendance?');
         if(!r){
             return;
         }

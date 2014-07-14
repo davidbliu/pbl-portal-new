@@ -35,6 +35,20 @@ gem 'pg'
 gem 'chronic'
 gem 'jquery-turbolinks'
 
+
+#
+# initial authentication choices
+#
+gem 'omniauth', '1.1.0'
+gem 'omniauth-google-oauth2', :git => 'https://github.com/zquestz/omniauth-google-oauth2.git'
+gem 'mysql2'
+
+#
+# active admin dependencies
+#
+gem 'activeadmin', github: 'gregbell/active_admin'
+
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
