@@ -1,0 +1,70 @@
+
+<script type = "text/javascript">
+$(document).ready(function(){
+  $('.committee-row').each(function(){
+    var total = 0;
+    var scores = $(this).find('.score');
+    for(var i=0;i<scores.length;i++){
+      var value = $(scores[i]).attr("value");
+      var multiplier = 0;
+      if($(scores[i]).hasClass("first")){
+        multiplier = 30;
+      }
+      if($(scores[i]).hasClass("second")){
+        multiplier = 20;
+      }
+      if($(scores[i]).hasClass("third")){
+        multiplier = 10;
+      }
+      total += value*multiplier + value*5;
+    }
+    $(this).find('.final-score').text(total.toFixed(2));
+  });
+});
+</script>
+<style type = "text/css">
+.first{
+  background-color: #E6E600;
+}
+.second{
+  background-color: #B2B2B2;
+}
+.third{
+  background-color: #AD5C33;
+}
+</style>
+<div style = "height:50px"></div>
+
+<div id = "table-container">
+<table class="table table-bordered">
+<thead>
+  <th>Committee</th>
+  <% ApprenticeChallenge.all.each do |challenge| %>
+  <th><%= challenge.name %></th>
+  <% end %>
+  <th>Total Score</th>
+</thead>
+<tbody>
+  <% Committee.all.each do |committee| %>
+  <tr class = 'committee-row'>
+    <td><%= committee.name %></td>
+    <% ApprenticeChallenge.all.each do |challenge| %>
+      <% if challenge.first_place == committee.id %>
+      <td class = 'first score' value = <%= Event.find(challenge.event_id).attendance_rate(committee)[2] %>>
+      <% elsif challenge.second_place == committee.id %>
+      <td class = 'second score' value = <%= Event.find(challenge.event_id).attendance_rate(committee)[2] %>>
+      <% elsif challenge.third_place == committee.id %>
+      <td class = 'third score' value = <%= Event.find(challenge.event_id).attendance_rate(committee)[2] %>>
+      <% else %>
+      <td class = 'score' value = <%= Event.find(challenge.event_id).attendance_rate(committee)[2] %>>
+      <% end %>
+      <%= Event.find(challenge.event_id).attendance_rate(committee)[0] %>/<%= Event.find(challenge.event_id).attendance_rate(committee)[1] %>
+      </td>
+    <% end %>
+    <td class = "final-score">total score</td>
+  </tr>
+  <% end %>
+</tbody>
+</table>
+
+</div>

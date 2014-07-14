@@ -81,4 +81,12 @@ class PointsController < ApplicationController
 			render :nothing => true, :status => 500, :content_type => 'text/html'
 		end
 	end
+
+	#
+	# calculate apprentice rankings
+	# TODO i just used view from old portal. should implement correctly
+	#
+	def apprentice
+
+	end
 end
