@@ -24,7 +24,7 @@
 # === Has one:
 # - EventPoint
 class EventMember < ActiveRecord::Base
-  # attr_accessible :event_id, :member_id, :semester_id, :google_id
+  attr_accessible :event_id, :member_id, :semester_id, :google_id
 
   belongs_to :member
   belongs_to :semester, foreign_key: :semester_id

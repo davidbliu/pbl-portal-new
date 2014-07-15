@@ -49,17 +49,17 @@ class Member < ActiveRecord::Base
   has_many :committee_members, dependent: :destroy
   has_many :committees, through: :committee_members
 
-  has_many :commitment_calendars, dependent: :destroy
+  # has_many :commitment_calendars, dependent: :destroy
 
   has_many :event_members, dependent: :destroy
 
-  has_many :reimbursements, dependent: :destroy
+  # has_many :reimbursements, dependent: :destroy
 
   has_many :commitments, dependent: :destroy
 
   has_many :points, dependent: :destroy
 
-  has_many :likes
+  # has_many :likes
 
   belongs_to :old_member
 
@@ -70,6 +70,14 @@ class Member < ActiveRecord::Base
   def primary_committee
     # self.committees.first
     self.committees.first
+  end
+
+  #
+  # returns all alum (people who aren't in a committee this semester). GM committee is 1
+  #
+  def self.alumni
+    in_a_committee_ids = CommitteeMember.where(semester: Semester.current_semester).pluck(:member_id)
+    return Member.where('id NOT IN (?)', in_a_committee_ids)
   end
 
   def self.currently_in_committee(committee, semester = Semester.current_semester)

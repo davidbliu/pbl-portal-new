@@ -4,7 +4,11 @@ Dockernotes::Application.routes.draw do
   resources :notes
   # root 'notes#index'
   root 'members#index'
-  resources :members
+  resources :members do
+    collection do
+      get 'all'
+    end
+  end
 
   resources :points do
     collection do

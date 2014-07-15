@@ -58,7 +58,8 @@ function saveActions(){
                 remove_data.push({'event_id': parts[0], 'member_id': parts[1]})
             }
         });
-        console.log(attendance_data)
+        console.log(attendance_data);
+        // return;
         $.ajax({
           url:'/points/update_attendance',
           type: "POST",

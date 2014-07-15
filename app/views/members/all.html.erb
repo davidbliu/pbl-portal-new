@@ -13,7 +13,7 @@
   </thead>
 
   <tbody>
-    <% @data.each do |data| %>
+    <% @current.each do |data| %>
       <tr>
         <td><%= data['name'] %></td>
         <td><%= data['committee'] %></td>
@@ -23,6 +23,19 @@
         <td><%= data['semester'] %></td>
       </tr>
     <% end %>
+
+    <% @alumni.each do |data| %>
+      <tr>
+        <td><%= data['name'] %></td>
+        <td>alumni</td>
+        <td><%= data['email'] %></td>
+        <td><%= data['phone'] %></td>
+        <td><%= data['position'] %></td>
+        <td><%= data['semester'] %></td>
+      </tr>
+    <% end %>
+
+
   </tbody>
 </table>
 

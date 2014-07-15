@@ -16,7 +16,7 @@ class PointsController < ApplicationController
 		@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
 
 		p 'calculating all member points'
-		points_list = Member.all.map{|m| {'name' => m.name, 'points' => m.total_points}}
+		points_list = Member.current_members.map{|m| {'name' => m.name, 'points' => m.total_points}}
 		@points_list = points_list.sort_by{|obj| obj['points']}.reverse
 
 	end
