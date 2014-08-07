@@ -13,6 +13,12 @@
 This project provides a clean interface into all of PBL's auxiliary resources and applications. Some examples of these are the blog, assassins, deliberations, and HT portfolio.
 The core portal handles core features, which include __member management__, __events__, __attendance__, and __points__.
 
+### PBL Tech Subprojects
+* <a href='https://github.com/davidbliu/pbl-blog'>Blog</a>
+* <a href='https://github.com/davidbliu/pbl-assassins'>Assassins</a>
+* <a href='#'>HT Portfolio</a>
+
+
 ###PBL tech resource overview
 
 <img src='https://docs.google.com/drawings/d/1Dkz-6g1mpaifAXWdb90R_EL0WMdchYdtS8uhhV9ogMA/edit?usp=sharing' height=300></img>
