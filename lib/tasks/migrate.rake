@@ -14,7 +14,9 @@ task :migrate_member => :environment do
   p Member.column_names
 end
 
-
+#
+# sets phone sex blurb or members who have old member ids
+#
 task :initial_migrate => :environment do
   Member.all.each do |mem|
     if mem.old_member_id
