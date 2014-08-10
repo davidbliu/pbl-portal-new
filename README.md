@@ -21,7 +21,7 @@ The core portal handles core features, which include __member management__, __ev
 
 ###PBL tech resource overview
 
-<img src='https://docs.google.com/drawings/d/1Dkz-6g1mpaifAXWdb90R_EL0WMdchYdtS8uhhV9ogMA/edit?usp=sharing' height=300></img>
+<img src'pbl-tech.png' height=300></img>
 
 # Design
 
