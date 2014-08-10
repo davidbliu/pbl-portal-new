@@ -28,6 +28,12 @@ The core portal handles core features, which include __member management__, __ev
 # Developing
 ## Getting Started
 
+__bundle install complications__
+
+* __mysql__
+ * sudo apt-get install libmysqlclient-dev  #(mysql development headers)
+
+
 pbl members portal
 
 rails 4
