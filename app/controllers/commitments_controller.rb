@@ -1,12 +1,19 @@
 class CommitmentsController < ApplicationController
 
   def index
-    @commitments = current_member.commitments
+    if not @current_member
+      @commitments = []
+    else
+      @commitments = @current_member.commitments
+    end
   end
 
   def update_commitments
     begin
-      current_member.commitments.destroy_all
+      if not @current_member
+        render :nothing => true, :status => 500, :content_type => 'text/html'
+      end
+      @current_member.commitments.destroy_all
       timeslots = params[:slots]
       for key in timeslots.keys
         for hour in timeslots[key]
@@ -14,7 +21,7 @@ class CommitmentsController < ApplicationController
           start_hour = hour.to_i
           end_hour = hour.to_i + 1
           c = Commitment.new
-          c.member_id = current_member.id
+          c.member_id = @current_member.id
           c.day = day
           c.start_hour = start_hour
           c.end_hour = end_hour

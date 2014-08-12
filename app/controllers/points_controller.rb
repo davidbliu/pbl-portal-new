@@ -3,21 +3,31 @@ class PointsController < ApplicationController
 		@total_points = current_member.total_points
 	end
 	def rankings
-		current_member = Member.where(name: "David Liu").first
+		# current_member = Member.where(name: "David Liu").first
+
+		current_member = @current_member
 		# semester_events
-		attended_event_members = EventMember.where("event_id IN (?)", Event.this_semester.pluck(:id).collect{|i| i.to_s})
-		attended_event_ids = attended_event_members.where(member_id: current_member.id).pluck(:event_id)
-		@attended_events = Event.where("id in (?)", attended_event_ids.collect{|i| i.to_s})
+		if current_member
+			attended_event_members = EventMember.where("event_id IN (?)", Event.this_semester.pluck(:id).collect{|i| i.to_s})
+			attended_event_ids = attended_event_members.where(member_id: current_member.id).pluck(:event_id)
+			@attended_events = Event.where("id in (?)", attended_event_ids.collect{|i| i.to_s})
 
-		@attended_event_point_name_data = @attended_events.map{|e| {'event'=>e.name, 'points'=>e.points}}
+			@attended_event_point_name_data = @attended_events.map{|e| {'event'=>e.name, 'points'=>e.points}}
 
-		p 'calculating cm points'
-		cm_points_list = current_member.cms.map{|cm| {'name' => cm.name, 'points' => cm.total_points}}
-		@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
+			p 'calculating cm points'
+			cm_points_list = current_member.cms.map{|cm| {'name' => cm.name, 'points' => cm.total_points}}
+			@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
 
-		p 'calculating all member points'
-		points_list = Member.current_members.map{|m| {'name' => m.name, 'points' => m.total_points}}
-		@points_list = points_list.sort_by{|obj| obj['points']}.reverse
+			p 'calculating all member points'
+			points_list = Member.current_members.map{|m| {'name' => m.name, 'points' => m.total_points}}
+			@points_list = points_list.sort_by{|obj| obj['points']}.reverse
+		else
+			@attended_events = []
+			@attended_event_point_name_data = []
+			@cm_points_list = []
+			@points_list = []
+		end
+
 
 	end
 

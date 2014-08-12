@@ -43,6 +43,8 @@ gem 'omniauth', '1.1.0'
 gem 'omniauth-google-oauth2', :git => 'https://github.com/zquestz/omniauth-google-oauth2.git'
 gem 'mysql2' #dont need it in prod
 
+# this is for events pulling
+gem 'google-api-client', :require => 'google/api_client'
 #
 # active admin dependencies
 #

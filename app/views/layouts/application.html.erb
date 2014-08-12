@@ -41,6 +41,16 @@
         <li><a href = "/commitments">Commitments</a></li>
         <li><a href = "/points/apprentice">Apprentice</a></li>
         <li><a href = "/members/all">Members</a></li>
+        <li><a href = "#">Blog</a></li>
+        <li><a href = "#">Assassins</a></li>
+        <!-- log in and out -->
+        <li>
+        <% if @current_member %>
+        <a href='/sign_out' class='right-floater'><%= @current_member.name %> Sign Out</a>
+        <% else %>
+        <a href = "/auth/google_oauth2" class='right-floater'>Sign In</a>
+        <% end %>
+        </li>
     </ul>
   </nav>
   <div style = "height:75px;clear:both"></div>
