@@ -3,7 +3,6 @@ module GoogleApiHelper
   # Shortcut for accessing the Google API client
   def google_api_client
     @client ||= Google::APIClient.new
-
     @client.authorization.access_token = cookies[:access_token] || auth_info["credentials"]["token"]
 
     # if @client.authorization.expired?
