@@ -83,6 +83,10 @@ class MembersController < ApplicationController
 
 	def not_signed_in
 	end
+
+	def check
+		@current_members = Member.current_members
+	end
 	#
 	# shows only members from current semester
 	#

@@ -20,6 +20,7 @@ Dockernotes::Application.routes.draw do
       get 'complete_sign_up'
       get 'wait'
       get 'not_signed_in'
+      get 'check' #mostly for debugging purposes
     end
   end
 

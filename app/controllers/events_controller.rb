@@ -43,6 +43,9 @@ class EventsController < ApplicationController
 			event.start_time = e[:start_time]
 			event.end_time = e[:end_time]
 			event.name = e[:summary]
+			if event.start_time > Semester.current_semester.start_date
+				event.semester_id = Semester.current_semester.id
+			end
 			event.save
 		end
 		render json: 'your events have been synced'

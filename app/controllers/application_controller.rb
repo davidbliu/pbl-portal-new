@@ -8,6 +8,14 @@ class ApplicationController < ActionController::Base
   include EventsHelper
   before_filter :current_member 
 
+  def is_officer
+    if current_member == nil
+      redirect_to :controller=>'members',:action=>'not_signed_in'
+    elsif not current_member.officer?
+      redirect_to root_path
+    end
+
+  end
   def is_approved
     if current_member == nil
       redirect_to :controller=>'members',:action=>'not_signed_in'
