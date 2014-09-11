@@ -1,0 +1,53 @@
+<%= javascript_include_tag 'confirm_new.js' %>
+
+<h1>wazzup kevyin</h1>
+
+<button id= 'approve-btn' class = 'btn btn-default'>Approve Checked Members</button>
+<div>These people are waiting for you confirmation</div>
+
+<table class='table table-condensed table-hover table-bordered' id='table-1'>
+
+	<div id='original-thead'>
+	<thead class='locked' id = 'original-fixed-head'>
+		<th>Name</th>
+		<th>Committee</th>
+		<th>Position</th>
+		<th>Email</th>
+		<th>Approve?</th>
+	</thead>
+	</div>
+
+	
+
+
+	<tbody>
+		<% @unconfirmed.all.each do |new_member| %>
+			<tr id = '<%= new_member.id %>' class = 'member-row'>
+				<td ><%= new_member.name %></td>
+				<td class = 'committee'>
+					<select>
+						<% @committees.each do |committee| %>
+							<option id='<%= committee.id %>'><%= committee.name %></option>
+						<% end %>
+					</select>
+				</td>
+				<td class = 'position'>
+					<select>
+						<% @positions.each do |position| %>
+							<option id='<%= position.tier %>'><%= position.name %></option>
+						<% end %>
+					</select>
+				</td>
+				<td> <%= new_member.email %></td>
+				<td class = 'checkbox'>
+					nvm gonna approve all
+				</td>
+			</tr>
+		<% end %>
+	</tbody>
+
+</table>
+
+
+
+end of list

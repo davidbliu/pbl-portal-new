@@ -37,7 +37,7 @@
 # - EventMember
 # - Reimbursement
 class Member < ActiveRecord::Base
-  # attr_accessible :name, :provider, :uid, :profile, :old_member_id, :remember_token
+  attr_accessible :name, :provider, :uid, :profile, :old_member_id, :remember_token, :confirmation_status
 
   validates :provider, :uid, :name, presence: true
 
@@ -280,6 +280,26 @@ class Member < ActiveRecord::Base
     return old_members
   end
 
+  #
+  # update member based on secretary's approval
+  #
+  def update_from_secretary(committee, position_id, position_name)
+    committee_type = CommitteeType.committee
+    if position_id == 0
+      committee_type = CommitteeType.general
+      cm_type = CommitteeMemberType.gm
+    elsif position_id == 1
+      committee_type = CommitteeType.committee
+      cm_type = CommitteeMemberType.cm
+    elsif position_id == 2
+      committee_type = CommitteeType.committee
+      cm_type = CommitteeMemberType.chair
+    elsif position_id == 3
+      committee_type = CommitteeType.admin
+      cm_type = CommitteeMemberType.exec(position_name)
+    end
+    self.add_to_committee(committee.name, committee_type, cm_type)
+  end
   # Update member information through the main site
   def update_from_old_member
     if self.old_member

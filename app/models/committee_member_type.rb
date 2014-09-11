@@ -39,7 +39,7 @@ class CommitteeMemberType < ActiveRecord::Base
   end
 
   # Get or create the chair committee member type
-  def self.chair
+  def self.chair(position = 'blah')
     CommitteeMemberType.where(
       name: "chair",
       tier: 2,
@@ -47,7 +47,7 @@ class CommitteeMemberType < ActiveRecord::Base
   end
 
   # Get or create the GM committee member type
-  def self.gm
+  def self.gm(position = 'blah')
     CommitteeMemberType.where(
       name: "gm",
       tier: 0,

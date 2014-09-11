@@ -14,6 +14,8 @@ Dockernotes::Application.routes.draw do
   resources :members do
     collection do
       get 'all'
+      get 'confirm_new' # secretary view to confirm new members
+      get 'process_new'
     end
   end
 

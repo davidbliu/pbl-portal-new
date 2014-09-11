@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140714031831) do
+ActiveRecord::Schema.define(version: 20140909214312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -245,8 +245,8 @@ ActiveRecord::Schema.define(version: 20140714031831) do
     t.string   "uid"
     t.string   "name"
     t.string   "remember_token"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
     t.integer  "old_member_id"
     t.string   "profile"
     t.boolean  "sex"
@@ -254,11 +254,20 @@ ActiveRecord::Schema.define(version: 20140714031831) do
     t.string   "phone"
     t.string   "major"
     t.text     "blurb"
+    t.integer  "confirmation_status"
   end
 
   add_index "members", ["name"], name: "index_members_on_name", using: :btree
   add_index "members", ["provider", "uid"], name: "index_members_on_provider_and_uid", using: :btree
   add_index "members", ["remember_token"], name: "index_members_on_remember_token", using: :btree
+
+  create_table "new_member_data", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "committee"
+    t.integer  "commitee_member_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "notes", force: true do |t|
     t.text     "content"
