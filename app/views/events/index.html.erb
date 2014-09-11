@@ -1,25 +1,23 @@
 <h1>Listing Events</h1>
 
-<table>
+<table class='table table-condensed table-hover table-bordered'>
   <thead>
     <tr>
-      <th>Content</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Time</th>
     </tr>
   </thead>
 
   <tbody>
-
+    <% @events.each do |event| %>
       <tr>
-        <td>d</td>
-        <td>c</td>
-        <td>b</td>
-        <td>a</td>
+        <td><%= event.name %></td>
+        <td><%= event.start_time.strftime("%D") %></td>
+        <td><%= event.start_time.strftime("%r") %></td>
       </tr>
+      <% end %>
   </tbody>
 </table>
 
 <br>
-<%= @points %>

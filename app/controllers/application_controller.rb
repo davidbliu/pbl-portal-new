@@ -6,8 +6,18 @@ class ApplicationController < ActionController::Base
   include GoogleApiHelper
   include CalendarsHelper
   include EventsHelper
-  before_filter :current_member
+  before_filter :current_member 
 
+  def is_approved
+    if current_member == nil
+      redirect_to :controller=>'members',:action=>'not_signed_in'
+    elsif current_member.confirmation_status != 2
+      current_member.confirmation_status = 1
+      current_member.save
+      redirect_to :controller=> 'members', :action=>'wait'
+    end
+    # else let them thru they are golden 
+  end
   # def current_member
   # 	return Member.where(name: "David Liu").first
   # end

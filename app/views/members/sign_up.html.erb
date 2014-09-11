@@ -1,0 +1,37 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){
+	alert('hello');
+	$('#submit-btn').click(function(){
+		var email = $("#email-input").val();
+		var name = $("#name-input").val();
+		var phone = $("#phone-input").val();
+		var member_data = {'name':name, 'email':email, 'phone':phone}
+		 $.ajax({
+          url:'/members/complete_sign_up',
+          type: "GET",
+          data: {"member_data": member_data}
+        }).done(function(data){
+            alert('success');
+        }).fail(function(data){
+            alert('failed');
+        });
+	});
+});
+</script>
+<h1>welcome to the portal! please sign up here</h1>
+<div id='sign-up-form'>
+	<div>name
+		<input id = 'name-input' type = 'text' class='form-inline'/>
+	</div>
+	<div>email
+		<input id = 'email-input' type = 'text' class='form-inline'/>
+	</div>
+	<div>phone
+		<input id = 'phone-input' type = 'text' class='form-inline'/>
+	</div>
+	<div>other
+		<input type = 'text' class='form-inline'/>
+	</div>
+</div>
+
+<button class='btn' id = 'submit-btn'>submit</button>

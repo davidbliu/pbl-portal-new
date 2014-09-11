@@ -1,4 +1,7 @@
 class PointsController < ApplicationController
+
+	before_filter :is_approved
+
 	def index
 		@total_points = current_member.total_points
 	end

@@ -7,7 +7,7 @@ Dockernotes::Application.routes.draw do
   get "/sign_out", to: "sessions#sign_out"
   get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
 
-  get "/pull_google_events", to: "events#pull_google_events"
+  # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#index'
 
   get '/test_auth', to: 'sessions#test_auth'
@@ -16,6 +16,10 @@ Dockernotes::Application.routes.draw do
       get 'all'
       get 'confirm_new' # secretary view to confirm new members
       get 'process_new'
+      get 'sign_up'
+      get 'complete_sign_up'
+      get 'wait'
+      get 'not_signed_in'
     end
   end
 
@@ -30,6 +34,10 @@ Dockernotes::Application.routes.draw do
   end
 
   resources :events do
+    collection do
+      get "pull_google_events"
+      get "sync_google_events"
+    end
   end
 
   resources :tabling do

@@ -54,6 +54,35 @@ class MembersController < ApplicationController
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
+	def sign_up
+		@member = params[:member]
+	end
+
+	def complete_sign_up
+		p 'completing sign up...........'
+		member_data = params[:member_data]
+		@member = Member.new
+		@member.name = member_data['name']
+		@member.email = member_data['email']
+		@member.phone = member_data['phone']
+		@member.uid = cookies[:uid]
+		@member.provider = cookies[:provider]
+		@member.remember_token = Member.new_remember_token
+		cookies[:remember_token] = @member.remember_token
+		p @member
+		@member.confirmation_status = 1
+		@member.save
+		render :nothing => true, :status => 200, :content_type => 'text/html'
+	end
+
+	#
+	# says to wait for secretary approval
+	#
+	def wait
+	end
+
+	def not_signed_in
+	end
 	#
 	# shows only members from current semester
 	#

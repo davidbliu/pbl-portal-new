@@ -13,11 +13,20 @@ class SessionsController < ApplicationController
 		cookies[:refresh_token] = authentication_info["credentials"]["refresh_token"]
 		
 		provider = authentication_info['provider']
+		
 		uid = authentication_info['uid']
+		cookies[:uid] = uid
+		cookies[:provider] = provider
+		#added by david (save the uid so upon new member creation can be used)
 		member = Member.where(provider: provider, uid: uid).first_or_initialize
-		result['member_name'] = member.name
-		cookies[:remember_token] = member.remember_token
-		render json: result
+		
+		if member.name
+			result['member_name'] = member.name
+			cookies[:remember_token] = member.remember_token
+			render json: result
+		else
+			redirect_to :controller=>'members',:action=>'sign_up'
+		end
 	end
 
 	def sign_out
