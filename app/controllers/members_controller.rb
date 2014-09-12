@@ -1,4 +1,29 @@
 class MembersController < ApplicationController
+	
+	# before_filter :is_approved, :only => :account
+	#
+	# allow to modify account
+	# 
+	def account
+	end
+	def update_account
+		 current_member.name = params[:name]
+		 current_member.phone = params[:phone]
+		 current_member.email = params[:email]
+		 current_member.major = params[:major]
+		 current_member.blurb = params[:blurb]
+		 if params[:reapprove]=='true'
+		 	current_member.confirmation_status = 1
+		 end
+		 current_member.save
+		 # p params[:name]
+		 # p params[:email]
+		 # p params[:phone]
+		 # p params[:reapprove]
+
+		 render :nothing => true, :status => 200, :content_type => 'text/html'
+	end
+
 	def test
 		# 
 		# test all member functions
@@ -93,7 +118,7 @@ class MembersController < ApplicationController
 	def index
 		@semester = Semester.current_semester
 		join = CommitteeMember.where(semester: @semester).joins(:member, :committee, :committee_member_type)
-  		@data = join.map{|j| {'name'=>j.member.name,'email'=>j.member.email,'phone'=>j.member.phone,'position'=>j.committee_member_type.name, 'committee'=>j.committee.name, 'semester'=>@semester.name}}
+  		@data = join.map{|j| {'name'=>j.member.name,'email'=>j.member.email,'phone'=>j.member.phone,'position'=>j.committee_member_type.name, 'committee'=>j.committee.name, 'major'=>j.member.major}}
 		#
 		# better but bad
 		#

@@ -36,21 +36,23 @@
     <ul id = "navlist" class="nav nav-pills">
       <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
         <li><a href = "/tabling">Tabling</a></li>
+        <li><a href = '/events'>Events</a></li>
         <li><a href = "/points/rankings">Points</a></li>
         <li><a href = "/points/mark_attendance">Attendance</a></li>
         <li><a href = "/commitments">Commitments</a></li>
         <li><a href = "/points/apprentice">Apprentice</a></li>
         <li><a href = "/members/all">Members</a></li>
-        <li><a href = "#">Blog</a></li>
-        <li><a href = "#">Assassins</a></li>
+        <li><a href = "http://blog.berkeley-pbl.com">Blog</a></li>
+
+        <!-- <li><a href = "#">Assassins</a></li> -->
         <!-- log in and out -->
-        <li>
+        
         <% if @current_member %>
-        <a href='/sign_out' class='right-floater'><%= @current_member.name %> Sign Out</a>
+        <li><a href='/members/account'><%= @current_member.name %></a></li>
+        <li><a href='/sign_out' class='right-floater'>Sign Out</a></li>
         <% else %>
-        <a href = "/auth/google_oauth2" class='right-floater'>Sign In</a>
+        <li><a href = "/auth/google_oauth2" class='right-floater'>Sign In</a></li>
         <% end %>
-        </li>
     </ul>
   </nav>
   <div style = "height:75px;clear:both"></div>

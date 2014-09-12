@@ -23,7 +23,8 @@ class SessionsController < ApplicationController
 		if member.name
 			result['member_name'] = member.name
 			cookies[:remember_token] = member.remember_token
-			render json: result
+			# render json: result
+			redirect_to root_path
 		else
 			redirect_to :controller=>'members',:action=>'sign_up'
 		end

@@ -11,14 +11,17 @@ $(document).ready(function(){
           type: "GET",
           data: {"member_data": member_data}
         }).done(function(data){
-            alert('success');
+            alert('Success: A new member has been created for this email address. Try signing in again');
+            // window.location.replace("http://stackoverflow.com");
+
         }).fail(function(data){
             alert('failed');
         });
 	});
 });
 </script>
-<h1>welcome to the portal! please sign up here</h1>
+<h1>welcome to the portal! please sign up here!</h1>
+
 <div id='sign-up-form'>
 	<div>name
 		<input id = 'name-input' type = 'text' class='form-inline'/>
@@ -29,9 +32,7 @@ $(document).ready(function(){
 	<div>phone
 		<input id = 'phone-input' type = 'text' class='form-inline'/>
 	</div>
-	<div>other
-		<input type = 'text' class='form-inline'/>
-	</div>
+
 </div>
 
 <button class='btn' id = 'submit-btn'>submit</button>

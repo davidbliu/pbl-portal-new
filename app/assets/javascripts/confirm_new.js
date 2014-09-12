@@ -67,7 +67,9 @@ function approveAll(){
           data: {"member_data": member_data}
         }).done(function(data){
             // location.reload();
-            alert('success');
+            // alert('success');
+            // locaation.l
+            location.reload();
         }).fail(function(data){
             alert('failed');
         });

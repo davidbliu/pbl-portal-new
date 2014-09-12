@@ -1,0 +1,59 @@
+<script type='text/javascript'>
+
+function updatePersonalInformation(){
+	$('#update-info-btn').click(function(){
+		name = $('#name-input').val();
+		email = $("#email-input").val();
+		phone = $("#phone-input").val();
+		major = $("#major-input").val();
+		blurb = $("#blurb-input").val();
+		reapprove = false;
+		if(! $('#approve-input').prop('checked')){
+			reapprove = true;
+		}
+		//send request to update_account
+		$.ajax({
+          url:'/members/update_account',
+          type: "GET",
+          data: {"name": name, 
+          		"email": email,
+          		"phone": phone,
+          		"major": major,
+          		"blurb": blurb,
+          		"reapprove": reapprove
+      	}
+        }).done(function(data){
+            location.reload();
+            // window.location = '/'
+            // alert('success');
+            
+        }).fail(function(data){
+            alert('failed');
+        });
+      });
+}
+$(document).ready(function(){
+	updatePersonalInformation();
+});
+</script>
+<style type='text/css'>
+.form-field-div{
+	margin:10px;
+}
+</style>
+<h1>welcome <%= current_member.name %></h1>
+<div class='form-field-div'><button class='btn btn-default' id='update-info-btn'>update account information</button></div>
+<br>
+
+<div class='form-field-div'><b>name</b> <input id='name-input' type='text' value='<%= current_member.name %>'/></div>
+<div class='form-field-div'><b>email</b> <input id='email-input' type='text' value='<%= current_member.email %>'/></div>
+<div class='form-field-div'><b>phone</b> <input id= 'phone-input' type='text' value='<%= current_member.phone %>'/></div>
+<div class='form-field-div'><b>major</b> <input id= 'major-input' type='text' value='<%= current_member.major %>'/></div>
+<div class='form-field-div'><b>blurb</b> <textarea id='blurb-input' ><%= current_member.blurb %></textarea></div>
+
+<br>
+<div class='form-field-div'><b>committee</b> <%= current_member.current_committee.name %></div>
+<div class='form-field-div'><b>position</b> <%= current_member.position %></div>
+
+<div class='form-field-div'><input type="checkbox" id='approve-input' checked>my committee and position are correct<br></div>
+
