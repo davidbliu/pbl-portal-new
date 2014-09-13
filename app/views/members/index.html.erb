@@ -4,6 +4,7 @@
 <table class='table table-condensed table-hover table-bordered'>
   <thead>
     <tr>
+      <th></th>
       <th>name</th>
       <th>committee</th>
       <th>email</th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @data.each do |data| %>
       <tr>
+        <td><%= image_tag avatar_url(data['email']), :height=>35 %></td>
         <td><%= data['name'] %></td>
         <td><%= data['committee'] %></td>
         <td><%= data['email'] %></td>
