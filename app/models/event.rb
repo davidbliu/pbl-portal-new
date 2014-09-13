@@ -15,6 +15,14 @@ class Event < ActiveRecord::Base
   	return 0
   end
 
+  def set_points(value)
+    EventPoints.where(event_id: self.id.to_s).destroy_all
+    point = EventPoints.new
+    point.event_id = self.id
+    point.value = value
+    point.semester_id = Semester.current_semester.id
+    point.save
+  end
   def attendees
     event_mem_ids = EventMember.where(event_id: self.id.to_s).pluck(:member_id)
     return Member.where('id IN (?)', event_mem_ids)

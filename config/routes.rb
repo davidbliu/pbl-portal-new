@@ -43,6 +43,11 @@ Dockernotes::Application.routes.draw do
     end
   end
 
+  resources :event_points do
+    collection do
+      get "update_event_points"
+    end
+  end
   resources :tabling do
     collection do
       post 'generate'

@@ -1,0 +1,49 @@
+<script type='text/javascript'>
+$(document).ready(function(){
+	$('#save-points-btn').click(function(){
+		points_data = [];
+		$('.event-points-input').each(function(){
+			id = $(this).attr('id');
+			points = $(this).val();
+			points_data.push({'points':points, 'id':id});
+		});
+		console.log(points_data);
+		$.ajax({
+          url:'/event_points/update_event_points',
+          type: "GET",
+          data: {"points_data": points_data}
+        }).done(function(data){
+            location.reload();
+            // alert('success');
+        }).fail(function(data){
+            alert('failed');
+        });
+	});
+});
+</script>
+<h1>set event points for <%= Semester.current_semester.name %></h1>
+
+
+<button id = 'save-points-btn' class = 'btn btn-default'>save event points</button> 
+<br>
+<table class='table table-condensed table-hover table-bordered'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @semester_events.each do |event| %>
+      <tr>
+        <td><%= event.name %></td>
+        <td><%= event.start_time.strftime("%D") %></td>
+        <td><%= event.start_time.strftime("%r") %></td>
+        <td><input class = 'event-points-input' id= '<%= event.id %>' type='text' value='<%= event.points %>'/></td>
+      </tr>
+      <% end %>
+  </tbody>
+</table>
