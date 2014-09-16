@@ -4,6 +4,9 @@ class MembersController < ApplicationController
 	#
 	# allow to modify account
 	# 
+	def show
+		@member = Member.find(params[:id])
+	end
 	def account
 	end
 	def update_account
@@ -118,7 +121,7 @@ class MembersController < ApplicationController
 	def index
 		@semester = Semester.current_semester
 		join = CommitteeMember.where(semester: @semester).joins(:member, :committee, :committee_member_type)
-  		@data = join.map{|j| {'name'=>j.member.name,'email'=>j.member.email,'phone'=>j.member.phone,'position'=>j.committee_member_type.name, 'committee'=>j.committee.name, 'major'=>j.member.major}}
+  		@data = join.map{|j| {'id'=>j.member.id,'name'=>j.member.name,'email'=>j.member.email,'phone'=>j.member.phone,'position'=>j.committee_member_type.name, 'committee'=>j.committee.name, 'major'=>j.member.major}}
 		#
 		# better but bad
 		#

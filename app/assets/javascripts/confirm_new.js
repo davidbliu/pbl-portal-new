@@ -63,7 +63,7 @@ function approveAll(){
         console.log(member_data);
         $.ajax({
           url:'/members/process_new',
-          type: "GET",
+          type: "POST",
           data: {"member_data": member_data}
         }).done(function(data){
             // location.reload();

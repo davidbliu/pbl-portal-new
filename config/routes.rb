@@ -15,7 +15,7 @@ Dockernotes::Application.routes.draw do
     collection do
       get 'all'
       get 'confirm_new' # secretary view to confirm new members
-      get 'process_new'
+      post 'process_new'
       get 'sign_up'
       get 'complete_sign_up'
       get 'wait'
