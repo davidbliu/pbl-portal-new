@@ -1,0 +1,366 @@
+---
+  - 
+    id: "49"
+    committee_id: "9"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "68"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "94"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "74"
+    committee_id: "2"
+    position_id: "3"
+    position_name: "Internal Vice President"
+  - 
+    id: "134"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "41"
+    committee_id: "5"
+    position_id: "2"
+    position_name: "chair"
+  - 
+    id: "676"
+    committee_id: "9"
+    position_id: "2"
+    position_name: "chair"
+  - 
+    id: "677"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "679"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "680"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "681"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "682"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "683"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "684"
+    committee_id: "2"
+    position_id: "3"
+    position_name: "State Representative"
+  - 
+    id: "685"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "686"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "688"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "689"
+    committee_id: "10"
+    position_id: "2"
+    position_name: "chair"
+  - 
+    id: "691"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "692"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "11"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "695"
+    committee_id: "7"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "696"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "697"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "698"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "699"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "700"
+    committee_id: "9"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "701"
+    committee_id: "4"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "703"
+    committee_id: "9"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "704"
+    committee_id: "10"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "705"
+    committee_id: "9"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "706"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "708"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "709"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "710"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "711"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "712"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "713"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "714"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "715"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "717"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "718"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "719"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "720"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "721"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "722"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "100"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "10"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "725"
+    committee_id: "6"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "727"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "728"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "729"
+    committee_id: "6"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "731"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "733"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "734"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "735"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "736"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "737"
+    committee_id: "5"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "738"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "739"
+    committee_id: "6"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "740"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "742"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "744"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "745"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "746"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "747"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "748"
+    committee_id: "3"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "749"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "750"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "751"
+    committee_id: "9"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "752"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
+  - 
+    id: "753"
+    committee_id: "11"
+    position_id: "1"
+    position_name: "cm"
+  - 
+    id: "754"
+    committee_id: "1"
+    position_id: "0"
+    position_name: "general member"
