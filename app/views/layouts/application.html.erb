@@ -36,11 +36,17 @@
     <ul id = "navlist" class="nav nav-pills">
       <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
         <li><a href = "/tabling">Tabling</a></li>
+        <% if current_member and current_member.admin? %>
         <li><a href = '/events'>Events</a></li>
+        <% end %>
+        <% if current_member and current_member.current_committee %>
         <li><a href = "/points/rankings">Points</a></li>
+        <% end %>
+        <% if current_member and current_member.officer? %>
         <li><a href = "/points/mark_attendance">Attendance</a></li>
+        <% end %>
         <li><a href = "/commitments">Commitments</a></li>
-        <li><a href = "/points/apprentice">Apprentice</a></li>
+        <!-- <li><a href = "/points/apprentice">Apprentice</a></li> -->
         <li><a href = "/members/all">Members</a></li>
         <li><a href = "http://blog.berkeley-pbl.com">Blog</a></li>
         <li><a href = 'https://docs.google.com/spreadsheet/viewform?usp=drive_web&formkey=dGxYRzMwYlBkYjlTd1NUSzYzWHk0UXc6MQ#gid=0'>Reimbursements</a></li>

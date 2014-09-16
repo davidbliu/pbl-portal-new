@@ -36,7 +36,11 @@ class PointsController < ApplicationController
 
 	def mark_attendance
 		@semester_events = Event.this_semester
-		@current_cms = Member.current_members
+		if current_member.admin? 
+			@current_cms = Member.current_members
+		else
+			@current_cms = Member.currently_in_committee(current_member.current_committee)
+		end
 		# event_member_join = Event.join(curr)
 		event_members = EventMember.all
 		# @attended_dict = 
