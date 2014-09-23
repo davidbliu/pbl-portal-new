@@ -4,6 +4,19 @@ class MembersController < ApplicationController
 	#
 	# allow to modify account
 	# 
+	def index_committee
+		# begin
+		cid = params[:id]
+		@committee = Committee.find(cid)
+		@committee_members = Member.currently_in_committee(@committee)
+		render 'index_committee'
+		# rescue
+		# 	render json: "you didnt input a committee id"
+		# end
+		
+
+	end
+
 	def show
 		@member = Member.find(params[:id])
 	end
@@ -114,6 +127,15 @@ class MembersController < ApplicationController
 
 	def check
 		@current_members = Member.current_members
+		@current_officers = Member.current_chairs
+		# @tablers = Member.current_members + Member.current_chairs
+		@tablers = Array.new
+	      Member.current_chairs.each do |cc|
+	        @tablers << cc
+      	end
+	      Member.current_members.each do |cm|
+	        @tablers << cm
+      	end
 	end
 	#
 	# shows only members from current semester
@@ -121,7 +143,14 @@ class MembersController < ApplicationController
 	def index
 		@semester = Semester.current_semester
 		join = CommitteeMember.where(semester: @semester).joins(:member, :committee, :committee_member_type)
-  		@data = join.map{|j| {'id'=>j.member.id,'name'=>j.member.name,'email'=>j.member.email,'phone'=>j.member.phone,'position'=>j.committee_member_type.name, 'committee'=>j.committee.name, 'major'=>j.member.major}}
+  		@data = join.map{|j| {'id'=>j.member.id,
+  							  'name'=>j.member.name,
+  							  'email'=>j.member.email,
+  							  'phone'=>j.member.phone,
+  							  'position'=>j.committee_member_type.name, 
+  							  'committee'=>j.committee.name,
+  							  'committee_id'=>j.committee.id, 
+  							  'major'=>j.member.major}}
 		#
 		# better but bad
 		#

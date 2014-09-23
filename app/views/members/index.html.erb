@@ -19,7 +19,7 @@
       <tr>
         <td><%= image_tag avatar_url(data['email']), :height=>35 %></td>
         <td><a href = '/members/<%= data["id"] %>'><%= data['name'] %></a></td>
-        <td><%= data['committee'] %></td>
+        <td><a href = '/members/index_committee?id=<%= data['committee_id'] %>' ><%= data['committee'] %></a></td>
         <td><%= data['email'] %></td>
         <td><%= data['phone'] %></td>
         <td><%= data['position'] %></td>

@@ -80,10 +80,24 @@ class TablingController < ApplicationController
 		        end
 		      end
 		    end
-			tablers = (Member.current_chairs + Member.current_members )
+      tablers = Array.new
+      Member.current_chairs.each do |cc|
+        tablers << cc
+      end
+      Member.current_members.each do |cm|
+        tablers << cm
+      end
+      # tablers = Member.current_members + Member.current_chairs
+			# tablers = (Member.current_chairs + Member.current_members)
       # p tablers.length
-			p 'GENERATING TABLING SCHEDULES'
+			# p 'GENERATING TABLING SCHEDULES'
+   #    p 'this is who i will go for'
+   #    p tablers.length
+   #    p Member.current_members.length
+   #    p Member.current_chairs.length
+   #    p 'thats it'
       # render :nothing => true, :status => 500, :content_type => 'text/html'
+
 			generate_tabling_schedule(@slots, tablers)
 			render :nothing => true, :status => 200, :content_type => 'text/html'
 		rescue

@@ -6,8 +6,10 @@
     <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>"><%= data['name'] %></li> 
     <% end %>
     <!-- TODO show only for admin -->
+    <% if current_member and current_member.admin? %>
     <li class="delete" ondrop="deleteMember(event)" ondragover="allowDrop(event)">Drop here to delete</li>
     <li class="add" ondrop="addMember(event)" ondragover="allowDrop(event)">Drop here to add</li>
+    <% end %>
   </ul>
 
 </li>

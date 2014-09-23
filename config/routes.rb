@@ -23,6 +23,7 @@ Dockernotes::Application.routes.draw do
       get 'check' # mostly for debugging purposes
       get 'account'
       get 'update_account'
+      get 'index_committee'
     end
   end
 

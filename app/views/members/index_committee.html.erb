@@ -1,0 +1,18 @@
+<style type='text/css'>
+.member-div{
+	float:left; margin:25px;
+}
+</style>
+
+<h1><%= @committee.name %></h1>
+<% @committee_members.each do |member| %>
+<div class='member-div'>
+<h2><%= member.name %></h2>
+<div><%= image_tag avatar_url(member.email), :height=>130 %></div>
+<div><%= member.email %></div>
+<div><%= member.phone %></div>
+<div><%= member.major %></div>
+<div><%= member.blurb %></div>
+<div style = 'height:50px' id='separator-div'></div>
+</div>
+<% end %>
