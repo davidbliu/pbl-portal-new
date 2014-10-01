@@ -2,28 +2,45 @@
 #content-div{
 	margin: 25px;
 }
+#second-row{
+	margin-top:30px;
+}
 </style>
 <h1>Points</h1>
-
 <div id='content-div'>
-<b>Attended Events</b>
-<% @attended_event_point_name_data.each do |data| %>
-<div id='attended-event-div'><%= data['event'] %> : <%= data['points'] %></div>
-<% end %>
 
-<b>Your Committee's Points</b>
-<% @cm_points_list.each do |data| %>
-<div><%= data['name'] %> earned <%= data['points'] %></div>
-<% end %>
+<div class = 'row' id='first-row' >
+
+	<div class = 'col-md-4'>
+	<b>Attended Events</b>
+	<% @attended_event_point_name_data.each do |data| %>
+	<div id='attended-event-div'><%= data['event'] %> : <%= data['points'] %></div>
+	<% end %>
+	</div>
 
 
-<b>Top CMS</b>
-<% @points_list.first(10).each do |data| %>
-<div><%= data['name'] %> earned <%= data['points'] %></div>
-<% end %>
+	<div class='col-md-4'>
+	<b>Your Committee's Points</b>
+	<% @cm_points_list.each do |data| %>
+	<div><%= data['name'] %> earned <%= data['points'] %></div>
+	<% end %>
+	</div>
 
-<b>All Points</b>
-<% @points_list.each do |data| %>
-  <%= data['points'] %>,
-<% end %>
-<div>
+	<div class = 'col-md-4'>
+	<b>Top CMS</b>
+	<% @points_list.first(10).each do |data| %>
+	<div><%= data['name'] %> earned <%= data['points'] %></div>
+	<% end %>
+	</div>
+</div> <!-- end of first row -->
+
+<div class = 'row' id='second-row'>
+	<div class = 'col-md-4'>
+		<b>All Points</b>
+		<% @points_list.each do |data| %>
+		  <%= data['points'] %>,
+		<% end %>
+	</div>
+</div><!-- end of second row -->
+</div>
+<!-- end of content div -->

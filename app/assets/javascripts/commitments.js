@@ -137,11 +137,11 @@ $(document).ready(function(){
 		markSlots(marked_slots);
 	}
 	console.log('completed startup actions')
-	// drawCMTable();
-	// updateTrackedChart();
-	// startAutocomplete();
-	// startTrackedActions();
-	// clearActions();
+	drawCMTable();
+	updateTrackedChart();
+	startAutocomplete();
+	startTrackedActions();
+	clearActions();
 
 });
 

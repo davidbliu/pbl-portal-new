@@ -1,0 +1,262 @@
+---
+- name: Wesley Truong
+  committee: 11
+  uid: '104402264402703936711'
+- name: Andrea Kwan
+  committee: 6
+  uid: '108788406861813554130'
+- name: David Liu
+  committee: 7
+  uid: '104457772434684194663'
+- name: Julie Xiao
+  committee: 5
+  uid: '118157609286249259662'
+- name: Johnny Wang
+  committee: 10
+  uid: '113411296833312551495'
+- name: Dake Ying
+  committee: 6
+  uid: '101877576193808345236'
+- name: Kevin Yin
+  committee: 2
+  uid: '116826034113957707475'
+- name: Hammad Khan
+  committee: 8
+  uid: '101179284830433270056'
+- name: Betina Yin
+  committee: 6
+  uid: '112677562516658429711'
+- name: Evelyn Wang
+  committee: 4
+  uid: '108331453142523847290'
+- name: Kevin Zhang
+  committee: 5
+  uid: '101162246576260051508'
+- name: Eric Park
+  committee: 2
+  uid: '110506384857295349355'
+- name: Sammy Tong
+  committee: 5
+  uid: '103033506960148645394'
+- name: Christine Shih
+  committee: 9
+  uid: '102570462946794105164'
+- name: Raymond Tong
+  committee: 2
+  uid: '111051733643230188912'
+- name: Alex Wang
+  committee: 8
+  uid: '105790226524102227969'
+- name: Joey Choi
+  committee: 8
+  uid: '100587584025633130701'
+- name: Brandon Ye
+  committee: 11
+  uid: '118336073166119731292'
+- name: JaeHoon Kim
+  committee: 2
+  uid: '101798096101683393914'
+- name: Haruko Ayabe
+  committee: 2
+  uid: '115559788621705814661'
+- name: Alice Sun
+  committee: 7
+  uid: '118069390190479522995'
+- name: William Cheung
+  committee: 4
+  uid: '103359410901568550726'
+- name: Alex Takahashi
+  committee: 3
+  uid: '118173103838954246476'
+- name: Farrah Steven
+  committee: 4
+  uid: '103924167472939202060'
+- name: Bruce Lee
+  committee: 7
+  uid: '103227056609790567827'
+- name: Alven Wang
+  committee: 5
+  uid: '103352056568130243256'
+- name: Kevin Lee
+  committee: 5
+  uid: '108112517085331946283'
+- name: Lawrence Liu
+  committee: 9
+  uid: '113578918619869050188'
+- name: Grace Kim
+  committee: 3
+  uid: '111687699374606101770'
+- name: Eric Quach
+  committee: 11
+  uid: '112989186473172324171'
+- name: Molly Yee
+  committee: 11
+  uid: '105473400733743204606'
+- name: Taichi Koga
+  committee: 6
+  uid: '118262283391637402969'
+- name: Frances Thai
+  committee: 7
+  uid: '114399427594754440518'
+- name: David Cheung
+  committee: 7
+  uid: '108688383841059772574'
+- name: Arthur Liou
+  committee: 3
+  uid: '111505616590095020606'
+- name: Albert Lin
+  committee: 2
+  uid: '117467974562909099156'
+- name: Phyllis thai
+  committee: 9
+  uid: '112482132413521819279'
+- name: Jackie Kim
+  committee: 7
+  uid: '118159102766402013547'
+- name: Nathalie Nguyen
+  committee: 7
+  uid: '108246033768610807588'
+- name: Christine Cheung
+  committee: 7
+  uid: '116316932841530494243'
+- name: Rouhin Ghosh
+  committee: 4
+  uid: '116232487860887648364'
+- name: Nina Hu
+  committee: 10
+  uid: '115165375727171522433'
+- name: Zhitong Qiu
+  committee: 10
+  uid: '100427855657389301514'
+- name: Sophie Wan
+  committee: 2
+  uid: '102467527773296516225'
+- name: Jason Tang
+  committee: 4
+  uid: '115485313552348434861'
+- name: Amy Pham
+  committee: 4
+  uid: '107085581527728329098'
+- name: Lei Ye
+  committee: 7
+  uid: '117387865275957654169'
+- name: Patrick Chang
+  committee: 10
+  uid: '109532813539070842405'
+- name: Keien Ohta
+  committee: 7
+  uid: '105300691516597428719'
+- name: Aaron Chai
+  committee: 7
+  uid: '106553869950101703147'
+- name: ! 'Tina Zhang '
+  committee: 7
+  uid: '106366607675304539726'
+- name: Kenneth Lui
+  committee: 10
+  uid: '114478643127593473481'
+- name: Roselynn Chang
+  committee: 4
+  uid: '104054726585329806960'
+- name: Syed Adil
+  committee: 4
+  uid: '106936806073408351497'
+- name: Gary Huang
+  committee: 9
+  uid: '112448584682565765504'
+- name: Andy Chen
+  committee: 9
+  uid: '106076055740525453294'
+- name: Izzy Xu
+  committee: 4
+  uid: '107658507576008990331'
+- name: Robert Zhang
+  committee: 9
+  uid: '100699570022223808846'
+- name: Karl Ravancho
+  committee: 10
+  uid: '109823740011840362449'
+- name: Allen Chen
+  committee: 9
+  uid: '102860407414377943964'
+- name: Cate Liu
+  committee: 6
+  uid: '118160061322726945695'
+- name: Felicia Fang
+  committee: 5
+  uid: '118350005267943259848'
+- name: Emily Liu
+  committee: 5
+  uid: '118246327930788656387'
+- name: Victoria Padilla
+  committee: 6
+  uid: '106351784102811937775'
+- name: Thomas Warloe
+  committee: 11
+  uid: '103646819367317997004'
+- name: Michelle Chen
+  committee: 5
+  uid: '113715124031898585266'
+- name: Abraham Lin
+  committee: 3
+  uid: '108627779329653161815'
+- name: Jensen Li
+  committee: 3
+  uid: '101142848632558470499'
+- name: Mandy Chan
+  committee: 5
+  uid: '110499488128887651929'
+- name: David Sohng
+  committee: 3
+  uid: '112821078282435709001'
+- name: Felicia Lin
+  committee: 6
+  uid: '105409416444590170297'
+- name: Kevin Li
+  committee: 11
+  uid: '110298462971191043465'
+- name: Benjamin Lin
+  committee: 3
+  uid: '115336535932528049704'
+- name: Claire Lei
+  committee: 11
+  uid: '115214619002001988991'
+- name: Caroline Chen
+  committee: 11
+  uid: '104882295306275447416'
+- name: Alan Zhang
+  committee: 3
+  uid: '112211477647381883524'
+- name: Narinderjit Grewal
+  committee: 3
+  uid: '113542794515279011417'
+- name: Catherine Su
+  committee: 11
+  uid: '105667404941983860583'
+- name: Crystal Leung
+  committee: 9
+  uid: '111489947957821808758'
+- name: Joanna Chang
+  committee: 11
+  uid: '110858269699856167099'
+- name: Tiffany Tsai
+  committee: 11
+  uid: '103221696821659042318'
+- name: gary huang
+  committee: 10
+  uid: '112751303872511884450'
+- name: gary huang
+  committee: 10
+  uid: '112751303872511884450'
+- name: Alice Chan
+  committee: 10
+  uid: '105018503372143182341'
+- name: Eric Quach
+  committee: 11
+  uid: '105573782431579016465'
+- name: Harry Lee
+  committee: 6
+  uid: '104604796232287573798'
+- name: Triniti Brodi
+  committee: 10
+  uid: '117340975050519579507'

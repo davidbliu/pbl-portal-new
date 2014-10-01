@@ -5,10 +5,11 @@ task :export_players => :environment do
 		mem = Hash.new
 		mem['name'] = m.name
 		mem['committee'] = m.current_committee.id
+		mem['uid'] = m.uid
 		members << mem
 	end
 	serialized_list = YAML::dump(members)
-	File.open('member_dump.yaml', "w") do |file|
+	File.open('member_dump_current.yaml', "w") do |file|
 	    file.puts YAML::dump(members)
 	end
 	puts "members have been exported"
