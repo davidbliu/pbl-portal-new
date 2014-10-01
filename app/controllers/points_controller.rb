@@ -35,7 +35,7 @@ class PointsController < ApplicationController
 	end
 
 	def mark_attendance
-		@semester_events = Event.this_semester.paginate(:page => params[:page], :per_page => 10)
+		@semester_events = Event.this_semester.paginate(:page => params[:page], :per_page => 20)
 		# @semester_events = Event.this_semester
 		if current_member.admin? 
 			@current_cms = Member.current_members
