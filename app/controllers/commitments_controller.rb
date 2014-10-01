@@ -6,6 +6,18 @@ class CommitmentsController < ApplicationController
     else
       @commitments = @current_member.commitments
     end
+
+    if current_member and current_member.admin?
+        @pbl_commitments = Hash.new
+          Member.current_members.each do |member|
+            @pbl_commitments[member.id] = Array.new
+            for c in member.commitments
+              if c.day and c.start_hour and c.end_hour
+                @pbl_commitments[member.id] << "#"+c.day.to_s+" #"+c.start_hour.to_s
+              end
+            end
+          end
+    end
   end
 
   def update_commitments

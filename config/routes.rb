@@ -10,6 +10,9 @@ Dockernotes::Application.routes.draw do
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#index'
 
+  # get assassins route
+  get "/assassins", to: "assassins#index"
+
   get '/test_auth', to: 'sessions#test_auth'
   resources :members do
     collection do

@@ -54,8 +54,8 @@ var admin = true;
 	<div id='original-thead'>
 	<thead class='locked' id = 'original-fixed-head'>
 		<th>Members</th>
-		<% @semester_events.pluck(:name).each do |event_name| %>
-		<th><%= event_name %></th>
+		<% @semester_events.each do |event| %>
+		<th><%= event.name %> (<%= event.start_time.strftime("%Y-%m-%d") %>)</th>
 		<% end %>
 	</thead>
 	</div>

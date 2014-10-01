@@ -35,6 +35,10 @@ gem 'pg'
 gem 'chronic'
 gem 'jquery-turbolinks'
 
+#
+# pagination (for marking attendance)
+#
+gem 'will_paginate', '~> 3.0'
 
 #
 # initial authentication choices

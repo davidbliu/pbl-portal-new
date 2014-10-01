@@ -5,6 +5,9 @@ class TablingController < ApplicationController
 		# start_day = Chronic.parse('0 april 14', :context => :past)
 		start_day = tabling_start
 		end_day = start_day+5.days
+    if current_member and current_member.admin?
+      end_day = start_day + 10.days
+    end
 		#
 		# using old controller
 		#
