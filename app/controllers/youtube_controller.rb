@@ -14,16 +14,15 @@ class YoutubeController < ApplicationController
 		all_videos = Array.new
 		begin
 			page = 1
-			videos = client.my_videos(:page => page, :per_page => 2).videos
-			# while videos.length > 0
-			# 	all_videos = all_videos + videos
-			# 	page = page + 1
-			# 	videos = client.my_videos(:page => page, :per_page => 50).videos
-			# 	p 'getting more videos, current video count is'
-			# 	p all_videos.length
-			# end
+			videos = client.my_videos(:page => page, :per_page => 50).videos
+			while videos.length > 0
+				all_videos = all_videos + videos
+				page = page + 1
+				videos = client.my_videos(:page => page, :per_page => 50).videos
+				p 'getting more videos, current video count is'
+				p all_videos.length
+			end
 
-			all_videos = videos
 		rescue Exception => e
 			p e
 			render json: "there was an error"
