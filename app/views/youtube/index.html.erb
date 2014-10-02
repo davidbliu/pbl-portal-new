@@ -1,0 +1,13 @@
+<style type = 'text/css'>
+</style>
+
+<h1>Welcome to PBL-Tube</h1>
+
+<% @videos.each do |video| %>
+<div class = 'video-div'><a href = 'https://youtube.com/watch?v=<%= video.youtube_id %>'>
+	<img src="http://img.youtube.com/vi/<%= video.youtube_id %>/0.jpg" style="height:100px">
+	<%= video.title %></a>
+	</img>
+</div>
+<br>
+<% end %>

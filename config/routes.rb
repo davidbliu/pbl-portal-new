@@ -30,6 +30,12 @@ Dockernotes::Application.routes.draw do
     end
   end
 
+  resources :youtube do 
+    collection do
+      get 'sync'
+    end
+  end
+
   resources :points do
     collection do
       get 'rankings'

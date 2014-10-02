@@ -14,6 +14,8 @@ RUN apt-get -y install git
 
 RUN apt-get -y install libmysqlclient-dev
 
+
+RUN apt-get -y install libxslt-dev libxml2-dev
 ADD . /opt/dockernotes
 
 WORKDIR /opt/dockernotes
