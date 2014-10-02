@@ -33,6 +33,12 @@ Dockernotes::Application.routes.draw do
   resources :youtube do 
     collection do
       get 'sync'
+      get 'text_sync'
+      post 'process_text_sync'
+
+      
+      get 'get_youtube_sync_text' # get text to sync to youtube
+      # for some reason wont work on remote
     end
   end
 

@@ -7,6 +7,10 @@ task :import_videos => :environment do
 	#
 	dev_key = "AIzaSyCbVjHcjFjWxThf4ajuOVMTLXPqTbPXjAM"
 	client = YouTubeIt::Client.new(:username=>"chriswong@berkeley.edu", :password=>"ruleofthirds", :dev_key => dev_key)
+	p 'this is tclient'
+	p client
+end
+task :blah => :environment do
 	all_videos = Array.new
 	begin
 		page = 1

@@ -1,0 +1,22 @@
+<script type='text/javascript'>
+$(document).ready(function(){
+	
+	$("#submit-btn").click(function(){
+		alert("syncing");
+		submit_text = $("#sync-textarea").val();
+		 $.ajax({
+	      url:'/youtube/process_text_sync',
+	      type: "POST",
+	      data: {"yt_text": submit_text}
+	    }).success(function(data){
+	        // location.reload();
+	        alert('success');
+	    }).fail(function(data){
+	        alert('failed');
+	    });
+	});
+});
+</script>
+<h1>Paste Sync-Text Here</h1>
+<button id = "submit-btn">Sync Gallery</button>
+<textarea id = "sync-textarea"></textarea>
