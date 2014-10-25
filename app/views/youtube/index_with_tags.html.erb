@@ -1,0 +1,83 @@
+<style type = 'text/css'>
+.row{
+	margin-left: 10px;
+}
+.tag-div{
+	margin-bottom:25px;
+}
+.tag-header{
+	clear:both;
+}
+.videos-container{
+	clear:both;
+}
+.video-div{
+	/*display: table-cell;*/
+	float:left;
+	opacity:0.7;
+
+}
+.video-div:hover{
+	opacity:1;
+}
+#hidden-info-holder{
+	background-color:black;
+	min-height:20px;
+	min-width:100px;
+	display:none;
+	color:white;
+	z-index:5000;
+	position:absolute;
+}
+</style>
+<script type='text/javascript'>
+$(document).ready(function(){
+	$('.video-div').hover(function(){
+		var pos = $(this).position();
+		var width = $(this).outerWidth();
+		var hiddenInfo = $(this).children('.hidden-info').text();
+		$("#hidden-info-holder").text(hiddenInfo);
+		$("#hidden-info-holder").css({
+	        position: "absolute",
+	        top: pos.top +150+ "px",
+	        left: (pos.left+10 + width) + "px"
+	    }).show();
+	}, 
+	function(){
+		$('#hidden-info-holder').hide();
+	});
+});
+</script>
+<div id='hidden-info-holder'></div>
+<h1 style='text-align:center'>Video Gallery</h1>
+<div class = 'row'>
+<div class = 'col-md-6'>
+<% @tags.each do |tag| %>
+<div class='tag-div'>
+	<h2 class = 'tag-header'><%= tag.name %></h2>
+	<div class ='videos-container'>
+	<% tag.videos.all.each do |video| %>
+		<div class = 'video-div'>
+			<a href = 'https://youtube.com/watch?v=<%= video.youtube_id %>'>
+			<img src="http://img.youtube.com/vi/<%= video.youtube_id %>/0.jpg" style="height:125px"></a>
+			</img>
+			<div class = 'hidden-info' style='display:none'>	
+				<%= video.title %>
+			</div>
+		</div><!-- end of video-div -->
+	<% end %>
+	</div><!-- end of videos container -->
+</div><!-- end of tag-div -->
+<br>
+<% end %>
+</div><!-- end of column 1 -->
+
+<div class = 'col-md-3'></div>
+<div class = 'col-md-3'>
+<h1>Tag List</h1>
+<% @tags.each do |tag| %>
+<h3><%= tag.name %></h3>
+<% end %>
+</div><!-- end of column 2 -->
+</div><!-- end of row -->
+

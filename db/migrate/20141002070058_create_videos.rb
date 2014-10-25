@@ -4,6 +4,8 @@ class CreateVideos < ActiveRecord::Migration
       t.string :youtube_id
       t.string :title
       t.datetime :uploaded_at
+      t.string :author
+      t.string :tags
       t.timestamps
     end
   end

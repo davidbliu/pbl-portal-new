@@ -6,6 +6,9 @@ class YoutubeController < ApplicationController
 #
 	def index
 		@videos = Video.all
+		@tags = Tag.all
+
+		render 'index_with_tags'
 	end
 
 	def get_youtube_sync_text
@@ -28,7 +31,16 @@ class YoutubeController < ApplicationController
 			render json: "there was an error"
 			return
 		end
-		render json: all_videos.to_json
+
+		min_json = Array.new
+		all_videos.each do |video|
+			min_video = Hash.new
+			min_video["title"]=video.title
+			min_video["unique_id"]=video.unique_id
+			min_video["uploaded_at"]=video.uploaded_at
+			min_json << min_video
+		end
+		render json: min_json.to_json
 	end
 
 
@@ -76,5 +88,15 @@ class YoutubeController < ApplicationController
 			Video.insert_new_video(yvid)
 		end
 		render json: 'these many videos were synced '+Video.count.to_s
+	end
+
+	def resolve_tags
+		begin
+			Video.resolve_tags
+			p 'resolved tags!'
+			render json: 'successfully resolved tags'
+		rescue Exception => e
+			render json: e
+		end	
 	end
 end

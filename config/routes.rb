@@ -36,6 +36,7 @@ Dockernotes::Application.routes.draw do
       get 'text_sync'
       post 'process_text_sync'
 
+      get 'resolve_tags'
       
       get 'get_youtube_sync_text' # get text to sync to youtube
       # for some reason wont work on remote
