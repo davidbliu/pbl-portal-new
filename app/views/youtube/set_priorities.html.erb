@@ -1,0 +1,31 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){
+	
+	$("#save-priorities-btn").click(function(){
+		new_priorities = [];
+		$(".playlist-priority-input").each(function(){
+			// priority = 0;
+			// if($(this).attr('val')==""){
+			// 	priority = $(this).val();
+			// }
+			new_priorities.push({"playlist_id": $(this).attr('id'), "priority": $(this).val()});
+		});
+		$.ajax({
+	      url:'/youtube/process_new_priorities',
+	      type: "POST",
+	      data: {"priority_data": new_priorities}
+	    }).success(function(data){
+	        location.reload();
+	    }).fail(function(data){
+	        alert('failed');
+	    });
+	});
+	
+
+});
+</script>
+<button id='save-priorities-btn' type = 'btn' class = 'btn btn-default'>Save Priorities</button>
+<% Playlist.all.each do |playlist| %>
+
+<div><%= playlist.name %> <input class = 'playlist-priority-input' id = '<%= playlist.id %>' type='text' value='<%= playlist.priority %>'/></div>
+<% end %>

@@ -5,12 +5,28 @@ class YoutubeController < ApplicationController
 
 #
 	def index
-		@videos = Video.all
-		@tags = Tag.all
-
-		render 'index_with_tags'
+		# @videos = Video.all
+		# @tags = Tag.all
+		@playlists = Playlist.all.order('priority desc')
+		# render 'index_with_tags'
+		render 'playlist_index'
 	end
 
+	def set_priorities
+
+	end
+
+	def process_new_priorities
+		priorities = params[:priority_data]
+		priorities.each do |pri|
+			priority = pri[1]
+			playlist = Playlist.find(priority['playlist_id'])
+			playlist.priority = priority['priority'].to_i
+			playlist.save
+			p playlist
+		end
+		render :nothing => true, :status => 200, :content_type => 'text/html'
+	end
 	def get_youtube_sync_text
 		dev_key = "AIzaSyCbVjHcjFjWxThf4ajuOVMTLXPqTbPXjAM"
 		client = YouTubeIt::Client.new(:username=>"chriswong@berkeley.edu", :password=>"ruleofthirds", :dev_key => dev_key)
@@ -33,14 +49,17 @@ class YoutubeController < ApplicationController
 		end
 
 		min_json = Array.new
+		problem_videos = 0
 		all_videos.each do |video|
 			min_video = Hash.new
 			min_video["title"]=video.title
 			min_video["unique_id"]=video.unique_id
 			min_video["uploaded_at"]=video.uploaded_at
+			
 			min_json << min_video
 		end
 		render json: min_json.to_json
+		
 	end
 
 

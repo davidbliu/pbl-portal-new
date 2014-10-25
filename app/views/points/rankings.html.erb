@@ -11,7 +11,7 @@
 
 <div class = 'row' id='first-row' >
 
-	<div class = 'col-md-4'>
+	<div class = 'col-md-3'>
 	<b>Attended Events</b>
 	<% @attended_event_point_name_data.each do |data| %>
 	<div id='attended-event-div'><%= data['event'] %> : <%= data['points'] %></div>
@@ -19,17 +19,24 @@
 	</div>
 
 
-	<div class='col-md-4'>
+	<div class='col-md-3'>
 	<b>Your Committee's Points</b>
 	<% @cm_points_list.each do |data| %>
 	<div><%= data['name'] %> earned <%= data['points'] %></div>
 	<% end %>
 	</div>
 
-	<div class = 'col-md-4'>
+	<div class = 'col-md-3'>
 	<b>Top CMS</b>
 	<% @points_list.first(10).each do |data| %>
 	<div><%= data['name'] %> earned <%= data['points'] %></div>
+	<% end %>
+	</div>
+
+	<div class = 'col-md-3'>
+	<b>Committee Points</b>
+	<% @committee_points.each do |data| %>
+	<div><%= data["committee"] %>: <%= data["points"] %></div>
 	<% end %>
 	</div>
 </div> <!-- end of first row -->

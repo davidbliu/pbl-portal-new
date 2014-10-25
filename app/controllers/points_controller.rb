@@ -24,6 +24,29 @@ class PointsController < ApplicationController
 			p 'calculating all member points'
 			points_list = Member.current_cms.map{|m| {'name' => m.name, 'points' => m.total_points}}
 			@points_list = points_list.sort_by{|obj| obj['points']}.reverse
+
+			#
+			# calculate points for all committees
+			#
+			@committee_points = Array.new
+			Committee.all.each do |committee|
+				@committee_points << {"points"=>committee.rating, "committee"=> committee.name}
+			end
+			# current_member_ids = Member.current_members.pluck(:id)
+			# current_events = Event.where(semester:Semester.current_semester)
+			# current_event_ids = current_events.pluck(:id)
+			# semester_attendance = EventMember.where("event_id in (?)", current_event_ids)
+			# Committee.all.each do |committee|
+			# 	# cm_ids = current_members.where()     .map(&:to_s)
+			# 	cm_ids = CommitteeMember.where(committee_id: committee.id).where("member_id in (?)", current_member_ids).pluck(:member_id)
+			# 	attended_event_ids = semester_attendance.where("member_id in (?)", cm_ids).pluck(:event_id)
+			# 	attended_events = current_events.where("id in (?)", attended_event_ids)
+			# 	total_points = 0
+			# 	attended_events.each do |event|
+			# 		total_points = total_points + event.points
+			# 	end
+			# 	@committee_points << {"committee" => committee.name, "points" => total_points}
+			# end
 		else
 			@attended_events = []
 			@attended_event_point_name_data = []

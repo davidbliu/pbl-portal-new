@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141003195723) do
+ActiveRecord::Schema.define(version: 20141025211311) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -193,7 +193,7 @@ ActiveRecord::Schema.define(version: 20141003195723) do
   end
 
   create_table "event_members", force: true do |t|
-    t.string   "event_id"
+    t.integer  "event_id"
     t.integer  "member_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -206,7 +206,7 @@ ActiveRecord::Schema.define(version: 20141003195723) do
   add_index "event_members", ["member_id"], name: "index_event_members_on_member_id", using: :btree
 
   create_table "event_points", force: true do |t|
-    t.string   "event_id",                null: false
+    t.integer  "event_id",                null: false
     t.integer  "value",       default: 0, null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
@@ -278,6 +278,20 @@ ActiveRecord::Schema.define(version: 20141003195723) do
   create_table "old_posts", force: true do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "playlist_videos", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "playlist_id"
+    t.integer  "video_id"
+  end
+
+  create_table "playlists", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.integer  "priority"
   end
 
   create_table "points", force: true do |t|
@@ -380,8 +394,6 @@ ActiveRecord::Schema.define(version: 20141003195723) do
     t.string   "youtube_id"
     t.string   "title"
     t.datetime "uploaded_at"
-    t.string   "author"
-    t.string   "tags"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

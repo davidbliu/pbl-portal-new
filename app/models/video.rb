@@ -1,6 +1,8 @@
 class Video < ActiveRecord::Base
 	has_many :video_tags
 	has_many :tags, through: :video_tags
+	has_many :playlist_videos
+	has_many :playlists, :through => :playlist_videos
 	#
 	# unnused
 	#
@@ -22,6 +24,22 @@ class Video < ActiveRecord::Base
 		new_video.youtube_id = video["unique_id"]
 		new_video.uploaded_at = video["uploaded_at"]
 		new_video.title = video["title"]
+		playlist_name = video["playlist"]
+		playlist = Playlist.where(name: playlist_name)
+		#
+		# create new playlist if necessary
+		#
+		if playlist.length < 1
+			# create a new playlist
+			plist = Playlist.new
+			plist.name = playlist_name
+			plist.save
+		end
+		playlist = Playlist.where(name: playlist_name)
+		playlist = playlist.first
+		p playlist.name
+		p 'that was the playlists name'
+		playlist.videos << new_video
 		new_video.save
 	end
 
