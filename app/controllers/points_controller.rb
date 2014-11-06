@@ -5,9 +5,10 @@ class PointsController < ApplicationController
 	def index
 		@total_points = current_member.total_points
 	end
+	def cooccurrence
+		
+	end
 	def rankings
-		# current_member = Member.where(name: "David Liu").first
-
 		current_member = @current_member
 		# semester_events
 		if current_member

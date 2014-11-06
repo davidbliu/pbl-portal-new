@@ -50,6 +50,7 @@ Dockernotes::Application.routes.draw do
       get 'mark_attendance'
       post 'update_attendance'
       get 'apprentice'
+      get 'coocurrence'
     end
 
   end
