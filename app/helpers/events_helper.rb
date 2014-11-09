@@ -7,20 +7,25 @@ module EventsHelper
   def process_google_events(events, options={})
     results = []
     events.each do |event|
-      start_time = google_datetime_fix(event.start)
-      end_time = google_datetime_fix(event.end)
+      # some events dont have start and end times?
+      if event.start and event.end
+        start_time = google_datetime_fix(event.start)
+        end_time = google_datetime_fix(event.end)
 
-      if options[:this_week]
-        start_time = this_week(start_time)
-        end_time = this_week(end_time)
+        if options[:this_week]
+          start_time = this_week(start_time)
+          end_time = this_week(end_time)
+        end
+
+        results << {
+          id: event.id,
+          summary: event.summary,
+          start_time: start_time,
+          end_time: end_time,
+        }
+      else
+        p event
       end
-
-      results << {
-        id: event.id,
-        summary: event.summary,
-        start_time: start_time,
-        end_time: end_time,
-      }
     end
 
     return results.sort_by {|event| event[:start_time]}

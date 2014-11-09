@@ -4,6 +4,7 @@ class MembersController < ApplicationController
 	#
 	# allow to modify account
 	# 
+	before_filter :is_approved, :only => :all
 	def index_committee
 		# begin
 		cid = params[:id]

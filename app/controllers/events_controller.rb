@@ -4,7 +4,10 @@ class EventsController < ApplicationController
 		@events = Event.all.order(:start_time).reverse
 	end
 	def pull_google_events
+		p 'hello there'
 		@calendar_id = revert_google_calendar_id(pbl_events_calendar_id)
+		p 'attempting to pull google events'
+		# p @calendar_id
 		all_events = google_api_request(
 		  'calendar', 'v3', 'events', 'list',
 		  {
@@ -13,6 +16,8 @@ class EventsController < ApplicationController
 			timeMax: (DateTime.now + 6.month),
 		  }
 		).data.items
+		p 'here are all the events'
+		# p all_events
 		result = all_events
 		
 		all_events = process_google_events(all_events)
