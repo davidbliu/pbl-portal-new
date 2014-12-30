@@ -3,8 +3,6 @@ class Event < ActiveRecord::Base
   belongs_to :semester, foreign_key: :semester_id
   has_one :event_points #, dependent: :destroy
   has_many :event_members #, dependent: :destroy
-  has_many :blog_events
-  has_many :posts, :through => :blog_events
 
   scope :this_semester, -> {where(semester_id: Semester.current_semester.id)}
   def points
