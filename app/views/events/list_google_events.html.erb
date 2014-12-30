@@ -1,0 +1,44 @@
+<style type = 'text/css'>
+.synced-event-row{
+  background-color:yellow;
+}
+</style>
+<h1>Listing Events</h1>
+
+<h2>These are your google events</h2>
+<table class='table table-condensed table-hover table-bordered'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @google_events.each do |event| %>
+      <% if @synced_hash[event[:id]] %>
+      <tr class = 'synced-event-row'>
+      <% else %>
+      <tr>
+      <% end %>
+        <td><%= event[:summary] %></td>
+        
+          <% if event[:start_time] %>
+            <td><%= event[:start_time].strftime("%D") %></td>
+            <td><%= event[:start_time].strftime("%r") %></td>
+            <% else %>
+            <td>no start time</td>
+            <td>boo</td>
+          <% end %>
+        
+      </tr>
+      <% end %>
+  </tbody>
+</table>
+
+<br>
+
+
+
+<%= @synced_hash %>

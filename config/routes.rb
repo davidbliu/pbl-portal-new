@@ -59,6 +59,7 @@ Dockernotes::Application.routes.draw do
     collection do
       get "pull_google_events"
       get "sync_google_events"
+      get "list_google_events"
     end
   end
 

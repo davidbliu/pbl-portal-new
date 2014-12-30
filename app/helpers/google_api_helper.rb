@@ -49,17 +49,17 @@ module GoogleApiHelper
     #   parameters[:singleEvents] = true
     # end
 
-    puts "HERE IS THE METHIOD"
-    puts method
-    puts "here i am and about to fail"
-    puts google_api_client
-    puts "that was the client"
-    puts parameters
-    puts "those were the PARAMETERS"
-    puts api_resource.send(method)
-    puts "that was api resource thing"
-    puts content_type
-    puts "that was content type"
+    # puts "HERE IS THE METHIOD"
+    # puts method
+    # puts "here i am and about to fail"
+    # puts google_api_client
+    # puts "that was the client"
+    # puts parameters
+    # puts "those were the PARAMETERS"
+    # puts api_resource.send(method)
+    # puts "that was api resource thing"
+    # puts content_type
+    # puts "that was content type"
 
     result = google_api_client.execute(
       api_method: api_resource.send(method),
