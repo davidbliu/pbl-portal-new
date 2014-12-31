@@ -1,0 +1,29 @@
+<h1>List Events</h1>
+
+<% @semesters.each do |semester| %>
+<h2>Semester: <%= semester.name %> (<%= @events_hash[semester.name].length %> events)</h2> 
+
+<table class='table table-condensed table-hover table-bordered'>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Google ID</th>
+      <th>Points</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+	<tbody>
+	<% @events_hash[semester.name].each do |event| %>
+	<tr>
+		<td><%= event.name %></td>
+		<td><%= event.start_time %></td>
+		<td><%= event.google_id %></td>
+		<td><%= event.points %></td>
+		<td><%= link_to "Delete", event_path(event), method: :delete, data: { confirm: 'Are you certain you want to delete this event?' } %></td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<% end %>

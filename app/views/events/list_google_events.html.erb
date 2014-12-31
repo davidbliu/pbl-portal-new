@@ -1,26 +1,29 @@
 <style type = 'text/css'>
-.synced-event-row{
+.unsynced-event-row{
   background-color:yellow;
 }
 </style>
 <h1>Listing Events</h1>
 
 <h2>These are your google events</h2>
+<h3>Events will show up as yellow if they are unsynced</h3>
+<a href = '/events/sync_google_events'>sync these events (will sync events that are yellow)</a><br>
 <table class='table table-condensed table-hover table-bordered'>
   <thead>
     <tr>
       <th>Name</th>
       <th>Date</th>
       <th>Time</th>
+      <th>Google ID</th>
     </tr>
   </thead>
 
   <tbody>
     <% @google_events.each do |event| %>
-      <% if @synced_hash[event[:id]] %>
-      <tr class = 'synced-event-row'>
-      <% else %>
+      <% if @existing_id_set.include? event[:id] %>
       <tr>
+      <% else %>
+      <tr class = 'unsynced-event-row'>
       <% end %>
         <td><%= event[:summary] %></td>
         
@@ -31,6 +34,7 @@
             <td>no start time</td>
             <td>boo</td>
           <% end %>
+        <td><%= event[:id] %></td>
         
       </tr>
       <% end %>

@@ -2,6 +2,16 @@ class PointsController < ApplicationController
 
 	before_filter :is_approved
 	before_filter :is_officer, :only => :mark_attendance
+
+	def all_points
+		@semesters = Semester.all
+		@semester_points = Hash.new
+		Semester.all.each do |semester|
+			@semester_points[semester.name] = "hi"
+		end
+	end
+
+
 	def index
 		@total_points = current_member.total_points
 	end

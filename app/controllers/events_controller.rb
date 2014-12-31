@@ -1,7 +1,38 @@
+require 'set'
+
+
 class EventsController < ApplicationController
 
 	def index
-		@events = Event.all.order(:start_time).reverse
+		# @events = Event.all.order(:start_time).reverse
+		# redirect_to "events#list_events"
+		redirect_to action: :list_events
+	end
+
+	def destroy
+		event = Event.find(params[:id])
+		p 'about to destroy this event'
+		p event.name
+		p 'destroying...'
+		event.destroy
+		redirect_to "events#list_events"
+		
+	end
+
+	#
+	# list out events by semester, allow secretary to modify events
+	# what would secretary need to change?
+	# points, name
+	#
+	def list_events
+		@events_hash = Hash.new
+		@semesters = Semester.all
+		@semesters.unshift(Semester.current_semester)
+		Semester.all.each do |semester|
+			@events_hash[semester.name] = Event.where(semester_id: semester.id).order(:start_time)
+		end
+
+
 	end
 
 	def list_google_events
@@ -9,13 +40,18 @@ class EventsController < ApplicationController
 		# @synced_google_events = Array.new
 		# @unsynced_google_events
 		@synced_hash = Hash.new
-		@google_events.each do |e|
-			if Event.where(google_id: e[:id]).length != 0
-				@synced_hash[e[:id]] = false 
-			else
-				@synced_hash[e[:id]] = true
-			end
+		@existing_id_set = Set.new
+		event_ids = Event.all.pluck(:google_id)
+		event_ids.each do |event_id|
+			@existing_id_set.add(event_id)
 		end
+		# @google_events.each do |e|
+		# 	if Event.where(google_id: e[:id]).length != 0
+		# 		@synced_hash[e[:id]] = false 
+		# 	else
+		# 		@synced_hash[e[:id]] = true
+		# 	end
+		# end
 	end
 
 	def get_google_events_list(months = 6)

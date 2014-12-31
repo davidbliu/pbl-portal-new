@@ -46,6 +46,7 @@ Dockernotes::Application.routes.draw do
 
   resources :points do
     collection do
+      get 'all_points' # display points for all semesters
       get 'rankings'
       get 'mark_attendance'
       post 'update_attendance'
@@ -60,6 +61,8 @@ Dockernotes::Application.routes.draw do
       get "pull_google_events"
       get "sync_google_events"
       get "list_google_events"
+      get "list_events"
+      get "delete_events"
     end
   end
 
