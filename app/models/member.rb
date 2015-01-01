@@ -106,6 +106,7 @@ class Member < ActiveRecord::Base
     return Member.where('id IN (?)', chair_ids)
   end
 
+  # excludes chairs
   def self.current_cms(semester = Semester.current_semester)
     chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
     chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)

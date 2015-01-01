@@ -3,11 +3,47 @@ class PointsController < ApplicationController
 	before_filter :is_approved
 	before_filter :is_officer, :only => :mark_attendance
 
+
+	#
+	# shows graphs of point data over time
+	#
+	def temporal_points
+
+	end
+
+	#
+	# shows all point data ever
+	# comprehensive master dayumn
+	# probably run once, save, then from then on show an image until sexcretary runs this method again
+	#
 	def all_points
-		@semesters = Semester.all
-		@semester_points = Hash.new
-		Semester.all.each do |semester|
-			@semester_points[semester.name] = "hi"
+		current_member = @current_member
+		@semester_point_hash = Hash.new
+		Semester.all.order(:start_time).each do |semester|
+			member_point_data = Array.new # array of data on how many points each member scored
+			semester_event_members = EventMember.where(semester_id: semester.id)
+			@semester_point_hash[semester.id] = member_point_data
+		end
+		# semester_events
+		if current_member
+			attended_event_members = EventMember.where("event_id IN (?)", Event.this_semester.pluck(:id).collect{|i| i.to_s})
+			attended_event_ids = attended_event_members.where(member_id: current_member.id).pluck(:event_id)
+			@attended_events = Event.where("id in (?)", attended_event_ids.collect{|i| i.to_s})
+
+			@attended_event_point_name_data = @attended_events.map{|e| {'event'=>e.name, 'points'=>e.points}}
+
+			p 'calculating cm points'
+			cm_points_list = current_member.cms.map{|cm| {'name' => cm.name, 'points' => cm.total_points}}
+			@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
+
+			p 'calculating all member points'
+			points_list = Member.current_cms.map{|m| {'name' => m.name, 'points' => m.total_points}}
+			@points_list = points_list.sort_by{|obj| obj['points']}.reverse
+		else
+			@attended_events = []
+			@attended_event_point_name_data = []
+			@cm_points_list = []
+			@points_list = []
 		end
 	end
 
