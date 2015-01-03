@@ -1,0 +1,61 @@
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type='text/javascript'>
+var semester_points_json = "<%= @semester_point_json %>";
+var semester_points_hash = JSON.parse(semester_points_json.replace(/&quot;/g,'"'));
+
+var semester_keys = Object.keys(semester_points_hash);
+
+function draw_semester_point_graph(data, container){
+	//do nothing
+	var x = d3.scale.linear()
+    .domain([0, 500])
+    .range([0, 420]);
+
+	var chart = d3.select('#'+container);
+	var bar = chart.selectAll("div");
+	var barUpdate = bar.data(data);
+	var barEnter = barUpdate.enter().append("div");
+	barEnter.style("width", function(d){ return (x(parseInt(d['points'])) + 10)+"px";});
+	barEnter.text(function(d) { return d['name'] +' '+ d['points']; });
+}
+$(document).ready(function(){
+	// draw_semester_point_graph(semester_points_hash);
+	for(i=0;i<semester_keys.length;i++){
+		point_array = semester_points_hash[semester_keys[i]];
+		console.log(point_array);
+		//create a new chart ("container") to hold this graph
+		var new_chart_header = document.createElement("h1");
+		$(new_chart_header).text("semester "+semester_keys[i]);
+		var new_chart = document.createElement("div");
+		new_id = "semester-chart-"+semester_keys[i].toString();
+		$('#point-graph-container').append(new_chart_header);
+		$('#point-graph-container').append(new_chart);
+		$(new_chart).attr("id", new_id);
+		$(new_chart).attr("class", "chart");
+		draw_semester_point_graph(point_array, new_id);
+	}
+
+});
+</script>
+<style type='text/css'>
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+</style>
+
+<div id='point-graph-container'></div>
+<% @semesters.each do |semester| %>
+<h2><%= semester.name %></h2>
+<% @semester_point_hash[semester.id].each do |mem_data| %>
+	<div>
+		<ul>
+			<li><%= mem_data['name'] %></li>
+			<li><%= mem_data['points'] %></li>
+		</ul>
+	</div>
+<% end %>
+<% end %>

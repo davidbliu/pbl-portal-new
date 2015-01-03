@@ -46,7 +46,7 @@ Dockernotes::Application.routes.draw do
 
   resources :points do
     collection do
-      get 'all_points' # display points for all semesters
+      get 'all_points' # display points for all semesters. like a master view
       get 'rankings'
       get 'mark_attendance'
       post 'update_attendance'
