@@ -23,6 +23,7 @@
           <div style = "height:15px"></div>
           <div class="slots">
             <% slots.each do |slot| %>
+              <p> <% current_member %> </p>
               <div><%= render "slot", object: @slot = slot %></div>
             <% end %>
           </div>

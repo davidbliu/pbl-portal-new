@@ -60,7 +60,8 @@ class PointsController < ApplicationController
 			#
 			@committee_points = Array.new
 			Committee.all.each do |committee|
-				@committee_points << {"points"=>committee.rating, "committee"=> committee.name}
+				committee_points << {"points"=>committee.rating, "committee"=> committee.name}
+				@committee_points = committee_points.sort_by{|obj| obj['points']}.reverse
 			end
 			# current_member_ids = Member.current_members.pluck(:id)
 			# current_events = Event.where(semester:Semester.current_semester)
