@@ -163,7 +163,7 @@ end
 # return assignments hash key: slot, value: array of members}
   def generate_tabling_schedule(slots, members)
     puts "generating schedule"
-    # convert_commitments(members)
+    convert_commitments(members)
     puts "commitments converted"
     #initialize your assignment hash
     assignments = Hash.new
