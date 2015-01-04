@@ -77,6 +77,7 @@ Dockernotes::Application.routes.draw do
       get 'options'
       get 'edit_tabling'
       get 'delete_slots'
+      get 'manage'
     end
   end
 

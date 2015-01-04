@@ -1,5 +1,9 @@
 require 'chronic'
 class TablingController < ApplicationController
+
+  def manage
+    @all_slots = TablingSlot.all
+  end
 	def index
 		p current_member
 		# start_day = Chronic.parse('0 april 14', :context => :past)
@@ -33,9 +37,10 @@ class TablingController < ApplicationController
 	#
 	def options
 		# list of members who need to table (chairs twice cms once)
-
+    # @TODO better queries
+    @chairs = Member.current_chairs
+    @cms = Member.current_cms
 		# show the slots that are already generated for this week?
-
 		#
 		# same as index 
 		#
@@ -60,7 +65,12 @@ class TablingController < ApplicationController
 	        tabling_day << tabling_slot
 	      end
 	    end
+      @odd_slot = odd_slot
 	end
+
+  def convert_commitments
+    p 'not implemented yet'
+  end
 
 	#
 	# generates tabling TODO background process
@@ -68,8 +78,8 @@ class TablingController < ApplicationController
 	def generate
 		begin
 			p 'generating new tabling schedule'
-			clear_this_week_slots
 			timeslots = params[:slots]
+      member_ids = params[:member_ids]
 			@slots = Array.new
 		    timeslots.keys.each do |key|
 		      day = Date::DAYNAMES[key.to_i]
@@ -83,23 +93,14 @@ class TablingController < ApplicationController
 		        end
 		      end
 		    end
-      tablers = Array.new
-      Member.current_chairs.each do |cc|
-        tablers << cc
-      end
-      Member.current_members.each do |cm|
-        tablers << cm
-      end
-      # tablers = Member.current_members + Member.current_chairs
-			# tablers = (Member.current_chairs + Member.current_members)
-      # p tablers.length
-			# p 'GENERATING TABLING SCHEDULES'
-   #    p 'this is who i will go for'
-   #    p tablers.length
-   #    p Member.current_members.length
-   #    p Member.current_chairs.length
-   #    p 'thats it'
-      # render :nothing => true, :status => 500, :content_type => 'text/html'
+      tablers = Member.where('id IN (?)', member_ids).to_a
+      # tablers = Array.new
+      # Member.current_chairs.each do |cc|
+      #   tablers << cc
+      # end
+      # Member.current_members.each do |cm|
+      #   tablers << cm
+      # end
 
 			generate_tabling_schedule(@slots, tablers)
 			render :nothing => true, :status => 200, :content_type => 'text/html'
@@ -162,7 +163,7 @@ end
 # return assignments hash key: slot, value: array of members}
   def generate_tabling_schedule(slots, members)
     puts "generating schedule"
-    convert_commitments(members)
+    # convert_commitments(members)
     puts "commitments converted"
     #initialize your assignment hash
     assignments = Hash.new
@@ -280,7 +281,7 @@ end
     assignments.keys.each do |key|
       slot = key
       conflicts = true
-      if not slot == "manual"
+      if not slot == "manual" and TablingSlotMember.where(tabling_slot_id:slot.id).where(member_id:member.id).length <= 0  
         conflicts = false
         for c in member.commitments
           d = c.day
@@ -301,7 +302,7 @@ end
           end
         end
       end
-      if not conflicts
+      if not conflicts #and not (slot.members.include? member)
         if assignments[slot].length < 5000 # hard coded capacity
           slots << slot
         end
@@ -309,6 +310,20 @@ end
     end
     return slots
   end
+
+def odd_slot
+  odd_slot = TablingSlot.new
+  # odd_slot.start_time = Date.now
+  # odd_slot.end_time = 1
+  day = Date::DAYNAMES[6]
+  hour = 1
+  odd_slot = TablingSlot.where(
+        start_time: Chronic.parse("#{hour} this #{day}"),
+        end_time: Chronic.parse("#{hour + 1} this #{day}")
+      ).first_or_create!
+  odd_slot.save
+  return odd_slot
+end
 
 def save_tabling_results(assignments, slots)
   for tabling_slot in slots
@@ -332,23 +347,17 @@ def save_tabling_results(assignments, slots)
       end
     end
     # handle the manually assign members
-    odd_slot = TablingSlot.new
-    # odd_slot.start_time = Date.now
-    # odd_slot.end_time = 1
-    day = Date::DAYNAMES[6]
-    hour = 1
-    odd_slot = TablingSlot.where(
-          start_time: Chronic.parse("#{hour} this #{day}"),
-          end_time: Chronic.parse("#{hour + 1} this #{day}")
-        ).first_or_create!
-    odd_slot.save
+    
     for member in assignments["manual"]
-      slot_member = TablingSlotMember.new
-      slot_member.member_id = member.id
-      slot_member.tabling_slot_id = odd_slot.id
-      slot_member.save
-      if not odd_slot.members.include? member
-        odd_slot.members << member
+      slot_member = TablingSlotMember.where(member_id: member.id).where(tabling_slot_id: odd_slot.id).first
+      if not slot_member
+        slot_member = TablingSlotMember.new
+        slot_member.member_id = member.id
+        slot_member.tabling_slot_id = odd_slot.id
+        slot_member.save
+        if not odd_slot.members.include? member
+          odd_slot.members << member
+        end
       end
     end
    end
