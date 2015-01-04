@@ -3,7 +3,7 @@ Dockernotes::Application.routes.draw do
   ActiveAdmin.routes(self)
   resources :notes
   # root 'notes#index'
-  get "/authenticate", to: "sessions#sign_onto_google"
+  # get "/authenticate", to: "sessions#sign_onto_google"
   get "/sign_out", to: "sessions#sign_out"
   get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
 

@@ -1,6 +1,9 @@
 <script type = 'text/javascript'>
 $(document).ready(function(){
-	alert('hello');
+	$("#registration-form").hide();
+	$("#registration-form-btn").click(function(){
+		$("#registration-form").toggle();
+	})
 	$('#submit-btn').click(function(){
 		var email = $("#email-input").val();
 		var name = $("#name-input").val();
@@ -20,19 +23,31 @@ $(document).ready(function(){
 	});
 });
 </script>
-<h1>welcome to the portal! please sign up here!</h1>
+<style type = 'text/css'>
+#registration-form-btn:hover{
+	cursor:pointer;
+}
+</style>
 
-<div id='sign-up-form'>
-	<div>name
+<h1>You do not have an account on the portal</h1>
+<img src='http://www.bedpostblog.com/wp-content/uploads/2013/08/culkin-shocked-face.png' height=200/>
+<h2>If you do have an account on the portal, please make sure you are signing in with the correct email (the one you registered with)</h2>
+<h2>If you are new to the portal, welcome!</h2>
+
+<h3 id='registration-form-btn'>New to the portal? click me</h3>
+
+<div id='registration-form'>
+	<p>After submitting, please await confirmation from the secretary</p>
+	<div>Name  
 		<input id = 'name-input' type = 'text' class='form-inline'/>
 	</div>
-	<div>email
+	<div>Email
 		<input id = 'email-input' type = 'text' class='form-inline'/>
 	</div>
-	<div>phone
+	<div>Phone
 		<input id = 'phone-input' type = 'text' class='form-inline'/>
 	</div>
+	<button class='btn' id = 'submit-btn'>submit</button>
 
 </div>
 
-<button class='btn' id = 'submit-btn'>submit</button>

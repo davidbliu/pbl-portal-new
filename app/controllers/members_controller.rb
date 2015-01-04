@@ -101,7 +101,6 @@ class MembersController < ApplicationController
 	end
 
 	def complete_sign_up
-		p 'completing sign up...........'
 		member_data = params[:member_data]
 		@member = Member.new
 		@member.name = member_data['name']
