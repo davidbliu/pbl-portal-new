@@ -2,9 +2,11 @@
   <b><%= @slot.start_time.strftime("%l:%M%p") %></b>
 
   <ul class = "list-group slot-list">
-    <% @slot.member_name_id_map.each do |data| %>
+    <% @slot.member_name_id_map.each do |data| %> 
     <% if data['name']==current_member.name %>
     <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>" class = 'current-member'><%= data['name'] %></li> 
+    <% elsif data['position'] == "chair"%>
+    <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>" class = 'officer'><%= data['name'] %></li> 
     <% else %>
     <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>"><%= data['name'] %></li> 
     <% end %>
