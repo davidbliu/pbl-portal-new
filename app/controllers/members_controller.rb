@@ -22,6 +22,13 @@ class MembersController < ApplicationController
 		@members = Member.all.order(:name)
 	end
 
+	#
+	# see manage view
+	# ajax -> get quick stats on member
+	#
+	def quick_stats
+	end
+
 	def show
 		@member = Member.find(params[:id])
 	end
