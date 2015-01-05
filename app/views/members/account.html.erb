@@ -7,6 +7,7 @@ function updatePersonalInformation(){
 		phone = $("#phone-input").val();
 		major = $("#major-input").val();
 		blurb = $("#blurb-input").val();
+    registration_comment = $("#registration-comment-input").val();
 		reapprove = false;
 		if(! $('#approve-input').prop('checked')){
 			reapprove = true;
@@ -20,6 +21,7 @@ function updatePersonalInformation(){
           		"phone": phone,
           		"major": major,
           		"blurb": blurb,
+              "registration_comment": registration_comment,
           		"reapprove": reapprove
       	}
         }).done(function(data){
@@ -45,18 +47,21 @@ $(document).ready(function(){
 <div class='form-field-div'><button class='btn btn-default' id='update-info-btn'>update account information</button></div>
 <br>
 
-<div class='form-field-div'><b>name</b> <input id='name-input' type='text' value='<%= current_member.name %>'/></div>
-<div class='form-field-div'><b>email</b> <input id='email-input' type='text' value='<%= current_member.email %>'/></div>
-<div class='form-field-div'><b>phone</b> <input id= 'phone-input' type='text' value='<%= current_member.phone %>'/></div>
-<div class='form-field-div'><b>major</b> <input id= 'major-input' type='text' value='<%= current_member.major %>'/></div>
-<div class='form-field-div'><b>blurb</b> <textarea id='blurb-input' ><%= current_member.blurb %></textarea></div>
+<div class='form-field-div'><b>Name</b> <input id='name-input' type='text' value='<%= current_member.name %>'/></div>
+<div class='form-field-div'><b>Email</b> <input id='email-input' type='text' value='<%= current_member.email %>'/></div>
+<div class='form-field-div'><b>Phone</b> <input id= 'phone-input' type='text' value='<%= current_member.phone %>'/></div>
+<div class='form-field-div'><b>Major</b> <input id= 'major-input' type='text' value='<%= current_member.major %>'/></div>
+<div class='form-field-div'><b>Blurb</b> <textarea id='blurb-input' ><%= current_member.blurb %></textarea></div>
+
+<div class = 'form-field-div'><b>Registration Comment</b><textarea id='registration-comment-input'><%= current_member.registration_comment %></textarea></div>
 
 <br>
 
 <% if current_member.current_committee %>
-<div class='form-field-div'><b>committee</b> <%= current_member.current_committee.name %></div>
-<div class='form-field-div'><b>position</b> <%= current_member.position %></div>
+<div class='form-field-div'><b>Committee</b> <%= current_member.current_committee.name %></div>
+<div class='form-field-div'><b>Position</b> <%= current_member.position %></div>
 
 <div class='form-field-div'><input type="checkbox" id='approve-input' checked>my committee and position are correct<br></div>
+
 <% end %>
 

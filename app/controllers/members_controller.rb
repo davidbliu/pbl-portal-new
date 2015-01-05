@@ -29,6 +29,7 @@ class MembersController < ApplicationController
 		 current_member.email = params[:email]
 		 current_member.major = params[:major]
 		 current_member.blurb = params[:blurb]
+		 current_member.registration_comment = params[:registration_comment]
 		 if params[:reapprove]=='true'
 		 	current_member.confirmation_status = 1
 		 end
@@ -106,6 +107,7 @@ class MembersController < ApplicationController
 		@member.name = member_data['name']
 		@member.email = member_data['email']
 		@member.phone = member_data['phone']
+		@member.registration_comment = member_data['registration_comment']
 		@member.uid = cookies[:uid]
 		@member.provider = cookies[:provider]
 		@member.remember_token = Member.new_remember_token

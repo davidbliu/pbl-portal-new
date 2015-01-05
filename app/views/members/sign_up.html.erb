@@ -8,7 +8,8 @@ $(document).ready(function(){
 		var email = $("#email-input").val();
 		var name = $("#name-input").val();
 		var phone = $("#phone-input").val();
-		var member_data = {'name':name, 'email':email, 'phone':phone}
+		var registration_comment = $("#registration-comment-input").val();
+		var member_data = {'name':name, 'email':email, 'phone':phone, 'registration_comment':registration_comment}
 		 $.ajax({
           url:'/members/complete_sign_up',
           type: "GET",
@@ -46,6 +47,9 @@ $(document).ready(function(){
 	</div>
 	<div>Phone
 		<input id = 'phone-input' type = 'text' class='form-inline'/>
+	</div>
+	<div>Registration Comment
+		<textarea id='registration-comment-input'></textarea>
 	</div>
 	<button class='btn' id = 'submit-btn'>submit</button>
 
