@@ -86,6 +86,12 @@ Dockernotes::Application.routes.draw do
       get 'edit_tabling'
       get 'delete_slots'
       get 'manage'
+      get 'convert'
+
+      # for testing progress bars
+      get 'progress_update'
+      get 'progress_dummmy'
+      get 'progress_test'
     end
   end
 

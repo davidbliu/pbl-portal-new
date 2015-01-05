@@ -1,6 +1,17 @@
 require 'chronic'
 class TablingController < ApplicationController
 
+  # ajax progress bar
+  def progress_update
+
+  end
+
+  def progress_dummy
+  end
+  
+  def progress_test
+  end
+
   def manage
     @all_slots = TablingSlot.all
   end
@@ -68,8 +79,13 @@ class TablingController < ApplicationController
       @odd_slot = odd_slot
 	end
 
-  def convert_commitments
-    p 'not implemented yet'
+  #
+  # action: convert all this semester members commitments
+  #
+  def convert
+    members = Member.current_members
+    convert_commitments(members)
+    render json: "all commitments have been converted for this semesters members"
   end
 
 	#
@@ -163,7 +179,7 @@ end
 # return assignments hash key: slot, value: array of members}
   def generate_tabling_schedule(slots, members)
     puts "generating schedule"
-    convert_commitments(members)
+    # convert_commitments(members)
     puts "commitments converted"
     #initialize your assignment hash
     assignments = Hash.new
