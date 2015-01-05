@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150104204810) do
+ActiveRecord::Schema.define(version: 20150105063020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -256,6 +256,7 @@ ActiveRecord::Schema.define(version: 20150104204810) do
     t.text     "blurb"
     t.integer  "confirmation_status"
     t.text     "registration_comment"
+    t.text     "swipy_data"
   end
 
   add_index "members", ["name"], name: "index_members_on_name", using: :btree

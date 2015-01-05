@@ -18,6 +18,10 @@ class MembersController < ApplicationController
 
 	end
 
+	def manage
+		@members = Member.all.order(:name)
+	end
+
 	def show
 		@member = Member.find(params[:id])
 	end
@@ -29,6 +33,7 @@ class MembersController < ApplicationController
 		 current_member.email = params[:email]
 		 current_member.major = params[:major]
 		 current_member.blurb = params[:blurb]
+		 current_member.swipy_data = params[:swipy_data]
 		 current_member.registration_comment = params[:registration_comment]
 		 if params[:reapprove]=='true'
 		 	current_member.confirmation_status = 1

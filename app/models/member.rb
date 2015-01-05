@@ -37,7 +37,7 @@
 # - EventMember
 # - Reimbursement
 class Member < ActiveRecord::Base
-  attr_accessible :name, :provider, :uid, :profile, :old_member_id, :remember_token, :confirmation_status
+  attr_accessible :name, :provider, :uid, :profile, :old_member_id, :remember_token, :confirmation_status, :swipy_data, :registration_comment
 
   validates :provider, :uid, :name, presence: true
 

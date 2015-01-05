@@ -16,6 +16,7 @@ Dockernotes::Application.routes.draw do
   get '/test_auth', to: 'sessions#test_auth'
   resources :members do
     collection do
+      get 'manage'
       get 'all'
       get 'confirm_new' # secretary view to confirm new members
       post 'process_new'
@@ -27,6 +28,13 @@ Dockernotes::Application.routes.draw do
       get 'account'
       get 'update_account'
       get 'index_committee'
+    end
+  end
+
+  resources :swipy do
+    collection do
+      get 'record_attendance'
+      get 'record_event_member'
     end
   end
 
