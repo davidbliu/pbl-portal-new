@@ -51,6 +51,9 @@ gem 'mysql2' #dont need it in prod
 
 # this is for events pulling
 gem 'google-api-client', :require => 'google/api_client'
+
+gem 'twilio-ruby'
+
 #
 # active admin dependencies
 #

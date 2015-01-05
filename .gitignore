@@ -16,3 +16,5 @@
 /tmp
 *.dump
 
+# ignore application env variables
+/config/application.yml

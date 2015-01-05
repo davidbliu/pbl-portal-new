@@ -1,0 +1,17 @@
+defaults: &defaults
+  email: dev@example.com
+  secret: foo123
+  twilio_sid: twilio sid
+  twilio_token: twilio token
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  email: test@example.com
+
+production:
+  <<: *defaults
+  email: info@example.com
+  secret: 321oof

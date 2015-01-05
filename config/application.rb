@@ -5,6 +5,9 @@ require 'rails/all'
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
+# Load application ENV vars and merge with existing ENV vars. Loaded here so can use values in initializers.
+ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
+
 
 module Dockernotes
   class Application < Rails::Application
