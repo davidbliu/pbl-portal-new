@@ -1,7 +1,10 @@
+
 <h1>Welcome to PBL Members Portal</h1>
+
+<% if @current_member %>
 <h2>Current Members</h2>
 <br>
-<table class='table table-condensed table-hover table-bordered'>
+<table class='table table-striped'>
   <thead>
     <tr>
       <th></th>
@@ -28,6 +31,7 @@
     <% end %>
   </tbody>
 </table>
-
+<%else%>
+<h3>Please sign in to view the portal.</h3>
+<% end %>
 <br>
-
