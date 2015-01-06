@@ -159,6 +159,8 @@ GEM
     polyglot (0.3.5)
     protected_attributes (1.0.3)
       activemodel (>= 4.0.0, < 5.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -271,6 +273,7 @@ DEPENDENCIES
   omniauth-google-oauth2!
   pg
   protected_attributes
+  quiet_assets
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc

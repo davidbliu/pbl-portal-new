@@ -53,7 +53,7 @@ gem 'mysql2' #dont need it in prod
 gem 'google-api-client', :require => 'google/api_client'
 
 gem 'twilio-ruby'
-
+gem 'quiet_assets', group: :development
 #
 # active admin dependencies
 #

@@ -164,7 +164,7 @@ class MembersController < ApplicationController
   							  'position'=>j.committee_member_type.name, 
   							  'committee'=>j.committee.name,
   							  'committee_id'=>j.committee.id, 
-  							  'major'=>j.member.major}}
+  							  'major'=>j.member.major}}.sort! {|a,b| a['name'] <=> b['name']}
 		#
 		# better but bad
 		#
