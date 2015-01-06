@@ -19,19 +19,17 @@
 <h1>Tabling Schedule</h1>
 
 <% if @tabling_days.nil? %>
-    <h1>No tabling slots yet!</h1>
+  <h1>No tabling slots yet!</h1>
 <% else %>
- <% @tabling_days.each do |day, slots| %>
-        <ul class="tabling list-group tabling-day-list">
-          <div class="label label-primary dayheading"><%= day.strftime("%A, %D") %></div>
-          <div style = "height:15px"></div>
-          <div class="slots">
-            <% slots.each do |slot| %>
-              <div><%= render "slot", object: @slot = slot %></div>
-            <% end %>
-          </div>
-        </ul>
+  <% @tabling_days.each do |day, slots| %>
+    <ul class="tabling list-group tabling-day-list">
+      <div class="label label-primary dayheading"><%= day.strftime("%A, %D") %></div>
+      <div style = "height:15px"></div>
+      <div class="slots">
+        <% slots.each do |slot| %>
+          <div><%= render "slot", object: @slot = slot %></div>
+        <% end %>
       </div>
-
- <% end %>
+    </ul>
+  <% end %>
 <% end %>
