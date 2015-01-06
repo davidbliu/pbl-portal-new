@@ -199,6 +199,11 @@ function addMemberButtonActions(){
 	});
 
 }
+
+function updateProgress(){
+	$.getScript("/tabling/progress_update");
+}
+
 $(document).ready(function(){
 	drawDays();
 	hourActions();
@@ -215,6 +220,8 @@ $(document).ready(function(){
   addMemberButtonActions();
 	// startAutocomplete();
 	// startButtonActions();
+  // poll server for progress
+  setInterval(updateProgress, 10000);
 });
 </script>
 
@@ -289,6 +296,7 @@ li{
 
 
 <h1>Tabling Options</h1>
+<b>Progress</b> <span id='progress'></span>
 
 <div id='buttons'>
   <button class = 'btn btn-default' id = 'generate-btn'>Generate</button>

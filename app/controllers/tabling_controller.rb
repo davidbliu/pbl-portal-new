@@ -3,13 +3,31 @@ class TablingController < ApplicationController
 
   # ajax progress bar
   def progress_update
+    @progress_text = 'no progress text to display'
+    if $progress
+      @progress_text = $progress
+    end
 
   end
 
   def progress_dummy
   end
-  
+
   def progress_test
+    background do
+      for num in 1..30
+        $progress = num
+        p 'progress is'+ $progress.to_s
+        sleep(2.seconds)
+      end
+    end
+  end
+
+  def background(&block)
+    Thread.new do
+      yield
+      ActiveRecord::Base.connection.close
+    end
   end
 
   def manage
@@ -92,38 +110,43 @@ class TablingController < ApplicationController
 	# generates tabling TODO background process
 	#
 	def generate
-		begin
-			p 'generating new tabling schedule'
-			timeslots = params[:slots]
-      member_ids = params[:member_ids]
-			@slots = Array.new
-		    timeslots.keys.each do |key|
-		      day = Date::DAYNAMES[key.to_i]
-		      if timeslots[key].length > 0
-		        timeslots[key].each do |h|
-		          hour = h.to_i
-		          @slots << TablingSlot.where(
-		            start_time: Chronic.parse("#{hour} this #{day}"),
-		            end_time: Chronic.parse("#{hour + 1} this #{day}")
-		          ).first_or_create!
-		        end
-		      end
-		    end
-      tablers = Member.where('id IN (?)', member_ids).to_a
-      # tablers = Array.new
-      # Member.current_chairs.each do |cc|
-      #   tablers << cc
-      # end
-      # Member.current_members.each do |cm|
-      #   tablers << cm
-      # end
-
-			generate_tabling_schedule(@slots, tablers)
-			render :nothing => true, :status => 200, :content_type => 'text/html'
-		rescue
-			render :nothing => true, :status => 500, :content_type => 'text/html'
-		end
-
+    background do
+  		begin
+       
+          $progress = 'started generating tabling'
+    			p 'generating new tabling schedule'
+    			timeslots = params[:slots]
+          member_ids = params[:member_ids]
+    			@slots = Array.new
+    		    timeslots.keys.each do |key|
+    		      day = Date::DAYNAMES[key.to_i]
+    		      if timeslots[key].length > 0
+    		        timeslots[key].each do |h|
+    		          hour = h.to_i
+    		          @slots << TablingSlot.where(
+    		            start_time: Chronic.parse("#{hour} this #{day}"),
+    		            end_time: Chronic.parse("#{hour + 1} this #{day}")
+    		          ).first_or_create!
+    		        end
+    		      end
+    		    end
+          tablers = Member.where('id IN (?)', member_ids).to_a
+          # tablers = Array.new
+          # Member.current_chairs.each do |cc|
+          #   tablers << cc
+          # end
+          # Member.current_members.each do |cm|
+          #   tablers << cm
+          # end
+          $progress = 'about to run generate_tabling_schedule method'
+    			generate_tabling_schedule(@slots, tablers)
+          $progress = 'done generating tabling hohoho'
+    			render :nothing => true, :status => 200, :content_type => 'text/html'
+        
+  		rescue
+  			render :nothing => true, :status => 500, :content_type => 'text/html'
+  		end
+    end
 		
 	end
 
@@ -189,9 +212,11 @@ end
       assignments[s] = Array.new
     end
     curr_member = get_MCV(assignments, members)
+    $progress = 'starting to assign members'
     while curr_member != nil do
       puts "assigning"
       puts curr_member
+      $progress = curr_member.name + " is being assigned now..."
       slot = get_LCV(assignments, curr_member)
       if slot != nil
         # assign student to the slot
@@ -203,6 +228,7 @@ end
       end
       curr_member = get_MCV(assignments, members)
     end
+    $progress = 'saving tabling result'
     save_tabling_results(assignments, slots)
     return assignments
   end

@@ -1,12 +1,13 @@
 <script type = 'text/javascript'>
 
 function updateProgress(){
-
+	$.getScript("/tabling/progress_update");
 }
 $(document).ready(function(){
-	$.getScript("/tabling/progress_update");
-	setTimeout(updateProgress, 10000);
+	setInterval(updateProgress, 2000);
+	$.getScript("/tabling/progress_test");
 });
 </script>
 
 <h1>Progress Test</h1>
+<div id = 'progress-div'></div>
