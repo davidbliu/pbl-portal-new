@@ -110,7 +110,7 @@ class TablingController < ApplicationController
 	# generates tabling TODO background process
 	#
 	def generate
-    background do
+    # background do
   		begin
        
           $progress = 'started generating tabling'
@@ -142,11 +142,10 @@ class TablingController < ApplicationController
     			generate_tabling_schedule(@slots, tablers)
           $progress = 'done generating tabling hohoho'
     			render :nothing => true, :status => 200, :content_type => 'text/html'
-        
   		rescue
   			render :nothing => true, :status => 500, :content_type => 'text/html'
   		end
-    end
+    # end
 		
 	end
 
@@ -211,12 +210,14 @@ end
     for s in slots
       assignments[s] = Array.new
     end
+    num_assigned = 0
+    total_members = members.length
     curr_member = get_MCV(assignments, members)
     $progress = 'starting to assign members'
     while curr_member != nil do
       puts "assigning"
       puts curr_member
-      $progress = curr_member.name + " is being assigned now..."
+      $progress = curr_member.name + " is being assigned now... "+num_assigned.to_s+' of '+total_members.to_s
       slot = get_LCV(assignments, curr_member)
       if slot != nil
         # assign student to the slot
@@ -226,6 +227,7 @@ end
         manual_assignments << curr_member
         assignments["manual"] << curr_member
       end
+      num_assigned = num_assigned + 1
       curr_member = get_MCV(assignments, members)
     end
     $progress = 'saving tabling result'
