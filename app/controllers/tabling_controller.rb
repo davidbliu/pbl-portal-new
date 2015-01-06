@@ -112,7 +112,6 @@ class TablingController < ApplicationController
 	def generate
     # background do
   		begin
-       
           $progress = 'started generating tabling'
     			p 'generating new tabling schedule'
     			timeslots = params[:slots]
@@ -140,11 +139,21 @@ class TablingController < ApplicationController
           # end
           $progress = 'about to run generate_tabling_schedule method'
     			generate_tabling_schedule(@slots, tablers)
-          $progress = 'done generating tabling hohoho'
-    			render :nothing => true, :status => 200, :content_type => 'text/html'
+          $progress = 'completed'
+          render :nothing => true, :status => 200, :content_type => 'text/html'
   		rescue
-  			render :nothing => true, :status => 500, :content_type => 'text/html'
+  			
+        $progress = 'failed'
+        render :nothing => true, :status => 500, :content_type => 'text/html'
   		end
+    # end
+    # while (not $progress == 'failed') and (not $progress == 'completed')
+    #   sleep(3.seconds)
+    # end
+    # if $progress == 'completed'
+    #   render :nothing => true, :status => 200, :content_type => 'text/html'
+    # else
+    #   render :nothing => true, :status => 500, :content_type => 'text/html'
     # end
 		
 	end

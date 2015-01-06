@@ -120,7 +120,7 @@ function generateTabling(){
       type: "POST",
       data: {"slots": slots, "member_ids":member_ids},
       success:function(data){
-        document.location.href = '/tabling';
+        alert('tabling generation has been started in the background, please wait for progress to be completed before navigating away');
       },
       complete:function(){
       	
@@ -166,7 +166,7 @@ function clearSlots(){
 		      type: "GET",
 		      data: {},
 		      success:function(data){
-            document.location.href = '/tabling';
+            	alert('tabling generation has been started in the background, please wait for progress to be completed before navigating away');
 		      },
 		      complete:function(){
 		      	
@@ -221,7 +221,7 @@ $(document).ready(function(){
 	// startAutocomplete();
 	// startButtonActions();
   // poll server for progress
-  // setInterval(updateProgress, 10000);
+  setInterval(updateProgress, 10000);
 });
 </script>
 
