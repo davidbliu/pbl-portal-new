@@ -11,14 +11,14 @@
 
 <style type = "text/css">
 #navlist {
-  padding: 10px;
+  padding: 0px;
 }
 #navlist a {
-  color: black;
+  color: white;
 }
 #navlist .logo a {
   color: white;
-  background-color: black;
+  background-color: rgb(179, 53, 53);
 }
 #navlist .logo {
   margin-right: 10px;
@@ -27,44 +27,56 @@
 	background-color:black;
 	color: white;
 }
+
+.navbar-default {
+  background-color: #3F5489;
+}
+
+
+
 </style>
 
 
 <!-- add a header -->
 <header class="header">
-  <nav  id = "top_nav" class = "navbar navbar-default navbar-fixed-top" role = "navigation">
-    <ul id = "navlist" class="nav nav-pills">
-      <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
-        <li><a href = "/tabling">Tabling</a></li>
-        <% if current_member and current_member.admin? %>
-        <li><a href = '/events'>Events</a></li>
-        <% end %>
-        <% if current_member and current_member.current_committee %>
-        <li><a href = "/points/rankings">Points</a></li>
-        <li><a href='/youtube'>Gallery</a></li>
-        <% end %>
-        <% if current_member and current_member.officer? %>
-        <li><a href = "/points/mark_attendance">Attendance</a></li>
-        <% end %>
-        <li><a href = "/commitments">Commitments</a></li>
-        <!-- <li><a href = "/points/apprentice">Apprentice</a></li> -->
-        <li><a href = "/members/all">Members</a></li>
-        <li><a href = "http://blog.berkeley-pbl.com">Blog</a></li>
-        <li><a href = 'https://docs.google.com/forms/d/10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA/viewform'>Reimbursements</a></li>
-        <!-- <li><a href = "#">Assassins</a></li> -->
-        <!-- log in and out -->
-        
-        <% if @current_member %>
-        <li><a href='/members/account'><%= @current_member.name %></a></li>
-        <li><a href='/sign_out' class='right-floater'>Sign Out</a></li>
-        <% else %>
-        <li><a href = "/auth/google_oauth2" class='right-floater'>Sign In</a></li>
-        <% end %>
-    </ul>
+
+  <nav  id = "top_nav" class = "navbar navbar-default" role = "navigation">
+    <div class="container">
+      <ul id = "navlist" class="nav navbar-nav center">
+        <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
+          <li><a href = "/tabling">Tabling</a></li>
+          <% if current_member and current_member.admin? %>
+          <li><a href = '/events'>Events</a></li>
+          <% end %>
+          <% if current_member and current_member.current_committee %>
+          <li><a href = "/points/rankings">Points</a></li>
+          <li><a href='/assassins'>Assassins</a></li>
+          <li><a href='/youtube'>Gallery</a></li>
+          <% end %>
+          <% if current_member and current_member.officer? %>
+          <li><a href = "/points/mark_attendance">Attendance</a></li>
+          <% end %>
+          <li><a href = "/commitments">Commitments</a></li>
+          <!-- <li><a href = "/points/apprentice">Apprentice</a></li> -->
+          <li><a href = "/members/all">Members</a></li>
+          <li><a href = "http://blog.berkeley-pbl.com">Blog</a></li>
+          <li><a href = 'https://docs.google.com/forms/d/10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA/viewform'>Reimbursements</a></li>
+          <!-- <li><a href = "#">Assassins</a></li> -->
+          <!-- log in and out -->
+          
+          <% if @current_member %>
+          <li><a href='/members/account'><%= @current_member.name %></a></li>
+          <li><a href='/sign_out' class='right-floater'>Sign Out</a></li>
+          <% else %>
+          <li><a href = "/auth/google_oauth2" class='right-floater'>Sign In</a></li>
+          <% end %>
+      </ul>
+    </div>
   </nav>
-  <div style = "height:75px;clear:both"></div>
 </header>
+<div class="container">
 <%= yield %>
 <!-- end of header -->
+</div>
 </body>
 </html>
