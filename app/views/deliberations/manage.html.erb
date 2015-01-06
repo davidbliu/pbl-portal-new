@@ -1,0 +1,6 @@
+<h1>Manage Deliberations</h1>
+
+<% Deliberation.all.each do |deliberation| %>
+<div><a href = '/deliberations/<%= deliberation.id %>'><%= deliberation.name %></a>
+</div>
+<% end %>

@@ -1,0 +1,10 @@
+<h1><%= @deliberation.name %></h1>
+<h2><%= @deliberation.width %></h2>
+<div class='col-md-4'>
+	<h2>Applicants</h2>
+	<% @applicants.each do |applicant| %>
+		<div><%= applicant.name %></div>
+
+		<% end %>
+
+	</div>

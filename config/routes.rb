@@ -74,6 +74,24 @@ Dockernotes::Application.routes.draw do
     end
   end
 
+  resources :deliberations do
+    member do 
+      get 'results'
+      get 'import_applicants'
+    end
+    collection do
+      get 'manage'
+    end
+  end
+
+  resources :applicants do
+    # member do
+    #   get 'edit'
+    #   post 'update'
+    #   # get 'show'
+    # end
+  end
+
   resources :event_points do
     collection do
       get "update_event_points"
