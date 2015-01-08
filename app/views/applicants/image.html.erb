@@ -1,0 +1,90 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){
+	$("#snap").click(function(){
+		canvas = document.getElementById("canvas");
+		context = canvas.getContext("2d");
+		video = document.getElementById("video");
+		context.drawImage(video, 0, 0, 320, 240);
+	});
+	$("#use-image-btn").click(function(){
+		canvas = document.getElementById("canvas");
+		img_src = canvas.toDataURL("image/png");
+		var r = confirm("this will replace the current applicant picture, would you like to continue?");
+		  if (r == false){
+		    return;
+		  }
+		//upload img_src to server and save
+		$.ajax({
+		      url:'/applicants/<%= @applicant.id %>/upload_image',
+		      type: "POST",
+		      data: {"image": img_src},
+		      success:function(data){
+		        // alert('completed');
+		        document.location.href = '/applicants/<%= @applicant.id %>';
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+	});
+
+});
+	
+</script>
+
+<h1>Updating Image for <%= @applicant.name %></h1>
+
+<div class = 'col-md-6'>
+	<h2>Current Image</h2>
+	<img src = '<%= @applicant.image %>' height = "240" width = "320" />
+</div>
+
+
+<script type = 'text/javascript'>
+// Put event listeners into place
+window.addEventListener("DOMContentLoaded", function() {
+	// Grab elements, create settings, etc.
+	var canvas = document.getElementById("canvas"),
+		context = canvas.getContext("2d"),
+		video = document.getElementById("video"),
+		videoObj = { "video": true },
+		errBack = function(error) {
+			console.log("Video capture error: ", error.code); 
+		};
+
+	// Put video listeners into place
+	if(navigator.getUserMedia) { // Standard
+		navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+		}, errBack);
+	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+		navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+		navigator.mozGetUserMedia(videoObj, function(stream){
+			video.src = window.URL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+}, false);
+
+// Trigger photo take
+// document.getElementById("snap").addEventListener("click", function() {
+// 	
+// });
+</script>
+
+<div class = 'col-md-6'>
+<video id="video" width="320" height = "240" autoplay></video>
+<button id="snap" class = "btn btn-default">Snap Picture</button>
+<button id="use-image-btn" class = "btn btn-default">Upload This Image</button>
+<h2>Image Preview</h2>
+<canvas id="canvas" width="320" height = "240" ></canvas>
+</div>

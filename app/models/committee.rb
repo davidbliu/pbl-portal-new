@@ -29,7 +29,7 @@
 # - CommitteeMember
 # - Member
 class Committee < ActiveRecord::Base
-  # attr_accessible :name, :committee_type_id
+  attr_accessible :name, :committee_type_id, :abbr
 
   belongs_to :committee_type
 

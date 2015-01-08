@@ -85,6 +85,8 @@ Dockernotes::Application.routes.draw do
       post 'update_rankings'
       get 'settings'
       post 'update_settings'
+      get 'add_applicant'
+      post 'create_applicant'
     end
     collection do
       get 'manage'
@@ -92,6 +94,10 @@ Dockernotes::Application.routes.draw do
   end
 
   resources :applicants do
+    member do
+      get 'image'
+      post 'upload_image'
+    end
     # member do
     #   get 'edit'
     #   post 'update'

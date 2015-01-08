@@ -72,13 +72,14 @@ function boldActions(){
 		$('.selected-row').removeClass('selected-row');
 		$(this).addClass("selected-row");
 
-		selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
-		// canvas = document.getElementById("tiny-image-canvas"),
-		canvas = document.getElementById('preview-canvas');
-		context = canvas.getContext("2d"),
-		pic = selected_canvas;
-		context.drawImage(pic, 0, 0, 320, 240);
-		
+		// selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
+		// canvas = document.getElementById('preview-canvas');
+		// context = canvas.getContext("2d"),
+		// pic = selected_canvas;
+		// context.drawImage(pic, 0, 0, 320, 240);
+		selected_img = $(".selected-row").children('.applicant-img-td').children('.applicant-img')[0];
+		preview_img = $("#preview-img");
+		$(preview_img).attr('src', selected_img.src);// = selected_img.src;
 	});
 }
 
@@ -94,20 +95,7 @@ $(document).ready(function(){
 	});	
 	reorderActions();
 	reorderRankings(); 
-	$("#snap").click(function(){
-		canvas = document.getElementById("canvas");
-		context = canvas.getContext("2d");
-		video = document.getElementById("video");
-		context.drawImage(video, 0, 0, 320, 240);
-	});
-	$("#use-image-btn").click(function(){
-		selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
-		// canvas = document.getElementById("tiny-image-canvas"),
-		canvas = selected_canvas;
-		context = canvas.getContext("2d"),
-		pic = document.getElementById("canvas")
-		context.drawImage(pic, 0, 0, 64, 48);
-	});
+	
 	boldActions();
 	
 
@@ -125,80 +113,38 @@ $(document).ready(function(){
 	cursor:pointer;
 }
 </style>
-<h1>Ranking Applicants To <%= @committee.name %> For <%= @deliberation.name %></h1>
+<h1>Ranking Applicants To <%= @committee.name %> For <a href = '/deliberations/<%= @deliberation.id %>'><%= @deliberation.name %></a></h1>
 
-<div class = 'col-md-4'>
+<div class = 'col-md-8'>
 	<button id = 'update-rankings-btn' class = 'btn btn-default'>Update Rankings</button>
+	<h3>Ranked Applicants</h3>
 	<table class = 'table table-striped'>
 		<thead>
 			<tr>
 				<th>Name</th>
 				<th>Rank</th>
 				<th>Image</th>
+				<th>Preferences</th>
 			</tr>
 		</thead>
 
 		<tbody id = 'ranking-table-body'>
 			<% @applicants.each do |applicant| %>
 			<tr class = 'applicant-row' id = '<%= applicant.id %>'>
-				<td class = 'applicant-name-td'><%= applicant.name %></td>
+				<td class = 'applicant-name-td'><a href = '/applicants/<%= applicant.id %>'><%= applicant.name %></a></td>
 				<td class = 'applicant-rank-td'><input type = 'text' class = 'applicant-rank-input form-control' value = '<%= applicant.committee_rank(@committee.id).value %>'/></td>
-				<td class = 'applicant-canvas-td'><canvas class = 'applicant-canvas' id ='canvas-<%= applicant.id %>'  width="64" height = "48"></canvas></td>
+				<td class = 'applicant-img-td'><img class = 'applicant-img' id ='img-<%= applicant.id %>'  width="64" height = "48" src = '<%= applicant.image %>'></img></td>
+				<td class = 'applicant-preferences-td'><%= applicant.first_choice_committee.abbr %>, <%= applicant.second_choice_committee.abbr %>, <%= applicant.third_choice_committee.abbr %></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
 </div>
 
-<div class = 'col-md-4'>
-	<canvas id = 'preview-canvas'  width="320" height = "240"></canvas>
-</div>
 
-<script type = 'text/javascript'>
-// Put event listeners into place
-window.addEventListener("DOMContentLoaded", function() {
-	// Grab elements, create settings, etc.
-	var canvas = document.getElementById("canvas"),
-		context = canvas.getContext("2d"),
-		video = document.getElementById("video"),
-		videoObj = { "video": true },
-		errBack = function(error) {
-			console.log("Video capture error: ", error.code); 
-		};
 
-	// Put video listeners into place
-	if(navigator.getUserMedia) { // Standard
-		navigator.getUserMedia(videoObj, function(stream) {
-			video.src = stream;
-			video.play();
-		}, errBack);
-	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-		navigator.webkitGetUserMedia(videoObj, function(stream){
-			video.src = window.webkitURL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-		navigator.mozGetUserMedia(videoObj, function(stream){
-			video.src = window.URL.createObjectURL(stream);
-			video.play();
-		}, errBack);
-	}
-}, false);
-
-// Trigger photo take
-// document.getElementById("snap").addEventListener("click", function() {
-// 	
-// });
-</script>
 
 <div class = 'col-md-4'>
-
-<video id="video" width="320" height = "240" autoplay></video>
-<button id="snap" class = "btn btn-default">Snap Picture</button>
-<button id="use-image-btn" class = "btn btn-default">Use This Image</button>
-<h2>Image Preview</h2>
-<canvas id="canvas" width="320" height = "240" ></canvas>
-
+<img id = 'preview-img' width = "320" height = "240"></img>
 </div>
 

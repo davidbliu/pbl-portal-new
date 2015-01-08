@@ -7,6 +7,20 @@ class DeliberationsController < ApplicationController
 		
 	end
 
+	def add_applicant
+		@deliberation = Deliberation.find(params[:id])
+	end
+
+	def create_applicant
+		@deliberation = Deliberation.find(params[:id])
+	end
+
+	def applicant_image
+	end
+
+	def upload_applicant_image
+	end
+
 	def import_applicants
 		@deliberation = Deliberation.find(params[:id])
 	end

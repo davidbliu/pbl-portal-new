@@ -1,3 +1,14 @@
-<h1><%= @applicant.name %> from <%= @applicant.deliberation.name %></h1>
-<h2><%= @applicant.attributes %></h2>
-<%= @applicant.first_choice_committee.name %>
+<h1><%= @applicant.name %> from <a href = '/deliberations/<%= @applicant.deliberation.id %>'><%= @applicant.deliberation.name %></a></h1>
+
+<div class = 'col-md-8'>
+<img src = '<%= @applicant.image %>' height=400/>
+<div><h2><a href = '/applicants/<%= @applicant.id %>/image'>Update Image</a></h2></div>
+</div>
+
+<div class = 'col-md-4'>
+<h2>Committee Preferences</h2>
+<h4>First Choice: <%= @applicant.first_choice_committee.name %></h4>
+<h4>Second Choice: <%= @applicant.second_choice_committee.name %></h4>
+<h4>Third Choice: <%= @applicant.third_choice_committee.name %></h4>
+</div>
+

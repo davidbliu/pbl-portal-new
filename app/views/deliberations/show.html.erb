@@ -14,7 +14,7 @@
 		<tbody>
 			<% @applicants.each do |applicant| %>
 			<tr>
-				<td><%= applicant.name %></td>
+				<td><a href = '/applicants/<%= applicant.id %>'><%= applicant.name %></a></td>
 				<td><%= applicant.first_choice_committee.name %></td>
 				<td><%= applicant.second_choice_committee.name %></td>
 				<td><%= applicant.third_choice_committee.name %></td>
@@ -29,5 +29,6 @@
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/rank_applicants/?committee_id=<%= current_member.current_committee.id %>'>Rank Applicants</a></h2>
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/results'>View Results</a></h2>
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/settings'>Settings</a></h2>
+	<h2><a href = '/deliberations/<%= @deliberation.id %>/add_applicant'>Add Applicant</a></h2>
 	
 </div>
