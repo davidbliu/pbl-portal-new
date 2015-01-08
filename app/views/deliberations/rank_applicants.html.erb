@@ -64,7 +64,29 @@ function reorderActions(){
     $('.applicant-rank-input').focusout(function() {
         reorderRankings();  	
     });
+    boldActions();
 
+}
+function boldActions(){
+	$('.applicant-row').click(function(){
+		$('.selected-row').removeClass('selected-row');
+		$(this).addClass("selected-row");
+
+		selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
+		// canvas = document.getElementById("tiny-image-canvas"),
+		canvas = document.getElementById('preview-canvas');
+		context = canvas.getContext("2d"),
+		pic = selected_canvas;
+		context.drawImage(pic, 0, 0, 320, 240);
+		
+	});
+}
+
+// Converts canvas to an image
+function convertCanvasToImage(canvas) {
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	return image;
 }
 $(document).ready(function(){
 	$("#update-rankings-btn").click(function(){
@@ -72,12 +94,35 @@ $(document).ready(function(){
 	});	
 	reorderActions();
 	reorderRankings(); 
+	$("#snap").click(function(){
+		canvas = document.getElementById("canvas");
+		context = canvas.getContext("2d");
+		video = document.getElementById("video");
+		context.drawImage(video, 0, 0, 320, 240);
+	});
+	$("#use-image-btn").click(function(){
+		selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
+		// canvas = document.getElementById("tiny-image-canvas"),
+		canvas = selected_canvas;
+		context = canvas.getContext("2d"),
+		pic = document.getElementById("canvas")
+		context.drawImage(pic, 0, 0, 64, 48);
+	});
+	boldActions();
+	
+
 })
 </script>
 
 <style type = 'text/css'>
 .applicant-rank-input{
 	width: 50px;
+}
+.selected-row{
+	font-weight:bold;
+}
+.applicant-row:hover{
+	cursor:pointer;
 }
 </style>
 <h1>Ranking Applicants To <%= @committee.name %> For <%= @deliberation.name %></h1>
@@ -89,6 +134,7 @@ $(document).ready(function(){
 			<tr>
 				<th>Name</th>
 				<th>Rank</th>
+				<th>Image</th>
 			</tr>
 		</thead>
 
@@ -97,8 +143,62 @@ $(document).ready(function(){
 			<tr class = 'applicant-row' id = '<%= applicant.id %>'>
 				<td class = 'applicant-name-td'><%= applicant.name %></td>
 				<td class = 'applicant-rank-td'><input type = 'text' class = 'applicant-rank-input form-control' value = '<%= applicant.committee_rank(@committee.id).value %>'/></td>
+				<td class = 'applicant-canvas-td'><canvas class = 'applicant-canvas' id ='canvas-<%= applicant.id %>'  width="64" height = "48"></canvas></td>
 			</tr>
 			<% end %>
 		</tbody>
 	</table>
 </div>
+
+<div class = 'col-md-4'>
+	<canvas id = 'preview-canvas'  width="320" height = "240"></canvas>
+</div>
+
+<script type = 'text/javascript'>
+// Put event listeners into place
+window.addEventListener("DOMContentLoaded", function() {
+	// Grab elements, create settings, etc.
+	var canvas = document.getElementById("canvas"),
+		context = canvas.getContext("2d"),
+		video = document.getElementById("video"),
+		videoObj = { "video": true },
+		errBack = function(error) {
+			console.log("Video capture error: ", error.code); 
+		};
+
+	// Put video listeners into place
+	if(navigator.getUserMedia) { // Standard
+		navigator.getUserMedia(videoObj, function(stream) {
+			video.src = stream;
+			video.play();
+		}, errBack);
+	} else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+		navigator.webkitGetUserMedia(videoObj, function(stream){
+			video.src = window.webkitURL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+	else if(navigator.mozGetUserMedia) { // Firefox-prefixed
+		navigator.mozGetUserMedia(videoObj, function(stream){
+			video.src = window.URL.createObjectURL(stream);
+			video.play();
+		}, errBack);
+	}
+}, false);
+
+// Trigger photo take
+// document.getElementById("snap").addEventListener("click", function() {
+// 	
+// });
+</script>
+
+<div class = 'col-md-4'>
+
+<video id="video" width="320" height = "240" autoplay></video>
+<button id="snap" class = "btn btn-default">Snap Picture</button>
+<button id="use-image-btn" class = "btn btn-default">Use This Image</button>
+<h2>Image Preview</h2>
+<canvas id="canvas" width="320" height = "240" ></canvas>
+
+</div>
+
