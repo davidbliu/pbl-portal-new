@@ -32,6 +32,13 @@
   background-color: #3F5489;
 }
 
+.navbar-nav>li>.dropdown-menu {
+  background-color:  #3F5489 ;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+  background-color: black;
+}
 
 
 </style>
@@ -52,14 +59,23 @@
           <li><a href = "/points/rankings">Points</a></li>
           <li><a href='/youtube'>Gallery</a></li>
           <% end %>
-          <% if current_member and current_member.officer? %>
-          <li><a href = "/points/mark_attendance">Attendance</a></li>
-          <% end %>
+
           <li><a href = "/commitments">Commitments</a></li>
           <!-- <li><a href = "/points/apprentice">Apprentice</a></li> -->
           <li><a href = "/members/all">Members</a></li>
-          <li><a href = "http://blog.berkeley-pbl.com">Blog</a></li>
-          <li><a href = 'https://docs.google.com/forms/d/10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA/viewform'>Reimbursements</a></li>
+          <li><a href = "http://blog.berkeley-pbl.com" target="_blank">Blog</a></li>
+          
+          <% if current_member and current_member.officer? %>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Officer Tools<span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href = "/points/mark_attendance">Attendance</a></li>
+              <li><a href = 'https://docs.google.com/forms/d/10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA/viewform'>Reimbursements</a></li>
+              <li><a href="#">Deliberations</a></li>
+              <li><a href="#">Etc</a></li>
+            </ul>
+          </li>
+          <% end %>
           <!-- <li><a href = "#">Assassins</a></li> -->
           <!-- log in and out -->
           
