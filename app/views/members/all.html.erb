@@ -3,7 +3,8 @@
 
 <h1>Welcome to PBL Members Portal</h1>
 <br>
-<h2>Current Members</h2>
+
+<h2>Executive</h2>
 <table class='table table-striped' >
   <thead>
     <tr>
@@ -18,18 +19,283 @@
 
   <tbody>
     <% @current.each do |data| %>
-      <tr>
-        <td><%= data['name'] %></td>
-        <td><%= data['committee'] %></td>
-        <td><%= data['email'] %></td>
-        <td><%= data['phone'] %></td>
-        <td><%= data['position'] %></td>
-        <td><%= data['semester'] %></td>
-      </tr>
-    <% end %>
-
+    	<% if data['committee'] == "Executive" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
   </tbody>
 </table>
+
+<h2>Community Service</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Community Service" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+
+<h2>Consulting</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Consulting" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Finance</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Finance" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Historian</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Historian" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Internal Networking</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Internal Networking" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Marketing</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Marketing" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+
+<h2>Professional Development</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Professional Development" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Publications</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Publications" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
+<h2>Web Developement</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+    	<% if data['committee'] == "Web Development" %>
+    	<tr>
+    		<td><%= data['name'] %></td>
+	        <td><%= data['committee'] %></td>
+	        <td><%= data['email'] %></td>
+	        <td><%= data['phone'] %></td>
+	        <td><%= data['position'] %></td>
+	        <td><%= data['semester'] %></td>
+    	</tr>
+   	 	<% end %>
+   	<% end %>
+  </tbody>
+</table>
+
 <br>
 <h2>Alumni</h2>
 <table class='table table-striped' >
