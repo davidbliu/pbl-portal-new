@@ -1,3 +1,3 @@
 export PG_HOST=localhost
-export PG_PORT=5435
+export PG_PORT=5433
 export HOST=localhost:3000

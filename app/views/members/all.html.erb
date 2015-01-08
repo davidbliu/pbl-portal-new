@@ -1,6 +1,10 @@
-<h1>Welcome to PBL Members Portal</h1>
+<%= javascript_include_tag "jquery.tablesorter", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "jquery-latest", "data-turbolinks-track" => true %>
 
-<table class='table table-condensed table-hover table-bordered'>
+<h1>Welcome to PBL Members Portal</h1>
+<br>
+<h2>Current Members</h2>
+<table class='table table-striped' >
   <thead>
     <tr>
       <th>name</th>
@@ -24,20 +28,32 @@
       </tr>
     <% end %>
 
+  </tbody>
+</table>
+<br>
+<h2>Alumni</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>email</th>
+      <th>phone</th>
+
+
+    </tr>
+  </thead>
+
+  <tbody>
     <% @alumni.each do |data| %>
       <tr>
         <td><%= data['name'] %></td>
-        <td>alumni</td>
         <td><%= data['email'] %></td>
         <td><%= data['phone'] %></td>
-        <td><%= data['position'] %></td>
-        <td><%= data['semester'] %></td>
+
       </tr>
     <% end %>
 
-
   </tbody>
 </table>
-
 <br>
 
