@@ -1,0 +1,2 @@
+module DeliberationsHelper
+end

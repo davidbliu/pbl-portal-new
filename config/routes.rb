@@ -76,8 +76,15 @@ Dockernotes::Application.routes.draw do
 
   resources :deliberations do
     member do 
+      get 'rankings'
       get 'results'
       get 'import_applicants'
+      post 'update_applicants'
+      get 'rank_applicants' # for chairs to rank applicants. pass in committee_id with ?
+      get 'generate_default_rankings'
+      post 'update_rankings'
+      get 'settings'
+      post 'update_settings'
     end
     collection do
       get 'manage'

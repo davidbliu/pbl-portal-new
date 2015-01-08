@@ -1,10 +1,33 @@
 <h1><%= @deliberation.name %></h1>
-<h2><%= @deliberation.width %></h2>
-<div class='col-md-4'>
+
+<div class='col-md-8'>
 	<h2>Applicants</h2>
-	<% @applicants.each do |applicant| %>
-		<div><%= applicant.name %></div>
+	<table class = 'table table-striped'>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>First Choice</th>
+				<th>Second Choice</th>
+				<th>Third Choice</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @applicants.each do |applicant| %>
+			<tr>
+				<td><%= applicant.name %></td>
+				<td><%= applicant.first_choice_committee.name %></td>
+				<td><%= applicant.second_choice_committee.name %></td>
+				<td><%= applicant.third_choice_committee.name %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
 
-		<% end %>
 
-	</div>
+<div class = 'col-md-4'>
+	<h2><a href = '/deliberations/<%= @deliberation.id %>/rank_applicants/?committee_id=<%= current_member.current_committee.id %>'>Rank Applicants</a></h2>
+	<h2><a href = '/deliberations/<%= @deliberation.id %>/results'>View Results</a></h2>
+	<h2><a href = '/deliberations/<%= @deliberation.id %>/settings'>Settings</a></h2>
+	
+</div>

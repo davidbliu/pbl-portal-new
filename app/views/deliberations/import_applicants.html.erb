@@ -1,2 +1,37 @@
-<h1>Import Applicants</h1>
-<h3>Choose CSV</h3>
+<script type='text/javascript'>
+function submitApplicants(){
+	var r = confirm("this will remove all current applicants for the current deliberations and replace them with your new applicants; are you sure?");
+	if (r == false){
+		return;
+	}
+	$.ajax({
+      url:'/deliberations/<%= @deliberation.id %>/update_applicants',
+      type: "POST",
+      data: {"applicant_data": $("#applicant-data").val()},
+      success:function(data){
+        // alert('completed');
+        alert(data);
+      },
+      complete:function(){
+      	
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+}
+$(document).ready(function(){
+	$("#submit-btn").click(function(){
+		submitApplicants();
+	});
+});
+</script>
+<style type = 'text/css'>
+.btn-container{
+	margin-bottom: 15px;
+}
+</style>
+<h1>Import Applicants Into <%= @deliberation.name %></h1>
+<h2>Paste Application Form Response Data Here</h2>
+<div class = 'btn-container'><button id = 'submit-btn' class = 'btn btn-default'>Save Applicants</button></div>
+<div><textarea id = 'applicant-data' cols = "75" rows = "10"></textarea></div>

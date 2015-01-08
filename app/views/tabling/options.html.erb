@@ -120,7 +120,8 @@ function generateTabling(){
       type: "POST",
       data: {"slots": slots, "member_ids":member_ids},
       success:function(data){
-        alert('completed');
+        // alert('completed');
+        document.location.href = '/tabling';
       },
       complete:function(){
       	

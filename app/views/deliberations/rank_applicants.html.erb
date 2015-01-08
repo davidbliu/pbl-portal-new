@@ -1,0 +1,104 @@
+<script type = 'text/javascript'>
+function submitRankings(){
+	var r = confirm("You are about to update rankings, are you sure?");
+	if (r == false){
+		return;
+	}
+	ranking_data = [];
+	$('.applicant-row').each(function(){
+		row_data = {};
+		row_data['applicant_id'] = $(this).attr('id');
+		row_data['rank_value'] = $(this).children(".applicant-rank-td").children(".applicant-rank-input").val();
+		ranking_data.push(row_data);
+	});
+	console.log(ranking_data);
+	console.log("that was ranking_data");
+	$.ajax({
+      url:'/deliberations/<%= @deliberation.id %>/update_rankings?committee_id=<%= @committee.id %>',
+      type: "POST",
+      data: {"ranking_data": ranking_data},
+      success:function(data){
+        // alert('completed');
+        alert(data);
+      },
+      complete:function(){
+      	
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+}
+function compare(a,b) {
+  if (a['rank'] < b['rank'])
+     return -1;
+  if (a['rank'] > b['rank'])
+    return 1;
+  return 0;
+}
+
+function reorderRankings(){
+	rows = [];
+	$('.applicant-row').each(function(){
+		row = {};
+		row['html'] = $(this)
+		row['rank'] = parseInt($(this).children(".applicant-rank-td").children(".applicant-rank-input").val());
+		rows.push(row);
+	});
+	rows.sort(compare);
+	console.log(rows);
+	$('.applicant-row').each(function(){
+		$(this).remove();
+	});
+	for(var i=0;i<rows.length;i++){
+		$("#ranking-table-body").append(rows[i]['html']);
+	}
+	reorderActions();
+}
+function reorderActions(){
+	$('.applicant-rank-input').keyup(function (event) {
+        if (event.keyCode == '13') {
+        	reorderRankings();  	
+        }
+    });
+    $('.applicant-rank-input').focusout(function() {
+        reorderRankings();  	
+    });
+
+}
+$(document).ready(function(){
+	$("#update-rankings-btn").click(function(){
+		submitRankings();
+	});	
+	reorderActions();
+	reorderRankings(); 
+})
+</script>
+
+<style type = 'text/css'>
+.applicant-rank-input{
+	width: 50px;
+}
+</style>
+<h1>Ranking Applicants To <%= @committee.name %> For <%= @deliberation.name %></h1>
+
+<div class = 'col-md-4'>
+	<button id = 'update-rankings-btn' class = 'btn btn-default'>Update Rankings</button>
+	<table class = 'table table-striped'>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Rank</th>
+			</tr>
+		</thead>
+
+		<tbody id = 'ranking-table-body'>
+			<% @applicants.each do |applicant| %>
+			<tr class = 'applicant-row' id = '<%= applicant.id %>'>
+				<td class = 'applicant-name-td'><%= applicant.name %></td>
+				<td class = 'applicant-rank-td'><input type = 'text' class = 'applicant-rank-input form-control' value = '<%= applicant.committee_rank(@committee.id).value %>'/></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

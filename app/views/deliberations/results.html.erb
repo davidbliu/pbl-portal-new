@@ -29,10 +29,7 @@ $(document).ready(function(){
 </script>
 
 <style type = "text/css">
-body {
-	padding: 15px;
-	padding-top:75px;
-}
+
 .conflict{
 	color:red;
 }
@@ -60,10 +57,11 @@ body {
 	padding-top: 0px;
 	width: 300px;
 	height: 175px;
-	border: 1px solid rgb(214, 214, 214);
+	/*border: 1px solid rgb(214, 214, 214);*/
 	margin:3px;
 	background-color: white;
 	overflow:hidden;
+	border:none;
 }
 .full {
 	height: auto;
@@ -74,7 +72,8 @@ body {
 }
 .committee_list .clist_header.panel-heading{
 	padding: 5px;
-	background-color: maroon;
+	background-color: #262626;
+	 /*rgb(179, 53, 53);*/
 	color: white;
 	text-align: center;
 }
@@ -108,52 +107,42 @@ body {
 }
 </style>
 
-<h1>results for <%= @deliberation.name %></h1>
+<h1><%= @deliberation.name %> Results</h1>
 
+<div class = 'col-md-8'>
+	<div class = "assignments_lists">
+	<% @valid_committees.each do |c|  %>
 
-<div style = "clear:both; height:20px"></div>
-<div>click on headers to expand list. click on applicant to see which other committees want this dude[tte]</div>
-<div>***starred applicants were in equal tiers and placed based on applicant preference</div>
-<div>key:
-	<br>green => you can have them<br>
-	orange => deliberate over them<br>
-	red => you cant have or dont want them<br>
-</div>
-<br>
+	<div class = "committee_list panel panel-default">
+		<div class = "clist_header expandable panel-heading"><%= c.name %></div>
+		<div class = "panel-body">
+	<% @deliberation.applicant_ranks_by_committee(c).order(:value).each do |rank| %>
 
-<div class = "assignments_lists">
-<% @valid_committees.each do |c|  %>
-
-<div class = "committee_list panel panel-default">
-	<div class = "clist_header expandable panel-heading"><%= c.name %></div>
-	<div class = "panel-body">
-<% @deliberation.applicant_ranks_by_committee(c).order(:value).each do |rank| %>
-
-	<% if @assignments[c].include? rank.applicant %>
-		<div class = "accepted applicant" id = '<%= rank.applicant.id %>'>
-		<% if @shaky.keys.include? rank.applicant %>
-		***
+		<% if @assignments[c].include? rank.applicant %>
+			<div class = "accepted applicant" id = '<%= rank.applicant.id %>'>
+			<% if @shaky.keys.include? rank.applicant %>
+			***
+			<% end %>
+			<%= rank.applicant.name %> (<%= rank.value %>)
+		<% elsif @shaky.keys.include? rank.applicant and @shaky[rank.applicant].include? c %>
+			<div class = "unsure applicant" id = '<%= rank.applicant.id %>'><%= rank.applicant.name %> (<%= rank.value %>)
+		<% else %>
+			<div class = "not_accepted applicant" id = '<%= rank.applicant.id %>'><%= rank.applicant.name %> (<%= rank.value %>)
 		<% end %>
-		<%= rank.applicant.name %> (<%= rank.value %>)
-	<% elsif @shaky.keys.include? rank.applicant and @shaky[rank.applicant].include? c %>
-		<div class = "unsure applicant" id = '<%= rank.applicant.id %>'><%= rank.applicant.name %> (<%= rank.value %>)
-	<% else %>
-		<div class = "not_accepted applicant" id = '<%= rank.applicant.id %>'><%= rank.applicant.name %> (<%= rank.value %>)
+		<%= rank.applicant.preference1 %> <%= rank.applicant.preference2 %> <%= rank.applicant.preference3 %>
+		</div>
 	<% end %>
-	<%= rank.applicant.preference1 %> <%= rank.applicant.preference2 %> <%= rank.applicant.preference3 %>
 	</div>
-<% end %>
-</div>
-<!-- end of pabel body -->
-</div>
-<!-- end of committee list -->
-<% end %>
+	<!-- end of pabel body -->
+	</div>
+	<!-- end of committee list -->
+	<% end %>
 
+	</div>
+	<!-- end of assignments list -->
 </div>
-<!-- end of assignments list -->
 
-<div style = "height:25px;clear:both"></div>
-<!-- <div style = "clear:both; height:50px"></div> -->
+<div class = 'col-md-4'>
 <h1>shaky</h1>
 <% @shaky.each do |key, value| %>
 <%= key.name %>:
@@ -180,5 +169,4 @@ body {
 <span class = "preferences">(1 <%= Committee.find(applicant.preference1).name if applicant.preference1 %>, 2 <%= Committee.find(applicant.preference2).name if applicant.preference2 %>,
 			3 <%= Committee.find(applicant.preference3).name if applicant.preference3 %>)</span><br>
 <% end %>
-Status API Training Shop Blog About
-© 2015 GitHub, Inc. Terms Privacy Security Contact
+</div>
