@@ -15,6 +15,11 @@ Dockernotes::Application.routes.draw do
 
   get '/test_auth', to: 'sessions#test_auth'
   resources :members do
+    member do
+      get 'destroy'
+      get 'edit'
+      get 'update'
+    end
     collection do
       get 'manage'
       get 'all'

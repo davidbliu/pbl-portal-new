@@ -72,34 +72,17 @@ function boldActions(){
 		$('.selected-row').removeClass('selected-row');
 		$(this).addClass("selected-row");
 
-		// selected_canvas = $(".selected-row").children('.applicant-canvas-td').children('.applicant-canvas')[0];
-		// canvas = document.getElementById('preview-canvas');
-		// context = canvas.getContext("2d"),
-		// pic = selected_canvas;
-		// context.drawImage(pic, 0, 0, 320, 240);
 		selected_img = $(".selected-row").children('.applicant-img-td').children('.applicant-img')[0];
 		preview_img = $("#preview-img");
 		$(preview_img).attr('src', selected_img.src);// = selected_img.src;
-
-
-
-		// move the preview image into view
-		// var doc = document.documentElement;
-		// // var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
-		// var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
-		// preview_img.top = top;
+		//move preview image
 		y = $(this).offset().top-200;
 		$(preview_img).css({position:'absolute',top:y});
 
 	});
 }
 
-// Converts canvas to an image
-function convertCanvasToImage(canvas) {
-	var image = new Image();
-	image.src = canvas.toDataURL("image/png");
-	return image;
-}
+
 $(document).ready(function(){
 	$("#update-rankings-btn").click(function(){
 		submitRankings();

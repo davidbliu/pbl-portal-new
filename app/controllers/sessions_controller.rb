@@ -1,3 +1,4 @@
+
 class SessionsController < ApplicationController
 	
 	def test_auth

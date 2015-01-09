@@ -22,6 +22,18 @@ class MembersController < ApplicationController
 		@members = Member.all.order(:name)
 	end
 
+	def destroy
+		@member = Member.find(params[:id])
+		@member.destroy
+		redirect_to '/members/manage'
+	end
+
+	def edit
+		@member = Member.find(params[:id])
+	end
+
+	def update
+	end
 	#
 	# see manage view
 	# ajax -> get quick stats on member
