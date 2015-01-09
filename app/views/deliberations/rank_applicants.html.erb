@@ -80,6 +80,17 @@ function boldActions(){
 		selected_img = $(".selected-row").children('.applicant-img-td').children('.applicant-img')[0];
 		preview_img = $("#preview-img");
 		$(preview_img).attr('src', selected_img.src);// = selected_img.src;
+
+
+
+		// move the preview image into view
+		// var doc = document.documentElement;
+		// // var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+		// var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+		// preview_img.top = top;
+		y = $(this).offset().top-200;
+		$(preview_img).css({position:'absolute',top:y});
+
 	});
 }
 

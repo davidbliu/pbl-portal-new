@@ -85,7 +85,7 @@ class Deliberation < ActiveRecord::Base
   end
 
   def generate_default_rankings
-  	ApplicantRanking.where(deliberation_id: self.id).destroy_all
+  	# ApplicantRanking.where(deliberation_id: self.id).destroy_all
   	for a in self.applicants
 		a.give_default_rankings
 	end

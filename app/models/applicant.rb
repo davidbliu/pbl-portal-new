@@ -35,12 +35,17 @@ class Applicant < ActiveRecord::Base
 		committee3 = self.third_choice_committee
 		committees = [committee1, committee2, committee3]
 		for c in committees
-			rank = ApplicantRanking.new
-			rank.committee = c
-			rank.applicant = self
-			rank.deliberation = self.deliberation
-			rank.value = 50
-			rank.save
+			
+			rank_query = ApplicantRanking.where(deliberation_id: self.deliberation_id).where(applicant: self.id).where(committee: c.id)
+			if not rank_query.length>0
+				rank = ApplicantRanking.new
+				rank.committee = c
+				rank.applicant = self
+				rank.deliberation = self.deliberation
+				rank.value = 50
+				rank.save
+			end
+			
 		end
 	end
 

@@ -31,7 +31,7 @@ $(document).ready(function(){
 	margin-bottom: 15px;
 }
 </style>
-<h1>Import Applicants Into <%= @deliberation.name %></h1>
+<h1>Import Applicants Into <a href = '/deliberations/<%= @deliberation.id %>'><%= @deliberation.name %></a></h1>
 <h2>Paste Application Form Response Data Here</h2>
 <div class = 'btn-container'><button id = 'submit-btn' class = 'btn btn-default'>Save Applicants</button></div>
-<div><textarea id = 'applicant-data' cols = "75" rows = "10"></textarea></div>
+<div><textarea class = 'form-control' id = 'applicant-data' cols = "75" rows = "10"></textarea></div>

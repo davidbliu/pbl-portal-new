@@ -1,0 +1,29 @@
+<h1>Add Applicant to <a href = '/deliberations/<%= @deliberation.id %>'><%= @deliberation.name %></a></h1>
+
+<div class = 'col-md-4'>
+
+<div><h3>Name</h3><input type = 'text' class = 'form-control' placeholder = 'applicant name'></input></div>
+<div><h3>Email</h3><input type = 'text' class = 'form-control' placeholder = 'applicant email address'></input></div>
+<div><h3>First Choice</h3>
+	<select id = 'first-choice-select' class = 'form-control'>
+		<% @committees.each do |committee| %>
+		<option id = '<%= committee.id %>' class = 'committee-option'><%= committee.name %></option>
+		<% end %>
+	</select>
+</div>
+<div><h3>Second Choice</h3>
+	<select id = 'second-choice-select' class = 'form-control'>
+		<% @committees.each do |committee| %>
+		<option id = '<%= committee.id %>' class = 'committee-option'><%= committee.name %></option>
+		<% end %>
+	</select>
+</div>
+<div><h3>Third Choice</h3>
+	<select id = 'third-choice-select' class = 'form-control'>
+		<% @committees.each do |committee| %>
+		<option id = '<%= committee.id %>' class = 'committee-option'><%= committee.name %></option>
+		<% end %>
+	</select>
+</div>
+<br/>
+<div><button class = 'btn btn-default form-control'>Create Applicant</button></div>

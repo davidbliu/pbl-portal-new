@@ -1,7 +1,7 @@
 <h1><%= @deliberation.name %></h1>
 
 <div class='col-md-8'>
-	<h2>Applicants</h2>
+	<h2><%= @applicants.length %> Applicants</h2>
 	<table class = 'table table-striped'>
 		<thead>
 			<tr>
@@ -29,6 +29,6 @@
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/rank_applicants/?committee_id=<%= current_member.current_committee.id %>'>Rank Applicants</a></h2>
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/results'>View Results</a></h2>
 	<h2><a href = '/deliberations/<%= @deliberation.id %>/settings'>Settings</a></h2>
-	<h2><a href = '/deliberations/<%= @deliberation.id %>/add_applicant'>Add Applicant</a></h2>
+	<h2><a href = '/deliberations/<%= @deliberation.id %>/import_applicants'>Import Applicants</a></h2>
 	
 </div>

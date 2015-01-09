@@ -9,6 +9,7 @@ class DeliberationsController < ApplicationController
 
 	def add_applicant
 		@deliberation = Deliberation.find(params[:id])
+		@committees = Committee.all
 	end
 
 	def create_applicant
@@ -61,7 +62,7 @@ class DeliberationsController < ApplicationController
 	# handles applicant import
 	def update_applicants
 		@deliberation = Deliberation.find(params[:id])
-		@deliberation.applicants.destroy_all
+		# @deliberation.applicants.destroy_all
 		applicant_data_string = params[:applicant_data]
 		applicant_strings = applicant_data_string.split("\n")
 		for string in applicant_strings
@@ -69,6 +70,11 @@ class DeliberationsController < ApplicationController
 			# they have applied for committee membership in at least one committee
 			if not (not data[1] and not data[2] and not data[3])
 				applicant = Applicant.new
+				# if applicant with name already exists then use that not hte new one
+				applicant_name_query = @deliberation.applicants.where(name: data[0])
+				if applicant_name_query.length>0
+					applicant = applicant_name_query.first
+				end
 				applicant.name = data[0]
 				if data[1]
 					applicant.preference1 = data[1].to_i
@@ -94,9 +100,7 @@ class DeliberationsController < ApplicationController
 		render :json => @deliberation.name + " now has "+@deliberation.applicants.length.to_s+" applicants", :status => 200, :content_type => 'text/html'
 	end
 
-	def handle_import_applicants
-
-	end
+	
 
 	def manage
 
