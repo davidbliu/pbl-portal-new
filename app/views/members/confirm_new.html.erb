@@ -1,4 +1,3 @@
-
 <script type='text/javascript'>
 function approveAll(){
     $('#approve-btn').click(function(){
@@ -23,7 +22,14 @@ function approveAll(){
             new_member.committee_id = committeeSelectedID;
             new_member.position_id = positionSelectedID;
             new_member.position_name = positionSelectedText;
-            member_data.push(new_member);
+
+            var should_approve = $(this).children('.approve-checkbox')[0];
+            var approve_checkbox = $(should_approve).children()[0];
+            if($(approve_checkbox).is(':checked')){
+            	//only push if it is checked
+           		member_data.push(new_member);
+            }
+            
         });
         console.log(member_data);
         $.ajax({
@@ -65,7 +71,7 @@ $(document).ready(function(){
 
 <button id= 'approve-btn' class = 'btn btn-default'>Approve Checked Members</button>
 
-<table class='table table-condensed table-hover table-bordered' id='table-1'>
+<table class='table table-striped' id='table-1'>
 
 	<div id='original-thead'>
 	<thead class='locked' id = 'original-fixed-head'>
@@ -82,14 +88,14 @@ $(document).ready(function(){
 			<tr id = '<%= new_member.id %>' class = 'member-row'>
 				<td ><%= new_member.name %></td>
 				<td class = 'committee'>
-					<select>
+					<select class = 'form-control'>
 						<% @committees.each do |committee| %>
 							<option id='<%= committee.id %>'><%= committee.name %></option>
 						<% end %>
 					</select>
 				</td>
 				<td class = 'position'>
-					<select>
+					<select class = 'form-control'>
 						<% @positions.each do |position| %>
 							<option id='<%= position.tier %>'><%= position.name %></option>
 						<% end %>
@@ -97,9 +103,10 @@ $(document).ready(function(){
 				</td>
 				<td> <%= new_member.email %></td>
 				<td><%= new_member.registration_comment %></td>
-				<td>
-					<span class = 'choice-btn hide-btn'>hide</span>
-					<span class = 'choice-btn approve-btn'>approve</span>
+				<td class = 'approve-checkbox'>
+					<input class = 'form-control' type="checkbox" id = 'approve-<%= new_member.id %>'/>
+					<!-- <span class = 'choice-btn hide-btn'>hide</span> -->
+					<!-- <span class = 'choice-btn approve-btn'>approve</span> -->
 				</td>
 			</tr>
 		<% end %>

@@ -23,7 +23,6 @@ function updatePersonalInformation(){
           		"major": major,
           		"blurb": blurb,
               "registration_comment": registration_comment,
-          		"reapprove": reapprove,
               "swipy_data":swipy_data
       	}
         }).done(function(data){
@@ -41,29 +40,30 @@ $(document).ready(function(){
 });
 </script>
 <style type='text/css'>
-.form-field-div{
-	margin:10px;
-}
 </style>
-<h1>welcome <%= current_member.name %></h1>
-<div class='form-field-div'><button class='btn btn-default' id='update-info-btn'>update account information</button></div>
-<br>
+<h1>Welcome <%= current_member.name %></h1>
+<div class='form-field-div'><button class='btn btn-default' id='update-info-btn'>Update Account</button></div>
 
-<div class='form-field-div'><b>Name</b> <input id='name-input' type='text' value='<%= current_member.name %>'/></div>
-<div class='form-field-div'><b>Email</b> <input id='email-input' type='text' value='<%= current_member.email %>'/></div>
-<div class='form-field-div'><b>Phone</b> <input id= 'phone-input' type='text' value='<%= current_member.phone %>'/></div>
-<div class='form-field-div'><b>Major</b> <input id= 'major-input' type='text' value='<%= current_member.major %>'/></div>
-<div class='form-field-div'><b>Blurb</b> <textarea id='blurb-input' ><%= current_member.blurb %></textarea></div>
-<div class='form-field-div'><b>Swipy Data</b> <input id= 'swipy-input' type='text' value='<%= current_member.swipy_data %>'/></div>
-<div class = 'form-field-div'><b>Registration Comment</b><textarea id='registration-comment-input'><%= current_member.registration_comment %></textarea></div>
+<div class = 'col-md-4'>
+<h2>Personal Information</h2>
+<div class='form-field-div'><b>Name</b> <input id='name-input' class = 'form-control' type='text' value='<%= current_member.name %>'/></div>
+<div class='form-field-div'><b>Email</b> <input id='email-input' class = 'form-control' type='text' value='<%= current_member.email %>'/></div>
+<div class='form-field-div'><b>Phone</b> <input id= 'phone-input' class = 'form-control' type='text' value='<%= current_member.phone %>'/></div>
+<div class='form-field-div'><b>Major</b> <input id= 'major-input' class = 'form-control' type='text' value='<%= current_member.major %>'/></div>
+<div class='form-field-div'><b>Blurb</b> <textarea id='blurb-input' class = 'form-control' ><%= current_member.blurb %></textarea></div>
+<div class='form-field-div'><b>Swipy Data</b> <input id= 'swipy-input' type='text' class = 'form-control' value='<%= current_member.swipy_data %>'/></div>
+<div class = 'form-field-div'><b>Registration Comment</b><textarea class = 'form-control' id='registration-comment-input'><%= current_member.registration_comment %></textarea></div>
+</div>
 
-<br>
 
+<div class = 'col-md-2'></div>
+
+<div id = 'col-md-4'>
+<h2>Committee Information</h2>
 <% if current_member.current_committee %>
-<div class='form-field-div'><b>Committee</b> <%= current_member.current_committee.name %></div>
-<div class='form-field-div'><b>Position</b> <%= current_member.position %></div>
-
-<div class='form-field-div'><input type="checkbox" id='approve-input' checked>my committee and position are correct<br></div>
-
+  <h3>You are <%= current_member.position %> in <%= current_member.current_committee.name %></h3>
+<% else %>
+  <h3>You are currently not in a committee</h3>
 <% end %>
-
+<h4><a href = '/members/<%= current_member.id %>/edit_confirmation'>Request Committee Change</a></h4>
+</div>

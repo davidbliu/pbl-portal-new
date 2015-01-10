@@ -1,0 +1,38 @@
+<script type = 'text/javascript'>
+function handleConfirmationRequest(){
+	$("#update-confirmation-btn").click(function(){
+		$.ajax({
+		      url:'/members/<%= @member.id %>/update_confirmation',
+		      type: "POST",
+		      data: {"registration_comment": $("#registration-comment-input").val()},
+		      success:function(data){
+		        // alert('completed');
+		        alert(data);
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+	})
+}
+$(document).ready(function(){
+	handleConfirmationRequest();
+});
+</script>
+
+<h1>Request Confirmation Change for <%= @member.name %></h1>
+<% if @member.current_committee %>
+<h3>You are currently <%= current_member.position %> in <%= current_member.current_committee.name %></h3>
+<% else %>
+<h3>You are currently not in a committee</h3>
+<% end %>
+
+<div class = 'col-md-6'>
+
+<button class = 'btn btn-default' id = 'update-confirmation-btn'>Request Confirmation Change</button>
+<p>Enter confirmation comment here (your committee and position)</p>
+<textarea id='registration-comment-input' class = 'form-control' rows = 10 ><%= current_member.registration_comment %></textarea>
+</div>

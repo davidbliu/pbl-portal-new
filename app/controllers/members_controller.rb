@@ -28,6 +28,12 @@ class MembersController < ApplicationController
 		redirect_to '/members/manage'
 	end
 
+	def reconfirm
+		@member = Member.find(params[:id])
+		@member.confirmation_status = 1
+		@member.save!
+		redirect_to '/members/manage'
+	end
 	def edit
 		@member = Member.find(params[:id])
 	end
@@ -54,9 +60,9 @@ class MembersController < ApplicationController
 		 current_member.blurb = params[:blurb]
 		 current_member.swipy_data = params[:swipy_data]
 		 current_member.registration_comment = params[:registration_comment]
-		 if params[:reapprove]=='true'
-		 	current_member.confirmation_status = 1
-		 end
+		 # if params[:reapprove]=='true'
+		 # 	current_member.confirmation_status = 1
+		 # end
 		 current_member.save
 		 # p params[:name]
 		 # p params[:email]
@@ -66,6 +72,17 @@ class MembersController < ApplicationController
 		 render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
+	def edit_confirmation
+		@member = Member.find(params[:id])
+	end
+	def update_confirmation
+		@member = Member.find(params[:id])
+		registration_comment = params[:registration_comment]
+		@member.registration_comment = registration_comment
+		@member.confirmation_status = 1
+		@member.save!
+		render :json => "Confirmation status updated, please wait for secretary's approval", :status => 200, :content_type => 'text/html'
+	end
 	def test
 		# 
 		# test all member functions

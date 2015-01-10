@@ -6,6 +6,7 @@
       <th>Name</th>
       <th>Email</th>
       <th>Actions</th>
+      <th>Confirmation</th>
     </tr>
   </thead>
 
@@ -14,7 +15,8 @@
       <tr>
         <td><%= member.name %></td>
         <td><%= member.email %></td>
-        <td><a href = '/members/<%= member.id %>/destroy'>Destroy</a> | <a href = '/members/<%= member.id %>/edit'>Edit</a></td>
+        <td><a href = '/members/<%= member.id %>/destroy'>Destroy</a> | <a href = '/members/<%= member.id %>/edit'>Edit</a> | <a href = '/members/<%= member.id %>/reconfirm'>Reconfirm</a></td>
+        <td><span class = 'confirm-btn' id = '<%= member.id %>'><%= member.confirmation_status %></span></td> 
       </tr>
     <% end %>
   </tbody>

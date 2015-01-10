@@ -19,6 +19,9 @@ Dockernotes::Application.routes.draw do
       get 'destroy'
       get 'edit'
       get 'update'
+      get 'reconfirm'
+      get 'edit_confirmation'
+      post 'update_confirmation'
     end
     collection do
       get 'manage'
