@@ -1,0 +1,28 @@
+<div>
+	<table class = 'table table-striped'>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Semester</th>
+				<th>Applicants</th>
+				<th>Rankings</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @deliberations.each do |deliberation| %>
+			<tr>
+				<td><a href = '/deliberations/<%= deliberation.id %>'><%= deliberation.name %></a></td>
+				<td>
+					<% if deliberation.semester %>
+					<%= deliberation.semester.name %>
+					<% else %> 
+					no semester
+					<% end %>
+				</td>
+				<td><%= deliberation.applicants.length %></td>
+				<td><%= deliberation.applicant_rankings.length %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

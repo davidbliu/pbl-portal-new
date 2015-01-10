@@ -52,9 +52,7 @@
       <ul id = "navlist" class="nav navbar-nav center">
         <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
           <li><a href = "/tabling">Tabling</a></li>
-          <% if current_member and current_member.admin? %>
-          <li><a href = '/events'>Events</a></li>
-          <% end %>
+          
           <% if current_member and current_member.current_committee %>
           <li><a href = "/points/rankings">Points</a></li>
           <li><a href='/youtube'>Gallery</a></li>
@@ -71,7 +69,10 @@
             <ul class="dropdown-menu" role="menu">
               <li><a href = "/points/mark_attendance">Attendance</a></li>
               <li><a href = 'https://docs.google.com/forms/d/10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA/viewform'>Reimbursements</a></li>
-              <li><a href="/deliberations/4">Deliberations</a></li>
+              <li><a href="/deliberations">Deliberations</a></li>
+              <% if current_member and current_member.admin? %>
+              <li><a href = '/events/manage'>Manage Events</a></li>
+              <% end %>
               <li><a href="#">Etc</a></li>
             </ul>
           </li>

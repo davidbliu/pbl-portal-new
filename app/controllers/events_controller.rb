@@ -6,8 +6,22 @@ class EventsController < ApplicationController
 	def index
 		# @events = Event.all.order(:start_time).reverse
 		# redirect_to "events#list_events"
-		redirect_to action: :list_events
+		redirect_to action: :manage
 	end
+
+	def delete
+		@event = Event.find(params[:id])
+		@event.destroy
+		redirect_to "/events/manage"
+	end
+
+	def edit
+		@event = Event.find(params[:id])
+	end
+	def update
+		redirect_to '/events/manage'
+	end
+
 
 	def destroy
 		event = Event.find(params[:id])
@@ -15,7 +29,7 @@ class EventsController < ApplicationController
 		p event.name
 		p 'destroying...'
 		event.destroy
-		redirect_to "events#list_events"
+		redirect_to "events#manage"
 		
 	end
 
@@ -24,7 +38,7 @@ class EventsController < ApplicationController
 	# what would secretary need to change?
 	# points, name
 	#
-	def list_events
+	def manage
 		@events_hash = Hash.new
 		@semesters = Semester.all
 		@semesters.unshift(Semester.current_semester)
@@ -37,21 +51,12 @@ class EventsController < ApplicationController
 
 	def list_google_events
 		@google_events = get_google_events_list
-		# @synced_google_events = Array.new
-		# @unsynced_google_events
 		@synced_hash = Hash.new
 		@existing_id_set = Set.new
 		event_ids = Event.all.pluck(:google_id)
 		event_ids.each do |event_id|
 			@existing_id_set.add(event_id)
 		end
-		# @google_events.each do |e|
-		# 	if Event.where(google_id: e[:id]).length != 0
-		# 		@synced_hash[e[:id]] = false 
-		# 	else
-		# 		@synced_hash[e[:id]] = true
-		# 	end
-		# end
 	end
 
 	def get_google_events_list(months = 6)

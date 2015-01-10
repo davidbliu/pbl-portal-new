@@ -5,7 +5,6 @@ class EventPointsController < ApplicationController
 	end
 
 	def update_event_points
-		# p params[:points_data]
 		points_data = params[:points_data]
 		points_data.each do |point_data|
 			event = Event.find(point_data[1]['id'])

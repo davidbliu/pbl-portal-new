@@ -73,12 +73,17 @@ Dockernotes::Application.routes.draw do
   end
 
   resources :events do
+    member do
+      get 'delete'
+    end
     collection do
       get "pull_google_events"
       get "sync_google_events"
       get "list_google_events"
       get "list_events"
       get "delete_events"
+
+      get 'manage'
     end
   end
 

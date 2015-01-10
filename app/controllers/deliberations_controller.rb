@@ -4,7 +4,7 @@ class DeliberationsController < ApplicationController
 
 #
 	def index
-		
+		@deliberations = Deliberation.all
 	end
 
 	def add_applicant

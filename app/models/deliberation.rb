@@ -1,5 +1,5 @@
 class Deliberation < ActiveRecord::Base
-  attr_accessible :name, :can_view_graph, :deliberation_settings
+  attr_accessible :name, :can_view_graph, :deliberation_settings, :semester_id
   serialize :deliberation_settings
   has_many :applicants, dependent: :destroy
   has_many :applicant_rankings, dependent: :destroy
@@ -7,6 +7,13 @@ class Deliberation < ActiveRecord::Base
   belongs_to :semester, foreign_key: :semester_id
 
 
+  def semester
+  	if self.semester_id
+  		return Semester.find(self.semester_id)
+  	else
+  		return nil
+  	end
+  end
   def get_committee_applicants(committee_id)
   	first = self.applicants.where(preference1: committee_id)
   	second  = self.applicants.where(preference2: committee_id)
