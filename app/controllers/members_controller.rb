@@ -165,6 +165,10 @@ class MembersController < ApplicationController
 	def wait
 	end
 
+	def no_permission
+
+	end
+	
 	def not_signed_in
 	end
 

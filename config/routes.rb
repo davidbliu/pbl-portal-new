@@ -22,6 +22,7 @@ Dockernotes::Application.routes.draw do
       get 'reconfirm'
       get 'edit_confirmation'
       post 'update_confirmation'
+
     end
     collection do
       get 'manage'
@@ -36,6 +37,7 @@ Dockernotes::Application.routes.draw do
       get 'account'
       get 'update_account'
       get 'index_committee'
+      get 'no_permission'
     end
   end
 

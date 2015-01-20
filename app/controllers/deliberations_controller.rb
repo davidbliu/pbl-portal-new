@@ -3,6 +3,16 @@ require 'json'
 class DeliberationsController < ApplicationController
 
 #
+	before_filter :is_officer
+	before_filter :can_view_committee, :only =>:rank_applicants
+	before_filter :is_admin, :only => [:results, :import_applicants, :settings]
+	def can_view_committee
+		committee = Committee.find(params[:committee_id])
+		if committee != current_member.current_committee
+			redirect_to :controller=> 'members', :action=>'no_permission'
+		end
+	end
+
 	def index
 		@deliberations = Deliberation.all
 	end
@@ -108,8 +118,6 @@ class DeliberationsController < ApplicationController
 
 	def rank_applicants
 		@deliberation = Deliberation.find(params[:id])
-		p params[:committee_id]
-		p 'that was committee id'
 		@committee = Committee.find(params[:committee_id])
 		@applicants = @deliberation.get_committee_applicants(@committee.id)
 	end

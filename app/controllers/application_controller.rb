@@ -14,8 +14,8 @@ class ApplicationController < ActionController::Base
     elsif not current_member.officer?
       redirect_to root_path
     end
-
   end
+
   def is_approved
     if current_member == nil
       redirect_to :controller=>'members',:action=>'not_signed_in'
@@ -26,6 +26,14 @@ class ApplicationController < ActionController::Base
     end
     # else let them thru they are golden 
   end
+
+  def is_admin
+    if current_member == nil or not current_member.admin?
+      redirect_to :controller=> 'members', :action=>'no_permission'
+    end
+  end
+
+
   # def current_member
   # 	return Member.where(name: "David Liu").first
   # end
