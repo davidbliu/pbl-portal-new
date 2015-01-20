@@ -185,6 +185,10 @@ class Member < ActiveRecord::Base
      #or self.committees.include?(Committee.where(name: "Executive").first)
   end
 
+  def exec?
+    self.current_committee and self.current_committee.name.include? "Exec"
+  end
+
   def secretary?
     self.name == "Michael Xu" or self.name == "David Liu"
   end
