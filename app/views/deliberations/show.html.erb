@@ -5,6 +5,7 @@
 	<table class = 'table table-striped'>
 		<thead>
 			<tr>
+				<th></th>
 				<th>Name</th>
 				<th>First Choice</th>
 				<th>Second Choice</th>
@@ -14,6 +15,7 @@
 		<tbody>
 			<% @applicants.each do |applicant| %>
 			<tr>
+				<td><img class = 'applicant-img' id ='img-<%= applicant.id %>'  width="64" height = "48" src = '<%= applicant.image %>'></img></td>
 				<td><a href = '/applicants/<%= applicant.id %>'><%= applicant.name %></a></td>
 				<td><%= applicant.first_choice_committee.name %></td>
 				<td><%= applicant.second_choice_committee.name %></td>
