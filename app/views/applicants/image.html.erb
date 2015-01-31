@@ -60,15 +60,47 @@ $(document).ready(function(){
 		  });
 	});
 
+	$("#text-image-input").click(function(){
+		// canvas = document.getElementById("canvas");
+		img_src = $('#hosted-image-input').val();
+		var r = confirm("this will replace the current applicant picture, would you like to continue?");
+		  if (r == false){
+		    return;
+		  }
+		//upload img_src to server and save
+		$.ajax({
+		      url:'/applicants/<%= @applicant.id %>/upload_image',
+		      type: "POST",
+		      data: {"image": img_src},
+		      success:function(data){
+		        // alert('completed');
+		        document.location.href = '/applicants/<%= @applicant.id %>';
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+	});
+
 });
 	
 </script>
 
 <h1>Updating Image for <a href = '/applicants/<%= @applicant.id %>'><%= @applicant.name %></a></h1>
 
+
 <div class = 'col-md-6'>
 	<h2>Current Image</h2>
 	<img src = '<%= @applicant.image %>' height = "240" width = "320" />
+
+	<div style = 'margin-top:50px'>
+	
+	<input id = 'hosted-image-input' type = 'text' class = 'form-control' placeholder = 'enter hosted image url'/>
+	<button id = 'text-image-input' class = 'btn btn-default form-control'>Upload hosted image</button>
+	</div>
 </div>
 
 
