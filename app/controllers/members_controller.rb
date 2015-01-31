@@ -14,8 +14,6 @@ class MembersController < ApplicationController
 		# rescue
 		# 	render json: "you didnt input a committee id"
 		# end
-		
-
 	end
 
 	def manage
