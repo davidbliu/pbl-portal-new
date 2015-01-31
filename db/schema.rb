@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108203208) do
+ActiveRecord::Schema.define(version: 20150131162101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,10 +68,12 @@ ActiveRecord::Schema.define(version: 20150108203208) do
     t.text     "image"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
     t.integer  "deliberation_id"
     t.string   "email"
+    t.integer  "payment_status"
+    t.integer  "payment_committee_id"
   end
 
   add_index "applicants", ["deliberation_id"], name: "index_applicants_on_deliberation_id", using: :btree

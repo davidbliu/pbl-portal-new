@@ -8,6 +8,19 @@ class Applicant < ActiveRecord::Base
 	validates_format_of :email, :with => /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+\z/, :on => :save
 	validates_uniqueness_of :name, :scope => [:deliberation_id]
 
+	def payment_status_text
+		if not self.payment_status
+			return 'no payment'
+		elsif self.payment_status == 0
+			return 'Missing Payment'
+		elsif self.payment_status == 1
+			return 'does not have to pay'
+		elsif self.payment_status == 2
+			return 'Paid'
+		end
+	end
+
+
 	def first_choice_committee
 		return Committee.find(self.preference1)
 	end

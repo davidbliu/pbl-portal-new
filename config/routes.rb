@@ -112,6 +112,7 @@ Dockernotes::Application.routes.draw do
     member do
       get 'image'
       post 'upload_image'
+      get 'update_payment'
     end
     # member do
     #   get 'edit'

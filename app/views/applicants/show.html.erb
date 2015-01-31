@@ -10,5 +10,19 @@
 <h4>First Choice: <%= @applicant.first_choice_committee.name %></h4>
 <h4>Second Choice: <%= @applicant.second_choice_committee.name %></h4>
 <h4>Third Choice: <%= @applicant.third_choice_committee.name %></h4>
+
+
+
+<h2>Payment Status: <%= @applicant.payment_status_text %></h2>
+<h4>Last updated by: 
+<% if @applicant.payment_committee_id %>
+<%= Committee.find(@applicant.payment_committee_id).name %>
+<% else %>
+Nobody 
+<% end %>
+</h4>
+<h4><a href = '/applicants/<%= @applicant.id %>/update_payment?payment_status=2'>This person paid my committee</a></h4>
+<h4><a href = '/applicants/<%= @applicant.id %>/update_payment?payment_status=1'>This person does not have to pay</a></h4>
+<h4><a href = '/applicants/<%= @applicant.id %>/update_payment?payment_status=0'>This person did not pay</a></h4>
 </div>
 
