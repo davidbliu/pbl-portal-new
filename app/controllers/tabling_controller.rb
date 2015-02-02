@@ -139,15 +139,6 @@ class TablingController < ApplicationController
         $progress = 'failed'
         render :nothing => true, :status => 500, :content_type => 'text/html'
   		end
-    # end
-    # while (not $progress == 'failed') and (not $progress == 'completed')
-    #   sleep(3.seconds)
-    # end
-    # if $progress == 'completed'
-    #   render :nothing => true, :status => 200, :content_type => 'text/html'
-    # else
-    #   render :nothing => true, :status => 500, :content_type => 'text/html'
-    # end
 		
 	end
 
