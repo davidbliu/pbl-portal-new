@@ -130,13 +130,6 @@ class TablingController < ApplicationController
     		      end
     		    end
           tablers = Member.where('id IN (?)', member_ids).to_a
-          # tablers = Array.new
-          # Member.current_chairs.each do |cc|
-          #   tablers << cc
-          # end
-          # Member.current_members.each do |cm|
-          #   tablers << cm
-          # end
           $progress = 'about to run generate_tabling_schedule method'
     			generate_tabling_schedule(@slots, tablers)
           $progress = 'completed'
@@ -210,7 +203,7 @@ end
 # return assignments hash key: slot, value: array of members}
   def generate_tabling_schedule(slots, members)
     puts "generating schedule"
-    # convert_commitments(members)
+    convert_commitments(members)
     puts "commitments converted"
     #initialize your assignment hash
     assignments = Hash.new
