@@ -18,3 +18,5 @@
 
 # ignore application env variables
 /config/application.yml
+
+*.pem
