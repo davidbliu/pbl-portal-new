@@ -18,5 +18,5 @@
 
 # ignore application env variables
 /config/application.yml
-
+ssh.sh
 *.pem
