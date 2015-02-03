@@ -267,6 +267,35 @@
   </tbody>
 </table>
 
+<h2>Social</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>committee</th>
+      <th>email</th>
+      <th>phone</th>
+      <th>position</th>
+      <th>semesters</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @current.each do |data| %>
+      <% if data['committee'] == "Social" %>
+      <tr>
+        <td><%= data['name'] %></td>
+          <td><%= data['committee'] %></td>
+          <td><%= data['email'] %></td>
+          <td><%= data['phone'] %></td>
+          <td><%= data['position'] %></td>
+          <td><%= data['semester'] %></td>
+      </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
 <h2>Web Developement</h2>
 <table class='table table-striped' >
   <thead>
