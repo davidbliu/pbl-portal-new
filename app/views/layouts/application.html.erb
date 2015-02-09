@@ -68,10 +68,14 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Officer Tools<span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href = "/points/mark_attendance">Attendance</a></li>
-              
               <li><a href="/deliberations/6">Deliberations</a></li>
               <% if current_member and current_member.admin? %>
+              <li><a href = '/members/manage'>Manage Members</a></li>
+              <li><a href = '/members/confirm_new'>Confirm New Members</a></li>
               <li><a href = '/events/manage'>Manage Events</a></li>
+              <li><a href = '/swipy/record_attendance'>Swipy</a></li>
+              <li><a href = '/event_points'>Set Event Points</a></li>
+              <li><a href = '/tabling/options'>Generate Tabling</a></li>
               <% end %>
               <li><a href="#">Etc</a></li>
             </ul>

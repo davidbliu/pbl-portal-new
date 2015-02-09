@@ -26,8 +26,9 @@
 		<div class="panel panel-primary">
 		  <div class="panel-heading"><b>Your Committee's Points</b></div>
 		  <div class="panel-body">
-			<% @attended_event_point_name_data.each do |data| %>
-			<div id='attended-event-div'><%= data['event'] %> : <%= data['points'] %></div>
+
+			<% @cm_points_list.each do |data| %>
+			<div id = 'attended-event-div'><%= data['name'] %> earned <%= data['points'] %></div>
 			<% end %>
 		  </div>
 		</div>

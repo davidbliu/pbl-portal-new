@@ -9,6 +9,11 @@ class EventsController < ApplicationController
 		redirect_to action: :manage
 	end
 
+	def attendance
+		@event = Event.find(params[:id])
+		@event_members = EventMember.where(event_id: @event.id)
+		# @members = Member.where("id in (?)", event_members.pluck(:member_id))
+	end
 	def delete
 		@event = Event.find(params[:id])
 		@event.destroy

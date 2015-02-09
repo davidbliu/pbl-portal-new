@@ -8,6 +8,13 @@ function recordMember(swipy_data, event_id){
       			"event_id":event_id}
         }).done(function(data){
             $('#message-h').text(data);
+
+            li = document.createElement('div');
+            $(li).addClass("swipy-li");
+            $(li).text(data);
+            $('#log-div').prepend(li);
+
+
         }).fail(function(data){
             alert('failed');
             $('#message-h').text('failed');
@@ -17,10 +24,7 @@ $(document).ready(function(){
 	$('#swipy-input').keyup(function (event) {
         if (event.keyCode == '13') {
         	cardswipe = $(this).val();
-        	li = document.createElement('div');
-        	$(li).addClass("swipy-li");
-        	$(li).text(cardswipe);
-        	$('#log-div').prepend(li);
+        	
         	$(this).val("");   
         	event_id = $("#event-id-input").val();
         	recordMember(cardswipe,event_id);     	
@@ -46,9 +50,11 @@ $(document).ready(function(){
 
 <div class = 'col-md-4'>
 <h1>Pick Event</h1>
+<ul>
 <% Event.this_semester.order(:start_time).each do |event| %>
-<div><%= event.name %> : <%= event.id %></div>
+<li><div><%= event.name %> : <%= event.id %> : <a href = '/events/<%= event.id %>/attendance'>Attendance</a></div></li>
 <% end %>
+</ul>
 </div>
 
 

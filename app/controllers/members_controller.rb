@@ -23,7 +23,7 @@ class MembersController < ApplicationController
 	def destroy
 		@member = Member.find(params[:id])
 		@member.destroy
-		redirect_to '/members/manage'
+		redirect_to :back
 	end
 
 	def reconfirm
