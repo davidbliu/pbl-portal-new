@@ -181,7 +181,7 @@ class Member < ActiveRecord::Base
   # Admin status of the member.
   # TODO only if currently an exec
   def admin?
-    self.name == "Keien Ohta" or self.name == "David Liu" or (self.current_committee and self.current_committee.name.include? "Exec")
+    self.name == "Keien Ohta" or self.name == "David Liu" or (self.current_committee and self.current_committee.name.include? "Exec") or self.name == "Kevin Zhang" or self.name == "Eric Quach"
      #or self.committees.include?(Committee.where(name: "Executive").first)
   end
 
