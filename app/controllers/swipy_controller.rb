@@ -14,9 +14,12 @@ class SwipyController < ApplicationController
 		twilio_sid = ENV['twilio_sid']
 		twilio_token = ENV['twilio_token']
 
-		cal_id = params[:swipy_data].split("=")[0].last(8)
-		p cal_id 
-
+		if params[:swipy_data].length == 8
+			cal_id = params[:swipy_data]
+		else
+			cal_id = params[:swipy_data].split("=")[0].last(8)
+		end
+		
 		begin
 			member = Member.where(swipy_data: cal_id).first
 			event = Event.find(params[:event_id])
