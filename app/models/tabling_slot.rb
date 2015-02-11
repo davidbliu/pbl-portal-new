@@ -35,6 +35,6 @@ class TablingSlot < ActiveRecord::Base
 
   def member_name_id_map
 
-  	return self.tabling_slot_members.map{|m| {"name"=>m.member.name, "id"=>m.id, "tsm_id"=>m.id, "position"=>m.member.position, "exec"=>m.member.exec?}}
+  	return self.tabling_slot_members.map{|m| {"member_id"=>m.member.id, "name"=>m.member.name, "id"=>m.id, "tsm_id"=>m.id,"profile"=>m.member.profile_url, "position"=>m.member.position, "exec"=>m.member.exec?}}
   end
 end

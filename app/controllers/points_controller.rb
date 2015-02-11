@@ -48,11 +48,11 @@ class PointsController < ApplicationController
 			@attended_event_point_name_data = @attended_events.map{|e| {'event'=>e.name, 'points'=>e.points}}
 
 			p 'calculating cm points'
-			cm_points_list = current_member.cms.map{|cm| {'name' => cm.name, 'points' => cm.total_points}}
+			cm_points_list = current_member.cms.map{|cm| {'id'=>cm.id, 'name' => cm.name, 'points' => cm.total_points, 'profile'=>cm.profile_url}}
 			@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
 
 			p 'calculating all member points'
-			points_list = Member.current_cms.map{|m| {'name' => m.name, 'points' => m.total_points}}
+			points_list = Member.current_cms.map{|m| {'id'=>m.id,'name' => m.name, 'points' => m.total_points, 'profile'=>m.profile_url}}
 			@points_list = points_list.sort_by{|obj| obj['points']}.reverse
 
 			#
