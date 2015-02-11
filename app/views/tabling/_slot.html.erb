@@ -11,7 +11,7 @@
         <li draggable=true ondragstart=drag(event) ondragend=hideAll(event) id="<%= data["tsm_id"] %>" class = 'slot-member'>
         <% end %>
 
-        <a class = 'member-link' href = '/members/<%= data['member_id'] %>'><%= data['name'] %>   <%= image_tag data['profile'], :height=>20 %></a></li> 
+        <a id="<%= data["tsm_id"] %>" class = 'member-link' href = '/members/<%= data['member_id'] %>'><%= data['name'] %>   <%= image_tag data['profile'], :height=>20 %></a></li> 
     <!-- end of if name current member -->
     <% end %>
     <!-- TODO show only for admin -->
