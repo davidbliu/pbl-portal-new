@@ -1,0 +1,80 @@
+<script type = 'text/javascript'>
+ function previewFile(){
+       var preview = $('#upload-preview'); //selects the query named img
+       var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+       var reader  = new FileReader();
+
+       reader.onloadend = function () {
+           // preview.src = reader.result;
+           console.log(reader.result);
+           // preview.src = reader.result;
+           $('#upload-preview').attr('src', reader.result);
+           $('#file-image-input').show();
+           console.log($('#upload-preview'));
+       }
+
+       if (file) {
+           reader.readAsDataURL(file); //reads the data as a URL
+       } else {
+       }
+  }
+function uploadImage(src){
+	$.ajax({
+		      url:'/members/<%= current_member.id %>/upload_profile',
+		      type: "POST",
+		      data: {"image": src},
+		      success:function(data){
+		        // alert('completed');
+		        location.reload();
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+}
+// previewFile();
+$(document).ready(function(){
+	$('#file-image-input').click(function(){
+		image_url = $("#upload-preview").prop('src');
+		uploadImage(image_url);
+	});
+	$('#text-image-input').click(function(){
+		image_url = $("#hosted-image-input").val();
+		uploadImage(image_url);
+	});
+});
+</script>
+<style type = 'text/css'>
+#file-image-input{
+	display:none;
+	margin:15px;
+}
+</style>
+<h1>Profile</h1>
+
+<div class = 'col-md-4'>
+<%= image_tag current_member.profile_url, :height=>200 %>
+</div>
+
+<div class = 'col-md-4'>
+	<h2>Change Profile Image</h2>
+	<br>
+	<div><b>Upload File</b>
+		<input id = 'file-upload' type="file" onchange="previewFile()"></input>
+		<button id = 'file-image-input' class = 'btn btn-default form-control'>Use This Image</button>
+		<img id = 'upload-preview' src="" height="200"></img>
+		
+	</div>
+
+	<br>
+	<div> <b>From Hosted URL</b>
+	<input id = 'hosted-image-input' type = 'text' class = 'form-control' placeholder = 'enter hosted image url'/>
+	<button id = 'text-image-input' class = 'btn btn-default form-control'>Upload hosted image</button>
+	</div>
+
+	<br>
+	
+</div>

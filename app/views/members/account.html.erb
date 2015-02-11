@@ -56,9 +56,7 @@ $(document).ready(function(){
 </div>
 
 
-<div class = 'col-md-2'></div>
-
-<div id = 'col-md-4'>
+<div class = 'col-md-4'>
 <h2>Committee Information</h2>
 <% if current_member.current_committee %>
   <h3>You are <%= current_member.position %> in <%= current_member.current_committee.name %></h3>
@@ -67,3 +65,9 @@ $(document).ready(function(){
 <% end %>
 <h4><a href = '/members/<%= current_member.id %>/edit_confirmation'>Request Committee Change</a></h4>
 </div>
+
+<div class = 'col-md-4'>
+  <h2>Profile Settings</h2>
+  <div class='form-field-div'><div><b>Profile Image</b></div> <%= image_tag current_member.profile, :height=>200 %></div>
+  <div><a href = '/members/<%= current_member.id %>/profile'>Change Profile Image</a></div>
+  </div>

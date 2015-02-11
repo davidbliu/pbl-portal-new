@@ -5,6 +5,25 @@ class MembersController < ApplicationController
 	# allow to modify account
 	# 
 	before_filter :is_approved, :only => :all
+
+	def profile
+		@member = Member.find(params[:id])
+		if @member != current_member
+			redirect_to :controller=> 'members', :action=>'no_permission'
+		end
+
+	end
+
+	def upload_profile
+		@member = Member.find(params[:id])
+		if @member != current_member
+			render :nothing => true, :status => 500, :content_type => 'text/html'
+		end
+		current_member.profile = params[:image]
+		current_member.save
+		render :nothing => true, :status => 200, :content_type => 'text/html'
+	end
+
 	def index_committee
 		# begin
 		cid = params[:id]
@@ -195,6 +214,7 @@ class MembersController < ApplicationController
   							  'position'=>j.committee_member_type.name, 
   							  'committee'=>j.committee.name,
   							  'committee_id'=>j.committee.id, 
+  							  'profile'=>j.member.profile_url,
   							  'major'=>j.member.major}}.sort! {|a,b| a['name'] <=> b['name']}
 		#
 		# better but bad

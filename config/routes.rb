@@ -22,7 +22,8 @@ Dockernotes::Application.routes.draw do
       get 'reconfirm'
       get 'edit_confirmation'
       post 'update_confirmation'
-
+      get 'profile'
+      post 'upload_profile'
     end
     collection do
       get 'manage'

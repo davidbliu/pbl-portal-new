@@ -5,4 +5,5 @@ module ApplicationHelper
     	return "http://gravatar.com/avatar/#{gravatar_id}.png"
 		# return 'http://gra'
 	end
+
 end

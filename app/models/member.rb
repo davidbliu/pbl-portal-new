@@ -202,8 +202,11 @@ class Member < ActiveRecord::Base
   def profile_url
     if self.profile and self.profile != ""
       return self.profile
+    else
+      gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
+      return "http://gravatar.com/avatar/#{gravatar_id}.png"
     end
-    return "/blank.png"
+
   end
 
   # Returns the relationships between itself and a given TablingSlot.
