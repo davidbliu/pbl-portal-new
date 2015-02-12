@@ -3,6 +3,20 @@ require 'set'
 
 class EventsController < ApplicationController
 
+	def create
+		@event = Event.new
+		render 'edit'
+	end
+
+	def update
+
+	end
+
+	def edit
+		@event = Event.find(params[:id])
+	end
+
+
 	def index
 		# @events = Event.all.order(:start_time).reverse
 		# redirect_to "events#list_events"

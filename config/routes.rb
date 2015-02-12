@@ -84,6 +84,8 @@ Dockernotes::Application.routes.draw do
     member do
       get 'delete'
       get 'attendance'
+      get 'edit'
+      get 'update'
     end
     collection do
       get "pull_google_events"
@@ -91,7 +93,7 @@ Dockernotes::Application.routes.draw do
       get "list_google_events"
       get "list_events"
       get "delete_events"
-
+      get 'create'
       get 'manage'
     end
   end
