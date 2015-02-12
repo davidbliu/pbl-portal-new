@@ -1,0 +1,33 @@
+<style type='text/css'>
+.panel-title{
+	text-align:center;
+	font-size:25px;
+}
+</style>
+<h1>Spring 2015 Themes</h1>
+
+<div class = 'col-md-8'>
+<% @themes.each do |theme| %>
+<div class = 'theme-div panel panel-default'>
+    <div class = 'panel-heading'><h2 class = 'panel-title'><%= theme.name %></h2></div>
+	<div class = 'panel-body'
+	<p><div><b>Description:</b> <%= theme.description %></div>
+		<div><b>Start Time:</b> <%= theme.start_time.strftime("%d/%m/%Y at %H:%M") %></div>
+		<div><b>End Time:</b> <%= theme.end_time.strftime("%d/%m/%Y at %H:%M") %></div>
+	</p>
+
+	<p><h4><b>Photos</b></h4>
+		<% theme.scavenger_photos.each do |photo| %>
+		<%= image_tag photo.image, :height=>150 %>
+		<% end %>
+	</p>
+	<p>
+		<a href = '/scavenger_themes/<%= theme.id %>/add_photo'>Upload New Photo</a>
+	</p>
+	</div>
+
+</div>
+<% end %>
+
+</div>
+<!-- end of left col -->

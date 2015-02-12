@@ -162,6 +162,18 @@ Dockernotes::Application.routes.draw do
   resources :tabling_slot_members, only: [ :create, :destroy, :update ] do
     put :set_status_for, on: :member
   end
+
+
+  #
+  # scavenger resources
+  #
+
+  resources :scavenger_themes do 
+    member do 
+      get 'add_photo'
+      post 'upload_photo'
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

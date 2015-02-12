@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150211185702) do
+ActiveRecord::Schema.define(version: 20150212023343) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -343,6 +343,24 @@ ActiveRecord::Schema.define(version: 20150211185702) do
 
   add_index "reimbursements", ["member_id"], name: "index_reimbursements_on_member_id", using: :btree
   add_index "reimbursements", ["processed"], name: "index_reimbursements_on_processed", using: :btree
+
+  create_table "scavenger_photos", force: true do |t|
+    t.text     "image"
+    t.text     "description"
+    t.integer  "member_id"
+    t.integer  "scavenger_theme_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "scavenger_themes", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "semester_members", force: true do |t|
     t.integer  "semester_id"
