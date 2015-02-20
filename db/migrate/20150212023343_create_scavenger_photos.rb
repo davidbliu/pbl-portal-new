@@ -6,6 +6,7 @@ class CreateScavengerPhotos < ActiveRecord::Migration
       t.text :description
 	  t.belongs_to :member
 	  t.belongs_to :scavenger_theme
+	  
       t.timestamps
     end
   end
