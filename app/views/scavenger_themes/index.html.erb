@@ -1,13 +1,18 @@
 <style type='text/css'>
 .panel-title{
-	text-align:center;
 	font-size:25px;
+}
+.theme-div{
+	margin-bottom:10px;
+	border-bottom-width: 3px;
+border-bottom-style: solid;
+border-color: rgba(228, 228, 228, 1);
 }
 </style>
 <h1>Spring 2015 Themes</h1>
 
 
-<div id = 'personal stuff'>
+<div id = 'personal stuff' class = 'col-md-3'>
 <h1>Personal Stuff</h1>
 	<% ScavengerGroup.get_groups(current_member.id).each do |group| %>
 	<div><%= group.name %>
@@ -21,7 +26,7 @@
 	<% end %>
 </div>
 
-<div id = 'leaderboard'>
+<div id = 'leaderboard' class = 'col-md-3'>
 <h1>Leaderboard</h1>
 	<% @people.each do |person| %>
 	<div><%= person.name %>: <%= person.scavenger_points %>
@@ -30,12 +35,11 @@
 </div>
 
 
-<h1>Other Stuff</h1>
-<div class = 'col-md-8'>
+<div class = 'col-md-6'>
 <% @themes.each do |theme| %>
-<div class = 'theme-div panel panel-default'>
-    <div class = 'panel-heading'><h2 class = 'panel-title'><%= theme.name %></h2></div>
-	<div class = 'panel-body'
+<div class = 'theme-div'>
+ <h2 class = 'panel-title'><%= theme.name %></h2>
+
 	<p><div><b>Description:</b> <%= theme.description %></div>
 		<div><b>Start Time:</b> <%= theme.start_time.strftime("%d/%m/%Y at %H:%M") %></div>
 		<div><b>End Time:</b> <%= theme.end_time.strftime("%d/%m/%Y at %H:%M") %></div>
@@ -46,7 +50,7 @@
 		<%= image_tag photo.image, :height=>150 %>
 		<% end %>
 	</p>
-	</div>
+
 
 </div>
 <% end %>

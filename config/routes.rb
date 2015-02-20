@@ -178,6 +178,7 @@ Dockernotes::Application.routes.draw do
     end
     collection do
       get 'confirm_photos' 
+      get 'leaderboard'
     end
   end
 

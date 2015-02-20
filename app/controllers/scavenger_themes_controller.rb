@@ -3,16 +3,21 @@ class ScavengerThemesController < ApplicationController
 	def index
 		@themes = ScavengerTheme.all
 		@people = Member.current_cms+Member.current_chairs
+		@people = @people.sort { |x,y| y.scavenger_points <=> x.scavenger_points }.first(15)
 	end
 
 	def gallery
+
 	end
 
 	def leaderboard
+		
+
 	end
 
 	def personal
 	end
+
 	def index2
 
 	end
