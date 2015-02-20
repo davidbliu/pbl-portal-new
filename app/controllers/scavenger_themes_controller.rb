@@ -4,6 +4,11 @@ class ScavengerThemesController < ApplicationController
 		@themes = ScavengerTheme.all
 	end
 
+	def index2
+
+	end
+
+
 	def add_photo
 		@theme = ScavengerTheme.find(params[:id])
 	end
@@ -22,5 +27,8 @@ class ScavengerThemesController < ApplicationController
 
 	def generate_groups
 		@theme = ScavengerTheme.find(params[:id])
+		@theme.generate_groups
+		@groups = @theme.get_groups
+		# render :json=>@theme.get_groups, :status => 200, :content_type => 'text/html'
 	end
 end

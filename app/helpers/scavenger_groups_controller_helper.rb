@@ -1,0 +1,2 @@
+module ScavengerGroupsControllerHelper
+end
