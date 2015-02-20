@@ -12,6 +12,7 @@ class ScavengerThemesController < ApplicationController
 		@theme = ScavengerTheme.find(params[:id])
 		photo = ScavengerPhoto.new
 		photo.image = params[:image]
+		# find this persons group and upload the photo for my group
 		photo.member_id = current_member.id
 		photo.save!
 		@theme.scavenger_photos << photo
