@@ -1,0 +1,2 @@
+module ScavengerPhotosHelper
+end

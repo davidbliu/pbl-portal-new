@@ -21,6 +21,15 @@
 	<% end %>
 </div>
 
+<div id = 'leaderboard'>
+<h1>Leaderboard</h1>
+	<% @people.each do |person| %>
+	<div><%= person.name %>: <%= person.scavenger_points %>
+	</div>
+	<% end %>
+</div>
+
+
 <h1>Other Stuff</h1>
 <div class = 'col-md-8'>
 <% @themes.each do |theme| %>
@@ -36,9 +45,6 @@
 		<% theme.get_photos.each do |photo| %>
 		<%= image_tag photo.image, :height=>150 %>
 		<% end %>
-	</p>
-	<p>
-		<a href = '/scavenger_themes/<%= theme.id %>/add_photo'>Upload New Photo</a>
 	</p>
 	</div>
 

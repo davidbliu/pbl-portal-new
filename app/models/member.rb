@@ -420,6 +420,13 @@ class Member < ActiveRecord::Base
     return EventPoints.where('event_id IN (?)', events_attended).sum(:value)
   end
 
+  def scavenger_points
+    group_ids = ScavengerGroupMember.where(member_id: self.id).pluck(:scavenger_groups_id)
+    points = ScavengerPhoto.where('group_id in (?)', group_ids).pluck(:points)
+    return points.sum    #ScavengerGroup.where('id in (?)', group_ids).pluck(:id)
+  end
+
+  
   # Return all attended tabling slots
   def attended_slots
     # self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).map do |tsm|

@@ -13,4 +13,12 @@ class ScavengerGroup < ActiveRecord::Base
 		groups = ScavengerGroup.where('id in (?)', group_member_ids)
 	end
 
+	def theme
+		return ScavengerTheme.find(self.scavenger_theme_id)
+	end
+
+	def photos
+		return ScavengerPhoto.where(group_id: self.id)
+	end
+
 end

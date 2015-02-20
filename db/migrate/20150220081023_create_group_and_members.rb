@@ -2,7 +2,7 @@ class CreateGroupAndMembers < ActiveRecord::Migration
   def change
     create_table :scavenger_groups do |t|
     	t.string :name
-		t.belongs_to :scavenger_theme
+		  t.belongs_to :scavenger_theme
 		  
 	    t.timestamps
     end

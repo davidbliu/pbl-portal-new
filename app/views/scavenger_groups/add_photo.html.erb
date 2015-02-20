@@ -64,6 +64,12 @@ $(document).ready(function(){
 
 <h1>Add Photo for <%= @group.name %></h1>
 <h2>Group Members: <%= @group.get_members.map(&:name).join(", ") %></h2>
+<% if @current_photo %>
+<h2>This will replace the current photo <%= image_tag @current_photo.image, :height=>300 %></h2>
+<% else %>
+<h2>There is currently no image uploaded for this group</h2>
+<% end %>
+
 <div class = 'col-md-4'>
 <div><b>Upload File</b>
 	<input id = 'file-upload' type="file" onchange="previewFile()"></input>

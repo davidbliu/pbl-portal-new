@@ -1,0 +1,66 @@
+<h1>Confirm Photos</h1>
+
+<h2>Unconfirmed Photos</h2>
+
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Group</th>
+      <th>Theme</th>
+      <th>Lateness</th>
+      <th>Points</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  	<% @unconfirmed.each do |photo| %>
+    	<tr>
+    		<td><%= image_tag photo.image, :height=>100 %></td>
+    		<td><%= photo.group.name %>: <%= photo.group.get_members.map(&:name).join(", ") %></td>
+    		<td><%= photo.theme.name %></td>
+    		<td><%= photo.lateness %></td>
+	        <td><%= photo.points %></td>
+	        <td>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=10'>Good</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=5'>Late</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=-1'>Bad</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/destroy'>Destroy</a>
+	        </td>
+    	</tr>
+   	<% end %>
+  </tbody>
+</table>
+
+
+<h2>Confirmed Photos</h2>
+<table class='table table-striped' >
+  <thead>
+    <tr>
+      <th>Photo</th>
+      <th>Group</th>
+      <th>Theme</th>
+      <th>Lateness</th>
+      <th>Points</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+<% @confirmed.each do |photo| %>
+    	<tr>
+    		<td><%= image_tag photo.image, :height=>100 %></td>
+    		<td><%= photo.group.name %>: <%= photo.group.get_members.map(&:name).join(", ") %></td>
+    		<td><%= photo.theme.name %></td>
+    		<td><%= photo.lateness %></td>
+	        <td><%= photo.points %></td>
+	        <td>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=10'>Good</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=5'>Late</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/confirm_photo?points=-1'>Bad</a>
+	        	<a href = '/scavenger_photos/<%= photo.id %>/destroy'>Destroy</a>
+	        </td>
+    	</tr>
+   	<% end %>
+  </tbody>
+</table>

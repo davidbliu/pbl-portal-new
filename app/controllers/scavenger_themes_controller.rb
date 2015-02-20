@@ -2,6 +2,7 @@ class ScavengerThemesController < ApplicationController
 
 	def index
 		@themes = ScavengerTheme.all
+		@people = Member.current_cms+Member.current_chairs
 	end
 
 	def index2
@@ -30,5 +31,11 @@ class ScavengerThemesController < ApplicationController
 		@theme.generate_groups
 		@groups = @theme.get_groups
 		# render :json=>@theme.get_groups, :status => 200, :content_type => 'text/html'
+	end
+
+
+	def confirm_photos
+		@unconfirmed = ScavengerPhoto.where("confirmation_status=? or confirmation_status=?", nil, 0)
+		@confirmed = ScavengerPhoto.where("confirmation_status!=? and confirmation_status!=?", nil, 0)
 	end
 end
