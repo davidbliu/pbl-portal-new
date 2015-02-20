@@ -12,6 +12,7 @@ class ScavengerTheme < ActiveRecord::Base
 		ScavengerGroup.where(scavenger_theme_id: self.id).destroy_all
 		p 'generating groups'
 		people = Member.current_cms.to_a + Member.current_chairs.to_a
+		people = people.shuffle
 		num_groups = (people.length / 5).floor
 		# create groups
 		for i in 0..num_groups

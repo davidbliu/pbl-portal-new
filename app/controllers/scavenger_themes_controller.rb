@@ -5,6 +5,14 @@ class ScavengerThemesController < ApplicationController
 		@people = Member.current_cms+Member.current_chairs
 	end
 
+	def gallery
+	end
+
+	def leaderboard
+	end
+
+	def personal
+	end
 	def index2
 
 	end
