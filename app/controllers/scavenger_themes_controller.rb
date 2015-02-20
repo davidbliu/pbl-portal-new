@@ -1,7 +1,11 @@
 class ScavengerThemesController < ApplicationController
 
+
+
 	def index
 		@themes = ScavengerTheme.all
+		@group = "Name"
+		@theme_this_week = "Trees"
 	end
 
 	def add_photo

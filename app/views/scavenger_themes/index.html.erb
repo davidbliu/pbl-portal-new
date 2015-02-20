@@ -3,27 +3,60 @@
 	text-align:center;
 	font-size:25px;
 }
+#groups a {
+	color: white;
+}
+
+.panel-default > .panel-heading {
+	background-color: #B33535;
+}
+
+.panel-default > .panel-heading h2 {
+	color: white;
+}
+
 </style>
-<h1>Spring 2015 Themes</h1>
 
-<div class = 'col-md-8'>
+<h1>Groups</h1>
+<div id="groups">
+	<div class = "container">
+		<div class = 'col-md-6'>
+			<div class = 'theme-div panel panel-default'>
+				<div class = 'panel-heading'><h2 class = 'panel-title'>	This Week's Group: <%= @group %></h2></div>
+				<div class = 'panel-body'>
+					<h3>Members</h3>
+					<p>Bob ... ... .. . . . . . . . .. </p>
+					<p>
+						<button type="button" class="btn btn-primary"><a href = '/scavenger_themes/Classrooms/add_photo'>Upload New Photo</a></button>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+
+<h3>Past Groups: 
+<br></br>
+
+<h1>Gallery</h1>
 <% @themes.each do |theme| %>
-<div class = 'theme-div panel panel-default'>
-    <div class = 'panel-heading'><h2 class = 'panel-title'><%= theme.name %></h2></div>
-	<div class = 'panel-body'
-	<p><div><b>Description:</b> <%= theme.description %></div>
-		<div><b>Start Time:</b> <%= theme.start_time.strftime("%d/%m/%Y at %H:%M") %></div>
-		<div><b>End Time:</b> <%= theme.end_time.strftime("%d/%m/%Y at %H:%M") %></div>
-	</p>
+<div class = 'col-md-6'>
+	<div class = 'theme-div panel panel-default'>
+	    <div class = 'panel-heading'><h2 class = 'panel-title'><%= theme.name %></h2></div>
+		<div class = 'panel-body'>
+		<p><div><b>Description:</b> <%= theme.description %></div>
+			<div><b>Start Time:</b> <%= theme.start_time.strftime("%d/%m/%Y at %H:%M") %></div>
+			<div><b>End Time:</b> <%= theme.end_time.strftime("%d/%m/%Y at %H:%M") %></div>
+		</p>
 
-	<p><h4><b>Photos</b></h4>
-		<% theme.scavenger_photos.each do |photo| %>
-		<%= image_tag photo.image, :height=>150 %>
-		<% end %>
-	</p>
-	<p>
-		<a href = '/scavenger_themes/<%= theme.id %>/add_photo'>Upload New Photo</a>
-	</p>
+		<p><h4><b>Photos</b></h4>
+			<% theme.scavenger_photos.each do |photo| %>
+			<%= image_tag photo.image, :height=>150 %>
+			<% end %>
+		</p>
+		</div>
 	</div>
 
 </div>
