@@ -6,6 +6,22 @@
 </style>
 <h1>Spring 2015 Themes</h1>
 
+
+<div id = 'personal stuff'>
+<h1>Personal Stuff</h1>
+	<% ScavengerGroup.get_groups(current_member.id).each do |group| %>
+	<div><%= group.name %>
+		<ul>
+			<% group.get_members.each do |member| %>
+			<li><%= member.name %></li>
+			<% end %>
+		</ul>
+		<a href = '/scavenger_groups/<%= group.id %>/add_photo'>Upload for this group</a>
+	</div>
+	<% end %>
+</div>
+
+<h1>Other Stuff</h1>
 <div class = 'col-md-8'>
 <% @themes.each do |theme| %>
 <div class = 'theme-div panel panel-default'>
@@ -17,7 +33,7 @@
 	</p>
 
 	<p><h4><b>Photos</b></h4>
-		<% theme.scavenger_photos.each do |photo| %>
+		<% theme.get_photos.each do |photo| %>
 		<%= image_tag photo.image, :height=>150 %>
 		<% end %>
 	</p>

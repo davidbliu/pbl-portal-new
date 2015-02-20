@@ -3,11 +3,15 @@ class ScavengerTheme < ActiveRecord::Base
 
 	has_many :scavenger_photos
 
+	def get_photos
+		group_ids = ScavengerGroup.where(scavenger_theme_id: self.id).pluck(:id)
+		return ScavengerPhoto.where('group_id in (?)', group_ids)
+	end
 	# this will delete current groups if there are any
 	def generate_groups
 		ScavengerGroup.where(scavenger_theme_id: self.id).destroy_all
 		p 'generating groups'
-		people = Member.current_cms.to_a
+		people = Member.current_cms.to_a + Member.current_chairs.to_a
 		num_groups = (people.length / 5).floor
 		# create groups
 		for i in 0..num_groups

@@ -8,5 +8,9 @@ class ScavengerGroup < ActiveRecord::Base
 		return Member.where('id in (?)', group_members)
 	end
 
+	def self.get_groups(member_id)
+		group_member_ids = ScavengerGroupMember.where(member_id: member_id).pluck(:scavenger_groups_id)
+		groups = ScavengerGroup.where('id in (?)', group_member_ids)
+	end
 
 end
