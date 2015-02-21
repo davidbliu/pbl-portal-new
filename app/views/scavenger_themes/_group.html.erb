@@ -23,7 +23,7 @@
 </div>
 <div class = 'group-image-div'>
 <% if group.photos.length>0 %>
-<%= image_tag group.photos.first.image, :height=>125 %>
+<a href = '/scavenger_photos/<%= group.photos.first.id %>'><%= image_tag group.photos.first.image, :height=>125 %></a>
 <% else %>
 no photo
 <% end %>

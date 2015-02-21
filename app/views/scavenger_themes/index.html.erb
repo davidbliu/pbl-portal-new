@@ -89,7 +89,7 @@ $(document).ready(function(){
 		<div class = 'all-photos'><h4><b>All Photos</b></h4>
 			<% theme.get_photos.each do |photo| %>
 			<% if photo.points>0 %>
-				<%= image_tag photo.image, :height=>125 %>
+				<a href = '/scavenger_photos/<%= photo.id %>'><%= image_tag photo.image, :height=>125 %></a>
 			<% end %>
 			<% end %>
 		</div>

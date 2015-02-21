@@ -1,5 +1,8 @@
 class ScavengerPhotosController < ApplicationController
 
+	def show
+		@photo = ScavengerPhoto.find(params[:id])
+	end
 	def confirm_photos
 		clean_photos_with_no_groups
 		@unconfirmed = ScavengerPhoto.where("points<1")
