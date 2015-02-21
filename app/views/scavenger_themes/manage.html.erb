@@ -1,0 +1,15 @@
+
+<h1>Manage <%= @theme.name %></h1>
+
+<div class = 'col-md-4'>
+	<h3>Actions</h3>
+	<a href = '/scavenger_themes/<%= @theme.id %>/generate_groups'>Generate Groups</a>
+</div>
+
+<div class = 'col-md-8'>
+<h3>Groups</h3>
+
+<% @theme.groups.each do |group| %>
+<%= render partial: "group", locals: {group: group, is_primary_group: false} %>
+<% end %>
+</div>

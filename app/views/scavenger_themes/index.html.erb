@@ -1,33 +1,120 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){	
+	$('.display-all-photos-link').click(function(){
+		parent = $(this).parent();
+		all_photos = $(parent).children('.all-photos').slideToggle();
+		if($(this).text() == 'Hide Photos'){
+			$(this).text('Show All Photos');
+		}
+		else{
+			$(this).text('Hide Photos');
+		}
+	});
+});
+</script>
+
 <style type='text/css'>
 .panel-title{
-	text-align:center;
 	font-size:25px;
 }
+.group-div{
+}
+.group-list{
+	list-style:none;
+}
+.group-link{
+	text-decoration: none;
+ 	color:inherit;
+}
+.red{
+	color:red;
+}
+.green{
+	color:green;
+}
+.all-photos{
+	display:none;
+}
+.display-all-photos-link{
+	color: #428bca;
+    /*text-decoration: underline;*/
+    cursor: pointer;
+}
+.display-all-photos-link:hover{
+	text-decoration: underline;
+}
+.theme-div-contents{
+	padding-left:15px;
+}
 </style>
-<h1>Spring 2015 Themes</h1>
-
-<div class = 'col-md-8'>
-<% @themes.each do |theme| %>
-<div class = 'theme-div panel panel-default'>
-    <div class = 'panel-heading'><h2 class = 'panel-title'><%= theme.name %></h2></div>
-	<div class = 'panel-body'
-	<p><div><b>Description:</b> <%= theme.description %></div>
-		<div><b>Start Time:</b> <%= theme.start_time.strftime("%d/%m/%Y at %H:%M") %></div>
-		<div><b>End Time:</b> <%= theme.end_time.strftime("%d/%m/%Y at %H:%M") %></div>
-	</p>
-
-	<p><h4><b>Photos</b></h4>
-		<% theme.scavenger_photos.each do |photo| %>
-		<%= image_tag photo.image, :height=>150 %>
-		<% end %>
-	</p>
-	<p>
-		<a href = '/scavenger_themes/<%= theme.id %>/add_photo'>Upload New Photo</a>
-	</p>
-	</div>
-
-</div>
+<h1>Spring 2015 Photo Scavenger Hunt</h1>
+<% if current_member.scavenger_admin? %>
+<a href = '/scavenger_photos/confirm_photos'>Manage Photo Submissions</a>
 <% end %>
+
+<div id = 'theme-column' class = 'col-md-8'>
+<% @themes.each do |theme| %>
+<div class = 'theme-div'>
+ <h1><a href = '/scavenger_themes/<%= theme.id %>'><%= theme.name %></a></h1>
+ <% if current_member.scavenger_admin? %>
+ <a href = '/scavenger_themes/<%= theme.id %>/manage'>manage theme</a>
+ <% end %>
+<div class = 'theme-div-contents'>
+	<p><div><b>Description:</b> <%= theme.description %></div>
+	<div><b>Due In:</b>
+		<% if theme.time_till_due['days']<0 %>
+		<span class = 'red'>
+		<% else %>
+		<span class = 'green'>
+		<% end %>
+		<%= theme.time_till_due['days'] %> days <%= theme.time_till_due['hours'] %> hours <%= theme.time_till_due['minutes'] %> minutes</span>
+	</div>
+	<div><b>Due Date: </b>
+		<% if theme.time_till_due['days']<0 %>
+		<span class = 'red'>
+		<% else %>
+		<span class = 'green'>
+		<% end %><%= theme.end_time.strftime("%m/%d/%Y at %H:%M") %></div>
+	</p>
+
+	 <!-- show my gropu -->
+	 <% if theme.get_group(current_member.id) %>
+	<%= render partial: "group", locals: {group: theme.get_group(current_member), is_primary_group: true} %>
+	 <% else %>
+	 <div class = 'label label-default'>Not in a group yet</div>
+	<% end %>
+		<br>
+		<div class = 'all-photo-container'>
+		<span class = 'display-all-photos-link'>Show All Photos</span>
+		<div class = 'all-photos'><h4><b>All Photos</b></h4>
+			<% theme.get_photos.each do |photo| %>
+			<% if photo.points>0 %>
+				<a href = '/scavenger_photos/<%= photo.id %>'><%= image_tag photo.image, :height=>125 %></a>
+			<% end %>
+			<% end %>
+		</div>
+		</div>
+		<!-- end of all photos container -->
+</div>
+<!-- end of theme-div-contents -->
+</div>
+<!-- end of theme -->
+<% end %>
+<!-- end of theme loop -->
+</div>
+<!-- end of theme column -->
+<div id = 'leaderboard' class = 'col-md-3'>
+<h1>Leaderboard</h1>
+	<% @people.each do |person| %>
+	<div><%= person.name %>: <%= person.scavenger_points %>
+	</div>
+	<% end %>
+</div>
+
+
+<div class = 'col-md-6'>
+
+
 
 </div>
 <!-- end of left col -->

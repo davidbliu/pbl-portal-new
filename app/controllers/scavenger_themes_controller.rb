@@ -1,7 +1,29 @@
 class ScavengerThemesController < ApplicationController
 
 	def index
-		@themes = ScavengerTheme.all
+		@themes = ScavengerTheme.all.order(:end_time).reverse
+		@people = Member.current_cms+Member.current_chairs
+		@people = @people.sort { |x,y| y.scavenger_points <=> x.scavenger_points }.first(15)
+	end
+
+	def show
+		@theme  = ScavengerTheme.find(params[:id])
+	end
+	
+	def manage
+		@theme = ScavengerTheme.find(params[:id])
+	end
+
+	def gallery
+
+	end
+
+	def leaderboard
+		
+
+	end
+
+	def personal
 	end
 
 	def index2
@@ -31,4 +53,13 @@ class ScavengerThemesController < ApplicationController
 		@groups = @theme.get_groups
 		# render :json=>@theme.get_groups, :status => 200, :content_type => 'text/html'
 	end
+
+
+	def confirm_photos
+		@unconfirmed = ScavengerPhoto.where("confirmation_status=? or confirmation_status=?", nil, 0)
+		@confirmed = ScavengerPhoto.where("confirmation_status!=? and confirmation_status!=?", nil, 0)
+	end
+
+
+
 end

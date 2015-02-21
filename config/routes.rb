@@ -174,9 +174,30 @@ Dockernotes::Application.routes.draw do
       post 'upload_photo'
       get 'generate_groups'
       get 'manage_groups'
+      get 'manage'
+
     end
+    collection do
+      get 'confirm_photos' 
+      get 'leaderboard'
+    end
+  end
 
+  resources :scavenger_groups do 
+    member do
+      post 'upload_photo'
+      get 'add_photo'
+    end
+  end
 
+  resources :scavenger_photos do 
+    collection do 
+      get 'confirm_photos'
+    end
+    member do 
+      get 'destroy'
+      get 'confirm_photo'
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

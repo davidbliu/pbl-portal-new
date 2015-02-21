@@ -1,0 +1,91 @@
+<script type = 'text/javascript'>
+function previewFile(){
+       var preview = $('#upload-preview'); //selects the query named img
+       var file    = document.querySelector('input[type=file]').files[0]; //sames as here
+       var reader  = new FileReader();
+
+       reader.onloadend = function () {
+           // preview.src = reader.result;
+           console.log(reader.result);
+           // preview.src = reader.result;
+           $('#upload-preview').attr('src', reader.result);
+           $('#use-img-btn').show();
+           console.log($('#upload-preview'));
+       }
+
+       if (file) {
+           reader.readAsDataURL(file); //reads the data as a URL
+       } else {
+       }
+  }
+function previewHosted(){
+	$('#upload-preview').attr('src', $("#hosted-image-input").val());
+	$('#use-img-btn').show();
+}
+function uploadImage(){
+	src = $('#upload-preview').prop('src');
+	$.ajax({
+		      url:'/scavenger_groups/<%= @group.id %>/upload_photo',
+		      type: "POST",
+		      data: {"image": src},
+		      success:function(data){
+		        // alert('completed');
+		        window.location = '/scavenger_themes'
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+
+}
+$(document).ready(function(){
+	$('#use-img-btn').click(function(){
+		uploadImage();
+	});
+	$('#hosted-image-input').keypress(function (e) {
+	 var key = e.which;
+	 if(key == 13)  // the enter key code
+	  {
+	    previewHosted(); 
+	  }
+	}); 
+});
+</script>
+
+<style type = 'text/css'>
+#use-img-btn{
+	display:none;
+	margin:15px;
+}
+</style>
+
+<h1>Add Photo for <%= @group.name %></h1>
+<h2>Group Members: <%= @group.get_members.map(&:name).join(", ") %></h2>
+<% if @current_photo %>
+<h2>This will replace the current photo <%= image_tag @current_photo.image, :height=>300 %></h2>
+<% else %>
+<h2>There is currently no image uploaded for this group</h2>
+<% end %>
+
+<div class = 'col-md-4'>
+<div><b>Upload File</b>
+	<input id = 'file-upload' type="file" onchange="previewFile()"></input>
+	
+	<img id = 'upload-preview' src="" height="200"></img>
+</div>
+
+<br>
+	<div> <b>From Hosted URL</b>
+	<input id = 'hosted-image-input' type = 'text' class = 'form-control' placeholder = 'enter hosted image url'>
+	</div>
+</div>
+
+<div class = 'col-md-4'>
+<div id = 'image-detail-div'>
+	<button id = 'use-img-btn' class = 'btn btn-default'>Use Previewed Image</button>
+</div>
+
+</div>
