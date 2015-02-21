@@ -1,0 +1,31 @@
+<style type = 'text/css'>
+.group-link{
+	text-decoration: none;
+ 	color:inherit;
+}
+.group-image-div{
+	margin:5px;
+}
+</style>
+
+<div class = 'group-div'>
+	<% if is_primary_group %>
+	<div class = 'label label-primary'>
+	<% else %>
+	<div class = 'label label-default'>
+	<% end %>
+	<a class = 'group-link' href = '/scavenger_groups/<%= group.id %>/add_photo'><%= group.name %></a></div>
+		<div class = 'group-list'>
+			<% group.get_members.each do |member| %>
+			<%= image_tag member.profile_url, :height=>20 %> <%= member.name %> 
+			<% end %>
+		</div>
+</div>
+<div class = 'group-image-div'>
+<% if group.photos.length>0 %>
+<%= image_tag group.photos.first.image, :height=>125 %>
+<% else %>
+no photo
+<% end %>
+	</div>
+	<!-- end of group div -->

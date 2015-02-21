@@ -174,6 +174,7 @@ Dockernotes::Application.routes.draw do
       post 'upload_photo'
       get 'generate_groups'
       get 'manage_groups'
+      get 'manage'
 
     end
     collection do

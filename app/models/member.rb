@@ -178,6 +178,12 @@ class Member < ActiveRecord::Base
     end
   end
 
+  def scavenger_admin?
+    if self.admin? or self.current_committee.name == "Internal Networking"
+      return true
+    end
+    return false
+  end
   # Admin status of the member.
   # TODO only if currently an exec
   def admin?
