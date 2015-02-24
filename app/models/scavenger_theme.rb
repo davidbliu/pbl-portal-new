@@ -40,7 +40,7 @@ class ScavengerTheme < ActiveRecord::Base
 			for i in 0..extra-1
 				group = ScavengerGroup.new
 				group.scavenger_theme_id = self.id
-				group.name = 'group'+Random.rand(1000000).to_s
+				group.name = ScavengerTheme.generate_group_name
 				# add people to group
 				group_people = people[0, 6]
 				people  =people[6, people.length]
