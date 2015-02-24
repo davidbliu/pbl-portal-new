@@ -432,7 +432,14 @@ class Member < ActiveRecord::Base
     return points.sum    #ScavengerGroup.where('id in (?)', group_ids).pluck(:id)
   end
 
-  
+  def scavenger_groups
+    my_group_ids = ScavengerGroupMember.where(member_id: self.id).pluck(:scavenger_groups_id)
+    return ScavengerGroup.where('id in (?)', my_group_ids)
+  end
+
+  def personal_scavenger_data
+    return 'wat'
+  end
   # Return all attended tabling slots
   def attended_slots
     # self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).map do |tsm|

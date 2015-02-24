@@ -14,13 +14,9 @@ class ScavengerTheme < ActiveRecord::Base
 		people = Member.current_cms.to_a + Member.current_chairs.to_a
 		people = people.shuffle
 		num_groups = (people.length / 5).floor
-
 		extra = people.length % 5
-
-
 		#temp array of reordered people
 		people = people.shuffle
-
 		# create groups
 		for i in 0..num_groups-extra-1
 			group = ScavengerGroup.new
@@ -56,8 +52,6 @@ class ScavengerTheme < ActiveRecord::Base
 					gm.save!
 				end
 			end
-			
-
 		end
 	end
 
