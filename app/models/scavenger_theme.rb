@@ -7,6 +7,11 @@ class ScavengerTheme < ActiveRecord::Base
 		group_ids = ScavengerGroup.where(scavenger_theme_id: self.id).pluck(:id)
 		return ScavengerPhoto.where('group_id in (?)', group_ids)
 	end
+
+	def photos
+		return get_photos
+
+	end
 	# this will delete current groups if there are any
 	def generate_groups
 		ScavengerGroup.where(scavenger_theme_id: self.id).destroy_all
