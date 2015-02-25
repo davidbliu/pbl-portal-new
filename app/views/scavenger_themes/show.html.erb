@@ -7,6 +7,7 @@
 </style>
 
 <h1><%= @theme.name %></h1>
+<h2><a href ='/scavenger_themes'>Back to themes</a></h2>
 
 <% if @theme.get_group(current_member.id) %>
 <%= render partial: "group", locals: {group: @theme.get_group(current_member), is_primary_group: true} %>
