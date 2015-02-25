@@ -4,7 +4,7 @@ class MembersController < ApplicationController
 	#
 	# allow to modify account
 	# 
-	before_filter :is_approved, :only => :all
+	before_filter :is_approved, :only => :all, :index_committee
 
 	def profile
 		@member = Member.find(params[:id])
