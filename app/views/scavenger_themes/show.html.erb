@@ -1,7 +1,7 @@
 <h1><%= @theme.name %></h1>
 
 <% if @theme.get_group(current_member.id) %>
-<%= render partial: "group", locals: {group: theme.get_group(current_member), is_primary_group: true} %>
+<%= render partial: "group", locals: {group: @theme.get_group(current_member), is_primary_group: true} %>
 <% else %>
 <div class = 'label label-default'>Not in a group yet</div>
 <% end %>
