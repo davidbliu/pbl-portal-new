@@ -56,7 +56,7 @@ $(document).ready(function(){
 <div id = 'theme-column' class = 'col-md-8'>
 <% @themes.each do |theme| %>
 <div class = 'theme-div page-header'>
- <h1><a href = '/scavenger_themes/<%= theme.id %>'><%= theme.name %></a></h1>
+ <h1><a href = '/scavenger_themes/<%= theme.id %>'><%= theme.name %> (<%= @theme.photos.length %>)</a></h1>
  <% if current_member.scavenger_admin? %>
  <a href = '/scavenger_themes/<%= theme.id %>/manage'>manage theme</a>
  <% end %>
