@@ -58,6 +58,7 @@ class ScavengerTheme < ActiveRecord::Base
 	def get_groups
 		return ScavengerGroup.where(scavenger_theme_id: self.id)
 	end
+
 	def groups
 		return ScavengerGroup.where(scavenger_theme_id: self.id)
 	end

@@ -25,4 +25,12 @@ class ScavengerGroup < ActiveRecord::Base
 		return ScavengerPhoto.where(group_id: self.id)
 	end
 
+	def photo
+		ps = self.photos
+		if ps.length<1
+			return nil
+		end
+		return ps.first
+	end
+
 end
