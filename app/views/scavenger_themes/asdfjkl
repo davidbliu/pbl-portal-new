@@ -1,0 +1,11 @@
+<div class = 'all-photo-container'>
+		<span class = 'display-all-photos-link'>Show All Photos</span>
+		<div class = 'all-photos'><h4><b>All Photos</b></h4>
+			<% theme.groups.each do |group| %>
+			<% if group.photo and group.photo.points>0 %>
+				<%= render partial: "group", locals: {group: group, is_primary_group: false} %>
+			<% end %>
+			<% end %>
+		</div>
+		</div>
+		<!-- end of all photos container -->

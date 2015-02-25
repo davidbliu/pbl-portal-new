@@ -48,6 +48,7 @@ $(document).ready(function(){
 }
 </style>
 <h1>Spring 2015 Photo Scavenger Hunt</h1>
+<h2>You have earned <%= current_member.scavenger_points %> points</h2>
 <% if current_member.scavenger_admin? %>
 <a href = '/scavenger_photos/confirm_photos'>Manage Photo Submissions</a>
 <% end %>
@@ -84,17 +85,7 @@ $(document).ready(function(){
 	 <div class = 'label label-default'>Not in a group yet</div>
 	<% end %>
 		<br>
-		<div class = 'all-photo-container'>
-		<span class = 'display-all-photos-link'>Show All Photos</span>
-		<div class = 'all-photos'><h4><b>All Photos</b></h4>
-			<% theme.groups.each do |group| %>
-			<% if group.photo and group.photo.points>0 %>
-				<%= render partial: "group", locals: {group: group, is_primary_group: false} %>
-			<% end %>
-			<% end %>
-		</div>
-		</div>
-		<!-- end of all photos container -->
+		
 </div>
 <!-- end of theme-div-contents -->
 </div>
