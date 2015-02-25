@@ -29,7 +29,7 @@
     		<td><%= photo.group.name %>: <%= photo.group.get_members.map(&:name).join(", ") %></td>
     		<td><%= photo.theme.name %></td>
     		<td>
-    			<% if photo.lateness['days']>0 %>
+    			<% if photo.lateness['late'] %>
     			<span class = 'red'>
 				<% else %>
 				<span class = 'green'>
@@ -68,7 +68,7 @@
     		<td><%= image_tag photo.image, :height=>100 %></td>
     		<td><%= photo.group.name %>: <%= photo.group.get_members.map(&:name).join(", ") %></td>
     		<td><%= photo.theme.name %></td>
-    		<td><% if photo.lateness['days']>0 %>
+    		<td><% if photo.lateness['late'] %>
     			<span class = 'red'>
 				<% else %>
 				<span class = 'green'>

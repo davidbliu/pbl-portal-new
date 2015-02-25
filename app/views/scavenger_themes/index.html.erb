@@ -62,7 +62,7 @@ $(document).ready(function(){
 <div class = 'theme-div-contents'>
 	<p><div><b>Description:</b> <%= theme.description %></div>
 	<div><b>Due In:</b>
-		<% if theme.time_till_due['days']<0 %>
+		<% if theme.time_till_due['late'] %>
 		<span class = 'red'>
 		<% else %>
 		<span class = 'green'>
@@ -70,7 +70,7 @@ $(document).ready(function(){
 		<%= theme.time_till_due['days'] %> days <%= theme.time_till_due['hours'] %> hours <%= theme.time_till_due['minutes'] %> minutes</span>
 	</div>
 	<div><b>Due Date: </b>
-		<% if theme.time_till_due['days']<0 %>
+		<% if theme.time_till_due['late'] %>
 		<span class = 'red'>
 		<% else %>
 		<span class = 'green'>

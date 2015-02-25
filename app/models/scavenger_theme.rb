@@ -78,10 +78,16 @@ class ScavengerTheme < ActiveRecord::Base
 
 		# elapsed_seconds = ((end_time - start_time) * 24 * 60 * 60).to_i
 		diff = (self.end_time.to_datetime-DateTime.now)
+		late = diff<0
+		diff = diff.abs
 		times = Hash.new
 		times['minutes'] = (diff * 24 * 60).floor % 60
 		times['hours'] = (diff*24).floor % 24
 		times['days'] = diff.floor
+		times['late'] = late
+		if late
+			times['days'] = times['days']*-1+1
+		end
 
 		return times
 

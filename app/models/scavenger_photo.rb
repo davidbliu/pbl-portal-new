@@ -9,14 +9,37 @@ class ScavengerPhoto < ActiveRecord::Base
 	end
 
 	def lateness
+
 		due = self.theme.end_time.to_datetime
-		diff = (self.created_at.to_datetime-due)
+		diff = (due-self.created_at.to_datetime)
+		late = diff<0
+		diff = diff.abs
 		times = Hash.new
 		times['minutes'] = (diff * 24 * 60).floor % 60
 		times['hours'] = (diff*24).floor % 24
 		times['days'] = diff.floor
+		times['late'] = late
+		if late
+			times['days'] = times['days']*-1+1
+		end
 
 		return times
+
+
+		# due = self.theme.end_time.to_datetime
+		# diff = (self.created_at.to_datetime-due)
+		# late = diff>0
+		# diff = diff.abs
+		# times = Hash.new
+		# times['minutes'] = (diff * 24 * 60).floor % 60
+		# times['hours'] = (diff*24).floor % 24
+		# times['days'] = diff.floor
+		# times['late'] = late
+		# if late
+		# 	times['days'] = times['days']*-1+1
+		# end
+	
+		# return times
 	end
 
 
