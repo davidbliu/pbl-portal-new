@@ -9,7 +9,7 @@ end
 task :sweet_tooth => :environment do 
   theme = ScavengerTheme.new
   theme.name = 'Sweet Tooth'
-  theme.start_time = DateTime.now + 
+  theme.start_time = DateTime.now
   theme.end_time = DateTime.now + 1.week
   theme.description = 'kabang'
   theme.save!
