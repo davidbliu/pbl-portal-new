@@ -1,3 +1,19 @@
+task :clear_scavenger => :environment do 
+  p 'destroying all previous scavenger data'
+  ScavengerPhoto.destroy_all
+  ScavengerTheme.destroy_all
+  ScavengerGroup.destroy_all
+  ScavengerGroupMember.destroy_all
+end
+
+task :sweet_tooth => :environment do 
+  theme = ScavengerTheme.new
+  theme.name = 'Sweet Tooth'
+  theme.start_time = DateTime.now + 
+  theme.end_time = DateTime.now + 1.week
+  theme.description = 'there is no description for dis fake ass theme'
+  theme.save!
+end
 task :scavenger_setup => :environment do
   p 'destroying all previous scavenger data'
   ScavengerPhoto.destroy_all
