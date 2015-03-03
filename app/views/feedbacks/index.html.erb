@@ -10,7 +10,7 @@
   </thead>
 
   <tbody>
-    <% Feedback.all.each do |fb| %>
+    <% Feedback.all.order(:created_at).each do |fb| %>
       <tr>
         <td><%= fb.member.name %></td>
         <td><%= fb.created_at.strftime("%D") %></td>
