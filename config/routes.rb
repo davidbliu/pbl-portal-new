@@ -200,6 +200,16 @@ Dockernotes::Application.routes.draw do
       get 'confirm_photo'
     end
   end
+
+  resources :feedbacks do 
+    collection do 
+      get 'add_feedback'
+      post 'upload_feedback'
+      get 'thanks'
+    end
+
+
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

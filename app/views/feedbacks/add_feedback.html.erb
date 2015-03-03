@@ -1,0 +1,39 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){
+	$('#submit-btn').click(function(){
+		//submit feedback via ajax
+		//take person to thank you page
+		alert('Submitting your feedback...');
+		$.ajax({
+		      url:'/feedbacks/upload_feedback',
+		      type: "POST",
+		      data: {"content": $('#feedback-textarea').val()},
+		      success:function(data){
+		        // alert('completed');
+		        window.location = '/feedbacks/thanks'
+		      },
+		      complete:function(){
+		      	
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  });
+	});
+});
+</script>
+
+<style type = 'text/css'>
+#feedback-textarea{
+	height: 150px;
+	width: 500px;
+	margin: 25px;
+}
+</style>
+<h1>Submit Feedback Here</h1>
+
+<div class = 'col-md-8'>
+<button id = 'submit-btn' class = 'btn btn-default'>Submit</button>
+<textarea id = 'feedback-textarea'></textarea>
+
+</div>
