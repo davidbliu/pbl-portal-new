@@ -13,6 +13,13 @@
 This project provides a clean interface into all of PBL's auxiliary resources and applications. Some examples of these are the blog, assassins, deliberations, and HT portfolio.
 The core portal handles core features, which include __member management__, __events__, __attendance__, and __points__.
 
+# Documentation
+
+## Google Authentication
+
+See auth_controller. handles the auth/google_oauth2/callback route
+
+
 ### PBL Tech Subprojects
 * <a href='https://github.com/davidbliu/pbl-blog'>Blog</a>
 * <a href='https://github.com/davidbliu/pbl-assassins'>Assassins</a>

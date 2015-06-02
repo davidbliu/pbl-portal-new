@@ -16,8 +16,8 @@ module GoogleApiHelper
     client = Google::APIClient.new
     calendarId = '8bo2rpf4joem2kq9q2n940p1ss@group.calendar.google.com'
     client.authorization.access_token = cookies[:access_token] || auth_info["credentials"]["token"]
-    puts client.authorization.access_token
-    puts "THAT WAAS THE ACEES TOKENN"
+    p client.authorization.access_token
+    p "THAT WAAS THE ACEES TOKENN"
     service = client.discovered_api('calendar','v3')
     result = google_api_client.execute(
       api_method: service.send("events"),
@@ -26,8 +26,8 @@ module GoogleApiHelper
       },
       headers: { 'Content-Type' => 'application/json' }
     )
-    puts result.data
-    puts "THAT WAS THE DATA"
+    p result.data
+    p "THAT WAS THE DATA"
     # result = client.execute(
     #   api_method: service.events.list,
 

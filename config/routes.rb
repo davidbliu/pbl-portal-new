@@ -2,18 +2,15 @@ Dockernotes::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   resources :notes
-  # root 'notes#index'
-  # get "/authenticate", to: "sessions#sign_onto_google"
+
   get "/sign_out", to: "sessions#sign_out"
-  get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
+  # get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
+
+
 
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#index'
 
-  # get assassins route
-  get "/assassins", to: "assassins#index"
-
-  get '/test_auth', to: 'sessions#test_auth'
   resources :members do
     member do
       get 'destroy'
@@ -39,6 +36,16 @@ Dockernotes::Application.routes.draw do
       get 'update_account'
       get 'index_committee'
       get 'no_permission'
+    end
+  end
+
+
+  get "/auth/google_oauth2/callback", to: "auth#google_callback"
+  resources :auth do
+    collection do
+      get 'sign_up'
+      get 'sign_in'
+
     end
   end
 
@@ -162,54 +169,9 @@ Dockernotes::Application.routes.draw do
   resources :tabling_slot_members, only: [ :create, :destroy, :update ] do
     put :set_status_for, on: :member
   end
+  
 
-
-  #
-  # scavenger resources
-  #
-
-  resources :scavenger_themes do 
-    member do 
-      get 'add_photo'
-      post 'upload_photo'
-      get 'generate_groups'
-      get 'manage_groups'
-      get 'manage'
-
-    end
-    collection do
-      get 'confirm_photos' 
-      get 'leaderboard'
-      get 'personal'
-    end
-  end
-
-  resources :scavenger_groups do 
-    member do
-      post 'upload_photo'
-      get 'add_photo'
-    end
-  end
-
-  resources :scavenger_photos do 
-    collection do 
-      get 'confirm_photos'
-    end
-    member do 
-      get 'destroy'
-      get 'confirm_photo'
-    end
-  end
-
-  resources :feedbacks do 
-    collection do 
-      get 'add_feedback'
-      post 'upload_feedback'
-      get 'thanks'
-    end
-
-
-  end
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
