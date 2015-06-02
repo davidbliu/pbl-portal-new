@@ -25,7 +25,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 gem 'thin'
-gem 'therubyracer'
+gem "therubyracer", "~> 0.12"
 gem 'execjs'
 gem 'pg'
 

@@ -277,7 +277,7 @@ DEPENDENCIES
   rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc
-  therubyracer
+  therubyracer (~> 0.12)
   thin
   turbolinks
   twilio-ruby

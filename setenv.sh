@@ -1,5 +1,5 @@
 echo 'setting environment variables'
 export PG_HOST=localhost
 export PG_PORT=5432
-export HOST=localhost:51394
+export HOST=localhost:3000
 

@@ -1,3 +1,49 @@
+task :apprentice_scores => :environment do
+
+  current_cms = Member.current_members
+
+    
+  CSV.open("attendance.csv", "w") do |csv|
+    for cm in current_cms
+      attended_event_members = EventMember.where("event_id IN (?)", Event.this_semester.pluck(:id).collect{|i| i.to_s})
+      attended_event_ids = attended_event_members.where(member_id: cm.id).pluck(:event_id)
+      attended_events = Event.where("id in (?)", attended_event_ids.collect{|i| i.to_s})
+      for event in attended_events
+        csv << [event.name, cm.name]
+      end
+    end
+  end
+end
+task :export_member_data => :environment do
+
+  current_members = Member.current_members
+
+    
+  CSV.open("exported_member_data.csv", "w") do |csv|
+    for cm in current_members
+      csv << [cm.name, cm.current_committee.name]
+    end
+  end
+end
+task :export_recent_events => :environment do
+
+   CSV.open("exported_recent_events.csv", "w") do |csv|
+    csv << ["Event", "Time"]
+    for event in Event.this_semester
+      csv << [event.name, event.start_time]
+    end
+  end
+end
+task :export_attendance => :environment do 
+  CSV.open("attendance.csv", "w") do |csv|
+    for event in Event.this_semester
+      csv << [event.name, event.start_time]
+    end
+  end
+end
+
+
+
 task :clear_scavenger => :environment do 
   p 'destroying all previous scavenger data'
   ScavengerPhoto.destroy_all
@@ -5,6 +51,7 @@ task :clear_scavenger => :environment do
   ScavengerGroup.destroy_all
   ScavengerGroupMember.destroy_all
 end
+
 
 task :sweet_tooth => :environment do 
   theme = ScavengerTheme.new
