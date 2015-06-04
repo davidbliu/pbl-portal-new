@@ -27,6 +27,17 @@
 
 class Commitment < ActiveRecord::Base
   # attr_accessible :end_time, :member_id, :start_time, :summary, :start_hour, :end_hour, :day
-
+  attr_accessible :member_id, :hours
+  serialize :hours
   belongs_to :member
+
+
+  def day_string
+  	return ''
+  end
+
+  def hour_string
+  	return ''
+  end
+
 end

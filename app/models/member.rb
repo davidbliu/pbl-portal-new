@@ -37,7 +37,12 @@
 # - EventMember
 # - Reimbursement
 class Member < ActiveRecord::Base
-  attr_accessible :name, :provider, :uid, :profile, :old_member_id, :remember_token, :confirmation_status, :swipy_data, :registration_comment
+  attr_accessible :name, :provider, :uid,   
+    :profile, :old_member_id, :remember_token, 
+    :confirmation_status, :swipy_data, :registration_comment,
+    :commitments
+
+  serialize :commitments
 
   validates :provider, :uid, :name, presence: true
 
@@ -55,7 +60,7 @@ class Member < ActiveRecord::Base
 
   # has_many :reimbursements, dependent: :destroy
 
-  has_many :commitments, dependent: :destroy
+  # has_many :commitments, dependent: :destroy
 
   has_many :points, dependent: :destroy
 

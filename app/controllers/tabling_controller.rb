@@ -1,145 +1,41 @@
-require 'chronic'
+# require 'chronic'
+require 'set'
 class TablingController < ApplicationController
 
-  # ajax progress bar
-  def progress_update
-    @progress_text = 'no progress text to display'
-    if $progress
-      @progress_text = $progress
-    end
 
-  end
-
-  def progress_dummy
-  end
-
-  def progress_test
-    background do
-      for num in 1..30
-        $progress = num
-        p 'progress is'+ $progress.to_s
-        sleep(2.seconds)
-      end
-    end
-  end
-
-  def background(&block)
-    Thread.new do
-      yield
-      ActiveRecord::Base.connection.close
-    end
-  end
 
   def manage
     @all_slots = TablingSlot.all
   end
-	def index
-		p current_member
-		# start_day = Chronic.parse('0 april 14', :context => :past)
-		start_day = tabling_start
-		end_day = start_day+5.days
-    if current_member and current_member.admin?
-      end_day = start_day + 10.days
-    end
-		#
-		# using old controller
-		#
-	    @tabling_slots = TablingSlot.where(
-	      "start_time >= :tabling_start and start_time <= :tabling_end",
-	      tabling_start: start_day,
-	      tabling_end: end_day,
-	    ).order(:start_time)
 
-	    if !@tabling_slots.empty?
-	      @earliest_time = @tabling_slots.first.start_time
-	      @tabling_days = Hash.new
-	      @tabling_slots.each do |tabling_slot|
-	        @tabling_days[tabling_slot.start_time.to_date] ||= Array.new
-	        tabling_day = @tabling_days[tabling_slot.start_time.to_date]
-	        tabling_day << tabling_slot
-	      end
-	    end
-	end
+
+	def index
+  end
 	
 	#
 	# options for secretary to generate new tabling schedule
 	#
 	def options
-		# list of members who need to table (chairs twice cms once)
-    # @TODO better queries
-    @chairs = Member.current_chairs
-    @cms = Member.current_cms
-		# show the slots that are already generated for this week?
-		#
-		# same as index 
-		#
-		# start_day = Chronic.parse('0 april 14', :context => :past)
-		start_day = tabling_start
-		end_day = start_day+5.days
-		#
-		# using old controller
-		#
-	    @tabling_slots = TablingSlot.where(
-	      "start_time >= :tabling_start and start_time <= :tabling_end",
-	      tabling_start: start_day,
-	      tabling_end: end_day,
-	    ).order(:start_time)
-
-	    if !@tabling_slots.empty?
-	      @earliest_time = @tabling_slots.first.start_time
-	      @tabling_days = Hash.new
-	      @tabling_slots.each do |tabling_slot|
-	        @tabling_days[tabling_slot.start_time.to_date] ||= Array.new
-	        tabling_day = @tabling_days[tabling_slot.start_time.to_date]
-	        tabling_day << tabling_slot
-	      end
-	    end
-      @odd_slot = odd_slot
+		cms = Member.current_cms
+    officers = Member.current_chairs
+    
 	end
-
-  #
-  # action: convert all this semester members commitments
-  #
-  def convert
-    members = Member.current_members
-    convert_commitments(members)
-    render json: "all commitments have been converted for this semesters members"
-  end
 
 	#
 	# generates tabling TODO background process
 	#
 	def generate
-    # background do
-  		begin
-          $progress = 'started generating tabling'
-    			p 'generating new tabling schedule'
-    			timeslots = params[:slots]
-          member_ids = params[:member_ids]
-    			@slots = Array.new
-    		    timeslots.keys.each do |key|
-    		      day = Date::DAYNAMES[key.to_i]
-    		      if timeslots[key].length > 0
-    		        timeslots[key].each do |h|
-    		          hour = h.to_i
-    		          @slots << TablingSlot.where(
-    		            start_time: Chronic.parse("#{hour} this #{day}"),
-    		            end_time: Chronic.parse("#{hour + 1} this #{day}")
-    		          ).first_or_create!
-    		        end
-    		      end
-    		    end
-          tablers = Member.where('id IN (?)', member_ids).to_a
-          $progress = 'about to run generate_tabling_schedule method'
-    			generate_tabling_schedule(@slots, tablers)
-          $progress = 'completed'
-          render :nothing => true, :status => 200, :content_type => 'text/html'
-  		rescue
-  			
-        $progress = 'failed'
-        render :nothing => true, :status => 500, :content_type => 'text/html'
-  		end
-		
+    members = Member.current_members
+    times = 20..50
+    assignments = generate_tabling_assignments(times, members)
+    for t in times
+      p t
+      for m in assignments[t]
+        p '       ' + m.name
+      end
+    end
+
+   redirect_to :controller => 'tabling', :action => 'index'
 	end
 
 	#
@@ -155,246 +51,72 @@ class TablingController < ApplicationController
 	end
 end
 
-#
-# helper methods
-#
-def tabling_start
-    if DateTime.now.cwday > 5 # If past Friday
-      Chronic.parse("0 this monday")
-    elsif DateTime.now.cwday == 1 # If Monday
-      Chronic.parse("0 today")
-    else
-      Chronic.parse("0 last monday")
-    end
-end
-
-#
-# tabling generation
-#
-
-def clear_this_week_slots
-	days = (0..7).to_a
-	hours = (1..24).to_a
-	days.each do |key|
-	  day = Date::DAYNAMES[key]
-	  hours.each do |hour|
-	    TablingSlot.where(
-	      start_time: Chronic.parse("#{hour} this #{day}"),
-	      end_time: Chronic.parse("#{hour + 1} this #{day}")
-	    ).destroy_all
-	  end
-	end
-end
-
-#
-# generate tabling logic
-#
-
 # input slots: tabling slots that you want to fill
 # return assignments hash key: slot, value: array of members}
-  def generate_tabling_schedule(slots, members)
-    puts "generating schedule"
-    convert_commitments(members)
-    puts "commitments converted"
-    #initialize your assignment hash
+  def generate_tabling_assignments(times, members)
+    """
+    create assignment hash of timeslot (hour) to member list
+    """
+    unassigned = Set.new(members)
     assignments = Hash.new
-    assignments["manual"] = Array.new
-    manual_assignments = Array.new
-    for s in slots
-      assignments[s] = Array.new
-    end
-    num_assigned = 0
-    total_members = members.length
-    curr_member = get_MCV(assignments, members)
-    $progress = 'starting to assign members'
-    while curr_member != nil do
-      puts "assigning"
-      puts curr_member
-      $progress = curr_member.name + " is being assigned now... "+num_assigned.to_s+' of '+total_members.to_s
-      slot = get_LCV(assignments, curr_member)
-      if slot != nil
-        # assign student to the slot
-        assignments[slot] << curr_member
-      else
-        # you cant assign this member
-        manual_assignments << curr_member
-        assignments["manual"] << curr_member
+    while unassigned.length() > 0
+      mcv = get_MCV(unassigned, times)
+      lcv = get_LCV(assignments, mcv, times)
+      if not assignments.has_key?(lcv)
+        assignments[lcv] = Array.new
       end
-      num_assigned = num_assigned + 1
-      curr_member = get_MCV(assignments, members)
+      assignments[lcv] << mcv
+      unassigned.delete(mcv)
     end
-    $progress = 'saving tabling result'
-    save_tabling_results(assignments, slots)
+
     return assignments
   end
 
   # return the hardest to work with member (least slots open)
-  def get_MCV(assignments, members)
-    difficult_members = Array.new
-    num_slots = 1000
-    for member in members
-      if not is_assigned(assignments, member)
-        available_slots = get_current_available_slots(assignments, member).length
-        if available_slots < num_slots
-          difficult_members = Array.new
-          difficult_members << member
-          num_slots = available_slots
-        elsif available_slots == num_slots
-          difficult_members << member
+  def get_MCV(unassigned, times)
+    mcv = []
+    max_clashes = -1
+    unassigned.each do |member|
+      commitments = member.commitments
+      clashes = 0
+      for time in times
+        if commitments[time] == 1
+          clashes += 1
         end
       end
+      if clashes > max_clashes
+        max_clashes = clashes
+        mcv = [member]
+      elsif clashes == max_clashes
+        mcv << member
+      end
     end
-    # should be random?
-    # TODO: backtracking
-    return difficult_members.sample
+
+    mcv = mcv.sample
+    p 'mcv was '+mcv.name + ' with '+max_clashes.to_s
+    return mcv
   end
 
   # least constrained value
   # slot with highest capacity after member has been assigned
-  def get_LCV(assignments, member)
-    max_capacity = -1;
-    lcv_slots = Array.new
-    slots = get_current_available_slots(assignments,member)
-    for slot in slots
-      remaining_capacity = 5000-assignments[slot].length
-      if remaining_capacity > max_capacity
-        lcv_slots = Array.new
-        max_capacity = remaining_capacity
-        lcv_slots << slot
-      elsif remaining_capacity == max_capacity
-        lcv_slots << slot
+  def get_LCV(assignments, member, times)
+    lcv = []
+    min_capacity = 1000000
+    times.each do |time|
+      capacity = 0
+      if assignments.has_key?(time)
+        capacity = assignments[time].length
+      end
+      if capacity < min_capacity
+        min_capacity = capacity
+        lcv = [time]
+      elsif capacity == min_capacity
+        lcv << time
       end
     end
-    return lcv_slots.sample
+
+    lcv = lcv.sample
+    return lcv
   end
 
-  # returns if start1, end1, conflicts with start2, end2
-  def conflicts(s1,e1,s2,e2)
-    if s1<=s2 and e1>s2
-      return true
-    elsif s1<e2 and s1>s2
-      return true
-    end
-    return false
-  end
-
-  # return if member has been assigned
-  def is_assigned(assignments, member)
-      for key in assignments.keys
-        list = assignments[key]
-        if list.include? member
-          return true
-        end
-      end
-      return false
-    end
-
-  def convert_commitments(members)
-  	# all_commitments = Commitment.all
-    members.each do |member|
-      # all_commitments.where(member_id: member.id).each do |c|
-      member.commitments.each do |c|
-        if c.day
-          d = c.day
-          s = c.start_hour
-          e = c.end_hour
-          day = Date::DAYNAMES[d]
-          start = Chronic.parse("#{s} this #{day}")
-          endt =  Chronic.parse("#{e} this #{day}")
-          c.start_time = start
-          c.end_time = endt
-          c.save
-        else
-          c.destroy
-        end
-      end
-    end
-  end
-   # assumes each slot has same capacity 5
-  # TODO add capacity to tabling_slots table
-  def get_current_available_slots(assignments, member)
-    slots = Array.new
-    # puts "getting slots for "+member.name
-    assignments.keys.each do |key|
-      slot = key
-      conflicts = true
-      if not slot == "manual" and TablingSlotMember.where(tabling_slot_id:slot.id).where(member_id:member.id).length <= 0  
-        conflicts = false
-        for c in member.commitments
-          d = c.day
-          s = c.start_hour
-          e = c.end_hour
-          # TODO have these calculated somewhere else
-          if d
-            # puts "taking a while on this part"
-            day = Date::DAYNAMES[d]
-            # start = Chronic.parse("#{s} this #{day}")
-            # endt =  Chronic.parse("#{e} this #{day}")
-            start = c.start_time
-            endt = c.end_time
-            if day and conflicts(start, endt, slot.start_time, slot.end_time)
-              conflicts = true
-              break
-            end
-          end
-        end
-      end
-      if not conflicts #and not (slot.members.include? member)
-        if assignments[slot].length < 5000 # hard coded capacity
-          slots << slot
-        end
-      end
-    end
-    return slots
-  end
-
-def odd_slot
-  odd_slot = TablingSlot.new
-  # odd_slot.start_time = Date.now
-  # odd_slot.end_time = 1
-  day = Date::DAYNAMES[6]
-  hour = 1
-  odd_slot = TablingSlot.where(
-        start_time: Chronic.parse("#{hour} this #{day}"),
-        end_time: Chronic.parse("#{hour + 1} this #{day}")
-      ).first_or_create!
-  odd_slot.save
-  return odd_slot
-end
-
-def save_tabling_results(assignments, slots)
-  for tabling_slot in slots
-      if tabling_slot
-        for member in assignments[tabling_slot]
-          slot_member = TablingSlotMember.where(member_id: member.id).where(tabling_slot_id: tabling_slot.id).first
-          if slot_member
-            puts "THe member is already there"
-          else
-            slot_member = TablingSlotMember.new
-            slot_member.member_id = member.id
-            slot_member.tabling_slot_id = tabling_slot.id
-            slot_member.save
-          end
-          if not tabling_slot.members.include? member
-            tabling_slot.members << member
-          end
-        end
-      else
-        puts "Tabling slot not found"
-      end
-    end
-    # handle the manually assign members
-    
-    for member in assignments["manual"]
-      slot_member = TablingSlotMember.where(member_id: member.id).where(tabling_slot_id: odd_slot.id).first
-      if not slot_member
-        slot_member = TablingSlotMember.new
-        slot_member.member_id = member.id
-        slot_member.tabling_slot_id = odd_slot.id
-        slot_member.save
-        if not odd_slot.members.include? member
-          odd_slot.members << member
-        end
-      end
-    end
-   end
+ 

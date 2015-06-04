@@ -1,346 +1,54 @@
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
-<script type = "text/javascript">
-//autocomplete stuff
-
-
-var clicking = false;
-var slots = {};
-slots["0"] = [];
-slots["1"] = [];
-slots["2"] = [];
-slots["3"] = [];
-slots["4"] = [];
-slots["5"] = [];
-slots["6"] = [];
-function drawDays(){
-	var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-	var hours = ["8", "9", "10", "11", "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"];
-	for(var i=0;i<days.length;i++){
-		var day_div = document.createElement("div");
-		$(day_div).addClass("day");
-		$(day_div).attr("id", (i).toString());
-		// $(day_div).text(days[i]);
-		var header = document.createElement("div");
-		$(header).addClass("day-header");
-		$(header).text(days[i]);
-		$(day_div).append(header);
-		for(var j=0;j<hours.length-1;j++){
-			var hour = document.createElement("div");
-			$(hour).addClass("hour");
-			$(hour).attr("id", j+8);
-			$(hour).text(hours[j]+" - "+hours[j+1]);
-			$(day_div).append(hour);
-		}
-		$("#times").append(day_div);
-	}
-}
-function hourActions(){
-	$(".hour").click(function(){
-		toggleSelected($(this));
-	});
-}
-function markSlots(marked_slots){
-	for(var i=0;i<7;i++){
-		var key = i;
-		for(var j=0;j<marked_slots[key].length;j++){
-			hour = marked_slots[key][j];
-			var h = $("#"+key+" "+"#"+hour);
-			toggleSelected(h);
-		}
-	}
-}
-function toggleSelected(thiss){
-
-	if(! $(thiss).hasClass("selected")){
-		$(thiss).addClass("selected");
-		$(thiss).css("background-color", "rgb(129, 129, 127)");
-		var d = $(thiss).parent().attr("id");
-		var h = $(thiss).attr("id");
-		slots[d].push(h);
-	}
-	else{
-		$(thiss).css("background-color", "white");
-		$(thiss).removeClass("selected");
-		// remove this hour from slots
-		var d = $(thiss).parent().attr("id");
-		var h = $(thiss).attr("id");
-		var index = slots[d].indexOf(h);
-		if(index>-1){
-			slots[d].splice(index,1);
-		}
-	}
-}
-function clickingActions(){
-	$(".hour").click(function(){
-		toggleSelected($(this));
-	});
-	$(".hour").mousedown(function(){
-		clicking = true;
-		toggleSelected($(this));
-	});
-	$(".hour").on("mouseover", function(){
-		if(clicking == true){
-			toggleSelected($(this));
-		}
-	});
-	$(document).mouseup(function(){
-		clicking = false;
-	});
-}
-function startAutocomplete(){
-	$("#member-search").autocomplete({
-		source: member_names,
-		select: function(event, ui){
-			var div = document.createElement("li");
-			$(div).addClass("tabling-member");
-			$(div).attr("id", member_hash[ui.item.value]);
-			$(div).text(ui.item.value);
-			$("#tabling-members-list").prepend(div);
-			tablingMemberActions();
-		}
-	});
-}
-function generateTabling(){
-	var r = confirm("this will append the members you have selected to existing slots, are you sure?");
-  if (r == false){
-    return;
-  }
-  // get members that tabling will be generated for
-  member_ids = [];
-  $(".tabling-member").each(function(){
-  	member_ids.push($(this).attr('id'));
-  });
-  console.log("these are the member ids");
-  console.log(member_ids);
-	$.ajax({
-      url:'/tabling/generate',
-      type: "POST",
-      data: {"slots": slots, "member_ids":member_ids},
-      success:function(data){
-        // alert('completed');
-        document.location.href = '/tabling';
-      },
-      complete:function(){
-      	
-      },
-      error:function (xhr, textStatus, thrownError){
-        alert('failed');
-      }
-  });
-}
-function addMembers(type){
-	if (type == "chairs")
-	{
-		<% @chairs.each do |chair| %>
-		var t_member = document.createElement("li");
-		$(t_member).addClass("tabling-member");
-		$(t_member).attr("id", '<%= chair.id %>');
-		$(t_member).text('<%= chair.name %>')
-		$("#tabling-members-list").prepend(t_member);
-		console.log(t_member);
-		<% end %>
-	}
-	else if (type == "cms") {
-		<% @cms.each do |chair| %>
-		var t_member = document.createElement("li");
-		$(t_member).addClass("tabling-member");
-		$(t_member).attr("id", '<%= chair.id %>');
-		$(t_member).text('<%= chair.name %>')
-		$("#tabling-members-list").prepend(t_member);
-		console.log(t_member);
-		<% end %>
-	}
-	else
-	{
-		alert('a different options');
-	}
-	tablingMemberActions();
-}
-function clearSlots(){
-	var r = confirm("the tabling slots you generated for this week will be cleared. continue?");
-	if(r){
-		$.ajax({
-		      url:'/tabling/delete_slots',
-		      type: "GET",
-		      data: {},
-		      success:function(data){
-            	alert('tabling generation has been started in the background, please wait for progress to be completed before navigating away');
-		      },
-		      complete:function(){
-		      	
-		      },
-		      error:function (xhr, textStatus, thrownError){
-            alert('failed');
-          }
-		  });
-	}
-}
-function tablingMemberActions(){
-	$(".tabling-member").click(function(){
-		$(this).remove();
-	});
-}
-function startButtonActions(){
-	$("#clear-button").click(function(){
-		$("#tabling-members-list").html("");
-	});
-	$("#generate-button").click(function(){
-		generateTabling("");
-	});
-}
-function addMemberButtonActions(){
-	$("#add-chairs-btn").click(function(){
-		addMembers("chairs");
-	});
-	$("#add-cms-btn").click(function(){
-		addMembers("cms");
-	});
-
-}
-
-function updateProgress(){
-	$.getScript("/tabling/progress_update");
-}
+<script type = 'text/javascript'>
+tabling_days = []
+tabling_days.push(0);
+tabling_days.push(1);
+tabling_days.push(2);
+tabling_days.push(3);
+tabling_days.push(4);
+tabling_days.push(5);
+tabling_days.push(6);
 
 $(document).ready(function(){
-	drawDays();
-	hourActions();
-	clickingActions();
 	$("#generate-btn").click(function(){
-    generateTabling();
-  });
-  $("#clear-btn").click(function(){
-    clearSlots();
-  });
-  $("#clear-list-btn").click(function(){
-  	$("#tabling-members-list").html("");
-  });
-  addMemberButtonActions();
-	// startAutocomplete();
-	// startButtonActions();
-  // poll server for progress
-  // setInterval(updateProgress, 10000);
+		href = '/tabling/generate'
+		href += '?members=all'
+		for(var i=0;i<tabling_days.length;i++){
+			addon = '&'+tabling_days[i] +'='+ $('#'+tabling_days[i]).val()
+			href += addon
+		}
+		window.location = href
+	});
+
 });
 </script>
 
-<style type = "text/css">
-#times {
-	margin-left: 25px;
-  display: block;
+<style type = 'text/css'>
+.tabling-day-input{
+	width:300px;
 }
-#existing-slots{
-  clear: both;
+.day-cell{
+	width:100px;
 }
-#buttons{
-  clear: both;
-  margin: 25px;
-}
-.day {
-	background-color: white;
-	float: left;
-	width: 100px;
-	text-align: center;
-	margin-left: -1px;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	margin: 7px;
-}
-.day:hover {
-	cursor: pointer;
-}
-.day div {
-	border: 1px solid #C5C5C5;
-	padding: 3px;
-	margin-bottom: -1px;
-}
-.day-header{
-	color:white;
-	background-color:black;
-}
-.hour:hover {
-	cursor: pointer;
-}
-#delete_slots {
-	margin-left: 25px;
-}
-
-#current_member{
-	background-color: white;
-}
-.slot_div {
-	display: inline;
-}
-
-.tabling {
-  float: left;
-  margin: 25px;
-}
-li{
-  list-style-type: none;
-}
-#tabling-list-container {
-	margin-top: -100px;
-	float: right;
-}
-.tabling-member:hover {
-	color: red;
-	cursor: pointer;
+#generate-btn{
+	margin-top:15px;
+	width:150px;
 }
 </style>
+<h1>Setup Tabling</h1>
 
-
-<h1>Tabling Options</h1>
-<b>Progress</b> <span id='progress'></span>
-
-<div id='buttons'>
-  <button class = 'btn btn-default' id = 'generate-btn'>Generate</button>
-  <button class = 'btn btn-default' id = 'clear-btn'>Clear Slots</button>
-  <button class = 'btn btn-default' id = 'add-chairs-btn'>Add Chairs</button>
-  <button class = 'btn btn-default' id = 'add-cms-btn'>Add CMs</button>
-  <button class = 'btn btn-default' id = 'clear-list-btn'>Clear List</button>
-</div>
-
-
-<div class = "panel panel-default tabling-list" id = "tabling-list-container">
-	<div class = "panel-heading">Tabling Will be Generated for These Members</div>
-	<div class = "panel-body" id = 'tabling-list'>
-
-		<ul id = "tabling-members-list">
-		</ul>
+<div class = 'row'>
+	<div class = 'col-md-8'>
+		<% for day in 0..6 %>
+		<div class = 'tabling-day'>
+			<table>
+				<tr>
+					<td class = 'day-cell'><%= day %></td>
+					<td><input id = <%= day %> type = 'text' class = 'form-control tabling-day-input' value = '10-2' placeholder = 'Enter Timeslots'></input></td>
+				</tr>
+			</table>
+		</div>
+		<% end %>
+		<button class = 'form-control' id = 'generate-btn'>Generate</button>
 	</div>
 </div>
-
-
-<div id = "times"></div>
-
-
-<br>
-<div id='existing-slots'>
-<% if @tabling_days.nil? %>
-    <h1>No tabling slots yet!</h1>
-<% else %>
- <% @tabling_days.each do |day, slots| %>
-        <ul class="tabling list-group tabling-day-list">
-          <div class="label label-primary dayheading"><%= day.strftime("%A, %D") %></div>
-          <div style = "height:15px"></div>
-          <div class="slots">
-            <% slots.each do |slot| %>
-              <div><%= render "slot", object: @slot = slot %></div>
-            <% end %>
-          </div>
-        </ul>
-      </div>
-
- <% end %>
-<% end %>
-</div>
-
-<h1>the odd slot</h1>
-<div><%= render "slot", object: @slot = @odd_slot %></div>

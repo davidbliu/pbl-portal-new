@@ -144,7 +144,7 @@ Dockernotes::Application.routes.draw do
   end
   resources :tabling do
     collection do
-      post 'generate'
+      get 'generate'
       get 'options'
       get 'edit_tabling'
       get 'delete_slots'

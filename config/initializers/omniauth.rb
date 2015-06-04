@@ -10,7 +10,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     # redirect_uri: 'http://localhost:3000/auth/google_oauth2/callback'
     redirect_uri: 'http://'+ENV['HOST']+'/auth/google_oauth2/callback'
     # redirect_uri: 'http://portal.berkeleypbl.com/auth/google_oauth2/callback'
-    # redirect_uri: 'http://localhost:'
   }
 
 end
