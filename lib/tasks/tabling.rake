@@ -1,61 +1,48 @@
-# require 'chronic'
 require 'set'
-class TablingController < ApplicationController
+require 'chronic'
 
+task :g_tabling => :environment do
+  times = 20..50
+  members = Member.current_members
+  p 'generating tabling'
+  assignments = generate_tabling_assignments(times, members)
 
-
-  def manage
-    @all_slots = TablingSlot.all
-  end
-
-
-	def index
-    @slots = TablingSlot.all
-    @members_dict = Member.current_members_dict
-  end
-	
-	#
-	# options for secretary to generate new tabling schedule
-	#
-	def options
-		cms = Member.current_cms
-    officers = Member.current_chairs
-    
-	end
-
-	#
-	# generates tabling TODO background process
-	#
-	def generate
-    members = Member.current_members
-    times = 20..50
-    assignments = generate_tabling_assignments(times, members)
-    for t in times
-      p t
-      for m in assignments[t]
-        p '       ' + m.name
-      end
-    end
-
-   redirect_to :controller => 'tabling', :action => 'index'
-	end
-
-	#
-	# clears all slots this week
-	#
-	def delete_slots
-		begin
-			clear_this_week_slots
-			render :nothing => true, :status => 200, :content_type => 'text/html'
-		rescue
-			render :nothing => true, :status => 500, :content_type => 'text/html'
-		end
-	end
+  generate_tabling_slots(assignments)
 end
 
-def generate_tabling_slots(assignments)
-  TablingSlot.destroy_all
 
+task :g_random_commitments => :environment do
+  Member.all.each do |member|
+    p member.name
+    hours = 168.times.map{ Random.rand(2) } 
+    p hours
+    member.commitments = hours
+    member.save
+  end
+end
+
+#
+# tabling generation
+#
+
+
+#
+# removes current tabling slots
+#
+def generate_tabling_slots(assignments)
+  p 'destroying all tabling slots'
+  TablingSlot.destroy_all
+  p 'creating new tabling slots'
+  assignments.keys.each do |time|
+    ts = TablingSlot.new
+    ts.time = time
+    ts.member_ids = assignments[time].map {|x| x.id}
+    p ts.time
+    p ts.member_ids
+    ts.save
+  end
+
+  p 'there are now ' + TablingSlot.all.length.to_s + ' slots'
 end
 
 # input slots: tabling slots that you want to fill
@@ -76,6 +63,12 @@ end
       unassigned.delete(mcv)
     end
 
+    # for t in times
+    #   p t
+    #   for m in assignments[t]
+    #     p '\t' + m.name
+    #   end
+    # end
     return assignments
   end
 
@@ -100,7 +93,6 @@ end
     end
 
     mcv = mcv.sample
-    p 'mcv was '+mcv.name + ' with '+max_clashes.to_s
     return mcv
   end
 
@@ -125,5 +117,3 @@ end
     lcv = lcv.sample
     return lcv
   end
-
- 

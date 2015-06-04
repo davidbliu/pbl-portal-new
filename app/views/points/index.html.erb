@@ -1,25 +1,8 @@
-<h1>Listing points</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Content</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-
-      <tr>
-        <td>d</td>
-        <td>c</td>
-        <td>b</td>
-        <td>a</td>
-      </tr>
-  </tbody>
-</table>
-
-<br>
-<%= @points %>
+<h1>Points</h1>
+<p>You have <%= @points %> points</p>
+<h2>Attended Events</h2>
+<ul>
+<% @attended.each do |event| %>
+<li><%= event.name %></li>
+<% end %>
+</ul>

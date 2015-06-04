@@ -5,6 +5,11 @@ class Event < ActiveRecord::Base
   has_many :event_members #, dependent: :destroy
 
   scope :this_semester, -> {where(semester_id: Semester.current_semester.id)}
+
+  def self.this_semester
+    return Event.where(semester_id: Semester.current_semester.id)
+  end
+
   def points
   	points = EventPoints.where(event_id: self.id.to_s)
   	if points.length != 0

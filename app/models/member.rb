@@ -130,23 +130,10 @@ class Member < ActiveRecord::Base
   end
 
 
-  # returns all members that are currently part of pbl (as in CMS or officers or execs)
-  # some extra logic for secretary to be able to mark anyone not just his own committee
-  #
-  # TODO NO LOOPS
-  #
-  # def self.current_members
-  #   all_current_members = Array.new
-  #   Member.find_each do |member|
-  #       # if chair or exec
-  #       if member.position == "chair" or (member.current_committee and member.current_committee.id == 2)
-  #           all_current_members << member
-  #       elsif member.current_committee and not member.current_committee.name.include? "General"
-  #         all_current_members << member
-  #       end
-  #   end
-  #   return all_current_members
-  # end
+  def self.current_members_dict(semester = Semester.current_semester)
+    current_members = self.current_members(semester)
+    return current_members.index_by(&:id)
+  end
 
 
   # Position of the member.

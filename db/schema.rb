@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150603030115) do
+ActiveRecord::Schema.define(version: 20150604045854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -233,6 +233,7 @@ ActiveRecord::Schema.define(version: 20150603030115) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "semester_id"
+    t.integer  "points"
   end
 
   create_table "feedbacks", force: true do |t|
@@ -305,6 +306,12 @@ ActiveRecord::Schema.define(version: 20150603030115) do
     t.datetime "updated_at"
     t.string   "name"
     t.integer  "priority"
+  end
+
+  create_table "point_managers", force: true do |t|
+    t.integer  "semester_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "points", force: true do |t|
@@ -424,6 +431,8 @@ ActiveRecord::Schema.define(version: 20150603030115) do
     t.datetime "end_time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text     "member_ids"
+    t.integer  "time"
   end
 
   create_table "tags", force: true do |t|

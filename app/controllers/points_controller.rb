@@ -3,14 +3,6 @@ class PointsController < ApplicationController
 	before_filter :is_approved
 	before_filter :is_officer, :only => :mark_attendance
 
-
-	#
-	# shows graphs of point data over time
-	#
-	def temporal_points
-
-	end
-
 	#
 	# shows all point data ever
 	# comprehensive master dayumn
@@ -21,8 +13,6 @@ class PointsController < ApplicationController
 		@semesters = Semester.order(:start_date)
 		@semester_point_hash = Hash.new
 		@semesters.each do |semester|
-			# member_point_data = Array.new # array of data on how many points each member scored
-			# semester_event_members = EventMember.where(semester_id: semester.id)
 			@semester_point_hash[semester.id] = Member.current_members(semester).map{|m| {'name'=>m.name, 'id'=>m.id, 'points'=>m.total_points(semester)}}
 			@semester_point_hash[semester.id].sort! { |a,b| a['points'] <=> b['points'] }.reverse!
 		end
@@ -32,7 +22,13 @@ class PointsController < ApplicationController
 
 
 	def index
-		@total_points = current_member.total_points
+		point_manager = PointManager.current_manager
+		# what events you attended
+		@attended = point_manager.attended_events(current_member.id)
+		# how many points you have
+		@points = point_manager.points(current_member.id)
+		# how many points everyone on your committee has
+		# rankings for pbl
 	end
 	def cooccurrence
 		
