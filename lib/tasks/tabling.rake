@@ -62,13 +62,6 @@ end
       assignments[lcv] << mcv
       unassigned.delete(mcv)
     end
-
-    # for t in times
-    #   p t
-    #   for m in assignments[t]
-    #     p '\t' + m.name
-    #   end
-    # end
     return assignments
   end
 

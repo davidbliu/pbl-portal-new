@@ -10,7 +10,8 @@ class TablingController < ApplicationController
 
 
 	def index
-    @slots = TablingSlot.all
+    # @slots = TablingSlot.all
+    @slots = TablingManager.tabling_schedule
     @members_dict = Member.current_members_dict
   end
 	

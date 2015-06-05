@@ -2,10 +2,10 @@
 <link href="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
 <h1>Tabling</h1>
 
-<% @slots.each do |slot| %>
-	<div><div class = 'label label-default'><%= slot.time_string %></div>
-		<% slot.member_ids.each do |id| %>
-		<div><%= @members_dict[id].name %></div>
+<% @slots.keys.each do |slot_time| %>
+	<div><div class = 'label label-default'><%= slot_time %></div>
+		<% @slots[slot_time].each do |id, name| %>
+		<div><%= name %></div>
 		<% end %>
 	</div>
 <% end %>

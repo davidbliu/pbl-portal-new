@@ -1,11 +1,27 @@
 class TablingManager < ActiveRecord::Base
 
+
+""" displaying tabling schedules """
+
+
 def self.tabling_schedule
 	""" returns the tabling schedule in a nice, easy to work with format
-	for the front end to display. schema is hash of <day, (id, name)> 
+	for the front end to display. 
+	schema returned is key = timeid (0 to 167) and value = list of (member_id, member_name)
 	"""
+	ts = Hash.new
+	TablingSlot.all.each do |tabling_slot|
+		member_ids = tabling_slot.member_ids
+		members = Member.where('id in (?)', member_ids).pluck(:id, :name)
+		ts[tabling_slot.time] = members
+	end
+	return ts
 end
 
+"""switching tabling"""
+
+
+"""generating tabling"""
 
 def self.generate_tabling_slots(assignments)
 	""" deletes all current tabling slots and regenerates tabling schedule
