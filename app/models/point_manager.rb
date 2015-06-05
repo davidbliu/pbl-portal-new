@@ -6,14 +6,14 @@ class PointManager < ActiveRecord::Base
 		""" returns the event_members for this member_id """
 
 		this_semester_events = Event.this_semester.pluck(:id)
-		ems = EventMember.where('event_id in (?)', $this_semester_events).where(member_id: member_id)
+		ems = EventMember.where('event_id in (?)', this_semester_events).where(member_id: member_id)
 		return ems
 	end
 
 	def self.attended_events(member_id)
 		""" gets the events that this member attended """
 
-		ems = self.event_members(member_id)
+		ems = PointManager.event_members(member_id)
 		events = Event.this_semester.where('id in (?)', ems.pluck(:event_id))
 		return events
 	end
@@ -27,7 +27,7 @@ class PointManager < ActiveRecord::Base
 
 	def self.member_point_dict
 		""" returns a dict of keys member ids and values points """
-		
+
 		m_point_dict = Rails.cache.read('member_point_dict')
 		if m_point_dict != nil
 			return m_point_dict

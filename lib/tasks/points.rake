@@ -30,3 +30,6 @@ task :g_random_points => :environment do
 
   generate_tabling_slots(assignments)
 end
+
+
+""" Testing Code """
