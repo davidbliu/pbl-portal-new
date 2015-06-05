@@ -22,12 +22,12 @@ class PointsController < ApplicationController
 
 
 	def index
-		point_manager = PointManager.current_manager
 		# what events you attended
-		@attended = point_manager.attended_events(current_member.id)
+		@attended = PointManager.attended_events(current_member.id)
 		# how many points you have
-		@points = point_manager.points(current_member.id)
+		@points = PointManager.points(current_member.id)
 		# how many points everyone on your committee has
+		@member_name_point_dict = PointManager.member_name_point_dict
 		# rankings for pbl
 	end
 	def cooccurrence

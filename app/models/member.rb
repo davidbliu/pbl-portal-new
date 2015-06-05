@@ -68,6 +68,15 @@ class Member < ActiveRecord::Base
 
   belongs_to :old_member
 
+
+   def self.member_hash
+    mhash = Rails.cache.read('member_hash')
+    if mhash == nil
+      mhash = Member.all.index_by(&:id)
+      Rails.cache.write('member_hash', mhash)
+    end
+    return mhash
+  end
   # scope :current_member
   # scope :in_committee, ->(c) {where(committees.first == c)}
   # scope :current_semester, -> {where(self.event.semester == Semester.current_semester)}
@@ -118,6 +127,9 @@ class Member < ActiveRecord::Base
     current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).pluck(:member_id)
     return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
   end
+
+ 
+
 
   def current_committee(semester = Semester.current_semester)
     committee = self.committees.first
