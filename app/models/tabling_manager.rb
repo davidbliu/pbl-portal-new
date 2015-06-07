@@ -9,12 +9,18 @@ def self.tabling_schedule
 	for the front end to display. 
 	schema returned is key = timeid (0 to 167) and value = list of (member_id, member_name)
 	"""
+	ts = Rails.cache.read('tabling_schedule')
+	if ts != nil
+		return ts
+	end
+
 	ts = Hash.new
 	TablingSlot.all.each do |tabling_slot|
 		member_ids = tabling_slot.member_ids
 		members = Member.where('id in (?)', member_ids).pluck(:id, :name)
 		ts[tabling_slot.time] = members
 	end
+	Rails.cache.write('tabling_schedule', ts)
 	return ts
 end
 
