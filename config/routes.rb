@@ -1,6 +1,7 @@
 Dockernotes::Application.routes.draw do
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+
+  # , ActiveAdmin::Devise.config
+  # ActiveAdmin.routes(self)
   resources :notes
 
   get "/sign_out", to: "sessions#sign_out"
