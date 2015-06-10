@@ -58,15 +58,7 @@ class Member < ActiveRecord::Base
 
   has_many :event_members, dependent: :destroy
 
-  # has_many :reimbursements, dependent: :destroy
 
-  # has_many :commitments, dependent: :destroy
-
-  has_many :points, dependent: :destroy
-
-  # has_many :likes
-
-  belongs_to :old_member
 
 
    def self.member_hash

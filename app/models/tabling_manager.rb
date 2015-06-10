@@ -87,9 +87,9 @@ end
       end
     end
 
-    p 'there were '+mcv.length.to_s + ' mcvs'
+    # p 'there were '+mcv.length.to_s + ' mcvs'
     mcv = mcv.sample
-    p 'mcv was '+mcv.name + ' with '+max_clashes.to_s
+    # p 'mcv was '+mcv.name + ' with '+max_clashes.to_s
     return mcv
   end
 
