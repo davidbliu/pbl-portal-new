@@ -3,6 +3,7 @@ require 'test_helper'
 class FeedbackTest < ActiveSupport::TestCase
 
 """ test member commitments """
+
   test 'non nil commitments will be defaulted to valid' do
   	member = members(:no_commitment_member)
     assert member.save
@@ -34,18 +35,25 @@ class FeedbackTest < ActiveSupport::TestCase
   end
 
 """ test committee members """
+
   test 'no duplicate committee_members' do
   	member = members(:no_commitment_member)
   	committee = committees(:wd)
+    fall = semesters(:fall)
+    spring = semesters(:spring)
 
-    p CommitteeMember.all.length.to_s + ' committee members in the database'
-    cm1 = CommitteeMember.new(member_id: member.id, committee_id: committee.id)
+    cm1 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: fall.id)
     assert cm1.save
 
-    p CommitteeMember.all.length.to_s + ' committee members in the database'
-    cm2 = CommitteeMember.new(member_id: member.id, committee_id: committee.id)
+    cm2 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: spring.id)
     assert cm2.save, 'should be able to save if different semesteres'
 
+    cm3 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: fall.id)
+    assert_not cm3.save, 'cannot have two commitees per semester'
+  end
+
+  test 'can easily access member committee' do 
+    assert true
   end
 
 """ test member helper methods """
