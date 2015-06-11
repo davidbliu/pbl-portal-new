@@ -36,6 +36,8 @@
 # - CommitmentCalendar
 # - EventMember
 # - Reimbursement
+
+
 class Member < ActiveRecord::Base
   attr_accessible :name, :provider, :uid,   
     :profile, :old_member_id, :remember_token, 
@@ -54,12 +56,18 @@ class Member < ActiveRecord::Base
   has_many :committee_members, dependent: :destroy
   has_many :committees, through: :committee_members
 
-  # has_many :commitment_calendars, dependent: :destroy
+  # commitments should not be nil and should be a 168 length array of 1 and 0
+  validates :commitments, presence: true
+  validate :commitments_must_be_168_array
+  before_validation :default_commitments
 
   has_many :event_members, dependent: :destroy
 
 
-
+  """ 
+  convenince methods for the Member class 
+  these can be called like Member.member_hash or Member.current_members
+  """
 
    def self.member_hash
     mhash = Rails.cache.read('member_hash')
@@ -174,12 +182,6 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def scavenger_admin?
-    if self.admin? or self.current_committee.name == "Internal Networking"
-      return true
-    end
-    return false
-  end
   # Admin status of the member.
   # TODO only if currently an exec
   def admin?
@@ -286,16 +288,6 @@ class Member < ActiveRecord::Base
     "#{self.name}; #{committee_name}: #{self.position || "Member"}"
   end
 
-  # Find matches on the main site using last name and email
-  def find_old_members
-    old_members = OldMember.where(
-      "lower(last_name) = :last_name",
-      last_name: self.name.split[-1].downcase,
-    )
-
-    return old_members
-  end
-
   #
   # update member based on secretary's approval
   #
@@ -316,52 +308,7 @@ class Member < ActiveRecord::Base
     end
     self.add_to_committee(committee.name, committee_type, cm_type)
   end
-  # Update member information through the main site
-  def update_from_old_member
-    if self.old_member
-      old_member = self.old_member
 
-      # If this member is a committee member
-      if old_member.tier_id == 3
-
-        name = old_member.position.chomp("Committee Member").strip
-        committee_type = CommitteeType.committee
-        cm_type = CommitteeMemberType.cm
-
-      # If this member is a committee chair
-      elsif old_member.tier_id == 4
-
-        name = old_member.position.chomp("Chair").strip
-        committee_type = CommitteeType.committee
-        cm_type = CommitteeMemberType.chair
-
-      # If this member is an executive
-      elsif old_member.tier_id == 5
-
-        name = "Executive"
-        committee_type = CommitteeType.admin
-        cm_type = CommitteeMemberType.exec(old_member.position)
-
-        # Exit with nil if the correct cm_type was not found
-        return nil if cm_type.nil?
-
-      # If this member is a general member
-      elsif old_member.tier_id == 2
-
-        name = "General Members"
-        committee_type = CommitteeType.general
-        cm_type = CommitteeMemberType.gm
-
-      end
-
-      self.add_to_committee(name, committee_type, cm_type)
-
-      # Remove from any general committees unless the member belongs there
-      self.remove_from_general unless old_member.tier_id == 2
-
-      return self.save
-    end
-  end
 
 
   # Add member to the committee (creating the committee if it doesn't exist) as the given
@@ -422,25 +369,9 @@ class Member < ActiveRecord::Base
     return EventPoints.where('event_id IN (?)', events_attended).sum(:value)
   end
 
-  def scavenger_points
-    group_ids = ScavengerGroupMember.where(member_id: self.id).pluck(:scavenger_groups_id)
-    points = ScavengerPhoto.where('group_id in (?)', group_ids).pluck(:points)
-    return points.sum    #ScavengerGroup.where('id in (?)', group_ids).pluck(:id)
-  end
 
-  def scavenger_groups
-    my_group_ids = ScavengerGroupMember.where(member_id: self.id).pluck(:scavenger_groups_id)
-    return ScavengerGroup.where('id in (?)', my_group_ids)
-  end
-
-  def personal_scavenger_data
-    return 'wat'
-  end
   # Return all attended tabling slots
   def attended_slots
-    # self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).map do |tsm|
-    #   tsm.tabling_slot
-    # end
     return self.tabling_slot_members.where(status_id: Status.where(name: :attended).first).pluck(:tabling_slot)
   end
 
@@ -449,5 +380,27 @@ class Member < ActiveRecord::Base
     def create_remember_token
       self.remember_token = Member.encrypt(Member.new_remember_token)
     end
+
+  """ validation """
+  def default_commitments
+    default_com = Array.new(168)
+    168.times{|i| default_com[i] = 0}
+    self.commitments ||= default_com
+  end
+
+  def commitments_must_be_168_array
+    if self.commitments
+      if self.commitments.kind_of?(Array)
+        if self.commitments.all?{|i| i.is_a? Fixnum }
+          if self.commitments.length == 168
+            return
+          else
+          end
+        end
+      end
+    end
+    errors.add(:commitments, "commitments must be a 168 array")
+    
+  end
 
 end

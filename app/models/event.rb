@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   has_one :event_points #, dependent: :destroy
   has_many :event_members #, dependent: :destroy
 
-  scope :this_semester, -> {where(semester_id: Semester.current_semester.id)}
+  # scope :this_semester, -> {where(semester_id: Semester.current_semester.id)}
 
   def self.this_semester
     return Event.where(semester_id: Semester.current_semester.id)

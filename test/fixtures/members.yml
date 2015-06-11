@@ -1,0 +1,6 @@
+no_commitment_member:
+    email: 'davidbliu@gmail.com'
+    provider: 'google'
+    uid: 'somerandomgoogleid123'
+    name: 'david'
+

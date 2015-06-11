@@ -32,4 +32,7 @@ class CommitteeMember < ActiveRecord::Base
   belongs_to :semester, foreign_key: :semester_id
   # current_semester_id = Semester.current_semester.id
   # default_scope where(semester_id: current_semester_id)
+
+  # member cannot belong to muliple committees in the same semester
+  validates :member_id, :uniqueness => {:scope => [:committee_id, :semester_id]}
 end

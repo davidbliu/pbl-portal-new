@@ -45,3 +45,9 @@ class GenerateAssignmentsSuite
 	end
 end
 
+class TestSuite
+""" runs tests 
+each method run either succeeds or rails with some error message for what test was run and if it succeeded or not 
+"""
+end
+

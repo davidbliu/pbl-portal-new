@@ -1,7 +1,4 @@
 echo "Running Unit Tests"
 
-echo "Generating test fixtures"
-rake fixtures:all
-
-echo "Running Tabling Unit Tests"
-rake test:tabling:generate_assignments_basic
+echo "running member model tests"
+rake test test/models/member_test.rb

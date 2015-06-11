@@ -1,11 +1,6 @@
 class NotesController < ApplicationController
   before_action :set_note, only: [:show, :edit, :update, :destroy]
 
-  def test
-    p 'hello my name is david'
-    david = Member.first
-    p david
-  end
   # GET /notes
   # GET /notes.json
   def index
