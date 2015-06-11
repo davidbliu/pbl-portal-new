@@ -23,3 +23,5 @@ ssh2.sh
 setenv.sh
 *.pem
 test/fixtures/.DS_Store
+app/.DS_Store
+*.DS_Store

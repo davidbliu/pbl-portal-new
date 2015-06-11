@@ -38,18 +38,27 @@ class FeedbackTest < ActiveSupport::TestCase
 
   test 'no duplicate committee_members' do
   	member = members(:no_commitment_member)
-  	committee = committees(:wd)
+  	wd = committees(:wd)
     fall = semesters(:fall)
     spring = semesters(:spring)
 
-    cm1 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: fall.id)
+    cm1 = CommitteeMember.new
+    cm1.member_id = member.id
+    cm1.committee_id = wd.id
+    cm1.semester_id = fall.id
     assert cm1.save
 
-    cm2 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: spring.id)
+    cm2 = CommitteeMember.new
+    cm2.member_id = member.id
+    cm2.semester_id = spring.id
+    cm2.committee_id = wd.id
     assert cm2.save, 'should be able to save if different semesteres'
 
-    cm3 = CommitteeMember.new(member_id: member.id, committee_id: committee.id, semester_id: fall.id)
-    assert_not cm3.save, 'cannot have two commitees per semester'
+    cm3 = CommitteeMember.new
+    cm3.member_id = member.id
+    cm3.semester_id = spring.id
+    cm3.committee_id = wd.id
+    assert_not cm3.save, 'cannot have two commitee members per semester'
   end
 
   test 'can easily access member committee' do 

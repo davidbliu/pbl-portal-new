@@ -53,6 +53,7 @@ class Member < ActiveRecord::Base
   has_many :tabling_slot_members, dependent: :destroy
   has_many :tabling_slots, through: :tabling_slot_members
 
+  # should be able to easily access members committee information
   has_many :committee_members, dependent: :destroy
   has_many :committees, through: :committee_members
 
@@ -279,13 +280,6 @@ class Member < ActiveRecord::Base
   # - event: an event with an id
   def attended?(event)
     !self.event_members.where(event_id: event.id).empty?
-  end
-
-  # Helper for displaying itself in autocomplete forms.
-  def autocomplete_display
-    committee_name = self.committees.first ? self.committees.first.name : "N/A"
-
-    "#{self.name}; #{committee_name}: #{self.position || "Member"}"
   end
 
   #
