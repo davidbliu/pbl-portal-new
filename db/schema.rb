@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20150611153932) do
     t.datetime "updated_at",               null: false
     t.integer  "committee_member_type_id"
     t.integer  "semester_id"
-    t.integer  "position"
+    t.integer  "position_id"
   end
 
   add_index "committee_members", ["committee_id"], name: "index_committee_members_on_committee_id", using: :btree

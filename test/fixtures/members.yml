@@ -1,6 +1,7 @@
-no_commitment_member:
+david:
     email: 'davidbliu@gmail.com'
     provider: 'google'
     uid: 'somerandomgoogleid123'
     name: 'david'
+    id: 1
 

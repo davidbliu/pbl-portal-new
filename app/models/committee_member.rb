@@ -23,8 +23,10 @@
 # - Committee
 # - CommitteeMemberType
 # - TODO: Semester
+
+
 class CommitteeMember < ActiveRecord::Base
-  attr_accessible :committee_id, :member_id, :semester_id, :position
+  attr_accessible :committee_id, :member_id, :semester_id, :position_id
 
   belongs_to :committee_member_type
   belongs_to :member
@@ -36,7 +38,28 @@ class CommitteeMember < ActiveRecord::Base
 
   # should be able to get position (exec chair cm gm none)
   # should be able to get permissions
+  validates :position_id, presence: true
+  positions = Hash.new
+  positions[1] = CommitteeMemberPosition.new('general member', 'gm', 0, 0)
+  positions[2] = CommitteeMemberPosition.new('committee member', 'cm', 1, 1)
+  positions[3] = CommitteeMemberPosition.new('chair', 'chair', 2, 2)
+  positions[4] = CommitteeMemberPosition.new('executive', 'ex', 3, 3)
 
+  def position
+	return positions[self.position_id]
+  end
+
+  def role
+  	return self.position.name
+  end
+
+  def tier
+  	return self.position.tier
+  end
+
+  def permissions
+  	return self.position.permissions
+  end
 
 
 end

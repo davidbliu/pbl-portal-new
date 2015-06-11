@@ -78,13 +78,10 @@ class Member < ActiveRecord::Base
     end
     return mhash
   end
-  # scope :current_member
-  # scope :in_committee, ->(c) {where(committees.first == c)}
-  # scope :current_semester, -> {where(self.event.semester == Semester.current_semester)}
-  # TODO: store in DB
-  def primary_committee
-    # self.committees.first
-    self.committees.first
+
+  def self.current_members_dict(semester = Semester.current_semester)
+    current_members = self.current_members(semester)
+    return current_members.index_by(&:id)
   end
 
   #
@@ -102,19 +99,17 @@ class Member < ActiveRecord::Base
   end
 
   def self.current_gm_ids(semester = Semester.current_semester)
-    # ids = Member
     gm_id = Committee.find(1)
     gm_ids = CommitteeMember.where(committee_id: gm_id).where(semester_id: semester.id).pluck(:member_id)
   end
 
-  #
   # excludes gms
-  #
   def self.current_members(semester = Semester.current_semester)
     current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).pluck(:member_id)
     return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids)
   end
 
+  # chairs and execs
   def self.current_chairs(semester = Semester.current_semester)
     chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
     chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
@@ -129,8 +124,10 @@ class Member < ActiveRecord::Base
     return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
   end
 
- 
-
+   
+  def primary_committee
+    self.committees.first
+  end
 
   def current_committee(semester = Semester.current_semester)
     committee = self.committees.first
@@ -142,11 +139,7 @@ class Member < ActiveRecord::Base
     end
   end
 
-
-  def self.current_members_dict(semester = Semester.current_semester)
-    current_members = self.current_members(semester)
-    return current_members.index_by(&:id)
-  end
+  
 
 
   # Position of the member.

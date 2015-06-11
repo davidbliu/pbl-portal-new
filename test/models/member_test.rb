@@ -5,18 +5,18 @@ class FeedbackTest < ActiveSupport::TestCase
 """ test member commitments """
 
   test 'non nil commitments will be defaulted to valid' do
-  	member = members(:no_commitment_member)
+  	member = members(:david)
     assert member.save
   end
 
   test 'members must have array commitments' do
-  	member = members(:no_commitment_member)
+  	member = members(:david)
     member.commitments = "asdf"
     assert_not member.save
   end
 
   test 'member commitments must be array of 0 and 1' do
-  	member = members(:no_commitment_member)
+  	member = members(:david)
     member.commitments = ['a', 'b', 'c']
     assert_not member.save
 
@@ -25,7 +25,7 @@ class FeedbackTest < ActiveSupport::TestCase
   end
 
   test 'member commitments must be correct length' do
-  	member = members(:no_commitment_member)
+  	member = members(:david)
     member.commitments = [0, 1, 0, 1]
     assert_not member.save
 
@@ -37,7 +37,7 @@ class FeedbackTest < ActiveSupport::TestCase
 """ test committee members """
 
   test 'no duplicate committee_members' do
-  	member = members(:no_commitment_member)
+  	member = members(:david)
   	wd = committees(:wd)
     fall = semesters(:fall)
     spring = semesters(:spring)
@@ -46,18 +46,21 @@ class FeedbackTest < ActiveSupport::TestCase
     cm1.member_id = member.id
     cm1.committee_id = wd.id
     cm1.semester_id = fall.id
+    cm1.position_id = 1
     assert cm1.save
 
     cm2 = CommitteeMember.new
     cm2.member_id = member.id
     cm2.semester_id = spring.id
     cm2.committee_id = wd.id
+    cm2.position_id = 1
     assert cm2.save, 'should be able to save if different semesteres'
 
     cm3 = CommitteeMember.new
     cm3.member_id = member.id
     cm3.semester_id = spring.id
     cm3.committee_id = wd.id
+    cm3.position_id = 1
     assert_not cm3.save, 'cannot have two commitee members per semester'
   end
 
