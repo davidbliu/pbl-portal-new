@@ -42,7 +42,7 @@ class Member < ActiveRecord::Base
     :confirmation_status, :swipy_data, :registration_comment,
     :commitments
 
-  serialize :commitments
+  serialize :commitments # array of length 168 for all hours in a week. 1 if busy 0 if not
 
   validates :provider, :uid, :name, presence: true
 

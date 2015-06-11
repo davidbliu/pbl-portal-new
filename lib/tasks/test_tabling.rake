@@ -7,7 +7,9 @@ namespace :test do
 
 	  # should be able to specify times and members and have tabling slots generated for you
 	  task :generate_assignments_basic => ["db:test:set_test_env", :environment] do
-	  	generate_assignments_basic
+	  	g_100_members
+	  	assignmentSuite = GenerateAssignmentsSuite.new
+	  	assignmentSuite.generate_assignments_basic
 	  end
 	end
 end
@@ -21,33 +23,25 @@ namespace :db do
   end
 end 
 
-def g_random_commitments
-	Member.all.each do |member|
-		p member.name
-		hours = 168.times.map{ Random.rand(2) } 
-		p hours
-		member.commitments = hours
-		member.save
-	end
-end
+class GenerateAssignmentsSuite
+	def generate_assignments_basic
+		puts 'generate_assignments_basic: basic assignment generation testing'
+		begin
+			times = 1..20
+			members = Member.all.to_a
+			assignments = TablingManager.generate_tabling_assignments(times, members)
 
-def generate_assignments_basic
-	puts 'generate_assignments_basic: basic assignment generation testing'
-	begin
-		times = 1..20
-		members = Member.all.to_a
-		assignments = TablingManager.generate_tabling_assignments(times, members)
+			if not assignments
+				puts "\t failed: assignments is nil"
+			else
+				puts "\t passed: assignments is not nil"
+			end
 
-		if not assignments
-			puts "\t failed: assignments is nil"
-		else
-			puts "\t passed: assignments is not nil"
+		rescue => error
+			p '*** FAILED basic_generate_assignments ***'
+			p error
+			return false
 		end
-
-		
-	rescue => error
-		p '*** FAILED basic_generate_assignments ***'
-		p error
-		return false
 	end
 end
+
