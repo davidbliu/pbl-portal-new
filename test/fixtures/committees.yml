@@ -1,3 +1,12 @@
 wd:
-    name: "web development"
+    name: "Web Development"
     abbr: "wd"
+    id: 1
+gm:
+    name: "General Members"
+    abbr: "gm"
+    id: 2
+exec: 
+    name: 'Executives'
+    abbr: 'ex'
+    id: 3

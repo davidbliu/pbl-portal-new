@@ -3,11 +3,25 @@ cm1:
     position_id: 2
     member_id: 1
     committee_id: 1
+    semester_id: 2
+
+david_wd_chair_fall:
+    id: 3
+    position_id: 2
+    member_id: 2
+    committee_id: 1
+    semester_id: 2
+
+david_ht_cm_spring:
+    id: 2
+    position_id: 1
+    member_id: 2
+    committee_id: 1
     semester_id: 1
 
-cm2:
-    id: 2
+nathalie_exec_fall:
+    id: 234
     position_id: 3
-    member_id: 1
-    committee_id: 1
+    member_id: 123
+    committee_id: 3
     semester_id: 2

@@ -110,76 +110,70 @@ class Member < ActiveRecord::Base
   end
 
   # chairs and execs
+  def self.current_officers(semester = Semester.current_semester)
+    chair_ids = CommitteeMember.where(semester: semester).where('position_id > 2').pluck(:member_id)
+    return Member.where('id IN (?)', chair_ids)
+  end
+
+  def self.current_execs(semester = Semester.current_semester)
+    chair_ids = CommitteeMember.where(semester: semester).where('position_id = 4').pluck(:member_id)
+    return Member.where('id IN (?)', chair_ids)
+  end
+
   def self.current_chairs(semester = Semester.current_semester)
-    chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
-    chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
+    chair_ids = CommitteeMember.where(semester: semester).where('position_id = 3').pluck(:member_id)
     return Member.where('id IN (?)', chair_ids)
   end
 
   # excludes chairs
   def self.current_cms(semester = Semester.current_semester)
-    chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
-    chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
-    current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).pluck(:member_id)
-    return Member.where('id IN (?)', current_committee_member_ids).where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
+    # chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
+    # chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
+    current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).where('position_id = 2').pluck(:member_id)
+    return Member.where('id IN (?)', current_committee_member_ids)#.where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
   end
 
-   
   def primary_committee
     self.committees.first
   end
 
+  # returns the committee for this semester and gm if not in any committee
   def current_committee(semester = Semester.current_semester)
-    committee = self.committees.first
-    cm = CommitteeMember.where(member_id: self.id).where(semester_id: semester.id)
-    if cm.length > 0
-      if Committee.where(id: cm.first.committee.id).length > 0
-        committee= Committee.where(id: cm.first.committee.id).first
-      end
+    cm = CommitteeMember.where('member_id = ? AND semester_id = ?', self.id, semester.id)
+    if cm.length == 0
+      return Committee.gm
+    else
+      return Committee.find(cm.first.committee_id)
     end
   end
 
-  
-
-
-  # Position of the member.
-  # If no committee is given, returns the position for its #primary_committee.
-  # Returns nil if the member does not belong to the committee, or it does not have a committee.
-  #
-  # === Parameters
-  # - committee: the Committee to look up the position under; defaults to #primary_committee
-  def position(semester = Semester.current_semester, committee=self.current_committee)
-    if committee
-      committee_member = self.committee_members.where(
-        committee_id: committee.id).where(
-        semester_id: semester.id
-      ).first
-
-      committee_member.committee_member_type.name if committee_member
+  def position(semester = Semester.current_semester)
+    committee = self.current_committee
+    if committee == Committee.gm 
+      return CommitteeMemberPosition.positions[1]
+    else
+      return CommitteeMember.where('member_id = ? AND semester_id = ? AND committee_id = ?', self.id, semester.id, committee.id).first.position
     end
   end
 
-  # Tier of the member
-  # If no committee is given, returns the tier for its #primary_committee.
-  # Returns nil if the member does not belong to the committee, or it does not have a committee.
-  #
-  # === Parameters
-  # - committee: the Committee to look up the tier under; defaults to #primary_committee
-  def tier(semester = Semester.current_semester, committee=self.primary_committee)
-    if committee
-      committee_member = self.committee_members.where(
-        committee_id: committee.id).where(
-        semester_id: semester.id
-      ).first
-
-      committee_member.committee_member_type.tier if committee_member
-    end
+  def tier(semester = Semester.current_semester)
+    return self.position(semester).tier
   end
 
-  # Admin status of the member.
-  # TODO only if currently an exec
+  def role(semester = Semester.current_semester)
+    return self.position(semester).name 
+  end
+
+  def permissions(semester = Semester.current_semester)
+    return self.position(semester).permissions
+  end
+
+  # execs and web development are considered admin
   def admin?
-    self.name == "Keien Ohta" or self.name == "David Liu" or (self.current_committee and self.current_committee.name.include? "Exec") or self.name == "Kevin Zhang" or self.name == "Eric Quach"
+    if self.name == 'David Liu' or self.name == 'Eric Quach'
+      return true
+    end
+    return (self.position.permissions == 3 or self.current_committee == Committee.wd)
      #or self.committees.include?(Committee.where(name: "Executive").first)
   end
 

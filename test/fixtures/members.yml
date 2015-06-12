@@ -1,7 +1,34 @@
-david:
+member1:
     email: 'davidbliu@gmail.com'
     provider: 'google'
     uid: 'somerandomgoogleid123'
     name: 'david'
     id: 1
 
+random_gm:
+    email: 'randomgm@gmail.com'
+    provider: 'google'
+    uid: 'randomui'
+    name: 'random_luser'
+    id: 4
+    
+david:
+    email: 'davidbliu1@gmail.com'
+    provider: 'google'
+    uid: 'somerandom'
+    name: 'daliu'
+    id: 2
+
+eric:
+    email: 'sadloser@gmail.com'
+    provider: 'google'
+    uid: '123'
+    name: 'eric'
+    id: 3
+
+nathalie: 
+    email: 'nat@gmail.com'
+    provider: 'google'
+    uid: '123'
+    name: 'eric'
+    id: 123

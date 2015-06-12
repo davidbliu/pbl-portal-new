@@ -2,10 +2,10 @@ fall:
     name: 'fall 2015'
     start_date: <%= Time.now %>
     end_date: <%= Time.now + 10.weeks %>
-    id: 1
+    id: 2
 
 spring:
     name: 'spring 2015'
     start_date: <%= Time.now - 10.weeks %>
     end_date: <%= Time.now-1.day %>
-    id: 2
+    id: 1

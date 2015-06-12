@@ -36,6 +36,25 @@ class Committee < ActiveRecord::Base
   has_many :committee_members, dependent: :destroy
   has_many :members, through: :committee_members
 
+  """ 
+  convenience methods for getting specific committees
+  """
+  def self.gm
+    return Committee.where(name: "General Members").first
+  end
+
+  def self.ht
+    return Committee.where(name: "Historians").first
+  end
+
+  def self.pb
+    return Committee.where(name: "Publications").first
+  end
+
+  def self.wd
+    return Committee.where(name: "Web Development").first
+  end
+
   # Show the committee's rating.
   def rating(semester = Semester.current_semester)
     if self.cms(semester).count > 0

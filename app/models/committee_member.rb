@@ -39,27 +39,22 @@ class CommitteeMember < ActiveRecord::Base
   # should be able to get position (exec chair cm gm none)
   # should be able to get permissions
   validates :position_id, presence: true
-  positions = Hash.new
-  positions[1] = CommitteeMemberPosition.new('general member', 'gm', 0, 0)
-  positions[2] = CommitteeMemberPosition.new('committee member', 'cm', 1, 1)
-  positions[3] = CommitteeMemberPosition.new('chair', 'chair', 2, 2)
-  positions[4] = CommitteeMemberPosition.new('executive', 'ex', 3, 3)
+
 
   def position
-	return positions[self.position_id]
+    return CommitteeMemberPosition.positions[self.position_id]
   end
 
   def role
-  	return self.position.name
+    return self.position.name
   end
 
   def tier
-  	return self.position.tier
+    return self.position.tier
   end
 
   def permissions
-  	return self.position.permissions
+    return self.position.permissions
   end
-
 
 end
