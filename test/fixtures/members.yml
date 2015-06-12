@@ -11,7 +11,7 @@ random_gm:
     uid: 'randomui'
     name: 'random_luser'
     id: 4
-    
+
 david:
     email: 'davidbliu1@gmail.com'
     provider: 'google'
@@ -31,4 +31,4 @@ nathalie:
     provider: 'google'
     uid: '123'
     name: 'eric'
-    id: 123
+    id: 5

@@ -13,14 +13,6 @@ class FeedbackTest < ActiveSupport::TestCase
 
   test 'committee member convenience methods work' do 
   	member = members(:david)
-    # p 'this was the position'
-    # p member.name
-    # p member.id
-    # p member.current_committee.name
-    # p member.position.name
-    # p member.position.abbr
-    # p member.position.tier
-    # p member.position.permissions
   	assert member.role == 'chair', 'can use member.role but member.role was '+member.role.to_s
   	assert member.tier == 2, 'can use member.tier but member.tier was '+member.tier.to_s
   	assert member.permissions == 2, 'can use member.permissions but member.permissions was '+member.permissions.to_s

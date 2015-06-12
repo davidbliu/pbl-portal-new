@@ -1,0 +1,9 @@
+event1:
+    name: 'event1'
+    start_time: <%= Time.now %>
+    id: 1
+
+event2:
+    name: 'event2'
+    start_time: <%= Time.now - 10.days %>
+    id: 2
