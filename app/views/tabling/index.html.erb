@@ -1,11 +1,31 @@
 <!-- TODO remove hardcoded jquery cdn -->
-<link href="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+<style type = 'text/css'>
+th, td {
+    vertical-align: top;
+}
+.tabling-day {
+	margin-left: 20px;
+}
+</style>
+
 <h1>Tabling</h1>
 
-<% @slots.keys.each do |slot_time| %>
-	<div><div class = 'label label-default'><%= slot_time %></div>
-		<% @slots[slot_time].each do |id, name| %>
-		<div><%= name %></div>
+<table>
+	<tr>
+<% @slots.keys.each do |tabling_day| %>
+	<td>
+		<div class = 'tabling-day'>
+		<% @slots[tabling_day].each do |tabling_slot| %>
+			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
+				<div class = 'tabling-slot-label label label-primary'><%= tabling_slot.day %> <%= tabling_slot.hour %></div>
+				<% tabling_slot.members.each do |member| %>
+					<div><%= member.name %></div>
+				<% end %>
+			</div>
 		<% end %>
-	</div>
+		</div>
+	</td>
 <% end %>
+
+</tr>
+</table>

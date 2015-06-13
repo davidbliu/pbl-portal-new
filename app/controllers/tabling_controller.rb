@@ -29,7 +29,8 @@ class TablingController < ApplicationController
 	#
 	def generate
     members = Member.current_members
-    times = 20..50
+    # times = 20..50
+    times = 20.times.map{ Random.rand(167) } 
     assignments = TablingManager.generate_tabling_assignments(times, members)
     for t in times
       p t

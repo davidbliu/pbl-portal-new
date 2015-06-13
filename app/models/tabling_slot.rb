@@ -22,11 +22,13 @@
 # - TablingSlotMember
 # - Member
 class TablingSlot < ActiveRecord::Base
-  # POINTS = 1
 
-  attr_accessible :member_ids
+  attr_accessible :member_ids, :time
   serialize :member_ids
 
+  # needs a time
+  validates :time, presence: true
+  
   def day
     return self.time / 24
   end
@@ -35,19 +37,24 @@ class TablingSlot < ActiveRecord::Base
     return self.time % 24
   end
 
-  def day_string
-    day_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    return day_strings[self.day]
+  def members
+    member_hash = Member.member_hash
+    member_ids.map{|id| member_hash[id]}
   end
 
-  def day_string_abbrev
-    day_string_abbrevs = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
-    return day_string_abbrevs[self.day]
-  end
+  # def day_string
+  #   day_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  #   return day_strings[self.day]
+  # end
 
-  def time_string
-    return self.day_string + ' at ' + self.hour_string
-  end
+  # def day_string_abbrev
+  #   day_string_abbrevs = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
+  #   return day_string_abbrevs[self.day]
+  # end
+
+  # def time_string
+  #   return self.day_string + ' at ' + self.hour_string
+  # end
 
   def hour_string
     h = self.hour % 12
@@ -56,17 +63,5 @@ class TablingSlot < ActiveRecord::Base
     end
     return h.to_s+':00'
   end
-  # , :start_time
 
-  # has_many :tabling_slot_members, dependent: :destroy
-  # has_many :members, through: :tabling_slot_members
-
-  # def member_names
-  # 	return self.members.pluck(:name)
-  # end
-
-  # def member_name_id_map
-
-  # 	return self.tabling_slot_members.map{|m| {"member_id"=>m.member.id, "name"=>m.member.name, "id"=>m.id, "tsm_id"=>m.id,"profile"=>m.member.profile_url, "position"=>m.member.position, "exec"=>m.member.exec?}}
-  # end
 end

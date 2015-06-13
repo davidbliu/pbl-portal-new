@@ -34,7 +34,6 @@ class FeedbackTest < ActiveSupport::TestCase
     assert member.save
   end
 
-
   test 'can easily access member committee' do 
     assert true
   end

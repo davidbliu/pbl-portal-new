@@ -7,21 +7,32 @@ class TablingManager < ActiveRecord::Base
 def self.tabling_schedule
 	""" returns the tabling schedule in a nice, easy to work with format
 	for the front end to display. 
-	schema returned is key = timeid (0 to 167) and value = list of (member_id, member_name)
 	"""
-	ts = Rails.cache.read('tabling_schedule')
-	if ts != nil
-		return ts
-	end
+	# schedule = Rails.cache.read('tabling_schedule')
+	# if schedule != nil
+	# 	return schedule
+	# end
 
-	ts = Hash.new
+  p 'running this method'
+	schedule = Hash.new
 	TablingSlot.all.each do |tabling_slot|
-		member_ids = tabling_slot.member_ids
-		members = Member.where('id in (?)', member_ids).pluck(:id, :name)
-		ts[tabling_slot.time] = members
+		# member_ids = tabling_slot.member_ids
+		# members = Member.where('id in (?)', member_ids).pluck(:id, :name)
+		# schedule[tabling_slot.time] = members
+
+    # put this slot into the day key in the schedule
+    if not schedule.keys.include?(tabling_slot.day) 
+      schedule[tabling_slot.day] = Array.new
+    end
+    schedule[tabling_slot.day] << tabling_slot
 	end
-	Rails.cache.write('tabling_schedule', ts)
-	return ts
+  # sort the schedule by tabling_slot time
+  schedule.keys.each do |tabling_day|
+    schedule[tabling_day].sort { |a, b| a.time <=> b.time}
+  end
+
+	Rails.cache.write('tabling_schedule', schedule)
+	return schedule
 end
 
 """switching tabling"""
