@@ -133,11 +133,8 @@ class Member < ActiveRecord::Base
     return Member.where('id IN (?)', current_committee_member_ids)#.where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
   end
 
-  def primary_committee
-    self.committees.first
-  end
-
-  # returns the committee for this semester and gm if not in any committee
+""" Convenience Methods (API) """
+# returns the committee for this semester and gm if not in any committee
   def current_committee(semester = Semester.current_semester)
     cm = CommitteeMember.where('member_id = ? AND semester_id = ?', self.id, semester.id)
     if cm.length == 0
@@ -156,12 +153,16 @@ class Member < ActiveRecord::Base
     end
   end
 
-  def tier(semester = Semester.current_semester)
-    return self.position(semester).tier
+  def primary_committee
+    self.committees.first
   end
 
   def role(semester = Semester.current_semester)
     return self.position(semester).name 
+  end
+
+  def tier(semester = Semester.current_semester)
+    return self.position(semester).tier
   end
 
   def permissions(semester = Semester.current_semester)
@@ -178,17 +179,15 @@ class Member < ActiveRecord::Base
   end
 
   def exec?
-    self.current_committee and self.current_committee.name.include? "Exec"
+    self.tier == 3
   end
 
-  def secretary?
-    self.name == "Michael Xu" or self.name == "David Liu"
-  end
   # Officer status of the member.
   def officer?
-    self.admin? or
-    self.position == "chair"
+    self.tier >= 2
   end
+
+  """ end of API methods (only the methods above are 'supported') """
 
   # returns url of profile image. if none return path to blank.png
   def profile_url
@@ -199,14 +198,6 @@ class Member < ActiveRecord::Base
       return "http://gravatar.com/avatar/#{gravatar_id}.png"
     end
 
-  end
-
-  # Returns the relationships between itself and a given TablingSlot.
-  #
-  # === Parameters
-  # - tabling_slot: a TablingSlot
-  def tabling_slot_member(tabling_slot)
-    self.tabling_slot_members.where(tabling_slot_id: tabling_slot.id).first
   end
 
   # Ininialize itself with some OmniAuth information
