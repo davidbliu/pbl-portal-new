@@ -5,20 +5,17 @@ class TablingManager < ActiveRecord::Base
 
 
 def self.tabling_schedule
-	""" returns the tabling schedule in a nice, easy to work with format
-	for the front end to display. 
+	""" returns the tabling schedule in a Hash
+  key is tabling day (0 to 6)
+  value is Array of TablingSlot objects sorted by time
 	"""
-	# schedule = Rails.cache.read('tabling_schedule')
-	# if schedule != nil
-	# 	return schedule
-	# end
+	schedule = Rails.cache.read('tabling_schedule')
+	if schedule != nil
+		return schedule
+	end
 
-  p 'running this method'
 	schedule = Hash.new
 	TablingSlot.all.each do |tabling_slot|
-		# member_ids = tabling_slot.member_ids
-		# members = Member.where('id in (?)', member_ids).pluck(:id, :name)
-		# schedule[tabling_slot.time] = members
 
     # put this slot into the day key in the schedule
     if not schedule.keys.include?(tabling_slot.day) 
@@ -58,8 +55,8 @@ end
   def self.generate_tabling_assignments(times, members)
     """
     create assignment hash of timeslot (hour) to member list
-    times is an array of times that you want tabling to happen (like [5,7,4,34])
-    members is a list of member ids
+    times is an Array of times that you want tabling to happen (like [5,7,4,34])
+    members is a Array of member ids
     """
     unassigned = Set.new(members)
     assignments = Hash.new
@@ -98,9 +95,7 @@ end
       end
     end
 
-    # p 'there were '+mcv.length.to_s + ' mcvs'
     mcv = mcv.sample
-    # p 'mcv was '+mcv.name + ' with '+max_clashes.to_s
     return mcv
   end
 

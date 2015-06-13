@@ -14,4 +14,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  puts 'Custom fixtures written here in test_helper.rb'
+  puts 'Creating events...'
+  puts 'End of custom fixtures written here in test_helper.rb'
 end

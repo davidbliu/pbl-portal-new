@@ -28,7 +28,7 @@ class TablingSlot < ActiveRecord::Base
 
   # needs a time
   validates :time, presence: true
-  
+
   def day
     return self.time / 24
   end
@@ -42,19 +42,23 @@ class TablingSlot < ActiveRecord::Base
     member_ids.map{|id| member_hash[id]}
   end
 
-  # def day_string
-  #   day_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-  #   return day_strings[self.day]
-  # end
+  def time_string
+    return self.day_string + ' at ' + self.hour_string
+  end
 
-  # def day_string_abbrev
-  #   day_string_abbrevs = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
-  #   return day_string_abbrevs[self.day]
-  # end
+  """ below this are helper methods that are hidden """
 
-  # def time_string
-  #   return self.day_string + ' at ' + self.hour_string
-  # end
+  def day_string
+    day_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    return day_strings[self.day]
+  end
+
+  def day_string_abbrev
+    day_string_abbrevs = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
+    return day_string_abbrevs[self.day]
+  end
+
+
 
   def hour_string
     h = self.hour % 12
