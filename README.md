@@ -22,6 +22,23 @@ We expect only these models/methods to be exposed to the frontend. Here is docum
 
 # Design
 
+## Member Database
+
+### Member (Model)
+
+see app/moodels/members.rb for more details
+
+class methods
+- member_hash
+	- keys are ids. values are Member objects
+- current_members_dict
+	- same as members_hash except only contains current members
+- current_members
+	- Array of current members (cm, chair, exec. gm not included)
+- current_officers
+- current_execs
+
+
 ## Tabling
 
 ### Tabling Manager
