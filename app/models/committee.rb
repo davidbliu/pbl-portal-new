@@ -31,6 +31,9 @@
 class Committee < ActiveRecord::Base
   attr_accessible :name, :committee_type_id, :abbr
 
+
+  # relationship between members and committees through join table
+  has_and_belongs_to_many :members, join_table: 'committee_members'
   belongs_to :committee_type
 
   has_many :committee_members, dependent: :destroy

@@ -1,5 +1,5 @@
 namespace :migrate do
-	task :  => :environment do
+	task :positions  => :environment do
 		CommitteeMember.all.each do |cm|
 			type = cm.committee_member_type
 			if type.name == 'cm'

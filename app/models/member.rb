@@ -53,6 +53,9 @@ class Member < ActiveRecord::Base
   has_many :tabling_slot_members, dependent: :destroy
   has_many :tabling_slots, through: :tabling_slot_members
 
+  # join member and committee table with join table
+  has_and_belongs_to_many :committees, join_table: 'committee_members'
+
   # should be able to easily access members committee information
   has_many :committee_members, dependent: :destroy
   has_many :committees, through: :committee_members
@@ -85,16 +88,24 @@ class Member < ActiveRecord::Base
   end
 
   def self.members_chart(semester = Semester.current_semester)
-    committee_hash = Committee.committee_hash
-    members = member.current_members 
-    records = Array.new
-    members.each do |member|
-      record = Hash.new
-      record['name'] = member.name
-      record['email'] = member.email
-      record['phone'] = member.phone
-      # record['committee'] = member.com
+    records = Rails.cache.read('members_chart')
+    if records != nil
+      return records
     end
+
+    sql_query = "SELECT 
+      m.name as name, 
+      m.email as email,
+      c.name as committee,
+      c.id as committee_id,
+      m.id as member_id
+      FROM members as m
+      JOIN committee_members as cm ON m.id = cm.member_id
+      JOIN committees as c ON cm.committee_id = c.id
+      WHERE cm.semester_id = " + Semester.current_semester.id.to_s+" ORDER BY c.name"
+
+    records = ActiveRecord::Base.connection.execute(sql_query).to_a
+    Rails.cache.write('member_chart', records)
     return records
   end
 
