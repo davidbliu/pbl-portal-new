@@ -40,6 +40,7 @@ end
 def self.generate_tabling_slots(assignments)
 	""" deletes all current tabling slots and regenerates tabling schedule
 	"""
+  Rails.cache.write('tabling_schedule', nil)
   TablingSlot.destroy_all
   assignments.keys.each do |time|
     ts = TablingSlot.new

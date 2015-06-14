@@ -55,6 +55,16 @@ class Committee < ActiveRecord::Base
     return Committee.where(name: "Web Development").first
   end
 
+  def self.committee_hash
+    chash = Rails.cache.read("committee_hash")
+    if chash != nil
+      return chash
+    end
+    chash = Committee.all.index_by(&:id)
+    Rails.cache.write('committee_hash', chash)
+    return chash
+  end
+
   # Show the committee's rating.
   def rating(semester = Semester.current_semester)
     if self.cms(semester).count > 0

@@ -84,6 +84,20 @@ class Member < ActiveRecord::Base
     return current_members.index_by(&:id)
   end
 
+  def self.members_chart(semester = Semester.current_semester)
+    committee_hash = Committee.committee_hash
+    members = member.current_members 
+    records = Array.new
+    members.each do |member|
+      record = Hash.new
+      record['name'] = member.name
+      record['email'] = member.email
+      record['phone'] = member.phone
+      # record['committee'] = member.com
+    end
+    return records
+  end
+
   #
   # returns all alum (people who aren't in a committee this semester). GM committee is 1
   #
