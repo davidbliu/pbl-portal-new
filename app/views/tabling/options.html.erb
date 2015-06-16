@@ -1,54 +1,5 @@
+<h1>Tabling Options</h1>
 
-<script type = 'text/javascript'>
-tabling_days = []
-tabling_days.push(0);
-tabling_days.push(1);
-tabling_days.push(2);
-tabling_days.push(3);
-tabling_days.push(4);
-tabling_days.push(5);
-tabling_days.push(6);
+<%= link_to 'generate', 'generate' %>
 
-$(document).ready(function(){
-	$("#generate-btn").click(function(){
-		href = '/tabling/generate'
-		href += '?members=all'
-		for(var i=0;i<tabling_days.length;i++){
-			addon = '&'+tabling_days[i] +'='+ $('#'+tabling_days[i]).val()
-			href += addon
-		}
-		window.location = href
-	});
-
-});
-</script>
-
-<style type = 'text/css'>
-.tabling-day-input{
-	width:300px;
-}
-.day-cell{
-	width:100px;
-}
-#generate-btn{
-	margin-top:15px;
-	width:150px;
-}
-</style>
-<h1>Setup Tabling</h1>
-
-<div class = 'row'>
-	<div class = 'col-md-8'>
-		<% for day in 0..6 %>
-		<div class = 'tabling-day'>
-			<table>
-				<tr>
-					<td class = 'day-cell'><%= day %></td>
-					<td><input id = <%= day %> type = 'text' class = 'form-control tabling-day-input' value = '10-2' placeholder = 'Enter Timeslots'></input></td>
-				</tr>
-			</table>
-		</div>
-		<% end %>
-		<button class = 'form-control' id = 'generate-btn'>Generate</button>
-	</div>
-</div>
+<%= render "day_chart" %>

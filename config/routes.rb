@@ -151,6 +151,7 @@ Dockernotes::Application.routes.draw do
       get 'delete_slots'
       get 'manage'
       get 'convert'
+      get 'commitments'
 
       # for testing progress bars
       get 'progress_update'
@@ -159,10 +160,7 @@ Dockernotes::Application.routes.draw do
     end
   end
 
-  resources :commitments do
-    collection do
-      get 'update_commitments'
-    end
+  resources :resources do
   end
   #
   # handle drag-drop events in tabling index view only

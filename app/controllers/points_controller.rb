@@ -28,60 +28,13 @@ class PointsController < ApplicationController
 		@points = PointManager.points(current_member.id)
 		# how many points everyone on your committee has
 		@member_name_point_dict = PointManager.member_name_point_dict
-		# rankings for pbl
+		# rankings for pbl (top 10 points)
+		@top_cms = PointManager.top_cms.first(10)
 	end
 	def cooccurrence
 		
 	end
-	def rankings
-		current_member = @current_member
-		# semester_events
-		if current_member
-			attended_event_members = EventMember.where("event_id IN (?)", Event.this_semester.pluck(:id).collect{|i| i.to_s})
-			attended_event_ids = attended_event_members.where(member_id: current_member.id).pluck(:event_id)
-			@attended_events = Event.where("id in (?)", attended_event_ids.collect{|i| i.to_s})
-
-			@attended_event_point_name_data = @attended_events.map{|e| {'event'=>e.name, 'points'=>e.points}}
-
-			p 'calculating cm points'
-			cm_points_list = current_member.cms.map{|cm| {'id'=>cm.id, 'name' => cm.name, 'points' => cm.total_points, 'profile'=>cm.profile_url}}
-			@cm_points_list = cm_points_list.sort_by{|obj| obj['points']}.reverse
-
-			p 'calculating all member points'
-			points_list = Member.current_cms.map{|m| {'id'=>m.id,'name' => m.name, 'points' => m.total_points, 'profile'=>m.profile_url}}
-			@points_list = points_list.sort_by{|obj| obj['points']}.reverse
-
-			#
-			# calculate points for all committees
-			#
-			@committee_points = Array.new
-			Committee.all.each do |committee|
-				@committee_points << {"points"=>committee.rating, "committee"=> committee.name}
-			end
-			# current_member_ids = Member.current_members.pluck(:id)
-			# current_events = Event.where(semester:Semester.current_semester)
-			# current_event_ids = current_events.pluck(:id)
-			# semester_attendance = EventMember.where("event_id in (?)", current_event_ids)
-			# Committee.all.each do |committee|
-			# 	# cm_ids = current_members.where()     .map(&:to_s)
-			# 	cm_ids = CommitteeMember.where(committee_id: committee.id).where("member_id in (?)", current_member_ids).pluck(:member_id)
-			# 	attended_event_ids = semester_attendance.where("member_id in (?)", cm_ids).pluck(:event_id)
-			# 	attended_events = current_events.where("id in (?)", attended_event_ids)
-			# 	total_points = 0
-			# 	attended_events.each do |event|
-			# 		total_points = total_points + event.points
-			# 	end
-			# 	@committee_points << {"committee" => committee.name, "points" => total_points}
-			# end
-		else
-			@attended_events = []
-			@attended_event_point_name_data = []
-			@cm_points_list = []
-			@points_list = []
-		end
-
-
-	end
+	
 
 	def mark_attendance
 		# @semester_events = Event.this_semester.paginate(:page => params[:page], :per_page => 20)

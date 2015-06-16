@@ -1,0 +1,24 @@
+<style type = 'text/css'>
+td.marked.tabling-cell{
+  background-color: gray;
+}
+</style>
+
+<table class = 'tabling-chart table table-bordered'>
+	<thead>
+		<% ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'].each do |day| %>
+			<th><%= day %></th>
+		<% end %>
+	</thead>
+<% (8..17).each do |hour| %>
+	<tr class = 'tabling-row'>
+		<% (0..6).each do |day| %>
+			<% if @marked and @marked.include?(hour+24*day) %>
+			<td class = 'tabling-cell marked'><%= day %> at <%= hour %></td>
+			<% else %>
+			<td class = 'tabling-cell'><%= day %> at <%= hour %></td>
+			<% end %>
+		<% end %>
+	</tr>
+<% end %>
+</table>

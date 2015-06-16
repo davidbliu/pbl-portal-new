@@ -1,105 +1,23 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <title>PBL Portal</title>
   <%= favicon_link_tag '/favicon.ico' %>
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <!-- include bootcards -->
+  <!-- include a bootswatch theme -->
+  <link href = 'http://bootswatch.com/flatly/bootstrap.min.css' rel = 'stylesheet'>
 </head>
 <body>
 
 
-<style type = "text/css">
-#navlist {
-  padding: 0px;
-}
-#navlist a {
-  color: white;
-}
-#navlist .logo a {
-  color: white;
-  background-color: rgb(179, 53, 53);
-}
-#navlist .logo {
-  margin-right: 10px;
-}
-#top_nav #navlist li a:hover {
-	background-color:black;
-	color: white;
-}
-
-.navbar-default {
-  background-color: #3F5489;
-}
-
-.navbar-nav>li>.dropdown-menu {
-  background-color:  #3F5489 ;
-}
-
-.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
-  background-color: black;
-}
-
-
-</style>
 
 
 <!-- add a header -->
-<header class="header">
-
-  <nav  id = "top_nav" class = "navbar navbar-default" role = "navigation">
-    <div class="container">
-      <ul id = "navlist" class="nav navbar-nav center">
-        <li class="logo"><%= link_to "[PBL][MP]", root_path%></li>
-          <li><a href = "/tabling">Tabling</a></li>
-
-          
-          <% if current_member and current_member.current_committee %>
-          <li><a href = "/points">Points</a></li>
-          
-          <% end %>
-
-          <li><a href = "/commitments">Commitments</a></li>
-          <!-- <li><a href = "/points/apprentice">Apprentice</a></li> -->
-          <li><a href = "/members/all">Members</a></li>
-          <li><a href = "http://blog.berkeley-pbl.com" target="_blank">Blog</a></li>
-          <li><a href = 'https://docs.google.com/forms/d/1ZS9CWKyhFttJAgQjiXGok7oe8VL3okerR3amsbkEzAQ/viewform'>Reimbursements</a></li>
-          <li><a href = 'http://chickenteriyaki7.wix.com/berkeleypblsblc'>SBLC</a></li>
-          <li><a href='/feedbacks/add_feedback'>Feedback</a></li>
-          <% if current_member and current_member.officer? %>
-
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Officer Tools<span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href = "/points/mark_attendance">Attendance</a></li>
-              <li><a href="/deliberations/6">Deliberations</a></li>
-              <li><a href = '/swipy/record_attendance'>Swipy</a></li>
-              <% if current_member and current_member.admin? %>
-              <li><a href = '/members/manage'>Manage Members</a></li>
-              <li><a href = '/members/confirm_new'>Confirm New Members</a></li>
-              <li><a href = '/events/manage'>Manage Events</a></li>
-              <li><a href = '/event_points'>Set Event Points</a></li>
-              <li><a href = '/tabling/options'>Generate Tabling</a></li>
-
-              <% end %>
-              <li><a href="#">Etc</a></li>
-            </ul>
-          </li>
-          <% end %>
-          <!-- <li><a href = "#">Assassins</a></li> -->
-          <!-- log in and out -->
-          
-          <% if @current_member %>
-          <li><a href='/members/account'><%= @current_member.name %></a></li>
-          <li><a href='/sign_out' class='right-floater'>Sign Out</a></li>
-          <% else %>
-          <li><a href = "/auth/google_oauth2" class='right-floater'>Sign In</a></li>
-          <% end %>
-      </ul>
-    </div>
-  </nav>
-</header>
+<%= render "/layouts/navbar" %>
 <div class="container">
 <%= yield %>
 <!-- end of header -->

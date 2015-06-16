@@ -10,22 +10,9 @@ th, td {
 
 <h1>Tabling</h1>
 
-<table>
-	<tr>
-<% @slots.keys.sort.each do |tabling_day| %>
-	<td>
-		<div class = 'tabling-day'>
-		<% @slots[tabling_day].each do |tabling_slot| %>
-			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
-				<div class = 'tabling-slot-label label label-primary'><%= tabling_slot.time_string %></div>
-				<% tabling_slot.members.each do |member| %>
-					<div><%= member.name %></div>
-				<% end %>
-			</div>
-		<% end %>
-		</div>
-	</td>
-<% end %>
+<div><%= link_to "commitments", "tabling/commitments" %></div>
+<div><%= link_to "options", "tabling/options" %></div>
 
-</tr>
-</table>
+
+<%= render "tabling_schedule", object: @slots %>
+
