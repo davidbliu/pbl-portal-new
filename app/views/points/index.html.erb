@@ -12,3 +12,10 @@
 <li><%= member_name %>: <%= @member_name_point_dict[member_name] %></li>
 <% end %>
 </ul>
+
+<h2>Top Cms</h2>
+<ul>
+<% @top_cms.each do |member| %>
+<li><%= member.name %>: <%= @member_name_point_dict[member.name] %></li>
+<% end %>
+</ul>

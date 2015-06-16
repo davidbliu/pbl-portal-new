@@ -51,8 +51,10 @@ class PointManager < ActiveRecord::Base
 		return npd
 	end
 
-	def self.top_members(semester = Semester.current_semester)
-		
+	def self.top_cms(semester = Semester.current_semester)
+		current_cms = Member.current_cms(semester)
+		point_dict = self.member_point_dict
+		return current_cms.sort_by{|member| -point_dict[member.id]}
 	end
 
 	""" Hidden Methods """
