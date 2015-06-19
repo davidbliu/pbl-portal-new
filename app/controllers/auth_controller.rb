@@ -16,9 +16,11 @@ class AuthController < ApplicationController
 		cookies[:uid] = uid
 		cookies[:provider] = provider
 		#added by david (save the uid so upon new member creation can be used)
-		member = Member.where(provider: provider, uid: uid).first_or_initialize
+		# member = Member.where(provider: provider, uid: uid).first_or_initialize
+		member = Member.where(provider: provider, uid: uid)
 		
-		if member.name
+		if member.length > 0
+			member = member.first
 			result['member_name'] = member.name
 			cookies[:remember_token] = member.remember_token
 			redirect_to root_path

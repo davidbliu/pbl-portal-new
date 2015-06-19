@@ -1,21 +1,40 @@
-<h1>Points</h1>
-<p>You have <%= @points %> points</p>
-<h2>Attended Events</h2>
-<ul>
-<% @attended.each do |event| %>
-<li><%= event.name %></li>
-<% end %>
-</ul>
-<h2>PBL Points</h2>
-<ul>
-<% @member_name_point_dict.keys.each do |member_name| %>
-<li><%= member_name %>: <%= @member_name_point_dict[member_name] %></li>
-<% end %>
-</ul>
+<style type = 'text/css'>
+th, td {
+    vertical-align: top;
+}
+ul {
+	list-style:none;
+	margin-right:50px;
+}
+</style>
 
-<h2>Top Cms</h2>
-<ul>
-<% @top_cms.each do |member| %>
-<li><%= member.name %>: <%= @member_name_point_dict[member.name] %></li>
-<% end %>
-</ul>
+<table>
+<tr>
+	<td>
+		<h1>Points</h1>
+		<p>You have <%= @points %> points</p>
+		<h2>Attended Events</h2>
+		<ul>
+		<% @attended.each do |event| %>
+		<li><%= event.name %></li>
+		<% end %>
+		</ul>
+	</td>
+	<td>
+		<h2>PBL Points</h2>
+		<ul>
+		<% @member_name_point_dict.keys.each do |member_name| %>
+		<li><%= member_name %>: <%= @member_name_point_dict[member_name] %></li>
+		<% end %>
+		</ul>
+	</td>
+	<td>
+		<h2>Top Cms</h2>
+		<ul>
+		<% @top_cms.each do |member| %>
+		<li><%= member.name %>: <%= @member_name_point_dict[member.name] %></li>
+		<% end %>
+		</ul>
+	</td>
+</tr>
+</table>

@@ -51,6 +51,8 @@ gem 'mysql2' #dont need it in prod
 
 # this is for events pulling
 gem 'google-api-client', :require => 'google/api_client'
+# alternative callendar gem
+gem 'google_calendar'
 
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development

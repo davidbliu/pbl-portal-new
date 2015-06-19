@@ -12,6 +12,15 @@ class Event < ActiveRecord::Base
 
 
 
+  def time_string
+    t = self.start_time
+    day = t.strftime("%d")
+    month = t.strftime("%b")
+    year = t.strftime("%Y")
+    return month + " " + day + ", " + year
+  end
+
+
   def attendees
     event_mem_ids = EventMember.where(event_id: self.id.to_s).pluck(:member_id)
     return Member.where('id IN (?)', event_mem_ids)
@@ -24,4 +33,10 @@ class Event < ActiveRecord::Base
     count = attendees.where('id IN (?)', cms).length
     return [count, total_cms, (count.to_f/total_cms)]
   end
+
+  def self.google_events_list
+
+  end
+
+
 end

@@ -101,6 +101,9 @@ GEM
       retriable (>= 1.4)
       signet (>= 0.5.0)
       uuidtools (>= 2.1.0)
+    google_calendar (0.4.4)
+      json (~> 1.8)
+      signet (~> 0.5)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
@@ -283,6 +286,7 @@ DEPENDENCIES
   devise
   execjs
   google-api-client
+  google_calendar
   jbuilder (~> 1.2)
   jquery-rails
   jquery-turbolinks

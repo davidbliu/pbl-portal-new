@@ -59,6 +59,10 @@ class Committee < ActiveRecord::Base
     return Committee.where(name: "Web Development").first
   end
 
+  def self.ex 
+    return Committee.where(name: "Executives").first
+  end
+
   def self.committee_hash
     chash = Rails.cache.read("committee_hash")
     if chash != nil
@@ -87,18 +91,6 @@ class Committee < ActiveRecord::Base
 
   # Only the chairs and CMs of the committee
   def cms(semester = Semester.current_semester)
-    if self.committee_type == CommitteeType.general
-      self.committee_members.where(committee_member_type_id: CommitteeMemberType.where(
-        "lower(name) = 'general member' or lower(name) = 'gm'"
-      )).where(semester_id: semester.id)
-    else
-      if self.name == "Executive"
-        self.committee_members.where(semester_id: semester.id)
-      else
-        self.committee_members.where(committee_member_type_id: CommitteeMemberType.where(
-          "lower(name) = 'cm' or lower(name) = 'chair'"
-        )).where(semester_id: semester.id)
-      end
-    end
+   return nil
   end
 end

@@ -42,6 +42,7 @@ Dockernotes::Application.routes.draw do
 
 
   get "/auth/google_oauth2/callback", to: "auth#google_callback"
+
   resources :auth do
     collection do
       get 'sign_up'
@@ -94,6 +95,7 @@ Dockernotes::Application.routes.draw do
       get 'attendance'
       get 'edit'
       get 'update'
+      post 'update_points'
     end
     collection do
       get "pull_google_events"
@@ -103,6 +105,8 @@ Dockernotes::Application.routes.draw do
       get "delete_events"
       get 'create'
       get 'manage'
+      get 'google_calendar_redirect'
+      get 'google_calendar_callback'
     end
   end
 

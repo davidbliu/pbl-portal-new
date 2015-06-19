@@ -66,31 +66,6 @@ class SessionsController < ApplicationController
 
 
 
-  def process_google_events(events, options={})
-    results = []
-    events.each do |event|
-      start_time = google_datetime_fix(event.start)
-      end_time = google_datetime_fix(event.end)
-
-      if options[:this_week]
-        start_time = this_week(start_time)
-        end_time = this_week(end_time)
-      end
-
-      results << {
-        id: event.id,
-        summary: event.summary,
-        start_time: start_time,
-        end_time: end_time,
-      }
-    end
-
-    return results.sort_by {|event| event[:start_time]}
-  end
-
-  def google_datetime_fix(datetime)
-    time_string = datetime.date_time ? datetime.date_time.to_s : datetime.date.to_s
-    DateTime.parse(time_string)
-  end
+  
 
 end
