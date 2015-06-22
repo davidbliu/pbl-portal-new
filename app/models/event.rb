@@ -1,10 +1,8 @@
 class Event < ActiveRecord::Base
-  attr_accessible :name, :start_time, :end_time, :description, :semester_id, :google_id, :points
+  attr_accessible :name, :start_time, :end_time, :description, :semester_id, :google_id, :points, :date, :location
   belongs_to :semester, foreign_key: :semester_id
-  has_one :event_points #, dependent: :destroy
   has_many :event_members #, dependent: :destroy
-
-  # scope :this_semester, -> {where(semester_id: Semester.current_semester.id)}
+  validates :semester_id, uniqueness: true
 
   def self.this_semester
     return Event.where(semester_id: Semester.current_semester.id)
@@ -36,6 +34,13 @@ class Event < ActiveRecord::Base
 
   def self.google_events_list
 
+  end
+
+  """ convenience methods """
+
+
+  def self.construct_from_google(google_event)
+    """ constructs event from pulled google event """
   end
 
 
