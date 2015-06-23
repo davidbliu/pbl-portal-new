@@ -6,6 +6,9 @@ class MembersController < ApplicationController
 	# 
 	before_filter :is_approved, :only => [:all, :index_committee]
 
+	def home
+	end
+	
 	def profile
 		@member = Member.find(params[:id])
 		if @member != current_member

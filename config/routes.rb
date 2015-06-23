@@ -10,7 +10,7 @@ Dockernotes::Application.routes.draw do
 
 
   # get "/pull_google_events", to: "events#pull_google_events"
-  root 'members#index'
+  root 'members#home'
 
   resources :members do
     member do
