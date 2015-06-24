@@ -13,6 +13,9 @@ Dockernotes::Application.routes.draw do
   root 'members#home'
 
   get '/go', to: 'go#go'
+  get '/go/manage', to: 'go#manage'
+  post '/go/create', to: 'go#create'
+  get '/go/destroy', to: 'go#destroy'
 
   resources :members do
     member do

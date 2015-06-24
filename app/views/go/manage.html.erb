@@ -1,0 +1,56 @@
+<style type = 'text/css'>
+.go-key-input{
+	width:100px;
+}
+</style>
+
+<script type = 'text/javascript'>
+function updateActions(){
+	$('#add-go-link-btn').click(function(){
+		
+		key = $('#go-key-input').val();
+		url = $('#go-url-input').val();
+		description = $('#go-description-input').val();
+
+		path = '/go/create'
+		successFunction = function (data){
+			location.reload();
+		}
+		errorFunction = function(){
+			alert("failed");
+		}
+		data = {'key': key, 'url': url, 'description':description}
+		makeAjaxRequest(path, 'POST', data, successFunction, errorFunction);
+
+	});
+}
+/**
+* to be performed on page load
+*/
+$(document).ready(function(){
+	updateActions();
+});
+</script>
+
+<h1>Manage Go Links</h1>
+
+<table class = 'table table-striped'>
+	<thead>
+		<th>Go Key</th>
+		<th>Go Link</th>
+		<th>Actions</th>
+	</thead>
+	<tbody>
+	<% @go_links.each do |golink| %>
+	<tr><td><%= golink.key %></td> 
+		<td><%= golink.url %></td>
+		<td><a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a></td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+<h2>Add A New Go Link</h2>
+<button class = 'btn btn-default' id = 'add-go-link-btn'>Add Go Link</button>
+<input id = 'go-key-input' type = 'text' class = 'form-control' placeholder = 'Go Key'/>
+<input id = 'go-url-input' type = 'text' class = 'form-control' placeholder = 'Go Url (example: http://linkedin.com)'/>
+<input id = 'go-description-input' type = 'text' class = 'form-control' placeholder = 'Description'/>

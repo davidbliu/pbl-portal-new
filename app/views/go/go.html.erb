@@ -1,5 +1,17 @@
-<h1>Your go key (@go_key) did not exist</h1>
+<h1>Your go key (<%= @go_key %>) did not exist</h1>
 
-<p>Here is the go key catalogue</p>
-<% @go_hash.keys.each do |key| %>
-<div><%= key %> : <%= @go_hash[key] %></div>
+<p>Please check the catalogue to make sure your key exists!</p>
+<p><a href = '/go/manage'>Manage Go Keys</a></p>
+<table class = 'table table-striped'>
+	<thead>
+		<th>Go Key</th>
+		<th>Go Link</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+	<% @go_links.each do |golink| %>
+	<tr><td><%= golink.key %></td> <td><%= golink.url %></td>
+		<td><%= golink.description %></td></tr>
+	<% end %>
+	</tbody>
+</table>
