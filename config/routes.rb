@@ -16,6 +16,7 @@ Dockernotes::Application.routes.draw do
   get '/go/manage', to: 'go#manage'
   post '/go/create', to: 'go#create'
   get '/go/destroy', to: 'go#destroy'
+  get '/go/guide', to: 'go#guide'
 
   resources :members do
     member do

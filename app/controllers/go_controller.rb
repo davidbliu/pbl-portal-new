@@ -2,8 +2,12 @@ class GoController < ApplicationController
 	def go
 		go_hash = go_link_hash
 		go_key = params.keys()[0]
-		if go_hash.keys.include?(go_key)
+		if go_key == nil
+			@message = 'No go key was provided'
+		elsif go_hash.keys.include?(go_key)
 			redirect_to go_hash[go_key].url
+		else
+			@message = 'The go key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
 		end
 		# else display the catalogue
 		@go_key = go_key
@@ -12,6 +16,10 @@ class GoController < ApplicationController
 
 	def manage
 		@go_links = GoLink.all.order(:key)
+	end
+
+	def guide
+
 	end
 
 	def create

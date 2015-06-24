@@ -1,7 +1,12 @@
-<h1>Your go key (<%= @go_key %>) did not exist</h1>
+<% if @message %>
+<p><%= @message %></p>
+<% end %>
 
-<p>Please check the catalogue to make sure your key exists!</p>
-<p><a href = '/go/manage'>Manage Go Keys</a></p>
+<h1>PBL Link Catalogue</h1>
+
+<p><%= link_to 'Manage PBL Links', '/go/manage' %></p>
+<p><%= link_to 'PBL Link Guide', '/go/guide' %></p>
+
 <table class = 'table table-striped'>
 	<thead>
 		<th>Go Key</th>
@@ -10,7 +15,7 @@
 	</thead>
 	<tbody>
 	<% @go_links.each do |golink| %>
-	<tr><td><%= golink.key %></td> <td><%= golink.url %></td>
+	<tr><td><%= golink.key %></td> <td><%= link_to golink.url, golink.url %></td>
 		<td><%= golink.description %></td></tr>
 	<% end %>
 	</tbody>
