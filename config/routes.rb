@@ -12,6 +12,8 @@ Dockernotes::Application.routes.draw do
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#home'
 
+  get '/go', to: 'go#go'
+
   resources :members do
     member do
       get 'destroy'
