@@ -21,10 +21,11 @@ class GoController < ApplicationController
 		description = params[:description]
 		if GoLink.where(key: key).length > 0
 			render :nothing => true, :status => 500, :content_type => 'text/html'
+		else
+			golink = GoLink.create(key: key, url: url, description: description)
+			golink.save!
 		end
-		golink = GoLink.create(key: key, url: url, description: description)
-		golink.save!
-		# redirect_to '/go/manage'
+			# redirect_to '/go/manage'
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
