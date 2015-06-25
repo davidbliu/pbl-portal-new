@@ -21,8 +21,12 @@ $('.go-link-key').click(function(){
 }
 </style>
 
+<h3>Groups Generated</h3>
 <% @partitioned_catalogue.keys.each do |partition| %>
+<div><%= partition %></div>
+<% end %>
 
+<% @partitioned_catalogue.keys.each do |partition| %>
 <div class="panel panel-default partitioned-card">
   <div class="panel-heading">
     <h3 class="panel-title"><%= partition %></h3>
