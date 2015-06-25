@@ -1,6 +1,6 @@
 class GoController < ApplicationController
 	def go
-		go_hash = go_link_hash
+		go_hash = GoLink.go_link_hash
 		go_key = params.keys()[0]
 		if go_key == nil
 			@message = 'No key was provided'
@@ -62,20 +62,6 @@ class GoController < ApplicationController
 		GoLink.find(params[:id]).destroy!
 		Rails.cache.write('go_link_hash', nil)
 		redirect_to :back
-	end
-
-	def go_link_hash
-		go_hash = Rails.cache.read('go_link_hash')
-		if go_hash != nil
-			return go_hash
-		end
-
-		go_hash = Hash.new
-		GoLink.all.each do |golink|
-			go_hash[golink.key] = golink
-		end
-		Rails.cache.write('go_link_hash', go_hash)
-		return go_hash
 	end
 
 

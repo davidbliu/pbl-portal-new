@@ -5,5 +5,5 @@
 
 <h3>Raw Click Data</h3>
 <% @go_link_clicks.each do |click| %>
-<div><%= click.member_id %>: <%= click.go_link_id %></div>
+<div><%= @member_hash[click.member_id].name %>: <%= @go_link_id_hash[click.go_link_id].key %></div>
 <% end %>
