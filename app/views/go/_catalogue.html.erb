@@ -1,0 +1,42 @@
+<script type = 'text/javascript'>
+$('.go-link-key').click(function(){
+	id = $(this).attr('id').split('-')[3];
+	hidden_id = 'go-link-hidden-'+id;
+	$('#'+hidden_id).toggle();
+});
+</script>
+
+<style type = 'text/css'>
+.go-link-key:hover{
+	cursor: pointer;
+	color:#0a6ebd;
+}
+.go-link-hidden{
+	display:none;
+}
+</style>
+
+<div class = 'hidden' id = 'hover-div'></div>
+<table class = 'table table-striped'>
+	<thead>
+		<th>Key</th>
+		<th>Link</th>
+		<th>Created By</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+	<% @go_links.each do |golink| %>
+	<tr><td>
+			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= golink.key %></div>
+			<div class = 'go-link-hidden' id = 'go-link-hidden-<%= golink.id %>'>
+				<a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a>
+			</div>
+		</td> 
+		<td><%= link_to golink.url, golink.url %></td>
+		<td><% if golink.member_id %>
+			<%= @member_hash[golink.member_id].name %>
+			<% else %>none<% end %></td>
+		<td><%= golink.description %></td></tr>
+	<% end %>
+	</tbody>
+</table>

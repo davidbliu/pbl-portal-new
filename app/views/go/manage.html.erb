@@ -5,6 +5,20 @@
 </style>
 
 <script type = 'text/javascript'>
+function pullEventCatalogue(){
+	// pull data from /go/catalogue
+	$.ajax({
+      url: '/go/catalogue',
+      type: 'GET',
+      data: {},
+      success:function(data){
+        $('#catalogue-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#catalogue-container').html('<h1>Failed to load catalogue</h1>');
+      }
+  	});
+}
 function updateActions(){
 	$('#add-go-link-btn').click(function(){
 		
@@ -28,6 +42,7 @@ function updateActions(){
 * to be performed on page load
 */
 $(document).ready(function(){
+	pullEventCatalogue();
 	updateActions();
 });
 </script>
@@ -39,23 +54,8 @@ $(document).ready(function(){
 <input id = 'go-url-input' type = 'text' class = 'form-control' placeholder = 'Go Url (example: http://linkedin.com)'/>
 <input id = 'go-description-input' type = 'text' class = 'form-control' placeholder = 'Description'/>
 
-<h1>Manage PBL Links</h1>
-
-<table class = 'table table-striped'>
-	<thead>
-		<th>Key</th>
-		<th>Link</th>
-		<th>Description</th>
-		<th>Actions</th>
-	</thead>
-	<tbody>
-	<% @go_links.each do |golink| %>
-	<tr><td><%= golink.key %></td> 
-		<td><%= link_to golink.url, golink.url %></td>
-		<td><%= golink.description %></td>
-		<td><a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a></td>
-	</tr>
-	<% end %>
-	</tbody>
-</table>
+<p>
+<h3>PBL Links</h3>
+<div id = 'catalogue-container'></div>
+</p>
 

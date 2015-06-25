@@ -11,7 +11,13 @@ class GoController < ApplicationController
 		end
 		# else display the catalogue
 		@go_key = go_key
+		# @go_links = GoLink.all.order(:key)
+	end
+
+	def catalogue
 		@go_links = GoLink.all.order(:key)
+		@member_hash = Member.member_hash
+		render '_catalogue.html.erb', layout: false
 	end
 
 	def manage
@@ -31,6 +37,9 @@ class GoController < ApplicationController
 			render :nothing => true, :status => 500, :content_type => 'text/html'
 		else
 			golink = GoLink.create(key: key, url: url, description: description)
+			if current_member
+				golink.member_id = current_member.id
+			end
 			golink.save!
 		end
 			# redirect_to '/go/manage'
@@ -40,7 +49,7 @@ class GoController < ApplicationController
 	def destroy
 		GoLink.find(params[:id]).destroy!
 		Rails.cache.write('go_link_hash', nil)
-		redirect_to '/go/manage'
+		redirect_to :back
 	end
 
 	def go_link_hash

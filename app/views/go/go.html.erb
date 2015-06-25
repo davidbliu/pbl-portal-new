@@ -1,22 +1,33 @@
+<script type = 'text/javascript'>
+function pullEventCatalogue(){
+	// pull data from /go/catalogue
+	$.ajax({
+      url: '/go/catalogue',
+      type: 'GET',
+      data: {},
+      success:function(data){
+        $('#catalogue-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#catalogue-container').html('<h1>Failed to load catalogue</h1>');
+      }
+  	});
+	
+}
+
+$(document).ready(function(){
+	pullEventCatalogue();
+});
+</script>
+
 <% if @message %>
 <p><%= @message %></p>
 <% end %>
 
 <h1>PBL Link Catalogue</h1>
 
-<p><%= link_to 'Manage PBL Links', '/go/manage' %></p>
+<p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
 <p><%= link_to 'PBL Link Guide', '/go/guide' %></p>
 
-<table class = 'table table-striped'>
-	<thead>
-		<th>Key</th>
-		<th>Link</th>
-		<th>Description</th>
-	</thead>
-	<tbody>
-	<% @go_links.each do |golink| %>
-	<tr><td><%= golink.key %></td> <td><%= link_to golink.url, golink.url %></td>
-		<td><%= golink.description %></td></tr>
-	<% end %>
-	</tbody>
-</table>
+<div id = 'catalogue-container'></div>
+

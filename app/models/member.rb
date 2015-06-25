@@ -83,8 +83,15 @@ class Member < ActiveRecord::Base
   end
 
   def self.current_members_dict(semester = Semester.current_semester)
+    mdict = Rails.cache.read('current_members_dict')
+    if mdict != nil
+      return mdict
+    end
+
     current_members = self.current_members(semester)
-    return current_members.index_by(&:id)
+    mdict = current_members.index_by(&:id)
+    Rails.cache.write('current_members_dict', mdict)
+    return mdict
   end
 
   def self.members_chart(semester = Semester.current_semester)
