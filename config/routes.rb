@@ -18,6 +18,7 @@ Dockernotes::Application.routes.draw do
   get '/go/destroy', to: 'go#destroy'
   get '/go/guide', to: 'go#guide'
   get '/go/catalogue', to: 'go#catalogue'
+  get '/go/clicks', to: 'go_link_clicks#index'
 
   resources :members do
     member do

@@ -1,0 +1,9 @@
+<p><%= link_to 'PBL Link Catalogue', '/go' %></p>
+<p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
+
+<h1>PBL Link Clicks</h1>
+
+<h3>Raw Click Data</h3>
+<% @go_link_clicks.each do |click| %>
+<div><%= click.member_id %>: <%= click.go_link_id %></div>
+<% end %>

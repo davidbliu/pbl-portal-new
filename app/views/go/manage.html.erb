@@ -31,7 +31,7 @@ function updateActions(){
 			location.reload();
 		}
 		errorFunction = function(){
-			alert("failed");
+			alert("Failed. Your link key may have already been assigned!");
 		}
 		data = {'key': key, 'url': url, 'description':description}
 		makeAjaxRequest(path, 'POST', data, successFunction, errorFunction);

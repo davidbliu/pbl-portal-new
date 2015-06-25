@@ -12,7 +12,6 @@ function pullEventCatalogue(){
         $('#catalogue-container').html('<h1>Failed to load catalogue</h1>');
       }
   	});
-	
 }
 
 $(document).ready(function(){
@@ -28,6 +27,7 @@ $(document).ready(function(){
 
 <p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
 <p><%= link_to 'PBL Link Guide', '/go/guide' %></p>
+<p><%= link_to 'Link Click Metrics', '/go/clicks' %></p>
 
 <div id = 'catalogue-container'></div>
 

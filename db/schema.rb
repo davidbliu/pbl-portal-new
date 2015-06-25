@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150625015548) do
+ActiveRecord::Schema.define(version: 20150625042507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -246,6 +246,14 @@ ActiveRecord::Schema.define(version: 20150625015548) do
     t.datetime "updated_at"
   end
 
+  create_table "go_link_clicks", force: true do |t|
+    t.integer  "member_id"
+    t.integer  "go_link_id"
+    t.string   "go_link_key"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "go_links", force: true do |t|
     t.string   "key"
     t.string   "url"
@@ -254,6 +262,7 @@ ActiveRecord::Schema.define(version: 20150625015548) do
     t.datetime "updated_at"
     t.integer  "member_id"
     t.string   "type"
+    t.integer  "num_clicks"
   end
 
   create_table "likes", force: true do |t|

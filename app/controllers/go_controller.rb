@@ -5,7 +5,19 @@ class GoController < ApplicationController
 		if go_key == nil
 			@message = 'No key was provided'
 		elsif go_hash.keys.include?(go_key)
-			redirect_to go_hash[go_key].url
+			golink = go_hash[go_key]
+			if current_member	
+				click = GoLinkClick.new()
+				click.member_id = current_member.id
+				click.go_link_id = golink.id
+				click.save!
+			else
+				click = GoLinkClick.new()
+				click.member_id = -1
+				click.go_link_id = golink.id
+				click.save!
+			end
+			redirect_to golink.url
 		else
 			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
 		end
