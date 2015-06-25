@@ -3,6 +3,14 @@
 
 <h1>PBL Link Clicks</h1>
 
+<h3>Link Click Metrics</h3>
+<% @link_clicks_hash.keys.each do |go_link_id| %>
+<div><b><%= @go_link_id_hash[go_link_id].key %></b></div>
+<% @link_clicks_hash[go_link_id].keys.each do |member_id| %>
+<div><%= @member_hash[member_id].name %> : <%= @link_clicks_hash[go_link_id][member_id].length %></div>
+<% end %>
+<% end %>
+
 <h3>Raw Click Data</h3>
 <% @go_link_clicks.each do |click| %>
 <div><%= @member_hash[click.member_id].name %>: <%= @go_link_id_hash[click.go_link_id].key %></div>
