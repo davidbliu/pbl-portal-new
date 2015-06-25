@@ -1,10 +1,10 @@
 <script type = 'text/javascript'>
-function pullEventCatalogue(){
+function pullEventCatalogue(option){
 	// pull data from /go/catalogue
 	$.ajax({
       url: '/go/catalogue',
       type: 'GET',
-      data: {},
+      data: {'option': option},
       success:function(data){
         $('#catalogue-container').html(data);
       },
@@ -13,9 +13,21 @@ function pullEventCatalogue(){
       }
   	});
 }
-
+function activateButtonActions(){
+	$('.catalogue-btn').click(function(){
+		$('.catalogue-btn.active').each(function(){
+			$(this).removeClass('active');
+		});
+		$(this).addClass('active');
+		// refresh event catalogue
+		option = $(this).attr('id');
+		$('#catalogue-container').html("");
+		pullEventCatalogue(option);
+	});
+}
 $(document).ready(function(){
-	pullEventCatalogue();
+	pullEventCatalogue('');
+	activateButtonActions();
 });
 </script>
 
@@ -27,7 +39,14 @@ $(document).ready(function(){
 
 <p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
 <p><%= link_to 'PBL Link Guide', '/go/guide' %></p>
-<p><%= link_to 'Link Click Metrics', '/go/clicks' %></p>
+
+<div id = 'catalogue-button-container'>
+<a class="btn btn-default" href="/go/clicks" role="button">Click Metrics</a>
+<button id = "" class="catalogue-btn btn btn-default active" type="submit">Alphabetical</button>
+<button id = "resource-type" class="catalogue-btn btn btn-default" type="submit">By Resource Type</button>
+<button id = 'prefix-suffix' class="catalogue-btn btn btn-default" type="submit">By Prefix/Suffix</button>
+<button id = 'committee' class="catalogue-btn btn btn-default" type="submit">By Committee</button>
+</div>
 
 <div id = 'catalogue-container'></div>
 

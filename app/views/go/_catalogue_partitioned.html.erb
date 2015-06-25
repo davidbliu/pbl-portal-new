@@ -1,0 +1,9 @@
+<% @partitioned_catalogue.keys.each do |partition| %>
+<h3><%= partition %></h3>
+	<% @partitioned_catalogue[partition].each do |link_id| %>
+		<div>Key: <%= @go_link_id_hash[link_id].key %></div>
+		<div>URL: <%= link_to @go_link_id_hash[link_id].url, @go_link_id_hash[link_id].url %></div>
+		<div>Description: <%= @go_link_id_hash[link_id].description %></div>
+		<br>
+	<% end %>
+<% end %>

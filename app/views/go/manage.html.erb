@@ -5,12 +5,12 @@
 </style>
 
 <script type = 'text/javascript'>
-function pullEventCatalogue(){
+function pullEventCatalogue(option){
 	// pull data from /go/catalogue
 	$.ajax({
       url: '/go/catalogue',
       type: 'GET',
-      data: {},
+      data: {'option': option},
       success:function(data){
         $('#catalogue-container').html(data);
       },
@@ -42,7 +42,7 @@ function updateActions(){
 * to be performed on page load
 */
 $(document).ready(function(){
-	pullEventCatalogue();
+	pullEventCatalogue("");
 	updateActions();
 });
 </script>

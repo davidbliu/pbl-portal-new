@@ -30,9 +30,22 @@ class GoController < ApplicationController
 	end
 
 	def catalogue
-		@go_links = GoLink.all.order(:key)
-		@member_hash = Member.member_hash
-		render '_catalogue.html.erb', layout: false
+		option = params[:option]
+		if option == 'resource-type'
+			@partitioned_catalogue = GoLink.catalogue_by_resource_type
+			@member_hash = Member.member_hash
+			@go_link_id_hash = GoLink.go_link_id_hash
+			# render json: 'resource-type', :status=> 200
+			render '_catalogue_partitioned.html.erb', layout: false
+		elsif option == 'committee'
+			render json: 'committee', :status=> 200
+		elsif option == 'prefix-suffix'
+			render json: 'prefix suffix', :status=> 200
+		else
+			@go_links = GoLink.all.order(:key)
+			@member_hash = Member.member_hash
+			render '_catalogue.html.erb', layout: false
+		end
 	end
 
 	def manage
@@ -65,6 +78,10 @@ class GoController < ApplicationController
 		GoLink.find(params[:id]).destroy!
 		Rails.cache.write('go_link_hash', nil)
 		redirect_to :back
+	end
+
+	def json
+		render json: GoLink.all
 	end
 
 

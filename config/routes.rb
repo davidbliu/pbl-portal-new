@@ -19,6 +19,7 @@ Dockernotes::Application.routes.draw do
   get '/go/guide', to: 'go#guide'
   get '/go/catalogue', to: 'go#catalogue'
   get '/go/clicks', to: 'go_link_clicks#index'
+  get '/go/json', to: 'go#json'
 
   resources :members do
     member do
