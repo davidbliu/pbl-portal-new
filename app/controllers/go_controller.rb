@@ -31,15 +31,16 @@ class GoController < ApplicationController
 
 	def catalogue
 		option = params[:option]
+		@member_hash = Member.member_hash
+		@go_link_id_hash = GoLink.go_link_id_hash
 		if option == 'resource-type'
 			@partitioned_catalogue = GoLink.catalogue_by_resource_type
-			@member_hash = Member.member_hash
-			@go_link_id_hash = GoLink.go_link_id_hash
 			# render json: 'resource-type', :status=> 200
 			render '_catalogue_partitioned.html.erb', layout: false
-		elsif option == 'committee'
-			render json: 'committee', :status=> 200
 		elsif option == 'prefix-suffix'
+			@partitioned_catalogue = GoLink.catalogue_by_fix
+			render '_catalogue_partitioned.html.erb', layout: false
+		elsif option == 'committee'
 			render json: 'prefix suffix', :status=> 200
 		else
 			@go_links = GoLink.all.order(:key)

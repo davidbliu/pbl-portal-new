@@ -80,6 +80,23 @@ class GoLink < ActiveRecord::Base
 			result.delete(partition)
 		end
 		return result
+	end
 
+	def self.catalogue_by_fix
+		result = Hash.new
+		link_hash = self.go_link_id_hash
+		link_hash.keys.each do |id|
+			key = link_hash[id].key
+			chunks = key.split('-')
+			chunks.each do |chunk|
+				if not result.keys.include?(chunk)
+					result[chunk] = Array.new
+				end
+				result[chunk] << id
+			end
+		end
+		puts 'this is the resul'
+		puts result
+		return result
 	end
 end
