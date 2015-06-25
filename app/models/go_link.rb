@@ -1,6 +1,13 @@
 class GoLink < ActiveRecord::Base
 	attr_accessible :key, :url, :description
 
+	def short_url
+		if url.length > 50
+			return url.first(50) + "..."
+		else
+			return url
+		end
+	end
 	def self.go_link_hash
 		go_hash = Rails.cache.read('go_link_hash')
 		if go_hash != nil
@@ -24,19 +31,19 @@ class GoLink < ActiveRecord::Base
 		types = Array.new
 		types_keyword = Array.new
 
-		types << 'drive'
+		types << 'Google Drive'
 		types_keyword << 'drive.google.com'
 
-		types << 'docs'
+		types << 'Google Docs'
 		types_keyword << 'docs.google.com'
 
-		types << 'piazza'
+		types << 'Piazza'
 		types_keyword << 'piazza.com'
 
-		types << 'portal'
+		types << 'PBL Portal'
 		types_keyword << '.berkeley-pbl.com'
 
-		types << 'forms'
+		types << 'Google Forms'
 		types_keyword << '/viewform'
 
 		# types << 'other'
@@ -62,8 +69,16 @@ class GoLink < ActiveRecord::Base
 				result['other'] << id
 			end
 		end
-		puts 'this is the result'
-		puts result
+		# remove empty partitions
+		empty_partitions = Array.new
+		result.keys.each do |partition|
+			if result[partition].length < 1
+				empty_partitions << partition
+			end
+		end
+		empty_partitions.each do |partition|
+			result.delete(partition)
+		end
 		return result
 
 	end

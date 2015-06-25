@@ -1,9 +1,55 @@
+<script type = 'text/javascript'>
+$('.go-link-key').click(function(){
+	id = $(this).attr('id').split('-')[3];
+	hidden_id = 'go-link-hidden-'+id;
+	$('#'+hidden_id).toggle();
+});
+</script>
+
+<style type = 'text/css'>
+.go-link-key:hover{
+	cursor: pointer;
+	color:#0a6ebd;
+}
+.go-link-hidden{
+	display:none;
+}
+.partitioned-card{
+	width:450px;
+	float: left;
+	margin:25px;
+}
+</style>
+
 <% @partitioned_catalogue.keys.each do |partition| %>
-<h3><%= partition %></h3>
-	<% @partitioned_catalogue[partition].each do |link_id| %>
-		<div>Key: <%= @go_link_id_hash[link_id].key %></div>
-		<div>URL: <%= link_to @go_link_id_hash[link_id].url, @go_link_id_hash[link_id].url %></div>
-		<div>Description: <%= @go_link_id_hash[link_id].description %></div>
-		<br>
-	<% end %>
+
+<div class="panel panel-default partitioned-card">
+  <div class="panel-heading">
+    <h3 class="panel-title"><%= partition %></h3>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr class="active"><th>Key</th><th>Url</th><th>Created By</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+      	<% @partitioned_catalogue[partition].each do |link_id| %>
+        <tr>
+        	<td>
+        		<div class = 'go-link-key' id = 'go-link-key-<%= link_id%>'><%= @go_link_id_hash[link_id].key %></div>
+        	<div class = 'go-link-hidden' id = 'go-link-hidden-<%= link_id %>'>
+				<a href = '/go/destroy/?id=<%= link_id %>'>Destroy</a>
+			</div>
+        	</td>
+        	<td><%= link_to @go_link_id_hash[link_id].short_url, @go_link_id_hash[link_id].url %></td>
+        	<td><% if @go_link_id_hash[link_id].member_id %><%= @member_hash[@go_link_id_hash[link_id].member_id].name %><% else %>None<% end %></td>
+        	<td><%= @go_link_id_hash[link_id].description %></td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="panel-footer">
+    <small><%= @partitioned_catalogue[partition].length %> Links in this partition</small>
+  </div>
+</div>
 <% end %>

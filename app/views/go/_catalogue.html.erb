@@ -32,7 +32,7 @@ $('.go-link-key').click(function(){
 				<a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a>
 			</div>
 		</td> 
-		<td><%= link_to golink.url, golink.url %></td>
+		<td><%= link_to golink.short_url, golink.url %></td>
 		<td><% if golink.member_id %>
 			<%= @member_hash[golink.member_id].name %>
 			<% else %>none<% end %></td>
