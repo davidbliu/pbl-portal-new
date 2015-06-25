@@ -3,11 +3,11 @@ class GoController < ApplicationController
 		go_hash = go_link_hash
 		go_key = params.keys()[0]
 		if go_key == nil
-			@message = 'No go key was provided'
+			@message = 'No key was provided'
 		elsif go_hash.keys.include?(go_key)
 			redirect_to go_hash[go_key].url
 		else
-			@message = 'The go key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
+			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
 		end
 		# else display the catalogue
 		@go_key = go_key
