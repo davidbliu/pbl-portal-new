@@ -53,15 +53,18 @@ $('.partition-label').click(function(){
 }
 .partition-card{
 	float: left;
-	margin:15px;
+	margin:5px;
 }
 .partition-label:hover{
   cursor:pointer;
 }
+.groups-labels{
+  margin:15px;
+}
 </style>
 
 <h3>Groups Generated</h3>
-<div>
+<div id = 'groups-labels'>
 <% @partitioned_catalogue.keys.sort.each do |partition| %>
 &nbsp;<div class = 'partition-label label label-default' id = '<%= partition.gsub(' ','') %>-id'><%= partition %></div>&nbsp;
 <% end %>
