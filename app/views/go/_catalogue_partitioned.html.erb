@@ -36,9 +36,9 @@ $('.go-link-key').click(function(){
       	<% @partitioned_catalogue[partition].each do |link_id| %>
       		<div class = 'go-link-key' id = 'go-link-key-<%= link_id%>'><%= @go_link_id_hash[link_id].key %></div>
           <div class = 'go-link-hidden' id = 'go-link-hidden-<%= link_id %>'>
-          	<div><%= link_to @go_link_id_hash[link_id].short_url, @go_link_id_hash[link_id].url %></div>
-          	<div><% if @go_link_id_hash[link_id].member_id %><%= @member_hash[@go_link_id_hash[link_id].member_id].name %><% else %>None<% end %></div>
-          	<div><%= @go_link_id_hash[link_id].description %></div>
+          	<div>Url: <%= link_to @go_link_id_hash[link_id].short_url, @go_link_id_hash[link_id].url %></div>
+          	<div>Created By: <% if @go_link_id_hash[link_id].member_id %><%= @member_hash[@go_link_id_hash[link_id].member_id].name %><% else %>None<% end %></div>
+          	<div>Description: <%= @go_link_id_hash[link_id].description %></div>
           </div>
 
         <% end %>
