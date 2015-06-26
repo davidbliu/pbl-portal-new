@@ -1,9 +1,9 @@
 class GoController < ApplicationController
 	def go
 		go_hash = GoLink.go_link_hash
-		go_key = params.keys()[0]
-		if go_key == nil
-			@message = 'No key was provided'
+		go_key = params.keys[0]
+		if params.length < 3
+			@message = nil
 		elsif go_hash.keys.include?(go_key)
 			golink = go_hash[go_key]
 			# log click tracking data

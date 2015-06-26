@@ -1,3 +1,21 @@
+<script type = 'text/javascript'>
+$(document).ready(function(){
+  $('.inactive-li').mouseover(function(){
+    $('.active').each(function(){
+      $(this).removeClass('active');
+    });
+    $(this).addClass('active');
+  });
+
+  $('.inactive-li').mouseout(function(){
+    $('.active').each(function(){
+      $(this).removeClass('active');
+    });
+  });
+
+});
+
+</script>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -12,26 +30,26 @@
     <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/">[PBL][MP]</a>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active">
+        <li class = 'inactive-li'>
           <a href="/members">
             <i class="fa fa-users"></i> 
             Members
           </a>
         </li>
-        <li>
+        <li class = 'inactive-li'>
           <a href="/tabling">
             <i class="fa fa-building-o"></i> 
             Tabling
           </a>
         </li>
-        <li>
+        <li class = 'inactive-li'>
           <a href="/points">
             <i class="fa fa-gears"></i> 
             Points
           </a>
         </li>
 
-        <li>
+        <li class = 'inactive-li'>
           <a href="/go">
             <i class="fa fa-gears"></i> 
             PBL Links

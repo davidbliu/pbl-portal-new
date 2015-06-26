@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>PBL Portal</title>
+  <%= favicon_link_tag '/favicon.ico' %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <!-- include bootcards -->
+  <!-- include a bootswatch theme -->
+  <link href = 'http://bootswatch.com/paper/bootstrap.min.css' rel = 'stylesheet'>
+
+  <!-- Bootcards CSS for desktop: -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootcards/1.0.0/css/bootcards-desktop.min.css">
+
+
+<!-- Bootstrap and Bootcards JS -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootcards/1.0.0/js/bootcards.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slidebars/0.10.2/slidebars.min.css">
+<script src = 'https://cdnjs.cloudflare.com/ajax/libs/slidebars/0.10.2/slidebars.min.js'></script>
+
+</head>
+<body>
+
+<div class="sb-toggle-left navbar-left">
+	<img src = 'https://pbs.twimg.com/profile_images/1620031390/The-interesting-thing-is-owned-by-duck.jpg' height=30/>
+	<div class="navicon-line"></div>
+	<div class="navicon-line"></div>
+	<div class="navicon-line"></div>
+</div><!-- /.sb-control-left -->
+
+
+<!-- add a header -->
+<!-- <%= render "/layouts/navbar" %> -->
+<%= render '/layouts/sidebar' %>
+<div class="container">
+<%= yield %>
+<!-- end of header -->
+</div>
+</body>
+</html>
