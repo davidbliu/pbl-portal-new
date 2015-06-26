@@ -1,8 +1,3 @@
-<p><%= link_to 'PBL Link Catalogue', '/go' %></p>
-<p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
-
-<h1>PBL Link Clicks</h1>
-
 <h3>Link Click Metrics</h3>
 <% @link_clicks_hash.keys.each do |go_link_id| %>
 <div><b><%= @go_link_id_hash[go_link_id].key %></b></div>

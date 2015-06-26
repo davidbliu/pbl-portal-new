@@ -1,3 +1,5 @@
+
+
 <script type = 'text/javascript'>
 function pullEventCatalogue(option){
 	// pull data from /go/catalogue
@@ -49,12 +51,25 @@ $(document).ready(function(){
 
 <h1>PBL Link Catalogue</h1>
 
-<div id = 'catalogue-button-container'>
+<!-- Single button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Filtering Options <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+  	<li><a id = '' class = 'catalogue-btn'>Alphabetical</a></li>
+    <li><a id = 'resource-type' class = 'catalogue-btn'>By Link Type</a></li>
+    <li><a id = 'prefix-suffix' class = 'catalogue-btn'>By Link Keywords</a></li>
+    <li><a id = 'metrics' class = 'catalogue-btn'>Metrics</a></li>
+  </ul>
+</div>
+
+<!-- <div id = 'catalogue-button-container'>
 <a class="btn btn-default" href="/go/clicks" role="button">Metrics</a>
 <button id = "" class="catalogue-btn btn btn-default active" type="submit">Alphabetical</button>
 <button id = "resource-type" class="catalogue-btn btn btn-default" type="submit">Group By Resource Type</button>
 <button id = 'prefix-suffix' class="catalogue-btn btn btn-default" type="submit">Group By Prefix/Suffix</button>
-</div>
+</div> -->
 
 <div id = 'catalogue-container'></div>
 

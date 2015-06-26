@@ -15,5 +15,6 @@ class GoLinkClicksController < ApplicationController
 			end
 			@link_clicks_hash[click.go_link_id][click.member_id] << click
 		end
+		render 'index.html.erb', layout: false
 	end
 end

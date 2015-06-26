@@ -40,8 +40,8 @@ class GoController < ApplicationController
 		elsif option == 'prefix-suffix'
 			@partitioned_catalogue = GoLink.catalogue_by_fix
 			render '_catalogue_partitioned.html.erb', layout: false
-		elsif option == 'committee'
-			render json: 'prefix suffix', :status=> 200
+		elsif option == 'metrics'
+			redirect_to 'http://'+ENV['HOST'] +'/go/clicks', layout: false
 		else
 			@go_links = GoLink.all.order(:key)
 			@member_hash = Member.member_hash
