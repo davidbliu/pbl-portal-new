@@ -35,9 +35,13 @@ class GoogleEventsController < ApplicationController
 		now = Time.now.utc
         # Time.stubs(:now).returns(now)
         start_min = Time.now-2.years
-        start_max = Time.now
+        start_max = Time.now+1.year
         # cal.expects(:event_lookup).with("?timeMin=#{start_min.strftime("%FT%TZ")}&timeMax=#{start_max.strftime("%FT%TZ")}&orderBy=startTime&maxResults=25&singleEvents=true")
-        @events = cal.find_events_in_range(start_min, start_max, :max_results=>1000)
+        google_events = cal.find_events_in_range(start_min, start_max, :max_results=>1000)
+        # GoogleEvent.destroy_all
+        # GoogleEvent.sync_all_events(google_events)
+        GoogleEvent.sync_events(google_events)
+        @events = GoogleEvent.all.sort_by{ |e| e.start_time }.reverse
 
 		# @events = cal.events
 	end

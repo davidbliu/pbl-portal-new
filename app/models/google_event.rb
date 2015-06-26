@@ -1,39 +1,20 @@
 class GoogleEvent < ActiveRecord::Base
 
 	def time_string
-	    t = self.time
-	    if not t 
-	    	return '#'
-	    end
-	    day = t.strftime("%d")
-	    month = t.strftime("%b")
-	    year = t.strftime("%Y")
-	    return month + " " + day + ", " + year
-  end
+	    self.start_time.strftime("%b %e, %Y from %k:%M") + " to "+self.end_time.strftime("%k:%M")
+  	end
 
 	def self.sync_events(google_events)
-		semesters = Semester.all
-		google_events.each do |google_event|
-			event = GoogleEvent.where(google_id: google_event.id).first_or_initialize
-			event.name = google_event['summary']
-			event.location = google_event['location']
-			
-			event.description = google_event['description']
-			event.google_id = google_event['id']
-
-			# pick the latest semester that starts before this event
-			if google_event['start']
-				event.time = self.google_datetime_fix(google_event['start'])
-				semesters = Semester.all.order(:start_date)
-				semesters.each do |semester|
-					if event.time > semester.start_date
-						event.semester_id = semester.id
-					end
-				end
-			end
-			puts event.to_yaml
-			event.save!
-		end
+		google_events.each do |e|
+        	event = GoogleEvent.new()
+        	event.name = e.title
+        	event.start_time = e.start_time
+        	event.end_time = e.end_time
+        	event.location = e.location
+        	event.description = e.description
+        	event.google_id = e.id
+        	event.save!
+        end
 	end
 
 	def self.google_datetime_fix(datetime)

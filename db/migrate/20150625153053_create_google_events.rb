@@ -5,7 +5,8 @@ class CreateGoogleEvents < ActiveRecord::Migration
       t.string :location
       t.text :description
       t.string :google_id
-      t.time :time
+      t.datetime :start_time
+      t.datetime :end_time
       t.integer :semester_id
       t.timestamps
     end

@@ -1,5 +1,8 @@
 class GoController < ApplicationController
 	def go
+		if not current_member
+			redirect_to :controller=> 'members', :action=>'no_permission'
+		end
 		go_hash = GoLink.go_link_hash
 		go_key = params.keys[0]
 		if params.length < 3

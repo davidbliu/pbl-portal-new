@@ -1,5 +1,5 @@
 <%= @events.length %> Events
 
 <% @events.each do |event| %>
-<div><%= event %></div>
+<div><%= event.name %> <%= event.time_string %></div>
 <% end %>
