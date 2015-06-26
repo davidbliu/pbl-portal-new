@@ -1,9 +1,45 @@
 <script type = 'text/javascript'>
 $('.go-link-key').click(function(){
-  id = $(this).attr('id').split('-')[3];
-  hidden_id = 'go-link-hidden-'+id;
-  $('#'+hidden_id).toggle();
+  id = $(this).attr('id').split('-')[4];
+  partition = $(this).attr('id').split('-')[0];
+  hidden_id = partition + '-go-link-hidden-'+id;
+  $('#'+hidden_id).toggle().animate();
 });
+
+
+// allow clicking partitions
+function reShowCards(){
+  // show all cards again
+  $('.partition-card').each(function(){
+    $(this).show();
+  });
+  highlighted = [];
+  unhighlighted = [];
+  $('.label-default').each(function(){
+    unhighlighted.push($(this));
+  });
+  $('.label-primary').each(function(){
+    highlighted.push($(this));
+  });
+  if(highlighted.length != 0){
+    $('.label-default').each(function(){
+      partition = $(this).attr('id').split('-')[0];
+      console.log(partition);
+      $('#'+partition+'-card').hide();
+      console.log($('#'+partition+'-card'));
+    });
+  }
+}
+$('.partition-label').click(function(){
+  if($(this).hasClass('label-default')){
+    $(this).removeClass('label-default');
+    $(this).addClass('label-primary');
+  } else{
+    $(this).removeClass('label-primary');
+    $(this).addClass('label-default');
+  }
+  reShowCards();
+})
 </script>
 
 <style type = 'text/css'>
@@ -15,29 +51,32 @@ $('.go-link-key').click(function(){
 	display:none;
   padding-left: 15px;
 }
-.partitioned-card{
+.partition-card{
 	float: left;
 	margin:15px;
+}
+.partition-label:hover{
+  cursor:pointer;
 }
 </style>
 
 <h3>Groups Generated</h3>
-<p>
-<% @partitioned_catalogue.keys.each do |partition| %>
-&nbsp;<%= partition %>&nbsp;
+<div>
+<% @partitioned_catalogue.keys.sort.each do |partition| %>
+&nbsp;<div class = 'partition-label label label-default' id = '<%= partition.gsub(' ','') %>-id'><%= partition %></div>&nbsp;
 <% end %>
-</p>
+</div>
 
-<% @partitioned_catalogue.keys.each do |partition| %>
+<% @partitioned_catalogue.keys.sort.each do |partition| %>
 
-<div class="panel panel-default partitioned-card">
+<div class="panel panel-default partition-card" id = '<%= partition.gsub(' ','') %>-card'>
   <div class="panel-heading">
     <h3 class="panel-title"><%= partition %></h3>
   </div>
   <div class = 'panel-body'>
       	<% @partitioned_catalogue[partition].each do |link_id| %>
-      		<div class = 'go-link-key' id = 'go-link-key-<%= link_id%>'><%= @go_link_id_hash[link_id].key %></div>
-          <div class = 'go-link-hidden' id = 'go-link-hidden-<%= link_id %>'>
+      		<div class = 'go-link-key' id = '<%= partition.gsub(' ','') %>-go-link-key-<%= link_id%>'><%= @go_link_id_hash[link_id].key %></div>
+          <div class = 'go-link-hidden' id = '<%= partition.gsub(' ','') %>-go-link-hidden-<%= link_id %>'>
           	<div>Url: <%= link_to @go_link_id_hash[link_id].short_url, @go_link_id_hash[link_id].url %></div>
           	<div>Created By: <% if @go_link_id_hash[link_id].member_id %><%= @member_hash[@go_link_id_hash[link_id].member_id].name %><% else %>None<% end %></div>
           	<div>Description: <%= @go_link_id_hash[link_id].description %></div>

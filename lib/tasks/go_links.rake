@@ -1,12 +1,25 @@
 namespace :go_links do
 	task :populate  => :environment do
 		GoLink.destroy_all
-		go_hash = go_link_hash
-		go_hash.keys.each do |key|
-			golink = GoLink.create(key: key, url: go_hash[key], description: 'auto-generated from rake task')
+		file = File.read('go_links.json') 
+		go_links = JSON.parse(file)
+		puts go_links
+		go_links.each do |link|
+			golink = GoLink.new
+			golink.url = link['url']
+			golink.key = link['key']
+			golink.description = link['description']
+			golink.member_id = link['member_id']
 			golink.save!
 		end
-		puts 'created '+GoLink.all.length.to_s + ' go links!'
+		puts 'there are now ' + GoLink.all.length.to_s + ' go links'
+		# GoLink.destroy	all
+		# go_hash = go_link_hash
+		# go_hash.keys.each do |key|
+		# 	golink = GoLink.create(key: key, url: go_hash[key], description: 'auto-generated from rake task')
+		# 	golink.save!
+		# end
+		# puts 'created '+GoLink.all.length.to_s + ' go links!'
 	end
 end 
 
