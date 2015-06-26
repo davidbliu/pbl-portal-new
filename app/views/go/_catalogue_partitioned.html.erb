@@ -22,9 +22,11 @@ $('.go-link-key').click(function(){
 </style>
 
 <h3>Groups Generated</h3>
+<p>
 <% @partitioned_catalogue.keys.each do |partition| %>
 &nbsp;<%= partition %>&nbsp;
 <% end %>
+</p>
 
 <% @partitioned_catalogue.keys.each do |partition| %>
 
