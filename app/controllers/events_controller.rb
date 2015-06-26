@@ -115,6 +115,9 @@ class EventsController < ApplicationController
 	end
 
 	def list_google_events
+		if not session[:access_token]
+			google_calendar_redirect
+		end
 		google_api_client = Google::APIClient.new()
 		  google_api_client.authorization = Signet::OAuth2::Client.new({
 		    client_id: ENV.fetch('GOOGLE_CLIENT_ID'),

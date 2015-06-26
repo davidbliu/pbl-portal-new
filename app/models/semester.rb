@@ -11,4 +11,8 @@ class Semester < ActiveRecord::Base
   def self.current_semester
     return Semester.order(:start_date).reverse.first
   end
+
+  def self.semester_hash
+    return Semester.all.index_by(&:id)
+  end
 end

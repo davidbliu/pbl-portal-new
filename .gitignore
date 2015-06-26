@@ -25,3 +25,5 @@ setenv.sh
 test/fixtures/.DS_Store
 app/.DS_Store
 *.DS_Store
+portal_service_key.json
+google_calendar_refresh.rb

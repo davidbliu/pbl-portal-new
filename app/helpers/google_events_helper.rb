@@ -1,0 +1,2 @@
+module GoogleEventsHelper
+end

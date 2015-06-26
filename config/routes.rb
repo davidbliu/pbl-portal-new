@@ -21,6 +21,14 @@ Dockernotes::Application.routes.draw do
   get '/go/clicks', to: 'go_link_clicks#index'
   get '/go/json', to: 'go#json'
 
+  resources :google_events do 
+    collection do 
+      get 'google_calendar_redirect'
+      get 'google_calendar_callback'
+      get 'list_google_events'
+    end
+  end
+
   resources :members do
     member do
       get 'destroy'
