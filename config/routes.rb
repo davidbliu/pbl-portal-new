@@ -26,6 +26,7 @@ Dockernotes::Application.routes.draw do
       get 'google_calendar_redirect'
       get 'google_calendar_callback'
       get 'list_google_events'
+      get 'sync_events'
     end
   end
 

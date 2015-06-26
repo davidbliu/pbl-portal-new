@@ -22,6 +22,26 @@ class GoogleEventsController < ApplicationController
 		# display events
 	end
 
+	def sync_events
+		cal = Google::Calendar.new(:client_id     => ENV['GOOGLE_INSTALLED_CLIENT_ID'], 
+                           :client_secret => ENV['GOOGLE_INSTALLED_CLIENT_SECRET'],
+                           :calendar      => GoogleEvent.pbl_events_calendar_id,
+                           :redirect_url  => "urn:ietf:wg:oauth:2.0:oob" # this is what Google uses for 'applications'
+                           )
+		puts ENV['REFRESH_TOKEN']
+		cal.login_with_refresh_token(ENV['REFRESH_TOKEN'])
+
+
+		now = Time.now.utc
+        # Time.stubs(:now).returns(now)
+        start_min = Time.now-2.years
+        start_max = Time.now
+        # cal.expects(:event_lookup).with("?timeMin=#{start_min.strftime("%FT%TZ")}&timeMax=#{start_max.strftime("%FT%TZ")}&orderBy=startTime&maxResults=25&singleEvents=true")
+        @events = cal.find_events_in_range(start_min, start_max, :max_results=>1000)
+
+		# @events = cal.events
+	end
+
 	""" pull events from Google """
 	def google_calendar_redirect
 	  google_api_client = Google::APIClient.new()
