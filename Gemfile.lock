@@ -1,4 +1,14 @@
 GIT
+  remote: git://github.com/adelevie/parse_resource.git
+  revision: 27fb3577c21ab64869fdd4bc3c2b87e4aacdffad
+  specs:
+    parse_resource (1.8.0)
+      activemodel
+      activesupport
+      json
+      rest-client
+
+GIT
   remote: git://github.com/gregbell/active_admin.git
   revision: e463c846e7c4bbb25092344daf9f0cec338d749e
   specs:
@@ -81,6 +91,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    domain_name (0.5.24)
+      unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     eventmachine (1.0.3)
     excon (0.39.6)
@@ -104,11 +116,18 @@ GEM
     google_calendar (0.4.4)
       json (~> 1.8)
       signet (~> 0.5)
+    google_drive (1.0.1)
+      google-api-client (>= 0.7.0)
+      nokogiri (>= 1.4.4, != 1.5.2, != 1.5.1)
+      oauth (>= 0.3.6)
+      oauth2 (>= 0.5.0)
     has_scope (0.6.0.rc)
       actionpack (>= 3.2, < 5)
       activesupport (>= 3.2, < 5)
     hashie (1.2.0)
     hike (1.2.3)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     httpauth (0.2.1)
     i18n (0.6.11)
     inherited_resources (1.4.1)
@@ -137,12 +156,25 @@ GEM
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    mechanize (2.7.2)
+      domain_name (~> 0.5, >= 0.5.1)
+      http-cookie (~> 1.0.0)
+      mime-types (~> 1.17, >= 1.17.2)
+      net-http-digest_auth (~> 1.1, >= 1.1.1)
+      net-http-persistent (~> 2.5, >= 2.5.2)
+      nokogiri (~> 1.4)
+      ntlm-http (~> 0.1, >= 0.1.1)
+      webrobots (>= 0.0.9, < 0.2)
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.10.1)
     multipart-post (2.0.0)
     mysql2 (0.3.16)
+    net-http-digest_auth (1.4)
+    net-http-persistent (2.9.4)
+    netrc (0.10.3)
     nokogiri (1.5.11)
+    ntlm-http (0.1.1)
     oauth (0.4.7)
     oauth2 (0.8.1)
       faraday (~> 0.8)
@@ -193,6 +225,10 @@ GEM
     ref (1.0.5)
     responders (1.0.0)
       railties (>= 3.2, < 5)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
     retriable (1.4.1)
     rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
@@ -259,12 +295,16 @@ GEM
     uglifier (2.5.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.1)
     uuidtools (2.1.4)
     warden (1.2.3)
       rack (>= 1.0)
     webmock (1.19.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
+    webrobots (0.1.1)
     youtube_it (2.3.2)
       builder
       excon
@@ -287,12 +327,17 @@ DEPENDENCIES
   execjs
   google-api-client
   google_calendar
+  google_drive
   jbuilder (~> 1.2)
   jquery-rails
   jquery-turbolinks
+  kaminari
+  mechanize
   mysql2
+  nokogiri
   omniauth (= 1.1.0)
   omniauth-google-oauth2!
+  parse_resource!
   pg
   protected_attributes
   quiet_assets

@@ -53,6 +53,16 @@ gem 'mysql2' #dont need it in prod
 gem 'google-api-client', :require => 'google/api_client'
 # alternative callendar gem
 gem 'google_calendar'
+gem 'google_drive'
+
+# parse backend
+gem "kaminari" # optional for pagination support
+gem 'parse_resource', github: 'adelevie/parse_resource'
+#, "~> 1.8.0"
+
+# searching pbl links
+gem 'mechanize'
+gem 'nokogiri'
 
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
