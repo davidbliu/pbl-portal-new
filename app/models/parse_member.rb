@@ -3,7 +3,8 @@ class ParseMember < ParseResource::Base
 	fields :name, :provider, :uid, :google_id,
 	:profile, :old_member_id, :remember_token, 
 	:confirmation_status, :swipy_data, :registration_comment,
-	:commitments, :old_id
+	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
+	:role
 
 	def self.hash 
 		ParseMember.limit(10000).all.index_by(&:id)
@@ -15,7 +16,7 @@ class ParseMember < ParseResource::Base
 
 
 
-	""" get current members by types methods """
+	""" get members by types """
 
 	def self.current_members(semester = ParseSemester.current_semester)
 		mhash = ParseMember.hash
@@ -24,32 +25,61 @@ class ParseMember < ParseResource::Base
 	end
 
 	def self.current_members_hash(semester = ParseSemester.current_semester)
-		ParseMember.current_members.index_by(&:id)
+		hash = Rails.cache.read('current_members_hash')
+		if hash != nil
+			return hash
+		end
+
+		hash = ParseMember.current_members.index_by(&:id)
+		Rails.cache.write('current_members_hash', hash)
+		return hash
 	end
 
 	def self.current_officers(semester = ParseSemester.current_semester)
-		chair_ids = CommitteeMember.(semester_id: semester.id).where('position_id > 2').pluck(:member_id)
-		return Member.where('id IN (?)', chair_ids)
+		mhash = ParseMember.hash
+		officer_ids = ParseCommitteeMember.where(semester_id: semester.id).select{|x| x.position_id == 3 or x.position_id == 4}.map{|x| x.member_id}
+		
+		officer_ids.map{|x| mhash[x]}
 	end
 
-	  def self.current_execs(semester = Semester.current_semester)
-		chair_ids = CommitteeMember.where(semester: semester).where('position_id = 4').pluck(:member_id)
-		return Member.where('id IN (?)', chair_ids)
+	  def self.current_execs(semester = ParseSemester.current_semester)
+		mhash = ParseMember.hash
+		exec_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 4).map{|x| x.member_id}
+		exec_ids.map{|x| mhash[x]}
 	end
 
-	  def self.current_chairs(semester = Semester.current_semester)
-		chair_ids = CommitteeMember.where(semester: semester).where('position_id = 3').pluck(:member_id)
-		return Member.where('id IN (?)', chair_ids)
+	  def self.current_chairs(semester = ParseSemester.current_semester)
+		mhash = ParseMember.hash
+		chair_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 3).map{|x| x.member_id}
+		chair_ids.map{|x| mhash[x]}
 	 end
 
 	  # excludes chairs
-	def self.current_cms(semester = Semester.current_semester)
-		# chair_exec_tier = CommitteeMemberType.where("tier > 1").pluck(:id)
-		# chair_ids = CommitteeMember.where(semester: semester).where('committee_member_type_id IN (?)', chair_exec_tier).pluck(:member_id)
-		current_committee_member_ids = CommitteeMember.where(semester_id: semester.id).where('position_id = 2').pluck(:member_id)
-		return Member.where('id IN (?)', current_committee_member_ids)#.where('id NOT IN (?)', Member.current_gm_ids).where('id NOT IN (?)', chair_ids)
+	def self.current_cms(semester = ParseSemester.current_semester)
+		mhash = ParseMember.hash
+		current_committee_member_ids = ParseCommitteeMember.where(position_id: 2).where(semester_id: semester.id).map{|x| x.member_id}
+		current_committee_member_ids.map{|x| mhash[x]}
 	end
-  
+
+	""" specific member convenience methods """
+
+	def self.member_committee_hash(semester = ParseSemester.current_semester)
+		""" key is member id, value is committee_id """
+		current_cms = ParseCommitteeMember.where(semester_id: semester.id)
+		Hash[current_cms.map {|x| [x.member_id, x.committee_id]}]
+	end
+
+	def current_committee(semester = ParseSemester.current_semester)
+		cm = ParseCommitteeMember.where(member_id: self.id, semester_id: semester.id)
+		if cm.length == 0
+		  return ParseCommittee.gm
+		else
+		  return ParseCommittee.find(cm.first.committee_id)
+		end
+	end
+
+	""" permissions and roles """
+
 
 	""" migrate old Member model to ParseMember model """
 	def self.migrate
@@ -68,8 +98,24 @@ class ParseMember < ParseResource::Base
 			pm.registration_comment = m.registration_comment
 			pm.commitments = m.commitments
 			pm.old_id = m.id
+			pm.email = m.email
+			pm.major = m.major
 			pms << pm
 		end
 		ParseMember.save_all(pms)
+	end
+
+	def self.update_committee
+		members = Array.new
+		mhash = ParseMember.hash
+		ParseCommitteeMember.where(semester_id: ParseSemester.current_semester.id).each do |cm|
+			member = mhash[cm.member_id]
+			puts member.name
+			member.committee_id = cm.committee_id
+			member.position_id = cm.position_id
+			member.role = CommitteeMemberPosition.positions[member.position_id-1].name
+			members << member
+		end
+		ParseMember.save_all(members)
 	end
 end

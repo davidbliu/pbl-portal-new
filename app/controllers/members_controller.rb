@@ -9,6 +9,16 @@ class MembersController < ApplicationController
 	def home
 	end
 	
+	#
+	# shows only members from current semester
+	#
+	def index
+		@current_members = ParseMember.current_members_hash.values.sort_by{|x| x.committee_id}
+		@committee_hash = ParseCommittee.hash	
+	end
+
+	
+	
 	def profile
 		@member = Member.find(params[:id])
 		if @member != current_member
@@ -204,23 +214,6 @@ class MembersController < ApplicationController
 	        @tablers << cm
       	end
 	end
-	#
-	# shows only members from current semester
-	#
-	def index
-		@records = Member.members_chart
-		# @semester = Semester.current_semester
-		# join = CommitteeMember.where(semester: @semester).joins(:member, :committee, :committee_member_type)
-  # 		@data = join.map{|j| {'id'=>j.member.id,
-  # 							  'name'=>j.member.name,
-  # 							  'email'=>j.member.email,
-  # 							  'phone'=>j.member.phone,
-  # 							  'position'=>j.committee_member_type.name, 
-  # 							  'committee'=>j.committee.name,
-  # 							  'committee_id'=>j.committee.id, 
-  # 							  'profile'=>j.member.profile_url,
-  # 							  'major'=>j.member.major}}.sort! {|a,b| a['name'] <=> b['name']}
-		
-	end
+	
 
 end

@@ -1,24 +1,24 @@
 
-<h1>Welcome to PBL Members Portal</h1>
+
 
 <% if @current_member %>
-<h2>Current Members</h2>
-<br>
 <table class='table table-striped'>
   <thead>
     <tr>
       <th>Name</th>
       <th>Committee</th>
+      <th>Role</th>
       <th>Email</th>
     </tr>
   </thead>
 
   <tbody>
-    <% @records.each do |record| %>
+    <% @current_members.each do |member| %>
       <tr>
-        <td><%= record['name'] %></td>
-        <td><%= record['committee'] %></td>
-        <td><%= record['email'] %></td>
+        <td><%= member.name %></td>
+        <td><%= @committee_hash[member.committee_id].name %></td>
+        <td><%= member.role %></td>
+        <td><%= member.email %></td>
       </tr>
     <% end %>
   </tbody>
