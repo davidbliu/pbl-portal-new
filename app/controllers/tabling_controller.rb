@@ -21,7 +21,7 @@ class TablingController < ApplicationController
 	def index
     # @slots = TablingSlot.all
     @slots = TablingManager.tabling_schedule
-    @members_dict = Member.current_members_dict
+    @members_dict = ParseMember.current_members_hash
   end
 	
 	#
@@ -36,7 +36,7 @@ class TablingController < ApplicationController
 	# generates tabling TODO background process
 	#
 	def generate
-	    members = Member.current_members
+	    members = ParseMember.current_members_hash.values
 	    # times = 20..50
 	    times = 20.times.map{ Random.rand(167) } 
 	    assignments = TablingManager.generate_tabling_assignments(times, members)

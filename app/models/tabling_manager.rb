@@ -3,34 +3,35 @@ class TablingManager < ActiveRecord::Base
 
 """ displaying tabling schedules """
 
-
 def self.tabling_schedule
-	""" returns the tabling schedule in a Hash
+  """ returns the tabling schedule in a Hash
   key is tabling day (0 to 6)
   value is Array of TablingSlot objects sorted by time
-	"""
-	schedule = Rails.cache.read('tabling_schedule')
-	if schedule != nil
-		return schedule
-	end
+  """
+  schedule = Rails.cache.read('tabling_schedule')
+  if schedule != nil
+    return schedule
+  end
 
-	schedule = Hash.new
-	TablingSlot.all.each do |tabling_slot|
+  schedule = Hash.new
+  tabling_slots = ParseTablingSlot.all.to_a
+  tabling_slots.each do |tabling_slot|
 
     # put this slot into the day key in the schedule
     if not schedule.keys.include?(tabling_slot.day) 
       schedule[tabling_slot.day] = Array.new
     end
     schedule[tabling_slot.day] << tabling_slot
-	end
+  end
   # sort the schedule by tabling_slot time
   schedule.keys.each do |tabling_day|
     schedule[tabling_day].sort { |a, b| a.time <=> b.time}
   end
 
-	Rails.cache.write('tabling_schedule', schedule)
-	return schedule
+  Rails.cache.write('tabling_schedule', schedule)
+  return schedule
 end
+
 
 """switching tabling"""
 
@@ -41,16 +42,18 @@ def self.generate_tabling_slots(assignments)
 	""" deletes all current tabling slots and regenerates tabling schedule
 	"""
   Rails.cache.write('tabling_schedule', nil)
-  TablingSlot.destroy_all
+  ParseTablingSlot.destroy_all
+  slots = Array.new
   assignments.keys.each do |time|
-    ts = TablingSlot.new
+    ts = ParseTablingSlot.new
     ts.time = time
     ts.member_ids = assignments[time].map {|x| x.id}
     p ts.time
     p ts.member_ids
-    ts.save
+    # ts.save
+    slots << ts
   end
-  p 'there are now ' + TablingSlot.all.length.to_s + ' slots'
+  ParseTablingSlot.save_all(slots)
 end
 
   def self.generate_tabling_assignments(times, members)

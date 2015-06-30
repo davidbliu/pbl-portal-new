@@ -1,27 +1,4 @@
-# == Schema Information
-#
-# Table name: tabling_slots
-#
-#  id         :integer          not null, primary key
-#  start_time :datetime
-#  end_time   :datetime
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#
-
-# == Description
-# A segment of time during which members table.
-#
-# == Fields
-# - start_time: the starting time of the slot
-# - end_time: the ending time of the slot
-#
-# == Associations
-#
-# === Has many:
-# - TablingSlotMember
-# - Member
-class ParseTablingSlot < ParseRecord::Base
+class ParseTablingSlot < ParseResource::Base
   fields :member_ids, :time
 
   # needs a time
@@ -33,6 +10,16 @@ class ParseTablingSlot < ParseRecord::Base
 
   def hour 
     return self.time % 24
+  end
+
+  """ get all tabling slots """
+  def get_all
+    slots = Rails.cache.read('tabling_slots')
+    if slots != nil
+      return slots
+    end
+    slots = ParseTablingSlot.all
+    Rails.cache.write('tabling_slots', slots)
   end
 
   def members
@@ -65,9 +52,27 @@ class ParseTablingSlot < ParseRecord::Base
     return h.to_s+':00'
   end
 
-  def migrate
+""" migration methods """
+  def self.migrate
+    old_member_hash = ParseMember.old_hash
+    puts 'recieved old hash'
+    ParseTablingSlot.destroy_all
+    puts 'destroyed all slots'
+    parse_slots = Array.new
     TablingSlot.all.each do |ts|
+      ps = ParseTablingSlot.new
+      member_ids = Array.new
+      valid_ids = Array.new
+      ts.member_ids.each do |mid|
+        if old_member_hash.keys.include?(mid)
+          valid_ids << mid
+        end
+      end
+      ps.member_ids = valid_ids.map{|x| old_member_hash[x].id}
+      ps.time = ts.time
+      parse_slots << ps
     end
+    ParseTablingSlot.save_all(parse_slots)
   end
 
 end

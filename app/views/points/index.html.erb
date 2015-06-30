@@ -6,11 +6,21 @@ ul {
 	list-style:none;
 	margin-right:50px;
 }
+.points-card{
+	text-align: center;
+	padding: 10px;
+	margin:0px;
+}
+table .points-table{
+	  border-spacing: 10px;
+  border-collapse: separate;
+}
 </style>
 
-<table>
+<table class = 'points-table'>
 <tr>
 	<td>
+		<div class = 'card points-card'>
 		<h1>Points</h1>
 		<p>You have <%= @points %> points</p>
 		<h2>Attended Events</h2>
@@ -19,22 +29,27 @@ ul {
 		<li><%= event.name %></li>
 		<% end %>
 		</ul>
+		</div>
 	</td>
 	<td>
+		<div class = 'card points-card'>
 		<h2>PBL Points</h2>
 		<ul>
 		<% @member_name_point_dict.keys.each do |member_name| %>
 		<li><%= member_name %>: <%= @member_name_point_dict[member_name] %></li>
 		<% end %>
 		</ul>
+		</div>
 	</td>
 	<td>
+		<div class = 'card points-card'>
 		<h2>Top Cms</h2>
 		<ul>
 		<% @top_cms.each do |member| %>
 		<li><%= member.name %>: <%= @member_name_point_dict[member.name] %></li>
 		<% end %>
 		</ul>
+		</div>
 	</td>
 </tr>
 </table>
