@@ -88,6 +88,7 @@ class GoController < ApplicationController
 
 	def reindex
 		ParseGoLink.import
+		Rails.cache.write('go_link_hash', nil)
 		redirect_to '/go'
 	end
 
