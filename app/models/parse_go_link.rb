@@ -41,13 +41,8 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.key_hash
-		hash = Rails.cache.read('go_link_key_hash')
-		if hash != nil
-			return hash
-		end
-		hash = ParseGoLink.all.index_by(&:key)
-		Rails.cache.write('go_link_key_hash', hash)
-		return hash
+		l_hash = self.hash
+		l_hash.values.index_by(&:key)
 	end
 
 

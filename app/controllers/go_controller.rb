@@ -3,16 +3,18 @@ class GoController < ApplicationController
 		# if not current_member
 		# 	redirect_to :controller=> 'members', :action=>'no_permission'
 		# end
-		# go_hash = GoLink.go_link_hash
 		puts 'here are params '+params.to_s
 		go_hash = ParseGoLink.key_hash
+		@num_links = go_hash.keys.length
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
 		elsif params.keys.include?("search_term")
 			puts 'searching for : '+params[:search_term]
 			@search_results = ParseGoLink.search(params[:search_term]).results
+			@search_term = params[:search_term]
 		elsif go_hash.keys.include?(go_key)
+			# correctly used alias
 			golink = go_hash[go_key]
 			# log click tracking data
 			if current_member	
@@ -31,10 +33,31 @@ class GoController < ApplicationController
 			# send to link url
 			redirect_to golink.url
 		else
+			# did not find key
 			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
 		end
 		# else display the catalogue
 		@go_key = go_key
+		@key_hash = go_hash
+	end
+
+	def edit
+		puts 'editing : '+ params[:id].to_s
+		@link = ParseGoLink.find(params[:id])
+	end
+
+	def update
+		""" one can edit link url or description and owner but not much else, in particular link aliases cannot be changed """
+		Rails.cache.write('go_link_hash', nil)
+		link = ParseGoLink.find(params[:id])
+		puts link
+		link.url = params[:url]
+		link.description = params[:description]
+		if current_member
+			link.member_id = current_member.id
+		end
+		link.save
+		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
 	def catalogue
@@ -63,6 +86,11 @@ class GoController < ApplicationController
 		@go_links = GoLink.all.order(:key)
 	end
 
+	def reindex
+		ParseGoLink.import
+		redirect_to '/go'
+	end
+
 	def guide
 
 	end
@@ -85,9 +113,10 @@ class GoController < ApplicationController
 	end
 
 	def destroy
-		GoLink.find(params[:id]).destroy!
 		Rails.cache.write('go_link_hash', nil)
-		redirect_to :back
+		ParseGoLink.find(params[:id]).destroy
+		ParseGoLink.import
+		redirect_to '/go'
 	end
 
 	def json

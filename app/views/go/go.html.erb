@@ -46,6 +46,13 @@ function activateSearchButton(){
     search_term = $('#search-input').val();
     window.location.assign('/go?search_term='+search_term);
   });
+
+  $('#search-input').keypress(function(e) {
+    if(e.which == 13) {
+       search_term = $('#search-input').val();
+       window.location.assign('/go?search_term='+search_term);
+    }
+});
 }
 $(document).ready(function(){
 	pullEventCatalogue('');
@@ -78,13 +85,15 @@ $(document).ready(function(){
 }
 
 #custom-search-input button{
-    margin: 2px 0 0 0;
+    margin: 0px 0 0 0;
     background: none;
     box-shadow: none;
     border: 0;
-    color: #666666;
-    padding: 0 8px 0 10px;
-    border-left: solid 1px #ccc;
+    /*color: #666666;*/
+    color: white;
+    background-color:#1976d2;
+    padding: 10 8px 10 10px;
+    /*border-left: solid 1px #ccc;*/
 }
 
 #custom-search-input button:hover{
@@ -93,8 +102,19 @@ $(document).ready(function(){
     border-left: solid 1px #ccc;
 }
 
-#custom-search-input .glyphicon-search{
-    font-size: 23px;
+#custom-search-input .glyphicon-search {
+  font-size: 23px;
+  padding: 5px 20px 5px 20px;
+}
+
+#search-btn:hover{
+  color:white;
+  background-color:black;
+}
+#search-btn{
+  background-color:#1976d2;
+  color:white;
+  padding:3px;
 }
 </style>
 
@@ -107,22 +127,30 @@ $(document).ready(function(){
   background-position: center bottom,center calc(100% - 1px);
   background-color: transparent;
 }
+.add-link{
+  text-decoration:none;
+  color:white;
+}
+.add-link:hover{
+  text-decoration:none;
+  color:white;
+}
 </style>
 <% if @message %>
 <p><%= @message %></p>
 <% end %>
 
 <div style = 'margin-bottom:15px'>
-<div><%= link_to 'Add New PBL Links', '/go/manage' %></div>
-<div><%= link_to 'PBL Link Guide', '/go/guide' %></div>
+<a href = '/go/manage' class = 'add-link'><button class = 'btn btn-material-red-700 btn-raised'>New</button></a>
+<!-- <div><%= link_to 'PBL Link Guide', '/go/guide' %></div> -->
 </div>
 
 <div id="custom-search-input">
                 <div class="input-group col-md-12">
-                    <input id = 'search-input' type="text" class="input-lg" placeholder="Search PBL Links" />
+                    <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" />
                     <span class="input-group-btn">
                         <button id = 'search-btn' class="btn btn-info btn-lg btn-raised" type="button">
-                            <span id = 'search-icon' class="glyphicon glyphicon-search"></span>
+                            <span id = 'search-icon' class="glyphicon glyphicon-search btn-raised"></span>
                         </button>
                     </span>
                 </div>
@@ -130,12 +158,12 @@ $(document).ready(function(){
 
 
 <% if @search_results %>
-  <h3>Search Results (<%= @search_results.to_a.length %> Results)</h3>
+  <h3>Search Results for "<%= @search_term %>" (<%= @search_results.to_a.length %> Results)</h3>
   <% @search_results.each_with_index do |result, index| %>
   <div><b>Result <%= index+1 %></b></div>
   <p>
     <div>score: <%= result._score %></div>
-    <div>key: <%= result._source['key'] %></div>
+    <div>key: <a href = '/go/<%= @key_hash[result._source['key']].id %>/edit'><%= result._source['key'] %><a></div>
     <div>url: <%= link_to result._source['url'],result._source['url']  %></div>
     <div>description: <%= result._source['description'] %></div>
   <p>
@@ -144,7 +172,7 @@ $(document).ready(function(){
 
   <h3>Trending</h3>
   <div id = 'trending-container'></div>
-  <h3>All Links</h3>
+  <h3>All Links (<%= @num_links %>)</h3>
 
 
 <!-- <h1>PBL Link Catalogue</h1> -->

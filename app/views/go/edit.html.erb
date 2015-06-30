@@ -1,0 +1,49 @@
+<style type = 'text/css'>
+.btn-link:hover{
+	color:white;
+	text-decoration: none;
+}
+.btn-link{
+	color:white;
+	text-decoration: none;
+}
+</style>
+<script type = 'text/javascript'>
+$(document).ready(function(){
+$("#save-link-btn").click(function(){
+	url = $("#go-url-input").val();
+	description = $("#go-description-input").val();
+	$.ajax({
+      url: '/go/<%= @link.id %>/update',
+      type: 'POST',
+      data: {'url': url ,'description': description},
+      success:function(data){
+        location.reload();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('Failed');
+      }
+  	});
+});
+
+});
+
+</script>
+
+<%= link_to 'Back to Catalogue', '/go' %>
+<h1>Edit Link "<%= @link.key %>"</h1>
+
+<div class = 'col-md-6'>
+	<div class="input-group">
+	  <b class="input-group-addon" id="basic-addon1">URL</b>
+	  <input id = 'go-url-input' type="text" class="form-control" value="<%= @link.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
+	</div>
+
+	<div class="input-group">
+	  <b class="input-group-addon" id="basic-addon2">Description</b>
+	  <input id = 'go-description-input' type="text" class="form-control" value="<%= @link.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
+	</div>
+
+	<button id = 'save-link-btn' type = 'btn' class = 'btn btn-raised btn-material-green-700'>Save</button>
+	<a href = '/go/<%= @link.id %>/destroy' class = 'btn-link'><button id = 'delete-btn' type = 'btn' class = 'btn btn-raised btn-material-red-700'>Delete</button></a>
+</div>

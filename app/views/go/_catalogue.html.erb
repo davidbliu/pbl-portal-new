@@ -1,16 +1,17 @@
 <script type = 'text/javascript'>
-$('.go-link-key').click(function(){
-	id = $(this).attr('id').split('-')[3];
-	hidden_id = 'go-link-hidden-'+id;
-	$('#'+hidden_id).toggle();
-});
+// $('.go-link-key').click(function(){
+// 	id = $(this).attr('id').split('-')[3];
+// 	hidden_id = 'go-link-hidden-'+id;
+// 	$('#'+hidden_id).toggle();
+// });
+// 
 </script>
 
 <style type = 'text/css'>
-.go-link-key:hover{
+/*.go-link-key:hover{
 	cursor: pointer;
 	color:#0a6ebd;
-}
+}*/
 .go-link-hidden{
 	display:none;
 }
@@ -27,7 +28,7 @@ $('.go-link-key').click(function(){
 	<tbody>
 	<% @go_links.each do |golink| %>
 	<tr><td>
-			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= golink.key %></div>
+			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= link_to golink.key, '/go/'+golink.id+'/edit' %></div>
 			<div class = 'go-link-hidden' id = 'go-link-hidden-<%= golink.id %>'>
 				<a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a>
 			</div>
