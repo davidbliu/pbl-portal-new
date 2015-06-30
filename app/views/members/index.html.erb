@@ -17,7 +17,7 @@
       <tr>
         <td><%= member.name %></td>
         <td><%= @committee_hash[member.committee_id].name %></td>
-        <td><%= member.role %></td>
+        <td><%= member.role.capitalize %></td>
         <td><%= member.email %></td>
       </tr>
     <% end %>
