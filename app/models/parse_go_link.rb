@@ -8,6 +8,10 @@ class ParseGoLink < ParseResource::Base
 		end
 	end
 
+	def updated_at_string
+	    Date.parse(self.updated_at).strftime("%b %e, %Y")
+  	end
+
 	""" elasticsearch methods"""
 	def self.import
 		# create GoLink Objects

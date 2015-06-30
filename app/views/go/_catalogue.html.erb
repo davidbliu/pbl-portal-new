@@ -24,6 +24,7 @@
 		<th>Link</th>
 		<th>Owner</th>
 		<th>Description</th>
+		<th>Updated At</th>
 	</thead>
 	<tbody>
 	<% @go_links.each do |golink| %>
@@ -37,7 +38,8 @@
 		<td><% if golink.member_id %>
 			<%= @member_hash[golink.member_id].name %>
 			<% else %>none<% end %></td>
-		<td><%= golink.description %></td></tr>
+		<td><%= golink.description %></td>
+		<td><%= golink.updated_at_string %></td></tr>
 	<% end %>
 	</tbody>
 </table>
