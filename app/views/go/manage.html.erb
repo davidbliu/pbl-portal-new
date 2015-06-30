@@ -25,7 +25,7 @@ function updateActions(){
 
 		path = '/go/create'
 		successFunction = function (data){
-			location.reload();
+			window.location = '/go';
 		}
 		errorFunction = function(){
 			alert("Failed. Your link key may have already been assigned!");
@@ -50,7 +50,7 @@ $(document).ready(function(){
 
 <div class = 'row'>
 	<div class = 'col-md-2'>
-		<button class = 'btn btn-default btn-raised' id = 'add-go-link-btn'>Add PBL Link</button>
+		<button class = 'btn btn-material-red-700 btn-raised' id = 'add-go-link-btn'>Add PBL Link</button>
 	</div>
 	<div class = 'col-md-6'>
 		<input id = 'go-key-input' type = 'text' class = 'form-control' placeholder = 'Link Alias (example: mission-doc)'/>

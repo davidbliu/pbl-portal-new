@@ -58,11 +58,11 @@ session.files.each do |file|
 end
 
 # Uploads a local file.
-session.upload_from_file("/path/to/hello.txt", "hello.txt", convert: false)
+# session.upload_from_file("/path/to/hello.txt", "hello.txt", convert: false)
 
 # Downloads to a local file.
-file = session.file_by_title("hello.txt")
-file.download_to_file("/path/to/hello.txt")
+# file = session.file_by_title("hello.txt")
+# file.download_to_file("/path/to/hello.txt")
 
 # Updates content of the remote file.
-file.update_from_file("/path/to/hello.txt")
+# file.update_from_file("/path/to/hello.txt")

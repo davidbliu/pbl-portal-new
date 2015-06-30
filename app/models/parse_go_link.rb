@@ -16,6 +16,10 @@ class ParseGoLink < ParseResource::Base
 	def self.import
 		# create GoLink Objects
 		GoLink.destroy_all
+		puts 'requesting text hash...'
+		parse_text_hash = ParseElasticsearchData.all.index_by(&:go_link_id)
+		parse_text_hash_keys = parse_text_hash.keys
+		puts 'received text hash!'
 		ParseGoLink.limit(10000).all.each do |pgl|
 			puts pgl.key
 			gl = GoLink.new
@@ -23,6 +27,12 @@ class ParseGoLink < ParseResource::Base
 			gl.url = pgl.url
 			gl.description = pgl.description
 			gl.member_id = pgl.member_id
+			gl.parse_id = pgl.id
+			if parse_text_hash_keys.include?(pgl.id)
+				gl.text = parse_text_hash[pgl.id].text
+			else
+				gl.text = ''
+			end
 			gl.save
 		end
 		GoLink.import

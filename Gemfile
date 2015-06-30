@@ -65,6 +65,8 @@ gem 'parse_resource', github: 'adelevie/parse_resource'
 # scraping pbl links
 gem 'mechanize'
 gem 'nokogiri'
+
+gem 'archieml'
 # searching pbl links
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'

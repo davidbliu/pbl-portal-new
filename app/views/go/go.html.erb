@@ -163,8 +163,8 @@ $(document).ready(function(){
   <div><b>Result <%= index+1 %></b></div>
   <p>
     <div>score: <%= result._score %></div>
-    <div>key: <a href = '/go/<%= @key_hash[result._source['key']].id %>/edit'><%= result._source['key'] %><a></div>
-    <div>url: <%= link_to result._source['url'],result._source['url']  %></div>
+    <div>key: <a href = '/go/<%= result._source['parse_id'] %>/edit'><%= result._source['key'] %></a></div>
+    <div>url: <a href = '<%= result._source['url'] %>'><%= result._source['url'] %></a></div>
     <div>description: <%= result._source['description'] %></div>
   <p>
   <% end %>
