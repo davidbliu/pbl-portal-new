@@ -41,10 +41,17 @@ function activateButtonActions(){
 		pullEventCatalogue(option);
 	});
 }
+function activateSearchButton(){
+  $('#search-btn').click(function(){
+    search_term = $('#search-input').val();
+    window.location.assign('/go?search_term='+search_term);
+  });
+}
 $(document).ready(function(){
 	pullEventCatalogue('');
   pullTrendingLinks('trending');
 	activateButtonActions();
+  activateSearchButton();
 });
 </script>
 
@@ -112,15 +119,28 @@ $(document).ready(function(){
 
 <div id="custom-search-input">
                 <div class="input-group col-md-12">
-                    <input type="text" class="input-lg" placeholder="Search PBL Links" />
+                    <input id = 'search-input' type="text" class="input-lg" placeholder="Search PBL Links" />
                     <span class="input-group-btn">
-                        <button class="btn btn-info btn-lg btn-raised" type="button">
-                            <span class="glyphicon glyphicon-search"></span>
+                        <button id = 'search-btn' class="btn btn-info btn-lg btn-raised" type="button">
+                            <span id = 'search-icon' class="glyphicon glyphicon-search"></span>
                         </button>
                     </span>
                 </div>
             </div>
 
+
+<% if @search_results %>
+  <h3>Search Results (<%= @search_results.to_a.length %> Results)</h3>
+  <% @search_results.each_with_index do |result, index| %>
+  <div><b>Result <%= index+1 %></b></div>
+  <p>
+    <div>score: <%= result._score %></div>
+    <div>key: <%= result._source['key'] %></div>
+    <div>url: <%= link_to result._source['url'],result._source['url']  %></div>
+    <div>description: <%= result._source['description'] %></div>
+  <p>
+  <% end %>
+  <% end %>
 
   <h3>Trending</h3>
   <div id = 'trending-container'></div>

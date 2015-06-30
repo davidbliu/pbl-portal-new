@@ -1,5 +1,10 @@
+require 'elasticsearch/model'
 class GoLink < ActiveRecord::Base
 	attr_accessible :key, :url, :description
+	include Elasticsearch::Model
+  include Elasticsearch::Model::Callbacks
+
+  """ elasticsearch """
 
 	def short_url
 		if url.length > 50

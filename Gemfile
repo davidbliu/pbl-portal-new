@@ -62,17 +62,21 @@ gem "kaminari" # optional for pagination support
 gem 'parse_resource', github: 'adelevie/parse_resource'
 #, "~> 1.8.0"
 
-# searching pbl links
+# scraping pbl links
 gem 'mechanize'
 gem 'nokogiri'
+# searching pbl links
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'
 
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
 #
 # active admin dependencies
 #
-gem 'activeadmin', github: 'gregbell/active_admin'
-gem 'devise'
+# gem 'activeadmin', github: 'gregbell/active_admin'
+# gem 'devise'
+
 gem 'protected_attributes'
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -1,12 +1,32 @@
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :tags, :member_id, :old_id
-
 	def short_url
 		if url.length > 50
 			return url.first(50) + "..."
 		else
 			return url
 		end
+	end
+
+	""" elasticsearch methods"""
+	def self.import
+		# create GoLink Objects
+		GoLink.destroy_all
+		ParseGoLink.limit(10000).all.each do |pgl|
+			puts pgl.key
+			gl = GoLink.new
+			gl.key = pgl.key
+			gl.url = pgl.url
+			gl.description = pgl.description
+			gl.member_id = pgl.member_id
+			gl.save
+		end
+		GoLink.import
+		puts 'imported into elasticsearch index'
+	end
+
+	def self.search(search_term)
+		GoLink.search(search_term)
 	end
 
 	def self.hash

@@ -4,10 +4,14 @@ class GoController < ApplicationController
 		# 	redirect_to :controller=> 'members', :action=>'no_permission'
 		# end
 		# go_hash = GoLink.go_link_hash
+		puts 'here are params '+params.to_s
 		go_hash = ParseGoLink.key_hash
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
+		elsif params.keys.include?("search_term")
+			puts 'searching for : '+params[:search_term]
+			@search_results = ParseGoLink.search(params[:search_term]).results
 		elsif go_hash.keys.include?(go_key)
 			golink = go_hash[go_key]
 			# log click tracking data
