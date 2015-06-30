@@ -40,6 +40,10 @@ class GoController < ApplicationController
 		if option == 'resource-type'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
 			render '_catalogue_partitioned.html.erb', layout: false
+		elsif option == 'trending'
+			@go_links = ParseGoLink.all[0..9]
+			render '_catalogue.html.erb', layout: false
+
 		elsif option == 'prefix-suffix'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_fix
 			render '_catalogue_partitioned.html.erb', layout: false
@@ -47,7 +51,6 @@ class GoController < ApplicationController
 			redirect_to 'http://'+ENV['HOST'] +'/go/clicks', layout: false
 		else
 			@go_links = ParseGoLink.all.sort_by{|link| link.key}
-			@member_hash = Member.member_hash
 			render '_catalogue.html.erb', layout: false
 		end
 	end

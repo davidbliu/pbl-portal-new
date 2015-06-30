@@ -8,10 +8,14 @@ th, td {
 }
 </style>
 
-<h1>Tabling</h1>
-
+<div style = 'margin-bottom:15px'>
 <div><%= link_to "commitments", "tabling/commitments" %></div>
 <div><%= link_to "options", "tabling/options" %></div>
+</div>
+
+<h1>Tabling Schedule</h1>
+
+
 
 
 <%= render "tabling_schedule", object: @slots %>

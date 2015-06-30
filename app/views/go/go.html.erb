@@ -11,9 +11,23 @@ function pullEventCatalogue(option){
         $('#catalogue-container').html(data);
       },
       error:function (xhr, textStatus, thrownError){
-        $('#catalogue-container').html('<h1>Failed to load catalogue</h1>');
+        $('#catalogue-container').html('<h1>Failed to load link catalogue</h1>');
       }
   	});
+}
+function pullTrendingLinks(option){
+  // pull data from /go/catalogue
+  $.ajax({
+      url: '/go/catalogue',
+      type: 'GET',
+      data: {'option': option},
+      success:function(data){
+        $('#trending-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#trending-container').html('<h1>Failed to load trending links</h1>');
+      }
+    });
 }
 function activateButtonActions(){
 	$('.catalogue-btn').click(function(){
@@ -29,6 +43,7 @@ function activateButtonActions(){
 }
 $(document).ready(function(){
 	pullEventCatalogue('');
+  pullTrendingLinks('trending');
 	activateButtonActions();
 });
 </script>
@@ -42,28 +57,90 @@ $(document).ready(function(){
 }
 </style>
 
+<style type = 'text/css'>
+#custom-search-input{
+    padding: 3px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
+</style>
+
+<style type = 'text/css'>
+.form-control {
+  border: 0;
+  background-image: linear-gradient(#000000, #000000),linear-gradient(#d2d2d2,#d2d2d2);
+  background-size: 0 2px,100% 1px;
+  background-repeat: no-repeat;
+  background-position: center bottom,center calc(100% - 1px);
+  background-color: transparent;
+}
+</style>
 <% if @message %>
 <p><%= @message %></p>
 <% end %>
 
-<p><%= link_to 'Add New PBL Links', '/go/manage' %></p>
-<p><%= link_to 'PBL Link Guide', '/go/guide' %></p>
+<div style = 'margin-bottom:15px'>
+<div><%= link_to 'Add New PBL Links', '/go/manage' %></div>
+<div><%= link_to 'PBL Link Guide', '/go/guide' %></div>
+</div>
+
+<div id="custom-search-input">
+                <div class="input-group col-md-12">
+                    <input type="text" class="input-lg" placeholder="Search PBL Links" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-info btn-lg btn-raised" type="button">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
 
 
-<h1>PBL Link Catalogue</h1>
+  <h3>Trending</h3>
+  <div id = 'trending-container'></div>
+  <h3>All Links</h3>
+
+
+<!-- <h1>PBL Link Catalogue</h1> -->
 
 <!-- Single button -->
-<div class="btn-group">
-  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Filtering Options <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu">
-  	<li><a id = '' class = 'catalogue-btn'>Alphabetical</a></li>
-    <li><a id = 'resource-type' class = 'catalogue-btn'>By Link Type</a></li>
-    <li><a id = 'prefix-suffix' class = 'catalogue-btn'>By Link Keywords</a></li>
-    <li><a id = 'metrics' class = 'catalogue-btn'>Metrics</a></li>
-  </ul>
-</div>
+<!-- <div class="btn-group"> -->
+  <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
+    <!-- Filtering Options <span class="caret"></span> -->
+  <!-- </button> -->
+  <!-- <ul class="dropdown-menu"> -->
+  	<!-- <li><a id = '' class = 'catalogue-btn'>Alphabetical</a></li> -->
+    <!-- <li><a id = 'resource-type' class = 'catalogue-btn'>By Link Type</a></li> -->
+    <!-- <li><a id = 'prefix-suffix' class = 'catalogue-btn'>By Link Keywords</a></li> -->
+    <!-- <li><a id = 'metrics' class = 'catalogue-btn'>Metrics</a></li> -->
+  <!-- </ul> -->
+<!-- </div> -->
 
 <!-- <div id = 'catalogue-button-container'>
 <a class="btn btn-default" href="/go/clicks" role="button">Metrics</a>

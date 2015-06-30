@@ -42,6 +42,8 @@ gem 'jquery-turbolinks'
 # gem 'will_paginate', "3.0.pre2"
 gem 'youtube_it'
 
+gem 'bootstrap-material-design'
+
 #
 # initial authentication choices
 #

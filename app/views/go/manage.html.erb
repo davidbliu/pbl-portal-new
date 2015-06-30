@@ -1,7 +1,4 @@
 <style type = 'text/css'>
-.go-key-input{
-	width:100px;
-}
 </style>
 
 <script type = 'text/javascript'>
@@ -49,12 +46,23 @@ $(document).ready(function(){
 
 <%= link_to 'Back go Catalogue', '/go' %>
 <h1>Add A New PBL Link</h1>
-<button class = 'btn btn-default' id = 'add-go-link-btn'>Add PBL Link</button>
-<input id = 'go-key-input' type = 'text' class = 'form-control' placeholder = 'Go Key'/>
-<input id = 'go-url-input' type = 'text' class = 'form-control' placeholder = 'Go Url (example: http://linkedin.com)'/>
-<input id = 'go-description-input' type = 'text' class = 'form-control' placeholder = 'Description'/>
 
+
+<div class = 'row'>
+	<div class = 'col-md-2'>
+		<button class = 'btn btn-default btn-raised' id = 'add-go-link-btn'>Add PBL Link</button>
+	</div>
+	<div class = 'col-md-6'>
+		<input id = 'go-key-input' type = 'text' class = 'form-control' placeholder = 'Link Alias (example: mission-doc)'/>
+		<input id = 'go-url-input' type = 'text' class = 'form-control' placeholder = 'Link URL (example: http://linkedin.com)'/>
+		<input id = 'go-description-input' type = 'text' class = 'form-control' placeholder = 'Description'/>
+	</div>
+</div>
+
+<div class = 'row'>
 <p>
 <h1>Owned By Me</h1>
 	<p>
+
+</div>
 
