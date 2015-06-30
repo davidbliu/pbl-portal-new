@@ -9,7 +9,7 @@ class GoController < ApplicationController
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
-		elsif params.keys.include?("search_term")
+		elsif params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
 			puts 'searching for : '+params[:search_term]
 			@search_results = ParseGoLink.search(params[:search_term]).results
 			@search_term = params[:search_term]
