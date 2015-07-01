@@ -1,11 +1,62 @@
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :tags, :member_id, :old_id
+	fields :key, :url, :description, :tags, :member_id, :old_id, :type
 	def short_url
 		if url.length > 50
 			return url.first(50) + "..."
 		else
 			return url
 		end
+	end
+
+	def get_type_image
+		type = self.resolve_type
+		# if not self.type or self.type == nil
+		# 	return '/assets/pbl-logo.png'
+		# end
+		prefix = '/assets/'
+		image_hash = Hash.new
+		image_hash['document'] = 'gdoc-icon.png'
+		image_hash['spreadsheets'] = 'gsheet-icon.png'
+		image_hash['facebook'] = 'facebook-icon.png'
+		image_hash['trello'] = 'trello-logo.png'
+		image_hash['youtube'] = 'youtube-logo.png'
+		image_hash['box'] = 'box-icon.png'
+		image_hash['piazza'] = 'piazza-icon.png'
+		image_hash['flickr'] = 'flickr-logo.png'
+		image_hash['git'] = 'git-icon.png'
+		image_hash['other'] = 'pbl-logo.png'
+		image_hash['drive'] = 'drive-logo.png'
+		image_hash['instagram'] = 'instagram-logo.png'
+		return prefix + image_hash[type]
+	end
+
+	def resolve_type
+		type = 'other'
+		url = self.url
+		if url.include?('docs.google.com/document')
+			type = 'document'
+		elsif url.include?('docs.google.com/spreadsheets')
+			type = 'spreadsheets'
+		elsif url.include?('trello.com')
+			type = 'trello'
+		elsif url.include?('flickr.com')
+			type = 'flickr'
+		elsif url.include?('box.com')
+			type = 'box'
+		elsif url.include?('youtube.com')
+			type = 'youtube'
+		elsif url.include?('facebook.com')
+			type = 'facebook'
+		elsif url.include?('github.com')
+			type = 'git'
+		elsif url.include?('piazza.com')
+			type = 'piazza'
+		elsif url.include?('drive.google.com')
+			type = 'drive'
+		elsif url.include?('instagram')
+			type = 'instagram'
+		end
+		return type
 	end
 
 	def updated_at_string
@@ -60,6 +111,7 @@ class ParseGoLink < ParseResource::Base
 		GoLink.search(search_term)
 	end
 	
+	""" catalogue methods DEPRECATED""" 
 	def self.catalogue_by_resource_type
 		types = Array.new
 		types_keyword = Array.new
@@ -131,5 +183,42 @@ class ParseGoLink < ParseResource::Base
 		puts 'this is the resul'
 		puts result
 		return result
+	end
+
+	""" migration methods""" 
+	def self.migrate_type
+		golinks = ParseGoLink.all.to_a
+		to_save = Array.new
+		golinks.each do |golink|
+			type = 'other'
+			url = golink.url
+			if url.include?('docs.google.com/document')
+				type = 'document'
+			elsif url.include?('docs.google.com/spreadsheets')
+				type = 'spreadsheets'
+			elsif url.include?('trello.com')
+				type = 'trello'
+			elsif url.include?('flickr.com')
+				type = 'flickr'
+			elsif url.include?('box.com')
+				type = 'box'
+			elsif url.include?('youtube.com')
+				type = 'youtube'
+			elsif url.include?('facebook.com')
+				type = 'facebook'
+			elsif url.include?('github.com')
+				type = 'git'
+			elsif url.include?('piazza.com')
+				type = 'piazza'
+			elsif url.include?('drive.google.com')
+				type = 'drive'
+			elsif url.include?('instagram')
+				type = 'instagram'
+			end
+			puts url + " : " + type
+			golink.type = type
+			to_save << golink
+		end
+		ParseGoLink.save_all(to_save)
 	end
 end

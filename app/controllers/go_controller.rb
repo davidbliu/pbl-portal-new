@@ -4,8 +4,10 @@ class GoController < ApplicationController
 		# 	redirect_to :controller=> 'members', :action=>'no_permission'
 		# end
 		puts 'here are params '+params.to_s
-		go_hash = ParseGoLink.key_hash
+		link_hash = ParseGoLink.hash
+		go_hash = link_hash.values.index_by(&:key)
 		@num_links = go_hash.keys.length
+		puts go_hash.keys
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
@@ -13,6 +15,7 @@ class GoController < ApplicationController
 			puts 'searching for : '+params[:search_term]
 			@search_results = ParseGoLink.search(params[:search_term]).results
 			@search_term = params[:search_term]
+			@link_hash = link_hash
 		elsif go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
@@ -63,7 +66,7 @@ class GoController < ApplicationController
 	def catalogue
 		option = params[:option]
 		@member_hash = Member.member_hash
-		@go_link_id_hash = ParseGoLink.hash
+		# @go_link_id_hash = ParseGoLink.hash
 		if option == 'resource-type'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
 			render '_catalogue_partitioned.html.erb', layout: false
