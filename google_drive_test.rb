@@ -1,27 +1,4 @@
 require "rubygems"
-
-
-# require "google/api_client"
-# require "google_drive"
-# client = Google::APIClient.new
-# auth = client.authorization
-# Follow "Create a client ID and client secret" in
-# https://developers.google.com/drive/web/auth/web-server] to get a client ID and client secret.
-# auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
-# auth.client_secret = ENV['GOOGLE_INSTALLED_CLIENT_SECRET']
-# auth.scope =
-#   "https://www.googleapis.com/auth/drive " +
-#   "https://spreadsheets.google.com/feeds/"
-# auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
-# auth.refresh_token = ENV['REFRESH_TOKEN']
-# auth.fetch_access_token!
-# session = GoogleDrive.login_with_oauth(auth.access_token)
-
-# session.files.each do |file|
-#   p file.title
-# end
-
-
 require "google/api_client"
 require "google_drive"
 

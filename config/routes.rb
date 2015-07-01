@@ -24,6 +24,7 @@ Dockernotes::Application.routes.draw do
   post '/go/:id/update', to: 'go#update'
   get '/go/:id/destroy', to: 'go#destroy'
   get '/go/reindex', to: 'go#reindex'
+  get '/go/:id/member_links', to: 'go#member_links' # what links has this member created
 
   resources :google_events do 
     collection do 

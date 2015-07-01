@@ -68,9 +68,13 @@ class GoController < ApplicationController
 			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
 			render '_catalogue_partitioned.html.erb', layout: false
 		elsif option == 'trending'
-			@go_links = ParseGoLink.all[0..9]
+			@go_links = ParseGoLink.hash.values.sort_by{|x| x.updated_at}.reverse[0..9]
 			render '_catalogue.html.erb', layout: false
-
+		elsif option == 'member_links'
+			puts 'params were : '+params.to_s
+			member_id = params[:member_id] #TODO migrate current_member so uses the right id
+			@go_links = ParseGoLink.where(member_id: member_id).sort_by{|x| x.key}
+			render '_catalogue.html.erb', layout: false
 		elsif option == 'prefix-suffix'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_fix
 			render '_catalogue_partitioned.html.erb', layout: false
@@ -83,7 +87,11 @@ class GoController < ApplicationController
 	end
 
 	def manage
-		@go_links = GoLink.all.order(:key)
+	end
+
+	def member_links
+		member_id = params[:id]
+		@member_links = ParseGoLink.where(member_id: member_id).sort_by{|x| x.key}
 	end
 
 	def reindex

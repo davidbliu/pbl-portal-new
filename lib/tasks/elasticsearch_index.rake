@@ -1,23 +1,61 @@
+require 'google/api_client'
+require 'google/api_client/client_secrets'
+require 'google/api_client/auth/installed_app'
+require 'archieml'
+
+require 'nokogiri'
+require 'open-uri'
+
+
 namespace :elasticsearch do
-	task :scrape_docs  => :environment do
-		require 'google/api_client'
-		require 'google/api_client/client_secrets'
-		require 'google/api_client/auth/installed_app'
-		require 'archieml'
+	task :scrape  => :environment do
+		
 		ParseElasticsearchData.destroy_all
-		# get doc ids
+		
+		# create google client and array of data objects
+		google_client = get_google_client
+		search_data_objects = Array.new
+		# search through docs in parse links
 		doc_ids = Array.new
 		parse_go_links = ParseGoLink.hash.values
 		parse_go_links.each do |go_link|
+			# for scraping google docs
 			if go_link.url.include?('docs.google.com/document/d')
 				doc_id = go_link.url.split('/')[5]
-				puts doc_id
-				doc_ids << [go_link.id, doc_id]
+				puts 'scraping '+doc_id
+				# get fulltext
+				fulltext = get_doc_text(google_client, doc_id)
+				puts fulltext
+				search_data = ParseElasticsearchData.new
+				search_data.go_link_id = go_link.id
+				search_data.text = fulltext
+				search_data_objects << search_data
+			elsif go_link.url.include?('docs.google.com/spreadsheets')
+				doc_id = go_link.url.split('/')[5]
+				puts 'scraping '+doc_id
+				# get fulltext
+				fulltext = get_spreadsheet_text(google_client, doc_id)
+				puts fulltext
+				search_data = ParseElasticsearchData.new
+				search_data.go_link_id = go_link.id
+				search_data.text = fulltext
+				search_data_objects << search_data
+			else
+				puts 'not support url type : '+ go_link.url
+				# begin
+				# 	puts 'unsupported url type : '+ go_link.url
+				# 	puts 'getting fulltext of generic uri: '+go_link.url
+				# 	fulltext = get_url_fulltext(go_link.url)
+				# 	puts fulltext
+				# 	search_data = ParseElasticsearchData.new
+				# 	search_data.go_link_id = go_link.id
+				# 	search_data.text = fulltext
+				# 	search_data_objects << search_data
+				# rescue
+				# 	puts 'ERROR READING THIS URL: ' + go_link.url
+				# end
 			end
 		end
-
-		google_client = get_google_client
-		search_data_objects = Array.new
 		doc_ids.each do |datum|
 			link_id = datum[0]
 			doc_id = datum[1]
@@ -28,26 +66,37 @@ namespace :elasticsearch do
 			search_data.text = doc_text
 			search_data_objects << search_data
 		end
-
 		ParseElasticsearchData.save_all(search_data_objects)
-
-
 	end
+
+	task :scrape_spreadsheets => :environment do 
+		doc_id = '1JrFBumyLpepRCIdDYStSyATFYY8MRdp6r_n521_Kiyc'
+		client = get_google_client
+		doc_text = get_doc_text(client, doc_id)
+		puts doc_text
+	end
+
+	# still need to scrape other resources like spreadsheets and generic links
 end 
 
 
 def get_google_client
-	client = Google::APIClient.new(:application_name => 'Ruby Drive sample', :application_version => '1.0.0')
-	flow = Google::APIClient::InstalledAppFlow.new(
-	  :client_id => ENV['GOOGLE_INSTALLED_CLIENT_ID'],
-	  :client_secret => ENV['GOOGLE_INSTALLED_CLIENT_SECRET'],
-	  :scope => ['https://www.googleapis.com/auth/drive']
-	)
-	client.authorization = flow.authorize
+	client = Google::APIClient.new
+	auth = client.authorization
+	auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
+	auth.client_secret = ENV['GOOGLE_INSTALLED_CLIENT_SECRET']
+	auth.scope = [
+	  "https://www.googleapis.com/auth/drive",
+	  "https://spreadsheets.google.com/feeds/",
+	  'https://www.googleapis.com/auth/calendar'
+	]
+	auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+	auth.refresh_token = ENV['REFRESH_TOKEN']
 	return client
 end
 
 def get_doc_text(client, doc_id)
+	client.authorization.fetch_access_token!
 	drive = client.discovered_api('drive', 'v2')
 	result = client.execute(
 	  :api_method => drive.files.get,
@@ -56,4 +105,33 @@ def get_doc_text(client, doc_id)
 	text_url = result.data['exportLinks']['text/plain']
 	text_aml = client.execute(uri: text_url).body.gsub(/\s+/, ' ')
 	return text_aml
+end
+
+def get_spreadsheet_text(client, spreadsheet_id)
+	client.authorization.fetch_access_token!
+	access_token = client.authorization.access_token
+	session = GoogleDrive.login_with_oauth(access_token)
+	ws = session.spreadsheet_by_key(spreadsheet_id).worksheets[0]
+	fulltext = ""
+	ws.rows.each do |row|
+		row.each do |cell|
+			fulltext += cell + " "
+		end
+	end
+	return fulltext
+end
+
+
+def get_url_fulltext(url)
+	html = Nokogiri::HTML(open url)
+	text  = html.at('body').inner_text
+	# Pretend that all words we care about contain only a-z, 0-9, or underscores
+	words = text.scan(/\w+/)
+	# words that are only letters
+	# words = text.scan(/[a-z]+/i)
+	fulltext = ''
+	words.each do |word|
+		fulltext += word + ' '
+	end
+	return fulltext.gsub(/\s+/, ' ')
 end

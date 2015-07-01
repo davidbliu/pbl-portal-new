@@ -1,11 +1,9 @@
 require 'google/api_client'
 require 'google/api_client/client_secrets'
 require 'google/api_client/auth/installed_app'
-
 require 'archieml'
 
 client = Google::APIClient.new(:application_name => 'Ruby Drive sample', :application_version => '1.0.0')
-# client_secrets = Google::APIClient::ClientSecrets.load
 flow = Google::APIClient::InstalledAppFlow.new(
   :client_id => ENV['GOOGLE_INSTALLED_CLIENT_ID'],
   :client_secret => ENV['GOOGLE_INSTALLED_CLIENT_SECRET'],

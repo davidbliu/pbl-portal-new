@@ -4,10 +4,16 @@
 <script type = 'text/javascript'>
 function pullEventCatalogue(option){
 	// pull data from /go/catalogue
+	<% if current_member %>
+	member_id = <%= current_member.id %>;
+	<% else %>
+	member_id = -1;
+	<% end %>
+	
 	$.ajax({
       url: '/go/catalogue',
       type: 'GET',
-      data: {'option': option},
+      data: {'option': option, 'member_id': member_id},
       success:function(data){
         $('#catalogue-container').html(data);
       },
@@ -39,7 +45,7 @@ function updateActions(){
 * to be performed on page load
 */
 $(document).ready(function(){
-	// pullEventCatalogue("");
+	pullEventCatalogue("member_links");
 	updateActions();
 });
 </script>
@@ -60,9 +66,7 @@ $(document).ready(function(){
 </div>
 
 <div class = 'row'>
-<p>
 <h1>Owned By Me</h1>
-	<p>
-
+<div id = 'catalogue-container'></div>
 </div>
 

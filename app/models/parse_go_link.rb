@@ -12,6 +12,23 @@ class ParseGoLink < ParseResource::Base
 	    Date.parse(self.updated_at).strftime("%b %e, %Y")
   	end
 
+	def self.hash
+		hash = Rails.cache.read('go_link_hash')
+		if hash != nil
+			return hash
+		end
+
+		hash = ParseGoLink.all.index_by(&:id)
+		Rails.cache.write('go_link_hash', hash)
+		return hash
+	end
+
+	def self.key_hash
+		l_hash = self.hash
+		l_hash.values.index_by(&:key)
+	end
+
+
 	""" elasticsearch methods"""
 	def self.import
 		# create GoLink Objects
@@ -42,24 +59,7 @@ class ParseGoLink < ParseResource::Base
 	def self.search(search_term)
 		GoLink.search(search_term)
 	end
-
-	def self.hash
-		hash = Rails.cache.read('go_link_hash')
-		if hash != nil
-			return hash
-		end
-
-		hash = ParseGoLink.all.index_by(&:id)
-		Rails.cache.write('go_link_hash', hash)
-		return hash
-	end
-
-	def self.key_hash
-		l_hash = self.hash
-		l_hash.values.index_by(&:key)
-	end
-
-
+	
 	def self.catalogue_by_resource_type
 		types = Array.new
 		types_keyword = Array.new
