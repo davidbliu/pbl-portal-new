@@ -54,6 +54,7 @@ class GoController < ApplicationController
 		puts link
 		link.url = params[:url]
 		link.description = params[:description]
+		link.directory = params[:directory]
 		puts 'current member'
 		if current_member
 			puts 'current member 1'
@@ -117,10 +118,11 @@ class GoController < ApplicationController
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
+		directory = params[:directory]
 		if ParseGoLink.where(key: key).length > 0
 			render :nothing => true, :status => 500, :content_type => 'text/html'
 		else
-			golink = ParseGoLink.create(key: key, url: url, description: description)
+			golink = ParseGoLink.create(key: key, url: url, description: description, directory: directory)
 			if current_member
 				golink.member_id = current_member.id
 			end

@@ -7,16 +7,57 @@
 	color:white;
 	text-decoration: none;
 }
+.go-input{
+	width:100%;
+	margin-top:3px;
+	border: 0;
+    box-shadow: none;
+}
 </style>
+
+
+<%= link_to 'Back to Catalogue', '/go' %>
+<h1>Edit alias "<%= @link.key %>"</h1>
+
+
+	<div class="input-group">
+	  <b class="input-group-addon" id="basic-addon1">URL</b>
+	  <input id = 'go-url-input' type="text" class="go-input input-lg" value="<%= @link.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
+	</div>
+
+	<div class="input-group">
+	  <b class="input-group-addon" id="basic-addon2">Description</b>
+	  <input id = 'go-description-input' type="text" class="go-input input-lg" value="<%= @link.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
+	</div>
+
+	<div class="input-group">
+	  <b class="input-group-addon" id="basic-addon3">Directory</b>
+	  <input id = 'go-directory-input' type="text" class="go-input input-lg" value="<%= @link.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
+	</div>
+
+
+	<button id = 'save-link-btn' type = 'btn' class = 'btn btn-raised btn-material-green-700'>Save</button>
+	<a href = '/go/<%= @link.id %>/destroy' class = 'btn-link'><button id = 'delete-btn' type = 'btn' class = 'btn btn-raised btn-material-red-700'>Delete</button></a>
+
+
+
+<h1>Who's Viewed Your Link</h1>
+<% @clicks.each do |click| %>
+<div> <%= click.key %> : <%= click.member_id %></div>
+<% end %>
+
+
+
 <script type = 'text/javascript'>
 $(document).ready(function(){
 $("#save-link-btn").click(function(){
 	url = $("#go-url-input").val();
 	description = $("#go-description-input").val();
+	directory = $('#go-directory-input').val();
 	$.ajax({
       url: '/go/<%= @link.id %>/update',
       type: 'POST',
-      data: {'url': url ,'description': description},
+      data: {'url': url ,'description': description, 'directory': directory},
       success:function(data){
         location.reload();
       },
@@ -29,28 +70,3 @@ $("#save-link-btn").click(function(){
 });
 
 </script>
-
-<%= link_to 'Back to Catalogue', '/go' %>
-<h1><%= @link.key %></h1>
-
-<div class = 'col-md-6'>
-	<div class="input-group">
-	  <b class="input-group-addon" id="basic-addon1">URL</b>
-	  <input id = 'go-url-input' type="text" class="form-control" value="<%= @link.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
-	</div>
-
-	<div class="input-group">
-	  <b class="input-group-addon" id="basic-addon2">Description</b>
-	  <input id = 'go-description-input' type="text" class="form-control" value="<%= @link.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
-	</div>
-
-	<button id = 'save-link-btn' type = 'btn' class = 'btn btn-raised btn-material-green-700'>Save</button>
-	<a href = '/go/<%= @link.id %>/destroy' class = 'btn-link'><button id = 'delete-btn' type = 'btn' class = 'btn btn-raised btn-material-red-700'>Delete</button></a>
-</div>
-
-<div class = 'col-md-6'>
-<h2>Clicks</h2>
-<% @clicks.each do |click| %>
-<div> <%= click.key %> : <%= click.member_id %></div>
-<% end %>
-</div>
