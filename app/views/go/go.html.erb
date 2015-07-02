@@ -110,9 +110,8 @@
   <h3>Current Directory: 
   <% if @backpaths.length > 0 %>
   <a href = '/go'>/</a>
-  &nbsp;
   <% @backpaths.each do |subdir| %>
-  <a href = "/go/?cwd=<%= subdir['path'] %>"><%= subdir['string'] %>/&nbsp;</a>
+  <a href = "/go/?cwd=<%= subdir['path'] %>"><%= subdir['string'] %>/</a>
   <% end %>
   <% else %>
   <a href = '/go'>/</a>
