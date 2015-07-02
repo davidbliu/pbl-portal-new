@@ -20,7 +20,7 @@ class ParseGoLink < ParseResource::Base
 	def self.dir_hash
 		# ParseGoLink.all.index_by(&:dir)
 		dhash = Hash.new
-		ParseGoLink.all.each do |golink|
+		ParseGoLink.hash.values.each do |golink|
 			dir = golink.dir 
 			if not dhash.keys.include?(dir)
 				dhash[dir] = Array.new
@@ -31,7 +31,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.get_dirs
-		ParseGoLink.all.uniq{|x| x.dir}.map{|x| x.dir}
+		ParseGoLink.hash.values.uniq{|x| x.dir}.map{|x| x.dir}
 	end
 
 	def get_type_image
@@ -87,10 +87,10 @@ class ParseGoLink < ParseResource::Base
   	end
 
 	def self.hash
-		# hash = Rails.cache.read('go_link_hash')
-		# if hash != nil
-		# 	return hash
-		# end
+		hash = Rails.cache.read('go_link_hash')
+		if hash != nil
+			return hash
+		end
 
 		hash = ParseGoLink.all.index_by(&:id)
 		Rails.cache.write('go_link_hash', hash)
@@ -131,6 +131,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.search(search_term)
+		#TODO dont include search items for deleted links
 		GoLink.search(search_term)
 	end
 	
@@ -258,7 +259,7 @@ class ParseGoLink < ParseResource::Base
 		ParseGoLink.save_all(save_array)
 	end
 
-	def self.migrate_num_clicks
+	def self.update_num_clicks
 		click_hash = ParseGoLinkClick.num_click_hash
 		click_keys = click_hash.keys
 		save = Array.new

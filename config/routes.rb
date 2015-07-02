@@ -28,6 +28,7 @@ Dockernotes::Application.routes.draw do
   get '/go/reindex', to: 'go#reindex'
   get '/go/:id/member_links', to: 'go#member_links' # what links has this member created
   get '/go/directories', to: 'go#directories'
+  get '/go/clearcache', to: 'go#clearcache'
 
   resources :google_events do 
     collection do 

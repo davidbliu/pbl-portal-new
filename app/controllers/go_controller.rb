@@ -16,8 +16,6 @@ class GoController < ApplicationController
 		elsif go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
-			golink.num_clicks += 1 
-			golink.save
 			""" log tracking data for link click """
 			if current_member	
 				click = ParseGoLinkClick.new()
@@ -41,6 +39,12 @@ class GoController < ApplicationController
 		# else display the catalogue
 		@go_key = go_key
 		@key_hash = go_hash
+	end
+
+	def clearcache
+		""" clear cache but also update values """
+		Rails.cache.write("go_link_hash", nil)
+		redirect_to '/go'
 	end
 
 	def edit
@@ -77,7 +81,7 @@ class GoController < ApplicationController
 			render '_catalogue_partitioned.html.erb', layout: false
 		elsif option == 'trending'
 			# @go_links = ParseGoLink.hash.values.sort_by{|x| x.num_clicks}.reverse[0..9]
-			@go_links = ParseGoLink.all.sort_by{|x| -x.num_clicks}[0..9]
+			@go_links = ParseGoLink.hash.values.sort_by{|x| -x.num_clicks}[0..9]
 			render '_catalogue.html.erb', layout: false
 		elsif option == 'member_links'
 			puts 'params were : '+params.to_s
@@ -88,7 +92,7 @@ class GoController < ApplicationController
 			@partitioned_catalogue = ParseGoLink.catalogue_by_fix
 			render '_catalogue_partitioned.html.erb', layout: false
 		else
-			@go_links = ParseGoLink.all.sort_by{|link| link.key}
+			@go_links = ParseGoLink.hash.values.sort_by{|link| link.key}
 			render '_catalogue.html.erb', layout: false
 		end
 	end
@@ -107,7 +111,7 @@ class GoController < ApplicationController
 		@dir_hash = ParseGoLink.dir_hash
 		@directories = get_subdirs(@directory, @dir_hash.keys).sort
 		if @dir_hash.include?(@directory)
-			@links = @dir_hash[@directory]
+			@links = @dir_hash[@directory].sort_by{|x| x.key}
 		else
 			@links = Array.new
 		end
