@@ -1,67 +1,3 @@
-
-
-<script type = 'text/javascript'>
-function pullEventCatalogue(option){
-	// pull data from /go/catalogue
-	$.ajax({
-      url: '/go/catalogue',
-      type: 'GET',
-      data: {'option': option},
-      success:function(data){
-        $('#catalogue-container').html(data);
-      },
-      error:function (xhr, textStatus, thrownError){
-        $('#catalogue-container').html('<h1>Failed to load link catalogue</h1>');
-      }
-  	});
-}
-function pullTrendingLinks(option){
-  // pull data from /go/catalogue
-  $.ajax({
-      url: '/go/catalogue',
-      type: 'GET',
-      data: {'option': option},
-      success:function(data){
-        $('#trending-container').html(data);
-      },
-      error:function (xhr, textStatus, thrownError){
-        $('#trending-container').html('<h1>Failed to load trending links</h1>');
-      }
-    });
-}
-function activateButtonActions(){
-	$('.catalogue-btn').click(function(){
-		$('.catalogue-btn.active').each(function(){
-			$(this).removeClass('active');
-		});
-		$(this).addClass('active');
-		// refresh event catalogue
-		option = $(this).attr('id');
-		$('#catalogue-container').html("");
-		pullEventCatalogue(option);
-	});
-}
-function activateSearchButton(){
-  $('#search-btn').click(function(){
-    search_term = $('#search-input').val();
-    window.location.assign('/go?search_term='+search_term);
-  });
-
-  $('#search-input').keypress(function(e) {
-    if(e.which == 13) {
-       search_term = $('#search-input').val();
-       window.location.assign('/go?search_term='+search_term);
-    }
-});
-}
-$(document).ready(function(){
-	pullEventCatalogue('');
-  pullTrendingLinks('trending');
-	activateButtonActions();
-  activateSearchButton();
-});
-</script>
-
 <style type = 'text/css'>
 #catalogue-container{
 	margin-top:25px;
@@ -176,27 +112,67 @@ $(document).ready(function(){
   <h3>All Links (<%= @num_links %>)</h3>
 
 
-<!-- <h1>PBL Link Catalogue</h1> -->
-
-<!-- Single button -->
-<!-- <div class="btn-group"> -->
-  <!-- <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> -->
-    <!-- Filtering Options <span class="caret"></span> -->
-  <!-- </button> -->
-  <!-- <ul class="dropdown-menu"> -->
-  	<!-- <li><a id = '' class = 'catalogue-btn'>Alphabetical</a></li> -->
-    <!-- <li><a id = 'resource-type' class = 'catalogue-btn'>By Link Type</a></li> -->
-    <!-- <li><a id = 'prefix-suffix' class = 'catalogue-btn'>By Link Keywords</a></li> -->
-    <!-- <li><a id = 'metrics' class = 'catalogue-btn'>Metrics</a></li> -->
-  <!-- </ul> -->
-<!-- </div> -->
-
-<!-- <div id = 'catalogue-button-container'>
-<a class="btn btn-default" href="/go/clicks" role="button">Metrics</a>
-<button id = "" class="catalogue-btn btn btn-default active" type="submit">Alphabetical</button>
-<button id = "resource-type" class="catalogue-btn btn btn-default" type="submit">Group By Resource Type</button>
-<button id = 'prefix-suffix' class="catalogue-btn btn btn-default" type="submit">Group By Prefix/Suffix</button>
-</div> -->
-
 <div id = 'catalogue-container'></div>
 
+
+<script type = 'text/javascript'>
+function pullEventCatalogue(option){
+  // pull data from /go/catalogue
+  $.ajax({
+      url: '/go/catalogue',
+      type: 'GET',
+      data: {'option': option},
+      success:function(data){
+        $('#catalogue-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#catalogue-container').html('<h1>Failed to load link catalogue</h1>');
+      }
+    });
+}
+function pullTrendingLinks(option){
+  // pull data from /go/catalogue
+  $.ajax({
+      url: '/go/catalogue',
+      type: 'GET',
+      data: {'option': option},
+      success:function(data){
+        $('#trending-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#trending-container').html('<h1>Failed to load trending links</h1>');
+      }
+    });
+}
+function activateButtonActions(){
+  $('.catalogue-btn').click(function(){
+    $('.catalogue-btn.active').each(function(){
+      $(this).removeClass('active');
+    });
+    $(this).addClass('active');
+    // refresh event catalogue
+    option = $(this).attr('id');
+    $('#catalogue-container').html("");
+    pullEventCatalogue(option);
+  });
+}
+function activateSearchButton(){
+  $('#search-btn').click(function(){
+    search_term = $('#search-input').val();
+    window.location.assign('/go?search_term='+search_term);
+  });
+
+  $('#search-input').keypress(function(e) {
+    if(e.which == 13) {
+       search_term = $('#search-input').val();
+       window.location.assign('/go?search_term='+search_term);
+    }
+});
+}
+$(document).ready(function(){
+  pullEventCatalogue('');
+  pullTrendingLinks('trending');
+  activateButtonActions();
+  activateSearchButton();
+});
+</script>

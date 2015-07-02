@@ -1,15 +1,20 @@
 <style type = 'text/css'>
+.go-input{
+	width:100%;
+	margin-top:3px;
+	border: 0;
+    box-shadow: none;
+}
 </style>
 
 <script type = 'text/javascript'>
 function pullEventCatalogue(option){
 	// pull data from /go/catalogue
 	<% if current_member %>
-	member_id = <%= current_member.id %>;
+	member_id = '<%= current_member.id %>';
 	<% else %>
-	member_id = -1;
+	member_id = '-1';
 	<% end %>
-	
 	$.ajax({
       url: '/go/catalogue',
       type: 'GET',
@@ -54,16 +59,13 @@ $(document).ready(function(){
 <h1>Add A New PBL Link</h1>
 
 
-<div class = 'row'>
-	<div class = 'col-md-2'>
 		<button class = 'btn btn-material-red-700 btn-raised' id = 'add-go-link-btn'>Add PBL Link</button>
-	</div>
-	<div class = 'col-md-6'>
-		<input id = 'go-key-input' type = 'text' class = 'form-control' placeholder = 'Link Alias (example: mission-doc)'/>
-		<input id = 'go-url-input' type = 'text' class = 'form-control' placeholder = 'Link URL (example: http://linkedin.com)'/>
-		<input id = 'go-description-input' type = 'text' class = 'form-control' placeholder = 'Description'/>
-	</div>
-</div>
+
+
+		<div><input id = 'go-key-input' type="text" class="go-input input-lg" placeholder="'Link Alias (example: mission-doc)" /></div>
+		<!-- <input id = 'go-key-input' type = 'text' class = '' placeholder = 'Link Alias (example: mission-doc)'/> -->
+		<div><input id = 'go-url-input' type = 'text' class = 'go-input input-lg' placeholder = 'Link URL (example: http://linkedin.com)'/></div>
+		<div><input id = 'go-description-input' type = 'text' class = 'go-input input-lg' placeholder = 'Description'/></div>
 
 <div class = 'row'>
 <h1>Owned By Me</h1>

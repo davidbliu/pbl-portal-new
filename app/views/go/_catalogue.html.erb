@@ -21,28 +21,31 @@
 <table class = 'table table-condensed'>
 	<thead>
 		<th>Type</th>
+		<th>Directory</th>
 		<th>Key</th>
 		<th>Link</th>
-		<th>Owner</th>
 		<th>Description</th>
-		<th>Updated At</th>
+		
+		<th>Owner</th>
+		<th>Updated</th>
 	</thead>
 	<tbody>
 	<% @go_links.each do |golink| %>
 	<tr>
 		<td><a href = '#'><img class = 'shadow-z-2' src = '<%= golink.get_type_image %>' height=17/></a></td>
+		<td><%= golink.dir %></td>
 		<td>
 			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= link_to golink.key, '/go/'+golink.id+'/edit' %></div>
 			<div class = 'go-link-hidden' id = 'go-link-hidden-<%= golink.id %>'>
 				<a href = '/go/destroy/?id=<%= golink.id %>'>Destroy</a>
 			</div>
 		</td> 
-		<td><%= link_to golink.short_url, golink.url %></td>
+		<td><%= link_to golink.short_url(25), golink.url %></td>
+		<td><%= golink.description %></td>
+		
 		<td><% if golink.member_id %>
 			<%= @member_hash[golink.member_id].name %>
 			<% else %>none<% end %></td>
-		
-		<td><%= golink.description %></td>
 		<td><%= golink.updated_at_string %></td></tr>
 	<% end %>
 	</tbody>

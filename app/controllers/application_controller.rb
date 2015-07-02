@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   include EventsHelper
   before_filter :current_member 
 
+  def clearcache
+    Rails.cache.clear
+    redirect_to root_path
+  end
+  
   def is_officer
     if current_member == nil
       redirect_to :controller=>'members',:action=>'not_signed_in'

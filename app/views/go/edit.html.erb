@@ -31,7 +31,7 @@ $("#save-link-btn").click(function(){
 </script>
 
 <%= link_to 'Back to Catalogue', '/go' %>
-<h1>Edit Link "<%= @link.key %>"</h1>
+<h1><%= @link.key %></h1>
 
 <div class = 'col-md-6'>
 	<div class="input-group">
@@ -46,4 +46,11 @@ $("#save-link-btn").click(function(){
 
 	<button id = 'save-link-btn' type = 'btn' class = 'btn btn-raised btn-material-green-700'>Save</button>
 	<a href = '/go/<%= @link.id %>/destroy' class = 'btn-link'><button id = 'delete-btn' type = 'btn' class = 'btn btn-raised btn-material-red-700'>Delete</button></a>
+</div>
+
+<div class = 'col-md-6'>
+<h2>Clicks</h2>
+<% @clicks.each do |click| %>
+<div> <%= click.key %> : <%= click.member_id %></div>
+<% end %>
 </div>

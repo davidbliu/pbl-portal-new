@@ -1,11 +1,38 @@
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :tags, :member_id, :old_id, :type
-	def short_url
-		if url.length > 50
-			return url.first(50) + "..."
+	fields :key, :url, :description, :tags, :member_id, :old_id, :type, :directory, :old_member_id
+	
+	def short_url(len = 50)
+		if url.length > len
+			return url.first(len) + "..."
 		else
 			return url
 		end
+	end
+
+
+	def dir
+		if self.directory and self.directory.include?('/')
+			return self.directory
+		end
+		return '/'
+	end
+
+	def dir_array
+		dir_a = self.dir.split("/").select{|x| x != ""}
+		dir_a.insert(0, "/")
+		return dir_a
+	end
+
+	def self.dir_hash
+		ParseGoLink.all.index_by(&:dir)
+	end
+
+	def self.get_dirs
+		ParseGoLink.all.uniq{|x| x.dir}.map{|x| x.dir}
+	end
+
+	def self.get_subdirs(dir, all_dirs)
+		all_dirs.select{|x| x.start_with?(dir)}.select{|x| x!=dir}
 	end
 
 	def get_type_image
@@ -64,10 +91,10 @@ class ParseGoLink < ParseResource::Base
   	end
 
 	def self.hash
-		hash = Rails.cache.read('go_link_hash')
-		if hash != nil
-			return hash
-		end
+		# hash = Rails.cache.read('go_link_hash')
+		# if hash != nil
+		# 	return hash
+		# end
 
 		hash = ParseGoLink.all.index_by(&:id)
 		Rails.cache.write('go_link_hash', hash)
@@ -220,5 +247,18 @@ class ParseGoLink < ParseResource::Base
 			to_save << golink
 		end
 		ParseGoLink.save_all(to_save)
+	end
+
+	def self.migrate_member_id
+		puts 'not implemented yet'
+	end
+	def self.migrate_directory
+		golinks = ParseGoLink.all.to_a
+		save_array = Array.new
+		golinks.each do |golink|
+			golink.directory = '/'
+			save_array << golink
+		end
+		ParseGoLink.save_all(save_array)
 	end
 end

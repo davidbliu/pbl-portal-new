@@ -22,8 +22,6 @@ result = client.execute(
 
 text_url = result.data['exportLinks']['text/plain']
 text_aml = client.execute(uri: text_url).body.gsub(/\s+/, ' ')
-parsed = Archieml.load(text_aml)
-
 puts text_aml # this is the string we're interested in
 puts parsed
 

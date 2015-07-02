@@ -12,6 +12,8 @@ Dockernotes::Application.routes.draw do
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#home'
 
+  get '/clearcache', to: 'application#clearcache'
+
   get '/go', to: 'go#go'
   get '/go/manage', to: 'go#manage'
   post '/go/create', to: 'go#create'
@@ -25,6 +27,7 @@ Dockernotes::Application.routes.draw do
   get '/go/:id/destroy', to: 'go#destroy'
   get '/go/reindex', to: 'go#reindex'
   get '/go/:id/member_links', to: 'go#member_links' # what links has this member created
+  get '/go/directories', to: 'go#directories'
 
   resources :google_events do 
     collection do 

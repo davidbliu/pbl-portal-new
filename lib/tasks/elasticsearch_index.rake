@@ -17,7 +17,7 @@ namespace :elasticsearch do
 		search_data_objects = Array.new
 		# search through docs in parse links
 		doc_ids = Array.new
-		parse_go_links = ParseGoLink.hash.values
+		parse_go_links = ParseGoLink.all.to_a # pulls from parse not from rails cache
 		parse_go_links.each do |go_link|
 			# for scraping google docs
 			if go_link.url.include?('docs.google.com/document/d')

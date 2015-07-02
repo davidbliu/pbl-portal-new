@@ -1,7 +1,10 @@
 class ParseGoLinkClick < ParseResource::Base
 
-	fields :key, :member_id, :time
+	fields :key, :member_id, :time, :old_member_id
 
+
+
+""" migrate clicks from old click tracking system """
 	# -1 member id for not logged in
 	def self.migrate_from_old
 		link_hash = ParseGoLink.hash
@@ -17,5 +20,32 @@ class ParseGoLinkClick < ParseResource::Base
 			click.save
 		end
 		# ParseGoLinkClick.save_all(clicks)
+	end
+
+	def self.copy_old_member_id
+		clicks = Array.new
+		ParseGoLinkClick.limit(100000).all.each do |click|
+			puts click.key
+			click.old_member_id = click.member_id
+			clicks << click
+		end
+		ParseGoLinkClick.save_all(clicks)
+	end
+
+	def self.migrate_member_id
+		old_mhash = ParseMember.old_hash 
+		clicks = Array.new
+		ParseGoLinkClick.limit(100000).all.each do |click|
+			puts click.key
+			begin
+				puts old_mhash[click.old_member_id].name
+				click.member_id = old_mhash[click.old_member_id].id
+				clicks << click
+			rescue
+				puts 'problem with '+click.old_member_id.to_s
+			end
+		end
+		ParseGoLinkClick.save_all(clicks)
+
 	end
 end

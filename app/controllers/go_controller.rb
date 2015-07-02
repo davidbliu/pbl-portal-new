@@ -1,13 +1,10 @@
 class GoController < ApplicationController
 	def go
-		# if not current_member
-		# 	redirect_to :controller=> 'members', :action=>'no_permission'
-		# end
+		"""put permissions on golinks?"""
 		puts 'here are params '+params.to_s
 		link_hash = ParseGoLink.hash
 		go_hash = link_hash.values.index_by(&:key)
 		@num_links = go_hash.keys.length
-		puts go_hash.keys
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
@@ -19,7 +16,7 @@ class GoController < ApplicationController
 		elsif go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
-			# log click tracking data
+			""" log tracking data for link click """
 			if current_member	
 				click = ParseGoLinkClick.new()
 				click.member_id = current_member.id
@@ -47,6 +44,7 @@ class GoController < ApplicationController
 	def edit
 		puts 'editing : '+ params[:id].to_s
 		@link = ParseGoLink.find(params[:id])
+		@clicks = ParseGoLinkClick.where(key: @link.key)
 	end
 
 	def update
@@ -56,8 +54,11 @@ class GoController < ApplicationController
 		puts link
 		link.url = params[:url]
 		link.description = params[:description]
+		puts 'current member'
 		if current_member
+			puts 'current member 1'
 			link.member_id = current_member.id
+			puts 'current member 2'
 		end
 		link.save
 		render :nothing => true, :status => 200, :content_type => 'text/html'
@@ -65,8 +66,9 @@ class GoController < ApplicationController
 
 	def catalogue
 		option = params[:option]
-		@member_hash = Member.member_hash
-		# @go_link_id_hash = ParseGoLink.hash
+		# @member_hash = Member.member_hash
+		@member_hash = ParseMember.hash
+
 		if option == 'resource-type'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
 			render '_catalogue_partitioned.html.erb', layout: false
@@ -81,12 +83,15 @@ class GoController < ApplicationController
 		elsif option == 'prefix-suffix'
 			@partitioned_catalogue = ParseGoLink.catalogue_by_fix
 			render '_catalogue_partitioned.html.erb', layout: false
-		elsif option == 'metrics'
-			redirect_to 'http://'+ENV['HOST'] +'/go/clicks', layout: false
 		else
 			@go_links = ParseGoLink.all.sort_by{|link| link.key}
 			render '_catalogue.html.erb', layout: false
 		end
+	end
+
+	def directories
+		@dir_hash = ParseGoLink.dir_hash
+		@directories = @dir_hash.keys.sort
 	end
 
 	def manage
@@ -127,7 +132,7 @@ class GoController < ApplicationController
 	def destroy
 		Rails.cache.write('go_link_hash', nil)
 		ParseGoLink.find(params[:id]).destroy
-		ParseGoLink.import
+		ParseGoLink.import #TODO should not have to reindex upon destroy
 		redirect_to '/go'
 	end
 

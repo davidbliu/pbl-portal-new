@@ -7,7 +7,13 @@ class ParseMember < ParseResource::Base
 	:role
 
 	def self.hash 
-		ParseMember.limit(10000).all.index_by(&:id)
+		mhash = Rails.cache.read('parse_member_hash')
+		if mhash != nil
+			return mhash
+		end
+		mhash = ParseMember.limit(10000).all.index_by(&:id)
+		Rails.cache.write('parse_member_hash', mhash)
+		return mhash
 	end
 	
 	def self.old_hash
