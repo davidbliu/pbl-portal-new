@@ -1,6 +1,6 @@
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :tags, :member_id, :old_id, :type, :directory, :old_member_id
-	
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks
+
 	def short_url(len = 50)
 		if url.length > len
 			return url.first(len) + "..."
@@ -9,7 +9,6 @@ class ParseGoLink < ParseResource::Base
 		end
 	end
 
-
 	def dir
 		if self.directory and self.directory.include?('/')
 			return self.directory
@@ -17,29 +16,26 @@ class ParseGoLink < ParseResource::Base
 		return '/'
 	end
 
-	def dir_array
-		dir_a = self.dir.split("/").select{|x| x != ""}
-		dir_a.insert(0, "/")
-		return dir_a
-	end
 
 	def self.dir_hash
-		ParseGoLink.all.index_by(&:dir)
+		# ParseGoLink.all.index_by(&:dir)
+		dhash = Hash.new
+		ParseGoLink.all.each do |golink|
+			dir = golink.dir 
+			if not dhash.keys.include?(dir)
+				dhash[dir] = Array.new
+			end
+			dhash[dir]  << golink 
+		end
+		return dhash
 	end
 
 	def self.get_dirs
 		ParseGoLink.all.uniq{|x| x.dir}.map{|x| x.dir}
 	end
 
-	def self.get_subdirs(dir, all_dirs)
-		all_dirs.select{|x| x.start_with?(dir)}.select{|x| x!=dir}
-	end
-
 	def get_type_image
 		type = self.resolve_type
-		# if not self.type or self.type == nil
-		# 	return '/assets/pbl-logo.png'
-		# end
 		prefix = '/assets/'
 		image_hash = Hash.new
 		image_hash['document'] = 'gdoc-icon.png'
@@ -260,5 +256,22 @@ class ParseGoLink < ParseResource::Base
 			save_array << golink
 		end
 		ParseGoLink.save_all(save_array)
+	end
+
+	def self.migrate_num_clicks
+		click_hash = ParseGoLinkClick.num_click_hash
+		click_keys = click_hash.keys
+		save = Array.new
+		ParseGoLink.all.each do |golink|
+			puts golink.key
+			num_clicks = 0
+			if click_keys.include?(golink.key)
+				num_clicks = click_hash[golink.key]
+			end
+			golink.num_clicks = num_clicks
+			save << golink
+		end
+		puts 'saving golinks...'
+		ParseGoLink.save_all(save)
 	end
 end

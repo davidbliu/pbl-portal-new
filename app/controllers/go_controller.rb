@@ -16,6 +16,8 @@ class GoController < ApplicationController
 		elsif go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
+			golink.num_clicks += 1 
+			golink.save
 			""" log tracking data for link click """
 			if current_member	
 				click = ParseGoLinkClick.new()
@@ -74,7 +76,8 @@ class GoController < ApplicationController
 			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
 			render '_catalogue_partitioned.html.erb', layout: false
 		elsif option == 'trending'
-			@go_links = ParseGoLink.hash.values.sort_by{|x| x.updated_at}.reverse[0..9]
+			# @go_links = ParseGoLink.hash.values.sort_by{|x| x.num_clicks}.reverse[0..9]
+			@go_links = ParseGoLink.all.sort_by{|x| -x.num_clicks}[0..9]
 			render '_catalogue.html.erb', layout: false
 		elsif option == 'member_links'
 			puts 'params were : '+params.to_s
@@ -91,9 +94,52 @@ class GoController < ApplicationController
 	end
 
 	def directories
+		puts 'directory params was '+params.to_s
+		puts params.keys
+		if params.keys.include?('dir')
+			@directory = params['dir']
+		else
+			@directory = '/'
+		end
+		# @directories = @directory.split('/')
+		@subdirectories = dir_back_paths(@directory)
+		#.split("/")
 		@dir_hash = ParseGoLink.dir_hash
-		@directories = @dir_hash.keys.sort
+		@directories = get_subdirs(@directory, @dir_hash.keys).sort
+		if @dir_hash.include?(@directory)
+			@links = @dir_hash[@directory]
+		else
+			@links = Array.new
+		end
+
+		# @directories = @dir_hash.keys.sort
 	end
+
+	""" helper methods for the directories route """
+	def dir_array(directory)
+		a = directory.split('/').select{|x| x!= ""}
+		# a.insert(0, '/')
+		return a
+	end
+
+	def dir_back_paths(directory)
+		elems = dir_array(directory)
+		sofar = ""
+		paths = Array.new
+		elems.each do |elem|
+			sofar += '/' + elem
+			path = Hash.new
+			path['path'] = sofar
+			path['string'] = elem
+			paths << path
+		end
+		return paths
+	end
+
+	def get_subdirs(dir, all_dirs)
+		all_dirs.select{|x| x.start_with?(dir)}.select{|x| x!=dir}
+	end
+	""" end of helpers for the directory route """
 
 	def manage
 	end

@@ -1,5 +1,26 @@
-<h1>Directories</h1>
+<style type = 'text/css'>
+.dir-label{
+	font-size: 20px;
+}
+</style>
+<h1>Viewing Directory: 
+	<% if @subdirectories.length > 0 %>
+	<a href = '/go/directories'>/</a>&nbsp;<% @subdirectories.each do |subdir| %><a href = "/go/directories?dir=<%= subdir['path'] %>"><%= subdir['string'] %>/&nbsp;</a><% end %>
+	<% else %>
+	<a href = '/go/directories'>/</a>
+	<% end %>
+</h1>
+<div class = 'row'>
+	<div class = 'col-md-4'>
+		<h2>Sub-Directories (<%= @directories.length %>)</h2>
+		<% @directories.each do |directory| %>
+		<div><span class="label label-material-blue-300"><%= @dir_hash[directory].length %></span> &nbsp; <a class = 'dir-label' href = '/go/directories?dir=<%= directory %>'><%= directory %></a></div>
+		<% end %>
+	</div>
 
-<% @directories.each do |directory| %>
-<div><%= directory %></div>
-<% end %>
+	<div class = 'col-md-6'>
+		<h2>Links (<%= @links.length %>)</h2>
+		<% @links.each do |golink| %>
+		<div><a href = '<%= golink.url %>'><%= golink.key %></a></div>
+		<% end %>
+	</div>

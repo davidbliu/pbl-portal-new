@@ -3,7 +3,18 @@ class ParseGoLinkClick < ParseResource::Base
 	fields :key, :member_id, :time, :old_member_id
 
 
-
+	def self.num_click_hash
+		""" keys are alias and num clicks is the number of times clicked """
+		chash = Hash.new
+		ParseGoLinkClick.all.each do |click|
+			key = click.key
+			if not chash.keys.include?(key)
+				chash[key] = 0
+			end
+			chash[key] += 1
+		end
+		return chash
+	end
 """ migrate clicks from old click tracking system """
 	# -1 member id for not logged in
 	def self.migrate_from_old
@@ -46,6 +57,5 @@ class ParseGoLinkClick < ParseResource::Base
 			end
 		end
 		ParseGoLinkClick.save_all(clicks)
-
 	end
 end
