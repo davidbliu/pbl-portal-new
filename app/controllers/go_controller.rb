@@ -37,8 +37,25 @@ class GoController < ApplicationController
 			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
 		end
 		# else display the catalogue
+		@cwd = '/'
+		if params.keys.include?('cwd')
+			@cwd = params[:cwd]
+		end
+		""" render the directory component of the page """
+		@backpaths = dir_back_paths(@cwd)
+		@subdirectories = ParseGoLink.subdirectories(@cwd)
+		@go_links = ParseGoLink.directory_links(@cwd)
+		@member_hash = ParseMember.hash
+
 		@go_key = go_key
 		@key_hash = go_hash
+	end
+
+	def cwd
+		@cwd = params[:cwd]
+		@subdirectories = ParseGoLink.subdirectories(@cwd)
+		@links = ParseGoLink.directory_links(@cwd)
+		render '_cwd.html.erb', layout: false
 	end
 
 	def clearcache
@@ -81,7 +98,8 @@ class GoController < ApplicationController
 			render '_catalogue_partitioned.html.erb', layout: false
 		elsif option == 'trending'
 			# @go_links = ParseGoLink.hash.values.sort_by{|x| x.num_clicks}.reverse[0..9]
-			@go_links = ParseGoLink.hash.values.sort_by{|x| - x.click_count}[0..9]
+			@go_links = ParseGoLink.where(type: 'trending').sort_by{|x| x.key}
+			# @go_links = ParseGoLink.hash.values.sort_by{|x| - x.click_count}[0..9]
 			render '_catalogue.html.erb', layout: false
 		elsif option == 'member_links'
 			puts 'params were : '+params.to_s
@@ -190,6 +208,12 @@ class GoController < ApplicationController
 
 	def json
 		render json: GoLink.all
+	end
+
+	def metrics
+		@golink = ParseGoLink.find(params[:id])
+		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.updated_at}
+		@member_hash = ParseMember.hash
 	end
 
 

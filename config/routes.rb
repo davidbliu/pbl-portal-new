@@ -17,7 +17,6 @@ Dockernotes::Application.routes.draw do
   get '/go', to: 'go#go'
   get '/go/manage', to: 'go#manage'
   post '/go/create', to: 'go#create'
-  # get '/go/destroy', to: 'go#destroy'
   get '/go/guide', to: 'go#guide'
   get '/go/catalogue', to: 'go#catalogue'
   get '/go/clicks', to: 'go_link_clicks#index'
@@ -29,6 +28,8 @@ Dockernotes::Application.routes.draw do
   get '/go/:id/member_links', to: 'go#member_links' # what links has this member created
   get '/go/directories', to: 'go#directories'
   get '/go/clearcache', to: 'go#clearcache'
+  get '/go/:id/metrics', to: 'go#metrics'
+  get '/go/cwd', to: 'go#cwd'
 
   resources :google_events do 
     collection do 

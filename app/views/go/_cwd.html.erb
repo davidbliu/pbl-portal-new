@@ -1,0 +1,21 @@
+<style type = 'text/css'>
+.dir-inner-div{
+	margin-left: 25px;
+}
+</style>
+
+<div class = 'dir-inner-div'>
+<% if @subdirectories.length == 0 %>
+	<div>No Subdirectories under <%= cwd %></div>
+<% else %>
+	<div>
+		<% @subdirectories.each do |dir| %>
+		<div><%= link_to dir, '/go?cwd='+dir %></div>
+		<% end %>
+	</div>
+</div>
+<% end %>
+
+
+
+

@@ -6,7 +6,7 @@
 		<th>Type</th>
 		<th>Directory</th>
 		<th>Key</th>
-		<th>Link</th>
+		<th>URL</th>
 		<th>Description</th>
 		
 		<th>Owner</th>
@@ -27,8 +27,8 @@
 		<td><% if golink.member_id %>
 			<%= @member_hash[golink.member_id].name %>
 			<% else %>none<% end %></td>
-		<td><%= golink.num_clicks %></td>
-		<td><%= golink.updated_at_string %> <%= link_to '(Edit)', '/go/' + golink.id+'/edit' %></td></tr>
+		<td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td>
+		<td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td></tr>
 	<% end %>
 	</tbody>
 </table>

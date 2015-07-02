@@ -72,13 +72,13 @@
 }
 </style>
 <% if @message %>
-<p><%= @message %></p>
+<p style = 'display:none'><%= @message %></p>
 <% end %>
 
 <div style = 'margin-bottom:15px'>
 <a href = '/go/manage' class = 'add-link' ><button class = 'btn btn-material-red-700 btn-raised'>Add New Link</button></a>
-<a href = '/go/directories' class = 'add-link' ><button class = 'btn btn-material-blue-700 btn-raised'>Directories</button></a>
-<!-- <div><%= link_to 'PBL Link Guide', '/go/guide' %></div> -->
+<!-- <a href = '/go/directories' class = 'add-link' ><button class = 'btn btn-material-blue-700 btn-raised'>Directories</button></a> -->
+
 </div>
 
 <div id="custom-search-input">
@@ -106,6 +106,31 @@
   <p>
   <% end %>
   <% end %>
+
+  <h3>Current Directory: 
+  <% if @backpaths.length > 0 %>
+  <a href = '/go'>/</a>
+  &nbsp;
+  <% @backpaths.each do |subdir| %>
+  <a href = "/go/?cwd=<%= subdir['path'] %>"><%= subdir['string'] %>/&nbsp;</a>
+  <% end %>
+  <% else %>
+  <a href = '/go'>/</a>
+  <% end %>
+</h3>
+<div>
+<%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
+</div>
+  
+<% if @go_links and @go_links.length > 0 %>
+<h3>Links in <%= @cwd %></h3>
+<div>
+<%= render partial: "catalogue", locals: { go_links: @go_links, member_hash: @member_hash} %>
+</div>
+<% else %>
+<h3>No Links in <%= @cwd %></h3>
+<% end %>
+
 
   <h3>Trending</h3>
   <div id = 'trending-container'></div>
@@ -169,10 +194,27 @@ function activateSearchButton(){
     }
 });
 }
+function pullCWD(){
+  $.ajax({
+      url: '/go/cwd',
+      type: 'GET',
+      data: {'cwd': '<%= @cwd %>'},
+      success:function(data){
+        $('#cwd-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#cwd-container').html('<h1>Failed to load directories</h1>');
+      }
+    });
+}
 $(document).ready(function(){
+  // pullCWD();
   pullEventCatalogue('');
   pullTrendingLinks('trending');
+
   activateButtonActions();
   activateSearchButton();
+
+  
 });
 </script>

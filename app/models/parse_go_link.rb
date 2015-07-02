@@ -35,9 +35,35 @@ class ParseGoLink < ParseResource::Base
 		end
 		return dhash
 	end
+	
+	def self.directory_links(dir_name = '')
+		hash = self.dir_hash
+		if hash.keys.include?(dir_name)
+			result = hash[dir_name]
+			if result != nil
+				return result
+			end
+		end
+		return Array.new
+	end
 
-	def self.get_dirs
-		ParseGoLink.hash.values.uniq{|x| x.dir}.map{|x| x.dir}
+	def self.subdirectories(prefix = '/')
+		lvl = prefix.split('/').select{|x| x != ''}.length
+		puts 'level was '+lvl.to_s
+		all_dirnames = Array.new
+		dirnames = ParseGoLink.hash.values.uniq{|x| x.dir}.map{|x| x.dir}
+		all_dirnames << '/'
+		dirnames.each do |dirname|
+			split = dirname.split('/').select{|x| x!= ''}
+			sofar = ''
+			for token in split
+				sofar += '/' + token
+				if not all_dirnames.include?(sofar)
+					all_dirnames << sofar
+				end
+			end
+		end
+		all_dirnames.select{|x| x.start_with?(prefix) and x != prefix and x.split('/').select{|x| x != ''}.length == lvl+1}.sort
 	end
 
 	def get_type_image
