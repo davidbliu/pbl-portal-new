@@ -138,18 +138,22 @@
   <a href = '/go'>/</a>
   <% end %>
 </h3>
-<div>
-<%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
+
+<div class = 'row'>
+  <div class = 'col-md-3'>
+    <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
+  </div>
+
+  <div class = 'col-md-9'>
+  <% if @cwd_links and @cwd_links.length > 0 %>
+  <h3><%= @cwd %></h3>
+  <%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>
+  <% else %>
+  <h3>No Links in <%= @cwd %></h3>
+  <% end %>
+  </div>
+
 </div>
-  
-<% if @cwd_links and @cwd_links.length > 0 %>
-<h3>Links in <%= @cwd %></h3>
-<div>
-<%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>
-</div>
-<% else %>
-<h3>No Links in <%= @cwd %></h3>
-<% end %>
 
 
   <h3>Trending (<%= @trending_links.length %>)</h3>

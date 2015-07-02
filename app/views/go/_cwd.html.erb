@@ -6,14 +6,16 @@
 
 <div class = 'dir-inner-div'>
 <% if @subdirectories.length == 0 %>
+<h3>No Subdirectories</h3>
 <% else %>
 	<div>
 		<% @subdirectories.each do |dir| %>
 		<div><%= link_to dir, '/go?cwd='+dir %></div>
 		<% end %>
 	</div>
-</div>
+
 <% end %>
+</div>
 
 
 
