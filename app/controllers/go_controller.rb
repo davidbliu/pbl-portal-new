@@ -44,7 +44,9 @@ class GoController < ApplicationController
 		""" render the directory component of the page """
 		@backpaths = dir_back_paths(@cwd)
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
-		@go_links = ParseGoLink.directory_links(@cwd)
+		@cwd_links = ParseGoLink.directory_links(@cwd)
+		@all_links = ParseGoLink.hash.values
+		@trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
 		@member_hash = ParseMember.hash
 
 		@go_key = go_key

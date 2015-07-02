@@ -14,7 +14,7 @@
 		<th>Updated</th>
 	</thead>
 	<tbody>
-	<% @go_links.each do |golink| %>
+	<% go_links.each do |golink| %>
 	<tr>
 		<td><a href = '#'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
 		<td><%= link_to golink.dir, '/go/directories?dir='+golink.dir %></td>
@@ -25,7 +25,8 @@
 		<td><%= golink.description %></td>
 		
 		<td><% if golink.member_id %>
-			<%= @member_hash[golink.member_id].name %>
+			<%= 
+			member_hash[golink.member_id].name %>
 			<% else %>none<% end %></td>
 		<td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td>
 		<td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td></tr>

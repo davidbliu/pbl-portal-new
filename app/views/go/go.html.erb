@@ -122,22 +122,23 @@
 <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
 </div>
   
-<% if @go_links and @go_links.length > 0 %>
+<% if @cwd_links and @cwd_links.length > 0 %>
 <h3>Links in <%= @cwd %></h3>
 <div>
-<%= render partial: "catalogue", locals: { go_links: @go_links, member_hash: @member_hash} %>
+<%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>
 </div>
 <% else %>
 <h3>No Links in <%= @cwd %></h3>
 <% end %>
 
 
-  <h3>Trending</h3>
+  <h3>Trending (<%= @trending_links.length %>)</h3>
   <div id = 'trending-container'></div>
-  <h3>All Links (<%= @num_links %>)</h3>
-
-
-<div id = 'catalogue-container'></div>
+  <%= render partial: "catalogue", locals: { go_links: @trending_links, member_hash: @member_hash} %>
+ 
+  <h3>All Links (<%= @all_links.length %>)</h3>
+  <%= render partial: "catalogue", locals: { go_links: @all_links, member_hash: @member_hash} %>
+<!-- <div id = 'catalogue-container'></div> -->
 
 
 <script type = 'text/javascript'>
@@ -209,8 +210,9 @@ function pullCWD(){
 }
 $(document).ready(function(){
   // pullCWD();
-  pullEventCatalogue('');
-  pullTrendingLinks('trending');
+  // pullTrendingLinks('trending');
+  // pullEventCatalogue('');
+  
 
   activateButtonActions();
   activateSearchButton();
