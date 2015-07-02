@@ -81,7 +81,7 @@ class GoController < ApplicationController
 			render '_catalogue_partitioned.html.erb', layout: false
 		elsif option == 'trending'
 			# @go_links = ParseGoLink.hash.values.sort_by{|x| x.num_clicks}.reverse[0..9]
-			@go_links = ParseGoLink.hash.values.sort_by{|x| -x.num_clicks}[0..9]
+			@go_links = ParseGoLink.hash.values.sort_by{|x| - x.click_count}[0..9]
 			render '_catalogue.html.erb', layout: false
 		elsif option == 'member_links'
 			puts 'params were : '+params.to_s

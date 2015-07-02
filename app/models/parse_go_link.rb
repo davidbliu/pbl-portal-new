@@ -1,6 +1,12 @@
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks
 
+	def click_count
+		if self.num_clicks != nil
+			return self.num_clicks
+		end
+		return 0
+	end
 	def short_url(len = 50)
 		if url.length > len
 			return url.first(len) + "..."
