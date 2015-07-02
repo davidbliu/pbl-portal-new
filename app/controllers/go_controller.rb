@@ -45,7 +45,7 @@ class GoController < ApplicationController
 		@backpaths = dir_back_paths(@cwd)
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
 		@cwd_links = ParseGoLink.directory_links(@cwd)
-		@all_links = ParseGoLink.hash.values
+		@all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
 		@trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
 		@member_hash = ParseMember.hash
 

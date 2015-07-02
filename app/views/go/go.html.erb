@@ -71,6 +71,27 @@
   color:white;
 }
 </style>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Edit Link</h3>
+      </div>
+      <div class="modal-body" id = 'edit-modal-content'>
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id = 'save-link-btn' type="button" class="btn btn-material-blue-500">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <% if @message %>
 <p style = 'display:none'><%= @message %></p>
 <% end %>
@@ -207,6 +228,39 @@ function pullCWD(){
       }
     });
 }
+function pullModalContentActions(){
+  $('.link-modal').click(function(){
+    id = $(this).attr('id');
+    hidden_info = $(this).find('.hidden-edit-info').html();
+    //change modal content
+    $('#edit-modal-content').html(hidden_info);
+    $('#myModalLabel').html($(this).find('.hidden-edit-info').attr('id'));
+  });
+}
+function updateLinkActions(){
+  $("#save-link-btn").click(function(){
+  var id = $('#edit-modal-content').find("#go-id-input").val();
+  url = $('#edit-modal-content').find("#go-url-input").val();
+  description = $('#edit-modal-content').find("#go-description-input").val();
+  directory = $('#edit-modal-content').find('#go-directory-input').val();
+  console.log(url);
+  console.log(description);
+  console.log(directory);
+  console.log(id);
+  $.ajax({
+      url: '/go/' + id + '/update',
+      type: 'POST',
+      data: {'url': url ,'description': description, 'directory': directory},
+      success:function(data){
+        location.reload();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('Failed');
+      }
+    });
+});
+}
+
 $(document).ready(function(){
   // pullCWD();
   // pullTrendingLinks('trending');
@@ -215,6 +269,8 @@ $(document).ready(function(){
 
   activateButtonActions();
   activateSearchButton();
+  pullModalContentActions();
+  updateLinkActions();
 
   
 });
