@@ -53,47 +53,52 @@ input:focus     { outline:none; }
     </div>
     
 
-    <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/">[PBL][MP]</a>
+
+    <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/"><span class = 'mdi-action-home'></span> [PBL][MP]</a>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+
+        <li class = 'inactive-li'>
+          <a href="/go">
+            <!-- <i class="fa fa-gears"></i>  -->
+            <span class = 'mdi-action-perm-media'></span> Resource Hub
+          </a>
+        </li>
+
+
         <li class = 'inactive-li'>
           <a href="/members">
-            <i class="fa fa-users"></i> 
-            Members
+            <!-- <i class="fa fa-users"></i>  -->
+            <span class = 'mdi-social-group'></span> Members
           </a>
         </li>
         <li class = 'inactive-li'>
           <a href="/tabling">
-            <i class="fa fa-building-o"></i> 
+            <i class="mdi-image-wb-sunny"></i> 
             Tabling
           </a>
         </li>
         <li class = 'inactive-li'>
           <a href="/points">
-            <i class="fa fa-gears"></i> 
+            <i class="mdi-action-assessment"></i> 
             Points
           </a>
         </li>
 
-        <li class = 'inactive-li'>
-          <a href="/go">
-            <i class="fa fa-gears"></i> 
-            PBL Links
-          </a>
-        </li>
+        
 
 
         <% if current_member %>
         <li>
           <a href="/members/account">
-            <i class="fa fa-gears"></i> 
+            <i class="mdi-editor-insert-emoticon"></i> 
             <%= current_member.name %>
           </a>
         </li>
 
         <li>
           <a href="/sign_out">
-            <i class="fa fa-gears"></i> 
+            <i class="glyphicon glyphicon-log-out"></i> 
             Sign Out
           </a>
         </li>
@@ -101,7 +106,7 @@ input:focus     { outline:none; }
 
         <li>
           <a href="/auth/google_oauth2">
-            <i class="fa fa-gears"></i> 
+            <i class="glyphicon glyphicon-log-in"></i> 
             Sign In
           </a>
         </li>

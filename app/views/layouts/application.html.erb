@@ -35,6 +35,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
 
+<style type = 'text/css'>
+#footer-search{
+  border: 0;
+    box-shadow: none;
+}
+</style>
+
 </head>
 <body>
 
@@ -49,8 +56,20 @@
 </div>
 
 <footer class="footer">
-      <div class="container">
-        <p class="text-muted">Created by PBL WD Fall 2015</p>
+      <div class="container col-md-6">
+            <p class="text-muted">Created by PBL WD Fall 2015</p>
+            <p class="text-muted">
+              Trending Resources: 
+              <% ParseGoLink.hash.values[0..9].each do |golink| %>
+              <span><%= link_to golink.key, golink.url %></span>
+              <% end %>
+            </p>
+            <p class = "text-muted">
+              See <%= link_to 'PBL Links', '/go' %> for more resources
+            </p>
+            <p class = "text-muted">
+              We invite feedback from anyone on our <%= link_to 'feedback form', '/go' %>
+            </p>
       </div>
     </footer>
 
