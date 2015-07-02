@@ -166,6 +166,14 @@ class GoController < ApplicationController
 	""" end of helpers for the directory route """
 
 	def manage
+		if current_member
+			@my_links = ParseGoLink.where(member_id: current_member.id)
+			@member_hash = Hash.new
+			@member_hash[current_member.id] =current_member
+		else
+			@my_links = Array.new
+			@member_hash = Hash.new
+		end
 	end
 
 	def member_links

@@ -24,7 +24,8 @@
 
 <div class = 'row'>
 <h1>Owned By Me</h1>
-<div id = 'catalogue-container'></div>
+<!-- <div id = 'catalogue-container'></div> -->
+<%= render partial: "catalogue", locals: { go_links: @my_links, member_hash: @member_hash} %>
 </div>
 
 
@@ -74,7 +75,7 @@ function updateActions(){
 * to be performed on page load
 */
 $(document).ready(function(){
-	pullEventCatalogue("member_links");
+	// pullEventCatalogue("member_links");
 	updateActions();
 });
 </script>
