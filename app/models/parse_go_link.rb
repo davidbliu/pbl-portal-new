@@ -68,6 +68,10 @@ class ParseGoLink < ParseResource::Base
 
 	def get_type_image
 		type = self.resolve_type
+		return ParseGoLink.type_to_image(type)
+	end
+
+	def self.type_to_image(type)
 		prefix = '/assets/'
 		image_hash = Hash.new
 		image_hash['document'] = 'gdoc-icon.png'
@@ -83,6 +87,7 @@ class ParseGoLink < ParseResource::Base
 		image_hash['drive'] = 'drive-logo.png'
 		image_hash['instagram'] = 'instagram-logo.png'
 		image_hash['presentation'] = 'presentation-icon.png'
+		image_hash['form'] = 'forms-icon.png'
 		return prefix + image_hash[type]
 	end
 
@@ -113,6 +118,8 @@ class ParseGoLink < ParseResource::Base
 			type = 'instagram'
 		elsif url.include?('docs.google.com/presentation')
 			type = 'presentation'
+		elsif url.include?('docs.google.com/forms')
+			type = 'form'
 		end
 		return type
 	end

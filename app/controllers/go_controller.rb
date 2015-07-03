@@ -56,6 +56,7 @@ class GoController < ApplicationController
 		if params.keys.include?('link_type')
 			@link_type = params[:link_type]
 			@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
+			@type_image = ParseGoLink.type_to_image(@link_type)
 		end
 	end
 
