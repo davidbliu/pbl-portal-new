@@ -8,7 +8,7 @@
 		<div class = 'tabling-day'>
 		<% @slots[tabling_day].each do |tabling_slot| %>
 			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
-				<div class = 'tabling-slot-label label label-primary'><%= tabling_slot.time_string %></div>
+				<div class = 'tabling-slot-label label label-material-purple-300'><%= tabling_slot.time_string %></div>
 				<% tabling_slot.members.each do |member| %>
 					<div><%= member.name %></div>
 				<% end %>

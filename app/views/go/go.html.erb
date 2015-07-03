@@ -84,7 +84,8 @@
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+        <button id = 'delete-link-btn' type="button" class="btn btn-default btn-material-red-500" data-dismiss="modal">Delete</button>
         <button id = 'save-link-btn' type="button" class="btn btn-material-blue-500">Save changes</button>
       </div>
     </div>
@@ -117,6 +118,7 @@
 <% if @search_results %>
   <h3>Search Results for "<%= @search_term %>" (<%= @search_results.to_a.length %> Results)</h3>
   <% @search_results.each_with_index do |result, index| %>
+  <% if @link_hash.keys.include?(result._source.parse_id) %> <!-- dont display anything if the result has been removed-->
   <div><b>Result <%= index+1 %></b></div>
   <p>
     <div><a href = '#'><img class = '' src = '<%= @link_hash[result._source.parse_id].get_type_image %>' height=25/></a></div>
@@ -127,6 +129,15 @@
   <p>
   <% end %>
   <% end %>
+  <% end %>
+
+
+<!-- display only link type if the user has filtered by link type -->
+<% if @link_type %>
+<h3>Filtered by Type: <%= @link_type %></h3>
+<p><a href = '/go'>Remove Filter</a></p>
+<%= render partial: "catalogue", locals: { go_links: @filtered_type_links, member_hash: @member_hash} %>
+<% end %>
 
   <h3>Current Directory: 
   <% if @backpaths.length > 0 %>
@@ -264,6 +275,13 @@ function updateLinkActions(){
     });
 });
 }
+function deleteLinkActions(){
+   $("#delete-link-btn").click(function(){
+  var id = $('#edit-modal-content').find("#go-id-input").val();
+  window.location.replace("/go/"+id+"/destroy");
+  // window.location = 
+}); 
+}
 
 $(document).ready(function(){
   // pullCWD();
@@ -275,6 +293,7 @@ $(document).ready(function(){
   activateSearchButton();
   pullModalContentActions();
   updateLinkActions();
+  deleteLinkActions();
 
   
 });

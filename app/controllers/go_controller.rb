@@ -41,6 +41,7 @@ class GoController < ApplicationController
 		if params.keys.include?('cwd')
 			@cwd = params[:cwd]
 		end
+
 		""" render the directory component of the page """
 		@backpaths = dir_back_paths(@cwd)
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
@@ -51,6 +52,11 @@ class GoController < ApplicationController
 
 		@go_key = go_key
 		@key_hash = go_hash
+
+		if params.keys.include?('link_type')
+			@link_type = params[:link_type]
+			@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
+		end
 	end
 
 	def cwd

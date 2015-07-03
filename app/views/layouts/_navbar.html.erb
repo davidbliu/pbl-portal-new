@@ -78,17 +78,17 @@ input:focus     { outline:none; }
 
 
         <% if current_member %>
-        <li>
+        <!-- <li>
           <a href="/members/account">
             <i class="mdi-editor-insert-emoticon"></i> 
-            <%= current_member.name %>
+            <%= current_member.email %>
           </a>
-        </li>
+        </li> -->
 
         <li>
           <a href="/sign_out">
             <i class="glyphicon glyphicon-log-out"></i> 
-            Sign Out
+            Sign Out of <%= current_member.email %>
           </a>
         </li>
         <% else %>
