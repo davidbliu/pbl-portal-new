@@ -82,6 +82,7 @@ class ParseGoLink < ParseResource::Base
 		image_hash['other'] = 'pbl-logo.png'
 		image_hash['drive'] = 'drive-logo.png'
 		image_hash['instagram'] = 'instagram-logo.png'
+		image_hash['presentation'] = 'presentation-icon.png'
 		return prefix + image_hash[type]
 	end
 
@@ -110,6 +111,8 @@ class ParseGoLink < ParseResource::Base
 			type = 'drive'
 		elsif url.include?('instagram')
 			type = 'instagram'
+		elsif url.include?('docs.google.com/presentation')
+			type = 'presentation'
 		end
 		return type
 	end
@@ -270,6 +273,8 @@ class ParseGoLink < ParseResource::Base
 				type = 'drive'
 			elsif url.include?('instagram')
 				type = 'instagram'
+			elsif url.include?('docs.google.com/presentation')
+				type = 'presentation'
 			end
 			puts url + " : " + type
 			golink.type = type
