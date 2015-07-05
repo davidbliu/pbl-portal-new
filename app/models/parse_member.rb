@@ -6,6 +6,8 @@ class ParseMember < ParseResource::Base
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
 	:role
 
+	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
+
 	def self.hash 
 		mhash = Rails.cache.read('parse_member_hash')
 		if mhash != nil
@@ -123,5 +125,66 @@ class ParseMember < ParseResource::Base
 			members << member
 		end
 		ParseMember.save_all(members)
+	end
+
+	def self.merge_emails
+		""" merges accounts into one by shifting over event_members, committee_members into one account and leaves blank duplicate accounts to be remove by remove_duplicate """
+		duplicates = Array.new
+		normal = Array.new
+		email_set = Array.new
+		email_hash = Hash.new
+		ParseMember.limit(10000).all.each do |pm|
+			if not pm.email or pm.email == nil or pm.email == ''
+				puts pm.name + ' has no email'
+			else
+				if not email_hash.keys.include?(pm.email)
+					email_hash[pm.email] = Array.new
+				end
+				email_hash[pm.email] << pm
+				if email_set.include?(pm.email)
+					duplicates << pm.email
+				else
+					email_set << pm.email
+					normal << pm
+				end
+			end
+		end
+		puts 'these are duplicated emails: '
+		duplicates.each do |email|
+			puts "\t" + email
+		end
+		email_hash.keys.each do |email|
+			accounts = email_hash[email]
+			if accounts.length > 1
+				puts 'handling ' + email
+				firstid = accounts[0].old_id
+				puts 'first id was '+firstid.to_s
+				accounts.each do |account|
+					if account.old_id != firstid
+						account.destroy
+					end
+					""" transfer the ems and cms, commented out currently so can run deletion code """
+					# puts "\t" + account.old_id.to_s + ' attended ' + EventMember.where(member_id: account.old_id).length.to_s + ' events'
+					# ems = EventMember.where(member_id: account.old_id)
+					# cms = CommitteeMember.where(member_id: account.old_id)
+					# ems.each do |event_member|
+					# 	event_member.member_id = firstid
+					# 	if event_member.save
+					# 		# puts "\t\t" + "transferred an em " + event_member.member_id.to_s
+					# 		event_member.save!
+					# 	end
+					# end
+					# cms.each do |cm|
+					# 	cm.member_id = firstid
+					# 	cm.save
+					# end
+	
+				end
+			end
+		end
+
+	end
+
+	def self.remove_duplicate
 	end
 end
