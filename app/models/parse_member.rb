@@ -1,3 +1,4 @@
+require 'set'
 class ParseMember < ParseResource::Base
 
 	fields :name, :provider, :uid, :google_id,
@@ -5,6 +6,7 @@ class ParseMember < ParseResource::Base
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
 	:role
+
 
 	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
 
@@ -27,20 +29,21 @@ class ParseMember < ParseResource::Base
 	""" get members by types """
 
 	def self.current_members(semester = ParseSemester.current_semester)
+		cms = Rails.cache.read('current_members')
+		if cms != nil 
+			return cms
+		end
+
 		mhash = ParseMember.hash
+		keys = Set.new(mhash.keys)
 		ids = ParseCommitteeMember.limit(1000).where(semester_id: semester.id).map{|x| x.member_id}
-		ids.map{|x| mhash[x]}
+		cms = ids.select{|x| keys.include?(x)}.map{|x| mhash[x]}
+		Rails.cache.write('current_members', cms)
+		return cms
 	end
 
 	def self.current_members_hash(semester = ParseSemester.current_semester)
-		hash = Rails.cache.read('current_members_hash')
-		if hash != nil
-			return hash
-		end
-
-		hash = ParseMember.current_members.index_by(&:id)
-		Rails.cache.write('current_members_hash', hash)
-		return hash
+		ParseMember.current_members.index_by(&:id)
 	end
 
 	def self.current_officers(semester = ParseSemester.current_semester)

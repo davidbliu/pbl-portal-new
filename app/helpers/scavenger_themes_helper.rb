@@ -1,2 +1,0 @@
-module ScavengerThemesHelper
-end

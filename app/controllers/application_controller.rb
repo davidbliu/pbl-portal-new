@@ -8,6 +8,10 @@ class ApplicationController < ActionController::Base
   include EventsHelper
   before_filter :current_member 
 
+
+  
+
+
   def clearcache
     Rails.cache.clear
     redirect_to root_path
@@ -20,17 +24,16 @@ class ApplicationController < ActionController::Base
       redirect_to root_path
     end
   end
-
-  def is_approved
-    if current_member == nil
-      redirect_to :controller=>'members',:action=>'not_signed_in'
-    elsif current_member.confirmation_status != 2
-      current_member.confirmation_status = 1
-      current_member.save
-      redirect_to :controller=> 'members', :action=>'wait'
-    end
-    # else let them thru they are golden 
-  end
+  
+  # def is_approved
+  #   if current_member == nil
+  #     redirect_to :controller=>'members',:action=>'not_signed_in'
+  #   elsif current_member.confirmation_status != 2
+  #     current_member.confirmation_status = 1
+  #     current_member.save
+  #     redirect_to :controller=> 'members', :action=>'wait'
+  #   end
+  # end
 
   def is_admin
     if current_member == nil or not current_member.admin?

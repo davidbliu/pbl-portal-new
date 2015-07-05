@@ -3,6 +3,27 @@ class ParseCommitteeMember < ParseResource::Base
   fields :committee_id, :member_id, :semester_id, :position_id
 
 
+
+
+
+
+  """ Position of this committee member object (chair, cm, gm, exec) """
+  def position
+    return CommitteeMemberPosition.positions[self.position_id]
+  end
+
+  def role
+    return self.position.name
+  end
+
+  def tier
+    return self.position.tier
+  end
+
+  def permissions
+    return self.position.permissions
+  end
+
   def self.migrate
     member_hash = ParseMember.old_hash
     committee_hash = ParseCommittee.old_hash
@@ -29,24 +50,17 @@ class ParseCommitteeMember < ParseResource::Base
     return 'done'
   end
 
-
-
-
-  """ Position of this committee member object (chair, cm, gm, exec) """
-  def position
-    return CommitteeMemberPosition.positions[self.position_id]
+  def self.delete_unreferenced_cms
+    mhash = ParseMember.hash
+    delete_array = Array.new
+    ParseCommitteeMember.all.each do |cm|
+      if not mhash.keys.include?(cm.member_id)
+        delete_array << cm
+      end
+    end
+    puts 'deleting ' + delete_array.length.to_s + ' committee members'
+    ParseCommitteeMember.destroy_all(delete_array)
   end
 
-  def role
-    return self.position.name
-  end
-
-  def tier
-    return self.position.tier
-  end
-
-  def permissions
-    return self.position.permissions
-  end
 
 end

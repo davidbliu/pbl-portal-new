@@ -1,6 +1,6 @@
 class PointsController < ApplicationController
 
-	before_filter :is_approved
+	# before_filter :is_approved
 	before_filter :is_officer, :only => :mark_attendance
 
 	#

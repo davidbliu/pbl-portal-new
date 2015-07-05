@@ -33,7 +33,7 @@ class SessionsController < ApplicationController
 
 	def sign_out
 		cookies[:remember_token] = nil
-	    current_member = nil;
+	    current_member = nil
 	    redirect_to "https://accounts.google.com/logout"
 	end
 

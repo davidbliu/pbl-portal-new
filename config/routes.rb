@@ -1,10 +1,6 @@
 Dockernotes::Application.routes.draw do
 
-  # , ActiveAdmin::Devise.config
-  # ActiveAdmin.routes(self)
-  resources :notes
-
-  get "/sign_out", to: "sessions#sign_out"
+  get "/sign_out", to: "auth#sign_out"
   # get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
 
 

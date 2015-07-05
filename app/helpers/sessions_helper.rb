@@ -1,7 +1,10 @@
 module SessionsHelper
 	
   def current_member
-    @current_member ||= ParseMember.where(remember_token: cookies[:remember_token]).first if cookies[:remember_token]
+    """ remember token is just the current users email""" 
+    my_email = cookies[:remember_token]
+    # my_email = "alice.sun@berkeley.edu"
+    @current_member ||= ParseMember.where(email: my_email).first if cookies[:remember_token]
   end
 
   def sign_out
