@@ -40,9 +40,6 @@ input:focus     { outline:none; }
         <span class="icon-bar"></span>
       </button>
     </div>
-    
-
-
     <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/"><span class = 'mdi-action-home'></span> [PBL][MP]</a>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -58,7 +55,7 @@ input:focus     { outline:none; }
         <li class = 'inactive-li'>
           <a href="/members">
             <!-- <i class="fa fa-users"></i>  -->
-            <span class = 'mdi-social-group'></span> Members
+            <span class = 'mdi-social-group md-10'></span> Members
           </a>
         </li>
         <li class = 'inactive-li'>
@@ -77,29 +74,7 @@ input:focus     { outline:none; }
         
 
 
-        <% if current_member %>
-        <!-- <li>
-          <a href="/members/account">
-            <i class="mdi-editor-insert-emoticon"></i> 
-            <%= current_member.email %>
-          </a>
-        </li> -->
-
-        <li>
-          <a href="/sign_out">
-            <i class="glyphicon glyphicon-log-out"></i> 
-            Sign Out of <%= current_member.email %>
-          </a>
-        </li>
-        <% else %>
-
-        <li>
-          <a href="/auth/google_oauth2">
-            <i class="glyphicon glyphicon-log-in"></i> 
-            Sign In
-          </a>
-        </li>
-        <% end %>
+        
 
         <!-- <div class="col-sm-5 col-md-4 pull-right">
         <form class="navbar-form" role="search">
@@ -111,12 +86,31 @@ input:focus     { outline:none; }
         </div>
         </form>
         </div> -->
-       
-</form>
 
         
 
       </ul>
+      <ul class = 'nav navbar-nav pull-right'>
+        <% if current_member %>
+
+        <li class = 'pull-right'>
+          <a href="/sign_out">
+            <i class="glyphicon glyphicon-log-out"></i> 
+            Sign Out of <%= current_member.email %>
+          </a>
+        </li>
+        <% else %>
+
+        <li class = 'pull-right'>
+          <a  class = 'pull-right' href="/auth/google_oauth2">
+            <i class="glyphicon glyphicon-log-in"></i> 
+            Sign In
+          </a>
+        </li>
+        <% end %>
+      </ul>
     </div>
+
+
   </div>
 </div>

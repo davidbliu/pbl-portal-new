@@ -11,7 +11,7 @@
 		  <div class="panel-body">
 		    <ul>
 		    	<% @trending_links.each do |link| %>
-		    		<li><a href = '<%= link.url %>'>pbl.link?<%= link.key %></a></li>
+		    		<li><a href = '<%= link.url %>'>pbl.link/<%= link.key %></a></li>
 		    		<% end %>
 		    </ul>
 		  </div>
