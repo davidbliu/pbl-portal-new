@@ -3,6 +3,22 @@
 <div class = 'row'>
 
 	<div class = 'col-md-4'>
+
+		<div class="panel panel-default">
+		  <div class="panel-heading">
+		    <h3 class="panel-title">Starred Resources</h3>
+		  </div>
+		  <div class="panel-body">
+		    <ul>
+		    	<% @trending_links.each do |link| %>
+		    		<li><a href = '<%= link.url %>'>pbl.link?<%= link.key %></a></li>
+		    		<% end %>
+		    </ul>
+		  </div>
+		</div>	
+
+
+
 		<div class="panel panel-default">
 		  <div class="panel-heading">
 		    <h3 class="panel-title">Announcements</h3>

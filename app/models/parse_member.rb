@@ -91,6 +91,7 @@ class ParseMember < ParseResource::Base
 
 	""" permissions and roles """
 
+	""" points and events attended"""
 
 	""" migrate old Member model to ParseMember model """
 	def self.migrate

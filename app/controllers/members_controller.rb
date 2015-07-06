@@ -7,6 +7,7 @@ class MembersController < ApplicationController
 	before_filter :is_approved, :only => [:all, :index_committee]
 
 	def home
+		@trending_links = ParseGoLink.where(type: "trending")
 	end
 	
 	#

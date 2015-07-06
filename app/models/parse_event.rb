@@ -2,6 +2,10 @@ class ParseEvent < ParseResource::Base
   fields :name, :location, :start_time, :end_time, :description, :points, :google_id, :type
 
 
+  """ convenience methods: a replacement for PointManager"""
+  def self.attended_events(member_id, semester_id = ParseSemester.current_semester.id)
+  	return Array.new
+  end
   """ pull events from google"""
   def self.pull_from_google
   	save = Array.new

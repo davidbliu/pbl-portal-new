@@ -7,9 +7,8 @@ class ApplicationController < ActionController::Base
   include CalendarsHelper
   include EventsHelper
   before_filter :current_member 
-
-
   
+
 
 
   def clearcache

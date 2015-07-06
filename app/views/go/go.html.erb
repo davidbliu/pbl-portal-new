@@ -139,6 +139,9 @@
 <%= render partial: "catalogue", locals: { go_links: @filtered_type_links, member_hash: @member_hash} %>
 <% end %>
 
+  
+
+<div class = 'row'>
   <h3>Current Directory: 
   <% if @backpaths.length > 0 %>
   <a href = '/go'>/</a>
@@ -149,15 +152,16 @@
   <a href = '/go'>/</a>
   <% end %>
 </h3>
+   <div class = 'col-md-3'> 
+    <p>
 
-<div class = 'row'>
-  <div class = 'col-md-3'>
     <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
+  </p>
   </div>
 
-  <div class = 'col-md-9'>
+   <div class = 'col-md-9'>
   <% if @cwd_links and @cwd_links.length > 0 %>
-  <h3><%= @cwd %></h3>
+
   <%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>
   <% else %>
   <h3>No Links in <%= @cwd %></h3>
@@ -166,14 +170,10 @@
 
 </div>
 
+  
 
-  <h3>Trending (<%= @trending_links.length %>)</h3>
-  <div id = 'trending-container'></div>
-  <%= render partial: "catalogue", locals: { go_links: @trending_links, member_hash: @member_hash} %>
- 
-  <h3>All Links (<%= @all_links.length %>)</h3>
-  <%= render partial: "catalogue", locals: { go_links: @all_links, member_hash: @member_hash} %>
-<!-- <div id = 'catalogue-container'></div> -->
+
+
 
 
 <script type = 'text/javascript'>

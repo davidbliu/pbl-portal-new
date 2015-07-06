@@ -3,11 +3,8 @@
 	margin-left: 25px;
 }
 </style>
-<h3>Subdirectories</h3>
 <div class = 'dir-inner-div'>
-<% if @subdirectories.length == 0 %>
-<h5>No Subdirectories</h5>
-<% else %>
+<% if @subdirectories.length != 0 %>
 	<div>
 		<% @subdirectories.each do |dir| %>
 		<div><%= link_to dir, '/go?cwd='+dir %></div>
