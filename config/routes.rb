@@ -26,6 +26,7 @@ Dockernotes::Application.routes.draw do
   get '/go/clearcache', to: 'go#clearcache'
   get '/go/:id/metrics', to: 'go#metrics'
   get '/go/cwd', to: 'go#cwd'
+  get '/:key/go', to: 'go#index'
 
   resources :google_events do 
     collection do 

@@ -1,4 +1,60 @@
 class GoController < ApplicationController
+	def index
+		go_key = params[:key]
+		link_hash = ParseGoLink.hash
+		go_hash = link_hash.values.index_by(&:key)
+		@num_links = go_hash.keys.length
+
+		if go_hash.keys.include?(go_key)
+			# correctly used alias
+			golink = go_hash[go_key]
+			""" log tracking data for link click """
+			if current_member	
+				click = ParseGoLinkClick.new()
+				click.member_id = current_member.id
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			else
+				click = ParseGoLinkClick.new()
+				click.member_id = -1
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			end
+			# send to link url
+			redirect_to golink.url
+		else
+			# did not find key
+			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
+
+			# else display the catalogue
+			@cwd = '/'
+			if params.keys.include?('cwd')
+				@cwd = params[:cwd]
+			end
+
+			""" render the directory component of the page """
+			@backpaths = dir_back_paths(@cwd)
+			@subdirectories = ParseGoLink.subdirectories(@cwd)
+			# @cwd_links = ParseGoLink.directory_links(@cwd).sort_by{|x| x.key}
+			@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
+			# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
+			# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
+			@member_hash = ParseMember.hash
+
+			@go_key = go_key
+			@key_hash = go_hash
+
+			if params.keys.include?('link_type')
+				@link_type = params[:link_type]
+				@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
+				@type_image = ParseGoLink.type_to_image(@link_type)
+			end
+			render 'go.html.erb'
+		end
+		
+	end
 	def go
 		"""put permissions on golinks?"""
 		puts 'here are params '+params.to_s
