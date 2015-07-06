@@ -152,14 +152,14 @@
   <a href = '/go'>/</a>
   <% end %>
 </h3>
-   <div class = 'col-md-2'> 
+   <div class = 'col-md-3'> 
     <p>
 
     <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
   </p>
   </div>
 
-   <div class = 'col-md-10'>
+   <div class = 'col-md-9'>
   <% if @cwd_links and @cwd_links.length > 0 %>
 
   <%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>
