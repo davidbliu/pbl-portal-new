@@ -24,43 +24,22 @@ class GoController < ApplicationController
 			# send to link url
 			redirect_to golink.url
 		else
-			# did not find key
-			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
-
-			# else display the catalogue
-			@cwd = '/'
-			if params.keys.include?('cwd')
-				@cwd = params[:cwd]
-			end
-
-			""" render the directory component of the page """
-			@backpaths = dir_back_paths(@cwd)
-			@subdirectories = ParseGoLink.subdirectories(@cwd)
-			# @cwd_links = ParseGoLink.directory_links(@cwd).sort_by{|x| x.key}
-			@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
-			@num_links = @cwd_links.length
-
-			# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
-			# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
-			@member_hash = ParseMember.hash
-
-			@go_key = go_key
-			@key_hash = go_hash
-			if params.keys.include?('link_type')
-				@link_type = params[:link_type]
-				@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
-				@type_image = ParseGoLink.type_to_image(@link_type)
-			end
-			render 'go.html.erb'
+			redirect_to '/go'
 		end
 		
 	end
-	def go
+	def go(key = nil)
 		"""put permissions on golinks?"""
 		puts 'here are params '+params.to_s
+		if key != nil
+			go_key = key
+		else
+			go_key = params.keys[0]
+		end
+
 		link_hash = ParseGoLink.hash
 		go_hash = link_hash.values.index_by(&:key)
-		go_key = params.keys[0]
+		
 		if params.length < 3
 			@message = nil
 		elsif params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil

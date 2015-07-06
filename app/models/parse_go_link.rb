@@ -134,7 +134,7 @@ class ParseGoLink < ParseResource::Base
 			return hash
 		end
 
-		hash = ParseGoLink.all.index_by(&:id)
+		hash = ParseGoLink.limit(100000).all.index_by(&:id)
 		Rails.cache.write('go_link_hash', hash)
 		return hash
 	end
@@ -150,7 +150,7 @@ class ParseGoLink < ParseResource::Base
 		# create GoLink Objects
 		GoLink.destroy_all
 		puts 'requesting text hash...'
-		parse_text_hash = ParseElasticsearchData.all.index_by(&:go_link_id)
+		parse_text_hash = ParseElasticsearchData.limit(100000).all.index_by(&:go_link_id)
 		parse_text_hash_keys = parse_text_hash.keys
 		puts 'received text hash!'
 		ParseGoLink.limit(10000).all.each do |pgl|
@@ -253,7 +253,7 @@ class ParseGoLink < ParseResource::Base
 
 	""" migration methods""" 
 	def self.migrate_type
-		golinks = ParseGoLink.all.to_a
+		golinks = ParseGoLink.limit(100000).all.to_a
 		to_save = Array.new
 		golinks.each do |golink|
 			type = 'other'
@@ -294,7 +294,7 @@ class ParseGoLink < ParseResource::Base
 		puts 'not implemented yet'
 	end
 	def self.migrate_directory
-		golinks = ParseGoLink.all.to_a
+		golinks = ParseGoLink.limit(100000).all.to_a
 		save_array = Array.new
 		golinks.each do |golink|
 			golink.directory = '/'
@@ -307,7 +307,7 @@ class ParseGoLink < ParseResource::Base
 		click_hash = ParseGoLinkClick.num_click_hash
 		click_keys = click_hash.keys
 		save = Array.new
-		ParseGoLink.all.each do |golink|
+		ParseGoLink.limit(100000).all.each do |golink|
 			puts golink.key
 			num_clicks = 0
 			if click_keys.include?(golink.key)
