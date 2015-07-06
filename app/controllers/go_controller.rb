@@ -1,9 +1,8 @@
 class GoController < ApplicationController
 	def index
 		go_key = params[:key]
-		link_hash = ParseGoLink.hash
-		go_hash = link_hash.values.index_by(&:key)
-		@num_links = go_hash.keys.length
+		link_hash = ParseGoLink.hash # keys id and value link
+		go_hash = link_hash.values.index_by(&:key) # key is key and value is link 
 
 		if go_hash.keys.include?(go_key)
 			# correctly used alias
@@ -39,13 +38,14 @@ class GoController < ApplicationController
 			@subdirectories = ParseGoLink.subdirectories(@cwd)
 			# @cwd_links = ParseGoLink.directory_links(@cwd).sort_by{|x| x.key}
 			@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
+			@num_links = @cwd_links.length
+
 			# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
 			# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
 			@member_hash = ParseMember.hash
 
 			@go_key = go_key
 			@key_hash = go_hash
-
 			if params.keys.include?('link_type')
 				@link_type = params[:link_type]
 				@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
@@ -60,7 +60,6 @@ class GoController < ApplicationController
 		puts 'here are params '+params.to_s
 		link_hash = ParseGoLink.hash
 		go_hash = link_hash.values.index_by(&:key)
-		@num_links = go_hash.keys.length
 		go_key = params.keys[0]
 		if params.length < 3
 			@message = nil
@@ -103,6 +102,7 @@ class GoController < ApplicationController
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
 		# @cwd_links = ParseGoLink.directory_links(@cwd).sort_by{|x| x.key}
 		@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
+		@num_links = @cwd_links.length
 		# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
 		# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
 		@member_hash = ParseMember.hash

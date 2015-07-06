@@ -70,6 +70,10 @@
   text-decoration:none;
   color:white;
 }
+.links-div{
+  background-color:white;
+  border-radius:5px;
+}
 </style>
 
 <!-- Modal -->
@@ -142,7 +146,7 @@
   
 
 <div class = 'row'>
-  <h3>Current Directory: 
+  <h3>Current Directory (<%= @num_links %> Links): 
   <% if @backpaths.length > 0 %>
   <a href = '/go'>/</a>
   <% @backpaths.each do |subdir| %>
@@ -151,6 +155,7 @@
   <% else %>
   <a href = '/go'>/</a>
   <% end %>
+
 </h3>
    <div class = 'col-md-3'> 
     <p>
@@ -159,7 +164,7 @@
   </p>
   </div>
 
-   <div class = 'col-md-9'>
+   <div class = 'col-md-9 links-div'>
   <% if @cwd_links and @cwd_links.length > 0 %>
 
   <%= render partial: "catalogue", locals: { go_links: @cwd_links, member_hash: @member_hash} %>

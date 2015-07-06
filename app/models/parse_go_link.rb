@@ -74,19 +74,19 @@ class ParseGoLink < ParseResource::Base
 	def self.type_to_image(type)
 		prefix = '/assets/'
 		image_hash = Hash.new
-		image_hash['document'] = 'gdoc-icon.png'
-		image_hash['spreadsheets'] = 'gsheet-icon.png'
+		image_hash['document'] = 'docs-icon.png'
+		image_hash['spreadsheets'] = 'sheets-icon.png'
 		image_hash['facebook'] = 'facebook-icon.png'
 		image_hash['trello'] = 'trello-logo.png'
-		image_hash['youtube'] = 'youtube-logo.png'
+		image_hash['youtube'] = 'youtube-icon.png'
 		image_hash['box'] = 'box-icon.png'
 		image_hash['piazza'] = 'piazza-icon.png'
 		image_hash['flickr'] = 'flickr-logo.png'
 		image_hash['git'] = 'git-icon.png'
 		image_hash['other'] = 'pbl-logo.png'
-		image_hash['drive'] = 'drive-logo.png'
+		image_hash['drive'] = 'drive-icon.png'
 		image_hash['instagram'] = 'instagram-logo.png'
-		image_hash['presentation'] = 'presentation-icon.png'
+		image_hash['presentation'] = 'sheets-icon.png'
 		image_hash['form'] = 'forms-icon.png'
 		return prefix + image_hash[type]
 	end
