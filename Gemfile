@@ -71,6 +71,9 @@ gem 'archieml'
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
+# show thumbnails of links
+gem 'link_thumbnailer'
+
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
 #

@@ -95,6 +95,7 @@ def get_google_client
 	return client
 end
 
+
 def get_doc_text(client, doc_id)
 	client.authorization.fetch_access_token!
 	drive = client.discovered_api('drive', 'v2')
