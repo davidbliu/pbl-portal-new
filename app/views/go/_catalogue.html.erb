@@ -38,12 +38,12 @@
 		<td>
 			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= golink.key %></div>
 		</td> 
-		<td><%= link_to golink.short_url(25), golink.url %></td>
+		<td><%= link_to truncate(golink.url, length: 20), golink.url %></td>
 		<td><%= golink.description %></td>
 		
 		<td><% if golink.member_email %>
 			<%= 
-			golink.member_email %>
+			truncate(golink.member_email, length: 10) %>
 			<% else %>none<% end %></td>
 		<td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td>
 		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->

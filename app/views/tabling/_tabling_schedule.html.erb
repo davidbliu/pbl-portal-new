@@ -10,7 +10,7 @@
 			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
 				<div class = 'tabling-slot-label label label-material-purple-500'><%= tabling_slot.time_string %></div>
 				<% tabling_slot.member_emails.each do |email| %>
-					<div><%= email %></div>
+					<div><%= member_email_hash[email].name %></div>
 				<% end %>
 			</div>
 		<% end %>

@@ -2,16 +2,19 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   # protect_from_forgery with: :exception
-  include SessionsHelper
-  include GoogleApiHelper
-  include CalendarsHelper
-  include EventsHelper
+  # include SessionsHelper
+  include AuthHelper
+  # include GoogleApiHelper
+  # include CalendarsHelper
+  # include EventsHelper
+  include CacheHelper
   before_filter :current_member 
   
 
 
 
   def clearcache
+    """ clears all items from cache """
     Rails.cache.clear
     redirect_to root_path
   end

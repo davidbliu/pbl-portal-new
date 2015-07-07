@@ -1,8 +1,9 @@
 class GoController < ApplicationController
 	def index
 		go_key = params[:key]
-		link_hash = ParseGoLink.hash # keys id and value link
-		go_hash = link_hash.values.index_by(&:key) # key is key and value is link 
+		link_hash = go_link_hash #see cache helper for details 
+		go_hash = go_link_key_hash
+		# link_hash.values.index_by(&:key) # key is key and value is link 
 
 		if go_hash.keys.include?(go_key)
 			# correctly used alias
@@ -36,8 +37,10 @@ class GoController < ApplicationController
 			go_key = params.keys[0]
 		end
 
-		link_hash = ParseGoLink.hash
-		go_hash = link_hash.values.index_by(&:key)
+		link_hash = go_link_hash
+		# ParseGoLink.hash
+		go_hash = go_link_key_hash
+		 # link_hash.values.index_by(&:key)
 		
 		if params.length < 3
 			@message = nil
@@ -103,7 +106,7 @@ class GoController < ApplicationController
 
 	def clearcache
 		""" clear cache but also update values """
-		Rails.cache.write("go_link_hash", nil)
+		clear_go_cache
 		redirect_to '/go'
 	end
 

@@ -13,6 +13,19 @@ class ParseSemester < ParseResource::Base
     return semester
   end
 
+  def self.test_semester
+    semester = Rails.cache.read('test_semester')
+    if semester != nil
+      return semester
+    end
+    # make 1 call to parse
+    semester = ParseSemester.where(name: "Spring 2015").first
+    Rails.cache.write('test_semester', semester)
+    return semester
+  end
+
+
+
   def self.hash
     return ParseSemester.all.index_by(&:id)
   end

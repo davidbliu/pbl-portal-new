@@ -7,13 +7,6 @@ class ParseGoLink < ParseResource::Base
 		end
 		return 0
 	end
-	def short_url(len = 50)
-		if url.length > len
-			return url.first(len) + "..."
-		else
-			return url
-		end
-	end
 
 	def dir
 		if self.directory and self.directory.include?('/')

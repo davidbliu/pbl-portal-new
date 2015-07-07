@@ -76,6 +76,13 @@
   padding:5px;
   border-radius:5px;
 }
+#directory-panel{
+  right:3px;
+   background-color:white;
+  border:1px solid rgba(0, 0, 0, 0.1);
+  padding:5px;
+  border-radius:5px;
+}
 </style>
 
 <!-- Modal -->
@@ -159,12 +166,7 @@
   <% end %>
 
 </h3>
-   <div class = 'col-md-3'> 
-    <p>
-
-    <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
-  </p>
-  </div>
+   
 
    <div class = 'col-md-9 links-div'>
   <% if @cwd_links and @cwd_links.length > 0 %>
@@ -173,6 +175,14 @@
   <% else %>
   <h3>No Links in <%= @cwd %></h3>
   <% end %>
+  </div>
+
+  <div id = 'directory-panel' class = 'col-md-3 affix'> 
+    <h4 style = 'text-align:center'>Directory Browser</h4>
+    <p>
+
+    <%= render partial: "cwd", locals: { subdirectories: @subdirectories, links: @dir_links, cwd: @cwd} %>
+  </p>
   </div>
 
 </div>
