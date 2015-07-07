@@ -5,7 +5,7 @@ class ParseMember < ParseResource::Base
 	:profile, :old_member_id, :remember_token, 
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
-	:role
+	:role, :year, :committee
 
 
 	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
@@ -18,6 +18,16 @@ class ParseMember < ParseResource::Base
 		mhash = ParseMember.limit(10000).all.index_by(&:id)
 		Rails.cache.write('parse_member_hash', mhash)
 		return mhash
+	end
+
+	def self.email_hash
+		email_hash = Rails.cache.read('parse_member_email_hash')
+		if email_hash != nil
+			return email_hash
+		end
+		email_hash = ParseMember.limit(10000).all.index_by(&:email)
+		Rails.cache.write('parse_member_email_hash', email_hash)
+		return email_hash
 	end
 	
 	def self.old_hash
@@ -33,44 +43,49 @@ class ParseMember < ParseResource::Base
 		if cms != nil 
 			return cms
 		end
-
-		mhash = ParseMember.hash
+		mhash = ParseMember.email_hash
 		keys = Set.new(mhash.keys)
-		ids = ParseCommitteeMember.limit(1000).where(semester_id: semester.id).map{|x| x.member_id}
-		cms = ids.select{|x| keys.include?(x)}.map{|x| mhash[x]}
+		emails = ParseCommitteeMember.limit(1000).where(semester_name: semester.name).map{|x| x.member_email}
+		cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
 		Rails.cache.write('current_members', cms)
 		return cms
 	end
 
 	def self.current_members_hash(semester = ParseSemester.current_semester)
-		ParseMember.current_members.index_by(&:id)
+		ParseMember.current_members.index_by(&:email)
 	end
 
-	def self.current_officers(semester = ParseSemester.current_semester)
-		mhash = ParseMember.hash
-		officer_ids = ParseCommitteeMember.where(semester_id: semester.id).select{|x| x.position_id == 3 or x.position_id == 4}.map{|x| x.member_id}
+	# def self.current_officers(semester = ParseSemester.current_semester)
+	# 	mhash = ParseMember.hash
+	# 	officer_ids = ParseCommitteeMember.where(semester_id: semester.id).select{|x| x.position_id == 3 or x.position_id == 4}.map{|x| x.member_id}
 		
-		officer_ids.map{|x| mhash[x]}
+	# 	officer_ids.map{|x| mhash[x]}
+	# end
+
+	#   def self.current_execs(semester = ParseSemester.current_semester)
+	# 	mhash = ParseMember.hash
+	# 	exec_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 4).map{|x| x.member_id}
+	# 	exec_ids.map{|x| mhash[x]}
+	# end
+
+	#   def self.current_chairs(semester = ParseSemester.current_semester)
+	# 	mhash = ParseMember.hash
+	# 	chair_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 3).map{|x| x.member_id}
+	# 	chair_ids.map{|x| mhash[x]}
+	#  end
+
+	 def self.default_commitments
+		default_com = Array.new(168)
+		168.times{|i| default_com[i] = 0}
+		default_com
 	end
 
-	  def self.current_execs(semester = ParseSemester.current_semester)
-		mhash = ParseMember.hash
-		exec_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 4).map{|x| x.member_id}
-		exec_ids.map{|x| mhash[x]}
-	end
-
-	  def self.current_chairs(semester = ParseSemester.current_semester)
-		mhash = ParseMember.hash
-		chair_ids = ParseCommitteeMember.where(semester_id: semester.id).where(position_id: 3).map{|x| x.member_id}
-		chair_ids.map{|x| mhash[x]}
-	 end
-
-	  # excludes chairs
-	def self.current_cms(semester = ParseSemester.current_semester)
-		mhash = ParseMember.hash
-		current_committee_member_ids = ParseCommitteeMember.where(position_id: 2).where(semester_id: semester.id).map{|x| x.member_id}
-		current_committee_member_ids.map{|x| mhash[x]}
-	end
+	#   # excludes chairs
+	# def self.current_cms(semester = ParseSemester.current_semester)
+	# 	mhash = ParseMember.hash
+	# 	current_committee_member_ids = ParseCommitteeMember.where(position_id: 2).where(semester_id: semester.id).map{|x| x.member_id}
+	# 	current_committee_member_ids.map{|x| mhash[x]}
+	# end
 
 	""" specific member convenience methods """
 

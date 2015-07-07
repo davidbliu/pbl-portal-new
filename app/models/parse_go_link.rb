@@ -1,5 +1,5 @@
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email
 
 	def click_count
 		if self.num_clicks != nil
@@ -318,5 +318,18 @@ class ParseGoLink < ParseResource::Base
 		end
 		puts 'saving golinks...'
 		ParseGoLink.save_all(save)
+	end
+
+	def self.migrate_member_email
+		save = Array.new
+		mhash = ParseMember.hash
+		ParseGoLink.all.each do |golink|
+			if golink.member_id != nil
+				email = mhash[golink.member_id].email
+				golink.member_email = email
+				puts 'saving ' + golink.key + ' with ' + golink.member_email
+				golink.save
+			end
+		end 
 	end
 end

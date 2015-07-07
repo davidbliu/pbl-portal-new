@@ -41,9 +41,9 @@
 		<td><%= link_to golink.short_url(25), golink.url %></td>
 		<td><%= golink.description %></td>
 		
-		<td><% if golink.member_id %>
+		<td><% if golink.member_email %>
 			<%= 
-			member_hash[golink.member_id].name %>
+			golink.member_email %>
 			<% else %>none<% end %></td>
 		<td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td>
 		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->

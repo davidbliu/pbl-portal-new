@@ -9,14 +9,13 @@ class GoController < ApplicationController
 			golink = go_hash[go_key]
 			""" log tracking data for link click """
 			if current_member	
-				click = ParseGoLinkClick.new()
-				click.member_id = current_member.id
+				click = ParseGoLinkClick.new
+				click.member_email = current_member.email
 				click.key = golink.key
 				click.time = Time.now
 				click.save
 			else
-				click = ParseGoLinkClick.new()
-				click.member_id = -1
+				click = ParseGoLinkClick.new
 				click.key = golink.key
 				click.time = Time.now
 				click.save
@@ -52,14 +51,13 @@ class GoController < ApplicationController
 			golink = go_hash[go_key]
 			""" log tracking data for link click """
 			if current_member	
-				click = ParseGoLinkClick.new()
-				click.member_id = current_member.id
+				click = ParseGoLinkClick.new
+				click.member_email = current_member.email
 				click.key = golink.key
 				click.time = Time.now
 				click.save
 			else
-				click = ParseGoLinkClick.new()
-				click.member_id = -1
+				click = ParseGoLinkClick.new
 				click.key = golink.key
 				click.time = Time.now
 				click.save
@@ -84,7 +82,7 @@ class GoController < ApplicationController
 		@num_links = @cwd_links.length
 		# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
 		# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
-		@member_hash = ParseMember.hash
+		# @member_hash = ParseMember.email_hash
 
 		@go_key = go_key
 		@key_hash = go_hash
@@ -126,39 +124,14 @@ class GoController < ApplicationController
 		puts 'current member'
 		if current_member
 			puts 'current member 1'
-			link.member_id = current_member.id
+			# link.member_id = current_member.id
+			link.member_email = current_member.email
 			puts 'current member 2'
 		end
 		link.save
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
-	def catalogue
-		option = params[:option]
-		# @member_hash = Member.member_hash
-		@member_hash = ParseMember.hash
-
-		if option == 'resource-type'
-			@partitioned_catalogue = ParseGoLink.catalogue_by_resource_type
-			render '_catalogue_partitioned.html.erb', layout: false
-		elsif option == 'trending'
-			# @go_links = ParseGoLink.hash.values.sort_by{|x| x.num_clicks}.reverse[0..9]
-			@go_links = ParseGoLink.where(type: 'trending').sort_by{|x| x.key}
-			# @go_links = ParseGoLink.hash.values.sort_by{|x| - x.click_count}[0..9]
-			render '_catalogue.html.erb', layout: false
-		elsif option == 'member_links'
-			puts 'params were : '+params.to_s
-			member_id = params[:member_id] #TODO migrate current_member so uses the right id
-			@go_links = ParseGoLink.where(member_id: member_id).sort_by{|x| x.key}
-			render '_catalogue.html.erb', layout: false
-		elsif option == 'prefix-suffix'
-			@partitioned_catalogue = ParseGoLink.catalogue_by_fix
-			render '_catalogue_partitioned.html.erb', layout: false
-		else
-			@go_links = ParseGoLink.hash.values.sort_by{|link| link.key}
-			render '_catalogue.html.erb', layout: false
-		end
-	end
 
 	def directories
 		puts 'directory params was '+params.to_s
@@ -210,18 +183,10 @@ class GoController < ApplicationController
 
 	def manage
 		if current_member
-			@my_links = ParseGoLink.where(member_id: current_member.id)
-			@member_hash = Hash.new
-			@member_hash[current_member.id] =current_member
+			@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
 		else
 			@my_links = Array.new
-			@member_hash = Hash.new
 		end
-	end
-
-	def member_links
-		member_id = params[:id]
-		@member_links = ParseGoLink.where(member_id: member_id).sort_by{|x| x.key}
 	end
 
 	def reindex
@@ -245,7 +210,7 @@ class GoController < ApplicationController
 		else
 			golink = ParseGoLink.create(key: key, url: url, description: description, directory: directory)
 			if current_member
-				golink.member_id = current_member.id
+				golink.member_email = current_member.email
 			end
 			golink.save
 		end
@@ -266,7 +231,7 @@ class GoController < ApplicationController
 	def metrics
 		@golink = ParseGoLink.find(params[:id])
 		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.updated_at}
-		@member_hash = ParseMember.hash
+		# @member_hash = ParseMember.hash
 	end
 
 

@@ -27,3 +27,4 @@ app/.DS_Store
 *.DS_Store
 portal_service_key.json
 google_calendar_refresh.rb
+contact_sheet_fa15.csv

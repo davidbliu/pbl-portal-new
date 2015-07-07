@@ -1,6 +1,6 @@
 class ParseCommitteeMember < ParseResource::Base
 
-  fields :committee_id, :member_id, :semester_id, :position_id
+  fields :committee_id, :member_id, :semester_id, :position_id, :member_email, :committee_abbr, :semester_name
 
 
 

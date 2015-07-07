@@ -1,6 +1,6 @@
 class ParseGoLinkClick < ParseResource::Base
 
-	fields :key, :member_id, :time, :old_member_id
+	fields :key, :member_id, :time, :old_member_id, :member_email
 
 
 	def self.num_click_hash
@@ -58,4 +58,5 @@ class ParseGoLinkClick < ParseResource::Base
 		end
 		ParseGoLinkClick.save_all(clicks)
 	end
+
 end

@@ -4,16 +4,16 @@
 	<div class = 'col-md-6'>
 	<table class = 'table table-condensed'>
 		<thead>
-			<th>Member Name</th>
+			<th>Member</th>
 			<th>Time Clicked</th>
 		</thead>
 		<tbody>
 			<% @clicks.each do |click| %>
 			<tr>
-				<td><% if click.member_id %>
-					<%= @member_hash[click.member_id].name %>
+				<td><% if click.member_email %>
+					<%= click.member_email %>
 					<% else %>
-					None
+					Not Signed In
 					<% end %>
 				</td>
 				<td><%= click.updated_at %></td>

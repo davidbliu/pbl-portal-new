@@ -16,7 +16,7 @@
     <% @current_members.each do |member| %>
       <tr>
         <td><%= member.name %></td>
-        <td><%= @committee_hash[member.committee_id].name %></td>
+        <td><%= member.committee %></td>
         <td><%= member.role.capitalize %></td>
         <td><%= member.email %></td>
       </tr>

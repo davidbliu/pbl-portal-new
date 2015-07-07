@@ -65,4 +65,67 @@ namespace :migrate do
 		puts 'there are currently '+ Member.current_cms.length.to_s + ' cms'
 		puts 'there are currently '+ Member.current_execs.length.to_s + ' execs'
 	end
+
+	task :migrate_committee => :environment do
+		# chash = Committee.all.index_by(&:id)
+		save = Array.new
+		ParseMember.limit(10000).all.each do |member|
+			if not member.committee
+				member.committee = 'GM'
+				save << member
+			end
+		end
+		puts 'saving ' + save.length.to_s 
+		ParseMember.save_all(save)
+
+	end
+
+	""" creates members from the contact sheet and places them in their committee """
+	task :import_from_contact_sheet => :environment do 
+		require 'csv'
+		'''["[WD]", "David Liu", "Web Development Chair", "davidbliu@berkeley.edu", "davidbliu@gmail.com", "davidbliu@gmail.com", "(714) 299-1786", "yes", "4th", "EECS"]'''
+
+		m_email_hash = ParseMember.limit(10000).all.index_by(&:email)
+		saved_members = Array.new
+		saved_cms = Array.new
+		chash = Committee.all.index_by(&:abbr)
+		semester = ParseSemester.current_semester
+		CSV.foreach("contact_sheet_fa15.csv") do |row|
+			# puts 'row was ' + row.to_s
+			committee = row[0]
+			committee.slice! '['
+			committee.slice! ']'
+			# committee_id = 
+			name = row[1]
+			email = row[5]
+			phone = row[6]
+			major = row[9]
+			year = row[8]
+			puts committee
+			if m_email_hash.keys.include?(email)
+				member = m_email_hash[email]
+			else
+				member = ParseMember.new
+			end
+			if committee != 'XX'
+				member.name = name
+				member.email = email
+				member.phone = phone
+				member.major = major
+				member.year = year
+				member.role = 'Fall 2015 Officer'
+				member.committee = committee
+				puts 'saving this member ' + member.name
+				puts member.valid?
+				if not member.commitments
+					member.commitments = ParseMember.default_commitments
+				end
+				# create a member and put them in committee
+				saved_members << member
+				saved_cms << ParseCommitteeMember.create(member_email: email, committee_abbr: committee, semester_name: semester.name, semester_id: semester.id)
+			end
+		end
+		ParseCommitteeMember.save_all(saved_cms)
+		ParseMember.save_all(saved_members)
+	end
 end 

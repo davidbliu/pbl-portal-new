@@ -14,8 +14,8 @@ class MembersController < ApplicationController
 	# shows only members from current semester
 	#
 	def index
-		@current_members = ParseMember.current_members_hash.values.sort_by{|x| x.committee_id}
-		@committee_hash = ParseCommittee.hash	
+		@current_members = ParseMember.current_members.sort_by{|x| x.committee}
+		# @committee_hash = ParseCommittee.hash	
 	end
 
 	
