@@ -1,5 +1,5 @@
 class ParseTablingSlot < ParseResource::Base
-  fields :member_ids, :time
+  fields :member_ids, :time, :member_emails
 
   # needs a time
   validates :time, presence: true
@@ -20,12 +20,6 @@ class ParseTablingSlot < ParseResource::Base
     end
     slots = ParseTablingSlot.all
     Rails.cache.write('tabling_slots', slots)
-  end
-
-  def members
-    """ returns an array of members that are in this slot """ 
-    member_hash = ParseMember.current_members_hash
-    member_ids.map{|id| member_hash[id]}
   end
 
   def time_string

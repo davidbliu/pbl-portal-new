@@ -20,8 +20,7 @@ class TablingController < ApplicationController
 
 	def index
     # @slots = TablingSlot.all
-    @slots = TablingManager.tabling_schedule
-    @members_dict = ParseMember.current_members_hash
+    @slots = ParseTablingManager.get_tabling_schedule
   end
 	
 	#
@@ -36,17 +35,10 @@ class TablingController < ApplicationController
 	# generates tabling TODO background process
 	#
 	def generate
-	    members = ParseMember.current_members_hash.values
+	    members = ParseMember.current_members
 	    # times = 20..50
 	    times = 20.times.map{ Random.rand(167) } 
-	    assignments = TablingManager.generate_tabling_assignments(times, members)
-	    for t in times
-	      p t
-	      for m in assignments[t]
-	        p '       ' + m.name
-	      end
-	    end
-	    TablingManager.generate_tabling_slots(assignments)
+	    assignments = ParseTablingManager.generate_tabling_schedule(times, members)
 	   	redirect_to :controller => 'tabling', :action => 'index'
 	end
 
