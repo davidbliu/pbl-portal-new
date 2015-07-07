@@ -4,6 +4,7 @@
 }
 </style>
 <div class = 'dir-inner-div'>
+<div><%= link_to "/back to root", '/go' %></div>
 <% if @subdirectories.length != 0 %>
 	<div>
 		<% @subdirectories.each do |dir| %>
