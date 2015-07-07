@@ -44,11 +44,11 @@ class GoController < ApplicationController
 		
 		if params.length < 3
 			@message = nil
-		elsif params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
-			puts 'searching for : '+params[:search_term]
-			@search_results = ParseGoLink.search(params[:search_term]).results
-			@search_term = params[:search_term]
-			@link_hash = link_hash
+		# elsif params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
+		# 	puts 'searching for : '+params[:search_term]
+		# 	@search_results = ParseGoLink.search(params[:search_term]).results
+		# 	@search_term = params[:search_term]
+		# 	@link_hash = link_hash
 		elsif go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
@@ -80,20 +80,29 @@ class GoController < ApplicationController
 		""" render the directory component of the page """
 		@backpaths = dir_back_paths(@cwd)
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
-		# @cwd_links = ParseGoLink.directory_links(@cwd).sort_by{|x| x.key}
 		@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
-		@num_links = @cwd_links.length
-		# @all_links = ParseGoLink.hash.values.sort_by{|x| x.key}
-		# @trending_links = ParseGoLink.hash.values.select{|x| x.type == 'trending'}
-		# @member_hash = ParseMember.email_hash
-
 		@go_key = go_key
 		@key_hash = go_hash
 
+		@filters = Array.new
+		""" filter cwd links if search term exists """
+		if params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
+			puts 'searching for : '+params[:search_term]
+			search_result_keys = ParseGoLink.search(params[:search_term])
+			puts 'search result keys were : '+search_result_keys.to_s
+			@cwd_links = @cwd_links.select{|x| search_result_keys.include?(x.key)}.sort_by{|x| search_result_keys.index(x.key)}
+			filter = "search:" + params[:search_term]
+			@filters << filter
+		end
+
 		if params.keys.include?('link_type')
-			@link_type = params[:link_type]
-			@filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
-			@type_image = ParseGoLink.type_to_image(@link_type)
+			# @link_type = params[:link_type]
+			type = params[:link_type]
+			filter = "type:" + type
+			@filters << filter
+			# @filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
+			# @type_image = ParseGoLink.type_to_image(@link_type)
+			@cwd_links = @cwd_links.select{|x| x.resolve_type == type}
 		end
 	end
 

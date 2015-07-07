@@ -167,7 +167,13 @@ class ParseGoLink < ParseResource::Base
 
 	def self.search(search_term)
 		#TODO dont include search items for deleted links
-		GoLink.search(search_term)
+		# GoLink.search(search_term)
+		keys = Array.new
+		results = GoLink.search(search_term, :size=>1000).results.results
+		results.each do |result|
+			keys << result._source["key"]
+		end
+		return keys
 	end
 	
 	""" catalogue methods DEPRECATED""" 

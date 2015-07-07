@@ -128,34 +128,15 @@
             </div>
 
 
-<% if @search_results %>
-  <h3>Search Results for "<%= @search_term %>" (<%= @search_results.to_a.length %> Results)</h3>
-  <% @search_results.each_with_index do |result, index| %>
-  <% if @link_hash.keys.include?(result._source.parse_id) %> <!-- dont display anything if the result has been removed-->
-  <div><b>Result <%= index+1 %></b></div>
-  <p>
-    <div><a href = '#'><img class = '' src = '<%= @link_hash[result._source.parse_id].get_type_image %>' height=25/></a></div>
-    <div>score: <%= result._score %></div>
-    <div>key: <a href = '/go/<%= result._source['parse_id'] %>/edit'><%= result._source['key'] %></a></div>
-    <div>url: <a href = '<%= result._source['url'] %>'><%= result._source['url'] %></a></div>
-    <div>description: <%= result._source['description'] %></div>
-  <p>
-  <% end %>
-  <% end %>
-  <% end %>
-
-
-<!-- display only link type if the user has filtered by link type -->
-<% if @link_type %>
-<h3><img src = '<%= @type_image %>' height=45></img>&nbsp;Filtered by Type: <%= @link_type.capitalize %></h3>
-<p><a href = '/go'>Remove Filter</a></p>
-<%= render partial: "catalogue", locals: { go_links: @filtered_type_links} %>
+<% if @filters.length > 0 %>
+<h3>Filtering by&nbsp;
+<% @filters.each do |f| %><div class = 'label label-material-purple-500'><%= f %></div><% end %></h3>
+<p><a href = '/go'>Remove Filters</a></p>
 <% end %>
-
   
 
 <div class = 'row'>
-  <h3>Current Directory (<%= @num_links %> Links): 
+  <h3>Current Directory (<%= @cwd_links.length %> Links): 
   <% if @backpaths.length > 0 %>
   <a href = '/go'>/</a>
   <% @backpaths.each do |subdir| %>
@@ -234,6 +215,9 @@ function activateButtonActions(){
     pullEventCatalogue(option);
   });
 }
+function getNewSearchLocation(){
+  console.log('TODO')
+}
 function activateSearchButton(){
   $('#search-btn').click(function(){
     search_term = $('#search-input').val();
@@ -243,6 +227,7 @@ function activateSearchButton(){
   $('#search-input').keypress(function(e) {
     if(e.which == 13) {
        search_term = $('#search-input').val();
+       console.log(window.location);
        window.location.assign('/go?search_term='+search_term);
     }
 });
