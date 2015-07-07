@@ -213,6 +213,7 @@ class GoController < ApplicationController
 
 	def create
 		Rails.cache.write('go_link_hash', nil)
+		Rails.cache.write('go_link_key_hash', nil)
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
