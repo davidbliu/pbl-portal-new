@@ -16,31 +16,28 @@
 	 border: 1px solid rgb(229, 229, 229);
     box-shadow: 1px;
 }
+.link-row>.golink-key-td{
+	width:25%;
+	overflow:hidden;
+}
+.link-row>.golink-description-td{
+	width:50%;
+	overflow:hidden;
+}
 </style>
 <div class = 'hidden' id = 'hover-div'></div>
 <table class = 'table table-hover table-condensed'>
-	<!-- <thead>
-		<th>Type</th>
-		<th>Directory</th>
-		<th>Key</th>
-		<th>URL</th>
-		<th>Description</th>
-		
-		<th>Owner</th>
-		<th>Clicks</th>
-		<th>Updated</th>
-	</thead> -->
 	<tbody>
 	<% go_links.each do |golink| %>
-	<tr>
+	<tr class = 'link-row'>
 		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
 		<!-- <td><%= golink.dir %></td> -->
-		<td>
+		<td class = 'golink-key-td'>
 			<b><%= golink.key %></b>
 		</td> 
 		<!-- <td><%= link_to truncate(golink.url, length: 30), golink.url %></td> -->
-		<td><%= golink.description %></td>
+		<td class = 'golink-description-td'><%= golink.description %></td>
 		
 		<!-- <td><% if golink.member_email %>
 			<%= 
