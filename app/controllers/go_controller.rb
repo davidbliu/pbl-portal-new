@@ -33,12 +33,18 @@ class GoController < ApplicationController
 		@filters = Array.new
 
 		if params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
-			puts 'searching for : '+params[:search_term]
-			search_result_keys = ParseGoLink.search(params[:search_term])
-			puts 'search result keys were : '+search_result_keys.to_s
-			@golinks = @golinks.select{|x| search_result_keys.include?(x.key)}
-			filter = "search:" + params[:search_term]
-			@filters << filter
+			if params[:search_term].start_with?('http://') or params[:search_term].start_with?('https://')
+				@golinks = @golinks.select{|x| x.url == params[:search_term]}
+				filter = "reverse lookup:"+params[:search_term]
+				@filters << filter
+			else
+				puts 'searching for : '+params[:search_term]
+				search_result_keys = ParseGoLink.search(params[:search_term])
+				puts 'search result keys were : '+search_result_keys.to_s
+				@golinks = @golinks.select{|x| search_result_keys.include?(x.key)}
+				filter = "search:" + params[:search_term]
+				@filters << filter
+			end
 		end
 
 		if params.keys.include?('link_type')

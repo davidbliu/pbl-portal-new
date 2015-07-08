@@ -59,16 +59,13 @@
 					  <input id = 'go-directory-input' type="text" class="go-input input-sm" value="<%= golink.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
 					</div>
 				</div>
-
 				<!-- end of hidden edit info -->
 			</a></div>
 			
 		</div>
 
 		<div><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=25/></a>
-			<b><%= golink.key %></b>
-		</div> 
-		<div><%= golink.description %></div>
+			<b><%= golink.key %></b>: <%= golink.description %></div>
 		<div><%= link_to truncate(golink.url, length: 75), golink.url %></div>
 		<div><a href = '#' class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>'>Copy to Clipboard</a></div>
 		
