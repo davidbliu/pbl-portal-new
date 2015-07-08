@@ -100,7 +100,13 @@
   /*padding:3px;*/
 }
 </style>
-
+<style type = 'text/css'>
+.directory-section-div{
+	clear:both;
+	margin-bottom:15px;
+	overflow:auto;
+}
+</style>
 
 <body data-spy="scroll" data-target=".scrollspy" data-offset="115">
 
@@ -142,10 +148,12 @@
 
       	<h1><%= @num_links %> Links</h1>
       	<% @directory_hash.keys.sort.each do |directory| %>
-      	<section id = "<%= directory.gsub('/', 'slash') %>">
+      	<div class = 'directory-section-div'>
+      	<section id = "<%= directory.gsub('/', 'slash') %>" class = 'directory-section'>
 			<h4><div class = 'label label-default'><%= directory %></div></h4>
-			<%= render partial: "catalogue", locals: { go_links: @directory_hash[directory]} %>
+			<div><%= render partial: "catalogue_cards", locals: { go_links: @directory_hash[directory]} %></div>
 		</section>
+		</div>
 		<% end %>
 
 

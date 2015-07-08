@@ -1,0 +1,76 @@
+<style class = 'text/css'>
+.hidden-edit-info{
+	display:none;
+}
+.go-input{
+	width:100%;
+	margin-top:3px;
+	 border: 1px solid rgb(229, 229, 229);
+    box-shadow: 1px;
+}
+.golink-card{
+	width:40%;
+	float: left;
+	border:1px solid rgba(0,0,0,0.1);
+	background-color:white;
+	margin-right:5px;
+	margin-top:5px;
+	padding:10px;
+}
+</style>
+<div class = 'hidden' id = 'hover-div'></div>
+	<!-- <thead>
+		<th>Type</th>
+		<th>Directory</th>
+		<th>Key</th>
+		<th>URL</th>
+		<th>Description</th>
+		
+		<th>Owner</th>
+		<th>Clicks</th>
+		<th>Updated</th>
+	</thead> -->
+	<% go_links.each do |golink| %>
+	<div class = 'golink-card'>
+		<div><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=25/></a>
+			<b><%= golink.key %></b>
+		</div> 
+		<div><%= golink.description %></div>
+		<div><%= link_to truncate(golink.url, length: 45), golink.url %></div>
+		
+		<div class = 'pull-right'>
+			<div ><a class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'>Edit
+				<!-- hidden form for this go link -->
+
+				<div class = 'hidden-edit-info' id = '<%= golink.key %>'>
+					<div class="input-group" style = 'display:none'>
+					  <b class="input-group-addon" id="basic-addon1">ID</b>
+					  <input id = 'go-id-input' type="text" class="go-input input-sm" value="<%= golink.id %>" placeholder = "Link ID: (example: lklsd80lksm)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon1">URL</b>
+					  <input id = 'go-url-input' type="text" class="go-input input-sm" value="<%= golink.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon2">Description</b>
+					  <input id = 'go-description-input' type="text" class="go-input input-sm" value="<%= golink.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon3">Directory</b>
+					  <input id = 'go-directory-input' type="text" class="go-input input-sm" value="<%= golink.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
+					</div>
+				</div>
+
+				<!-- end of hidden edit info -->
+			</a></div>
+			<div><a href = '.'>Copy to Clipboard</a></div>
+		</div>
+		
+		<div>Owner: <% if golink.member_email %><%= truncate(golink.member_email, length: 45) %><% else %>none<% end %></div>
+		<div>Clicks: <%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></div>
+
+	</div>
+	<% end %>
