@@ -251,6 +251,17 @@ function deleteLinkActions(){
 }); 
 }
 
+function clipboardCopyActions(){
+  $('.clipboard-copy').click(function(event){
+    event.preventDefault();
+    id = $(this).attr('id');
+    // console.log(id);
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", id);
+    // $(this).next('div').slideToggle(200);
+    
+  }             
+);
+}
 $('.directory-link').click(function(event){
     event.preventDefault();
     id = $(this).attr('href');
@@ -262,10 +273,13 @@ $('.directory-link').click(function(event){
   }             
 );
 
+
+
   pullModalContentActions();
   updateLinkActions();
   deleteLinkActions();
   activateSearchButton();
+  clipboardCopyActions();
 </script>
 
     
