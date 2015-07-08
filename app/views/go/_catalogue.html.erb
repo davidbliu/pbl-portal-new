@@ -46,10 +46,10 @@
 		<!-- <td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td> -->
 		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->
 		<td style='text-align:right'>
-			&nbsp;<% if @favorite_links and @favorite_links.include?(golink.key) %>
-			<a href = '#'><i class = 'mdi-action-favorite' style = 'font-size:15px'></i></a>
+			&nbsp;<% if favorite_links and favorite_links.include?(golink.key) %>
+			<a href = 'javascript:void(0);'><i id = '<%= golink.key %>'class = 'favorite-link mdi-action-favorite' style = 'font-size:15px'></i></a>
 			<% else %>
-			<a href = '#'><i class = 'mdi-action-favorite-outline' style = 'font-size:15px'></i></a>
+			<a href = 'javascript:void(0);'><i id = '<%= golink.key %>' class = 'favorite-link mdi-action-favorite-outline' style = 'font-size:15px'></i></a>
 			<% end %>
 			&nbsp;<a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><i class = 'mdi-av-play-arrow' style = 'font-size:15px'></i></a>
 			&nbsp;<a href = '#' class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>

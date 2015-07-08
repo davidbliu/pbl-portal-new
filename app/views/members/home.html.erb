@@ -6,48 +6,55 @@
 .dashboard-panel-blue{
 	background-color: black;
 }
+.home-card-small{
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color:white;
+	padding: 0px 10px 0px 10px;
+	margin:15px;
+}
+
 </style>
 <div class = 'row'>
 
 	<div class = 'col-md-4'>
 
-		<div class="panel panel-default panel-material-blue-700">
-		  <div class="panel-heading">
-		    <h3 class="panel-title dashboard-panel-title"><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
-		  </div>
-		  <div class="panel-body">
-		    <ul>
+		
+
+		  <div class="home-card-small">
+		  	<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
+		    <ul class='list-group'>
 		    	<% @trending_links.each do |link| %>
-		    		<li><a href = '<%= link.url %>'>pbl.link/<%= link.key %></a></li>
+		    		<li class = 'list-group-item'><a href = '<%= link.url %>'>pbl.link/<%= link.key %></a></li>
 		    		<% end %>
 		    </ul>
 		  </div>
-		</div>	
 
 
 
-		<div class="panel panel-default panel-material-blue-700">
-		  <div class="panel-heading">
-		    <h3 class="panel-title dashboard-panel-title"><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
-		  </div>
-		  <div class="panel-body">
+		<div class="home-card-small">
+		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
 		    <ul>
 		    	<li>PD Challenge ends tomorrow!</li>
 		    </ul>
-		  </div>
 		</div>	
 
-		<div class="panel panel-default panel-material-blue-700" >
-		  <div class="panel-heading">
-		    <h3 class="panel-title dashboard-panel-title"><span class = 'mdi-action-toc'></span>&nbsp;TO DO</h3>
-		  </div>
-		  <div class="panel-body">
+		<div class="home-card-small">
+		    <h3><span class = 'mdi-action-toc'></span>&nbsp;TO DO</h3>
 		    <ul>
 		    	<li>Sign up for 3 Concessions</li>
 		    	<li>Fill out mid-semester survey</li>
 		    	<li>Pay for Yearbook</li>
 		    </ul>
-		  </div>
 		</div>	
+	</div>
+
+<div class = 'col-md-8'>
+<div class = 'home-card'>
+		<% if @favorite_links %>
+		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
+		<%= render partial: "go/catalogue", locals: { go_links: @favorite_links, favorite_links: @favorites} %>
+		<% end %>
+</div>
+
 </div>
 </div>

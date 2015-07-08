@@ -30,6 +30,7 @@ Dockernotes::Application.routes.draw do
   get '/go/affix', to: 'go#affix'
   get '/go/:url/lookup', to: 'go#lookup'
   get '/go/lookup', to: 'go#lookup'
+  get 'go/favorite', to: 'go#favorite'
 
   resources :google_events do 
     collection do 

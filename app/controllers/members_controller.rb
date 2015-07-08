@@ -1,3 +1,4 @@
+require 'set'
 class MembersController < ApplicationController
 	
 	# before_filter :is_approved, :only => :account
@@ -7,7 +8,12 @@ class MembersController < ApplicationController
 	before_filter :is_approved, :only => [:all, :index_committee]
 
 	def home
-		@trending_links = ParseGoLink.where(type: "trending")
+		@golinks = ParseGoLink.limit(10000).all.to_a
+		@trending_links = @golinks.select{|x| x.type == 'trending'}
+		if current_member and current_member.email
+			@favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+			@favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
+		end
 	end
 	
 	#

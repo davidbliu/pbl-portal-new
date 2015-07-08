@@ -1,3 +1,4 @@
+require 'set'
 class GoController < ApplicationController
 
 	def affix
@@ -64,6 +65,11 @@ class GoController < ApplicationController
 		@directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
 		@directory_tree = get_dir_tree(@directories, @subdirectories)
 		@directories.delete('/')
+
+		""" get favorites """
+		if current_member
+			@favorite_links = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+		end
 		
 	end
 
@@ -73,6 +79,23 @@ class GoController < ApplicationController
 			tree[top] = ParseGoLink.subdirectories(top).select{|x| subdirectories.include?(x)}
 		end
 		return tree
+	end
+
+	def favorite
+		key = params[:key]
+		email = params[:email]
+		status = params[:status]
+		if email != nil and email != ""
+			if status == 'favorite'
+				GoLinkFavorite.destroy_all(GoLinkFavorite.where(member_email: email, key: key).to_a)
+				puts 'trying to save fav'
+				fav = GoLinkFavorite.create(member_email: email, key: key, time: Time.now)
+				fav.save
+			else
+				GoLinkFavorite.destroy_all(GoLinkFavorite.where(member_email: email, key: key).to_a)
+			end
+		end
+		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
 	def index

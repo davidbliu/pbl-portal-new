@@ -72,12 +72,9 @@
     background: none;
     box-shadow: none;
     border: 0;
-    /*color: #666666;*/
     color: white;
     background-color:#1976d2;
     border-radius: 0px 5px 5px 0px;
-    /*padding: 10 8px 10 10px;*/
-    /*border-left: solid 1px #ccc;*/
 }
 
 #custom-search-input button:hover{
@@ -151,7 +148,7 @@
       	<div class = 'directory-section-div'>
       	<section id = "<%= directory.gsub('/', 'slash') %>" class = 'directory-section'>
 			<h3><div class = ''><%= directory %></div></h3>
-			<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory]} %></div>
+			<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
 		</section>
 		</div>
 		<% end %>
@@ -255,10 +252,7 @@ function clipboardCopyActions(){
   $('.clipboard-copy').click(function(event){
     event.preventDefault();
     id = $(this).attr('id');
-    // console.log(id);
     window.prompt("Copy to clipboard: Ctrl+C, Enter", id);
-    // $(this).next('div').slideToggle(200);
-    
   }             
 );
 }
@@ -272,7 +266,45 @@ $('.directory-link').click(function(event){
     }, 200);
   }             
 );
+$('.favorite-link').click(function(event){
+	event.preventDefault();
+	key = $(this).attr('id');
+	member_email = "";
+	<% if current_member and current_member.email %>
+	member_email = '<%= current_member.email %>';
+	<% end %>
+	if($(this).hasClass("mdi-action-favorite-outline")){
+		status = 'favorite';
+	}
+	else{
+		status = 'unfavorite';
+	}
+	console.log(key);
+	console.log(member_email);
+	console.log(status);
+	that = $(this);
+	$.ajax({
+      url: '/go/favorite',
+      type: 'GET',
+      data: {'email': member_email ,'key': key, 'status': status},
+      success:function(data){
+        //switch classes for favorite icon
+        // alert('done'); 
+        if($(that).hasClass('mdi-action-favorite-outline')){
+        	$(that).removeClass('mdi-action-favorite-outline');
+        	$(that).addClass('mdi-action-favorite');
+        }
+        else{
+        	$(that).removeClass('mdi-action-favorite');
+        	$(that).addClass('mdi-action-favorite-outline');
+        }
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('Failed');
+      }
+    });
 
+});
 
 
   pullModalContentActions();
