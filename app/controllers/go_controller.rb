@@ -28,7 +28,8 @@ class GoController < ApplicationController
 		end
 
 		""" render the catalogue if no redirects """
-		@golinks = ParseGoLink.limit(10000).all.to_a
+		@golinks = link_hash.values
+		#ParseGoLink.limit(10000).all.to_a
 
 		""" apply filters from searching and link types"""
 		@filters = Array.new
