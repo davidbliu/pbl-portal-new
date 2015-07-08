@@ -150,7 +150,7 @@
       	<% @directory_hash.keys.sort.each do |directory| %>
       	<div class = 'directory-section-div'>
       	<section id = "<%= directory.gsub('/', 'slash') %>" class = 'directory-section'>
-			<h4><div class = ''><%= directory %></div></h4>
+			<h3><div class = ''><%= directory %></div></h3>
 			<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory]} %></div>
 		</section>
 		</div>
