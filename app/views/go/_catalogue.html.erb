@@ -18,7 +18,7 @@
 }
 </style>
 <div class = 'hidden' id = 'hover-div'></div>
-<table class = 'table table-condensed'>
+<table class = 'table table-bordered table-condensed'>
 	<!-- <thead>
 		<th>Type</th>
 		<th>Directory</th>
@@ -35,11 +35,11 @@
 	<tr>
 		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
-		<td><%= golink.dir %></td>
+		<!-- <td><%= golink.dir %></td> -->
 		<td>
 			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><b><%= golink.key %></b></div>
 		</td> 
-		<td><%= link_to truncate(golink.url, length: 20), golink.url %></td>
+		<td><%= link_to truncate(golink.url, length: 30), golink.url %></td>
 		<td><%= golink.description %></td>
 		
 		<td><% if golink.member_email %>
