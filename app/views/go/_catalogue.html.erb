@@ -18,7 +18,7 @@
 }
 </style>
 <div class = 'hidden' id = 'hover-div'></div>
-<table class = 'table table-bordered table-condensed'>
+<table class = 'table table-hover table-condensed'>
 	<!-- <thead>
 		<th>Type</th>
 		<th>Directory</th>
@@ -72,7 +72,7 @@
 			<% else %>none<% end %></td> -->
 		<!-- <td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td> -->
 		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->
-		<td><a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'>copy to clipboard
+		<td style='text-align:right'><a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'>copy to clipboard
 			
 		</a></td>
 	</tr>
