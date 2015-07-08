@@ -7,8 +7,8 @@
 	background-color: black;
 }
 .home-card-small{
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	background-color:white;
+	/*border: 1px solid rgba(0, 0, 0, 0.1);*/
+	/*background-color:white;*/
 	padding: 0px 10px 0px 10px;
 	margin:15px;
 }
@@ -49,6 +49,10 @@
 	</div>
 
 <div class = 'col-md-8'>
+<div class = 'home-card'>
+		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Starred Resources</h3>
+		<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
+</div>
 <div class = 'home-card'>
 		<% if @favorite_links %>
 		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>

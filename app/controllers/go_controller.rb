@@ -66,7 +66,9 @@ class GoController < ApplicationController
 
 		@subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
 		puts 'these are the subdirectories '+@subdirectories.to_s
-		@directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
+		# @directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
+		# @directories = @directory_hash.keys.map{|x| x[1..len(x)]split('/')[0]}
+		@directories = ParseGoLink.subdirectories
 		@directory_tree = get_dir_tree(@directories, @subdirectories)
 		@directories.delete('/')
 

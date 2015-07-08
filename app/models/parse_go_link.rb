@@ -16,6 +16,46 @@ class ParseGoLink < ParseResource::Base
 	end
 
 
+	""" methods to help get directory tree """
+	def self.one_ply(directories)
+		directories.map{|x| '/' + x.split('/').select{|y| y!= ""}[0]}.uniq
+	end
+	def self.two_ply(directories)
+		directories.select{|x| x.scan('/').length > 1}.map{|x| '/' + x.split('/').select{|y| y!= ""}[0] + '/' + x.split('/').select{|y| y!= ""}[1]}.uniq
+	end
+	def self.three_ply(directories)
+		three_ply_dirs = Array.new
+		directories.select{|x| x.scan('/').length > 2}.each do |dir|
+			splits = dir.split('/').select{|x| x!= ""}
+			three_ply_dirs << '/' + splits[0] + '/' + splits[1] + '/' + splits[2]
+		end
+	end
+	def self.n_ply_tree(directories)
+		""" currently only returns a three ply tree"""
+		one_level = self.one_ply(directories)
+		two_level = self.two_ply(directories)
+		three_level = self.three_ply(directories)
+		one_to_two = Hash.new
+		two_level.each do |two|
+			two_root = '/' + two.split('/').select{|x| x!= ''}[0]
+			if not one_to_two.keys.include?(two_root)
+				one_to_two[two_root] = Array.new
+			end
+			one_to_two[two_root] << two
+		end
+		two_to_three = Hash.new
+		three_level.each do |three|
+			split = three.split('/').select{|x| x!= ''}
+			three_root = '/' + split[0] + '/' + split[1]
+			if not two_to_three.keys.include?(three_root)
+				two_to_three[three_root] = Array.new
+			end
+			two_to_three[three_root] << three
+		end
+		return [one_to_two, two_to_three]
+	end
+
+
 	def self.dir_hash
 		# ParseGoLink.all.index_by(&:dir)
 		dhash = Hash.new
