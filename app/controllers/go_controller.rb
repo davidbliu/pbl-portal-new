@@ -298,11 +298,11 @@ class GoController < ApplicationController
 	""" end of helpers for the directory route """
 
 	def manage
-		if current_member
-			@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
-		else
-			@my_links = Array.new
-		end
+		# if current_member
+		# 	@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
+		# else
+		# 	@my_links = Array.new
+		# end
 	end
 
 	def reindex
