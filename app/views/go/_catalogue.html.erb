@@ -19,7 +19,7 @@
 </style>
 <div class = 'hidden' id = 'hover-div'></div>
 <table class = 'table table-condensed'>
-	<thead>
+	<!-- <thead>
 		<th>Type</th>
 		<th>Directory</th>
 		<th>Key</th>
@@ -29,7 +29,7 @@
 		<th>Owner</th>
 		<th>Clicks</th>
 		<th>Updated</th>
-	</thead>
+	</thead> -->
 	<tbody>
 	<% go_links.each do |golink| %>
 	<tr>
@@ -37,7 +37,7 @@
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
 		<td><%= golink.dir %></td>
 		<td>
-			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= golink.key %></div>
+			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><b><%= golink.key %></b></div>
 		</td> 
 		<td><%= link_to truncate(golink.url, length: 20), golink.url %></td>
 		<td><%= golink.description %></td>
