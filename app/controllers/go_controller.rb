@@ -1,6 +1,9 @@
 require 'set'
 class GoController < ApplicationController
 
+	def mobile
+		# TODO support mobile browsing
+	end
 	def affix
 		""" deal with key redirects if needed """
 		go_key = params.keys[0]
