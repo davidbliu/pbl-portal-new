@@ -151,7 +151,7 @@
       	<div class = 'directory-section-div'>
       	<section id = "<%= directory.gsub('/', 'slash') %>" class = 'directory-section'>
 			<h4><div class = 'label label-default'><%= directory %></div></h4>
-			<div><%= render partial: "catalogue_cards", locals: { go_links: @directory_hash[directory]} %></div>
+			<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory]} %></div>
 		</section>
 		</div>
 		<% end %>

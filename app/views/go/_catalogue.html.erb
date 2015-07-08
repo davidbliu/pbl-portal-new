@@ -37,42 +37,43 @@
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
 		<!-- <td><%= golink.dir %></td> -->
 		<td>
-			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><b><%= golink.key %></b></div>
+			<a href = '#' class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'><%= golink.key %>
+
+				<div class = 'hidden-edit-info' id = '<%= golink.key %>'>
+					<div class="input-group" style = 'display:none'>
+					  <b class="input-group-addon" id="basic-addon1">ID</b>
+					  <input id = 'go-id-input' type="text" class="go-input input-sm" value="<%= golink.id %>" placeholder = "Link ID: (example: lklsd80lksm)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon1">URL</b>
+					  <input id = 'go-url-input' type="text" class="go-input input-sm" value="<%= golink.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon2">Description</b>
+					  <input id = 'go-description-input' type="text" class="go-input input-sm" value="<%= golink.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon3">Directory</b>
+					  <input id = 'go-directory-input' type="text" class="go-input input-sm" value="<%= golink.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
+					</div>
+				</div>
+				<!-- end of hidden -->
+			</a>
 		</td> 
-		<td><%= link_to truncate(golink.url, length: 30), golink.url %></td>
+		<!-- <td><%= link_to truncate(golink.url, length: 30), golink.url %></td> -->
 		<td><%= golink.description %></td>
 		
-		<td><% if golink.member_email %>
+		<!-- <td><% if golink.member_email %>
 			<%= 
 			truncate(golink.member_email, length: 10) %>
-			<% else %>none<% end %></td>
-		<td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td>
+			<% else %>none<% end %></td> -->
+		<!-- <td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td> -->
 		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->
-		<td><a class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'><%= golink.updated_at_string %>
-			<!-- hidden form for this go link -->
-
-			<div class = 'hidden-edit-info' id = '<%= golink.key %>'>
-				<div class="input-group" style = 'display:none'>
-				  <b class="input-group-addon" id="basic-addon1">ID</b>
-				  <input id = 'go-id-input' type="text" class="go-input input-sm" value="<%= golink.id %>" placeholder = "Link ID: (example: lklsd80lksm)" aria-describedby="basic-addon1">
-				</div>
-
-				<div class="input-group">
-				  <b class="input-group-addon" id="basic-addon1">URL</b>
-				  <input id = 'go-url-input' type="text" class="go-input input-sm" value="<%= golink.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
-				</div>
-
-				<div class="input-group">
-				  <b class="input-group-addon" id="basic-addon2">Description</b>
-				  <input id = 'go-description-input' type="text" class="go-input input-sm" value="<%= golink.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
-				</div>
-
-				<div class="input-group">
-				  <b class="input-group-addon" id="basic-addon3">Directory</b>
-				  <input id = 'go-directory-input' type="text" class="go-input input-sm" value="<%= golink.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
-				</div>
-			</div>
-			<!-- end of hidden edit info -->
+		<td><a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'>copy to clipboard
+			
 		</a></td>
 	</tr>
 	<% end %>

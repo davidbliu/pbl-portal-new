@@ -35,7 +35,7 @@
 	<div class = 'golink-card'>
 		<div class = 'pull-right' style = 'text-align:right'>
 			<div>Owner: <% if golink.member_email %><%= truncate(golink.member_email, length: 45) %><% else %>none<% end %></div>
-			<div><%= link_to golink.click_count.to_s + " Clicks", '/go/'+golink.id + "/metrics" %></div>
+			<div style = 'display:none'><%= link_to golink.click_count.to_s + " Clicks", '/go/'+golink.id + "/metrics" %></div>
 			<div><a class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'>Edit
 				<!-- hidden form for this go link -->
 
@@ -67,7 +67,7 @@
 
 		<div><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=25/></a>
 			<b><%= golink.key %></b>: <%= golink.description %></div>
-		<div><%= link_to truncate(golink.url, length: 75), golink.url %></div>
+		<!-- <div><%= link_to truncate(golink.url, length: 75), golink.url %></div> -->
 		<div><a href = '#' class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>'>Copy to Clipboard</a></div>
 		
 		
