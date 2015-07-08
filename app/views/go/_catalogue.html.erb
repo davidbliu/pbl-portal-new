@@ -37,7 +37,19 @@
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
 		<!-- <td><%= golink.dir %></td> -->
 		<td>
-			<a href = '#' class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'><%= golink.key %>
+			<b><%= golink.key %></b>
+		</td> 
+		<!-- <td><%= link_to truncate(golink.url, length: 30), golink.url %></td> -->
+		<td><%= golink.description %></td>
+		
+		<!-- <td><% if golink.member_email %>
+			<%= 
+			truncate(golink.member_email, length: 10) %>
+			<% else %>none<% end %></td> -->
+		<!-- <td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td> -->
+		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->
+		<td style='text-align:right'>
+			<a href = '#' class = 'link-modal' id = '<%= golink.id %>' data-toggle="modal" data-target="#myModal" href = '#'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
 
 				<div class = 'hidden-edit-info' id = '<%= golink.key %>'>
 					<div class="input-group" style = 'display:none'>
@@ -62,19 +74,10 @@
 				</div>
 				<!-- end of hidden -->
 			</a>
-		</td> 
-		<!-- <td><%= link_to truncate(golink.url, length: 30), golink.url %></td> -->
-		<td><%= golink.description %></td>
-		
-		<!-- <td><% if golink.member_email %>
-			<%= 
-			truncate(golink.member_email, length: 10) %>
-			<% else %>none<% end %></td> -->
-		<!-- <td><%= link_to golink.click_count, '/go/'+golink.id + "/metrics" %></td> -->
-		<!-- <td><%= link_to golink.updated_at_string , '/go/' + golink.id+'/edit' %></td> -->
-		<td style='text-align:right'><a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'>copy to clipboard
-			
-		</a></td>
+			&nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a>
+			&nbsp;<a href = '/go/<%= golink.id %>/metrics' target="_blank"><i class = 'mdi-action-trending-up' style = 'font-size:15px'></i></a>
+			&nbsp;<a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><i class = 'mdi-av-play-arrow' style = 'font-size:15px'></i></a>
+		</td>
 	</tr>
 	<% end %>
 	</tbody>
