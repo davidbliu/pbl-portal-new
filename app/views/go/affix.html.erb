@@ -1,0 +1,268 @@
+
+<style type = 'text/css'>
+#affix-nav>li>a {
+  position: relative;
+  display: block;
+  padding: 0px;
+}
+#affix-nav>li>ul>li>a {
+  position: relative;
+  display: block;
+  padding: 0px 20px 0px;
+}
+#affix-nav.nav {
+	font-size:12px;
+}
+#affix-nav.nav .active {
+  font-weight: bold;
+  font-size:15px;
+}
+ 
+.nav .nav {
+  display: none;
+}
+ 
+.nav .active .nav {
+  display: block;
+}
+.nav>li:hover .nav {
+  display: block;
+}
+ 
+.nav .nav a {
+  font-weight: normal;
+  font-size: .85em;
+}
+ 
+.nav .nav span {
+  margin: 0 5px 0 2px;
+}
+ 
+.nav .nav .active a,
+.nav .nav .active:hover a,
+.nav .nav .active:focus a {
+  font-weight: bold;
+  padding-left: 30px;
+  border-left: 5px solid black;
+}
+ 
+.nav .nav .active span,
+.nav .nav .active:hover span,
+.nav .nav .active:focus span {
+  display: none;
+}
+</style>
+
+<style type = 'text/css'>
+#custom-search-input{
+    /*padding: 3px;*/
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+    padding-bottom:0px;
+}
+
+#custom-search-input button{
+    margin: 0px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    /*color: #666666;*/
+    color: white;
+    background-color:#1976d2;
+    border-radius: 0px 5px 5px 0px;
+    /*padding: 10 8px 10 10px;*/
+    /*border-left: solid 1px #ccc;*/
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search {
+  font-size: 23px;
+  /*padding: 5px 20px 5px 20px;*/
+}
+
+#search-btn:hover{
+  color:white;
+  background-color:black;
+}
+#search-btn{
+  color:white;
+  /*padding:3px;*/
+}
+</style>
+
+
+<body data-spy="scroll" data-target=".scrollspy" data-offset="200">
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Edit Link</h3>
+      </div>
+      <div class="modal-body" id = 'edit-modal-content'>
+        ...
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+        <button id = 'delete-link-btn' type="button" class="btn btn-default btn-material-red-500" data-dismiss="modal">Delete</button>
+        <button id = 'save-link-btn' type="button" class="btn btn-material-blue-500">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+      <div class="col-md-9 catalogue-div">
+
+
+      <div style = 'margin-bottom:15px'>
+<a href = '/go/manage' class = 'add-link' ><button class = 'btn btn-material-red-700 btn-raised'>Add New Link</button></a>
+</div>
+
+      	<% if @filters.length > 0 %>
+<h3>Filtering by&nbsp;
+<% @filters.each do |f| %><div class = 'label label-material-blue-900'><%= f %></div><% end %></h3>
+<p><a href = '/go'>Remove Filters</a></p>
+<% end %>
+
+      	<h1><%= @num_links %> Links</h1>
+      	<% @directory_hash.keys.sort.each do |directory| %>
+      	<section id = "<%= directory.gsub('/', 'slash') %>">
+			<h4><div class = 'label label-default'><%= directory %></div></h4>
+			<%= render partial: "catalogue", locals: { go_links: @directory_hash[directory]} %>
+		</section>
+		<% end %>
+
+
+        <!--  -->
+      </div><!-- end of col md 9 -->
+  
+
+<div id = 'directory-container' class="col-md-3 scrollspy">
+
+        <ul id="affix-nav" class="nav hidden-xs hidden-sm affix" data-spy="affix">
+        	<div id="custom-search-input">
+                <div class="input-group">
+                    <input id = 'search-input' type="text" class="input-sm" placeholder="Search for a PBL link" />
+                    <span class="input-group-btn">
+                        <button id = 'search-btn' class="btn btn-info btn-sm btn-material-blue-500" type="button">
+                            <span id = 'search-icon' class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <div style = 'height:10px'></div>
+          <% @directories.each do |directory| %>
+        	<li><a class = 'directory-link' href = "#<%= directory.gsub('/', 'slash') %>"><%= directory %></a>
+        		<% if @directory_tree[directory].length != 0 %>
+        		<ul class = 'nav subdirectory-nav'>
+        			<% @directory_tree[directory].each do |subdirectory| %>
+        			<li><a class = 'directory-link' href = "#<%= subdirectory.gsub('/', 'slash') %>"><%= subdirectory %></a></li>
+        			<% end %>
+        		</ul>
+        		<% end %>
+        		</li>
+        	</li>
+        	<% end %>
+        </ul>
+  </div>
+</body>
+
+
+<script type = 'text/javascript'>
+
+function activateSearchButton(){
+  $('#search-btn').click(function(){
+    search_term = $('#search-input').val();
+    window.location.assign('/go?search_term='+search_term);
+  });
+
+  $('#search-input').keypress(function(e) {
+    if(e.which == 13) {
+       search_term = $('#search-input').val();
+       console.log(window.location);
+       window.location.assign('/go?search_term='+search_term);
+    }
+});
+}
+/** 
+* MODAL STUFF
+*/
+function pullModalContentActions(){
+  $('.link-modal').click(function(){
+    id = $(this).attr('id');
+    hidden_info = $(this).find('.hidden-edit-info').html();
+    //change modal content
+    $('#edit-modal-content').html(hidden_info);
+    $('#myModalLabel').html($(this).find('.hidden-edit-info').attr('id'));
+  });
+}
+function updateLinkActions(){
+  $("#save-link-btn").click(function(){
+  var id = $('#edit-modal-content').find("#go-id-input").val();
+  url = $('#edit-modal-content').find("#go-url-input").val();
+  description = $('#edit-modal-content').find("#go-description-input").val();
+  directory = $('#edit-modal-content').find('#go-directory-input').val();
+  console.log(url);
+  console.log(description);
+  console.log(directory);
+  console.log(id);
+  $.ajax({
+      url: '/go/' + id + '/update',
+      type: 'POST',
+      data: {'url': url ,'description': description, 'directory': directory},
+      success:function(data){
+        location.reload();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('Failed');
+      }
+    });
+});
+}
+function deleteLinkActions(){
+   $("#delete-link-btn").click(function(){
+  var id = $('#edit-modal-content').find("#go-id-input").val();
+  window.location.replace("/go/"+id+"/destroy");
+  // window.location = 
+}); 
+}
+
+$('.directory-link').click(function(event){
+    event.preventDefault();
+    id = $(this).attr('href');
+    console.log(id);
+    // $(this).next('div').slideToggle(200);
+    $('html, body').animate({
+        scrollTop: ($(id).offset().top - 100)
+    }, 500);
+  }             
+);
+
+  pullModalContentActions();
+  updateLinkActions();
+  deleteLinkActions();
+  activateSearchButton();
+</script>
+
+    
+  
+
+ 
+
+

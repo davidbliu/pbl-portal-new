@@ -33,8 +33,9 @@
 	<tbody>
 	<% go_links.each do |golink| %>
 	<tr>
-		<td><a href = '/go?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
-		<td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td>
+		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
+		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->
+		<td><%= golink.dir %></td>
 		<td>
 			<div class = 'go-link-key' id = 'go-link-key-<%= golink.id %>'><%= golink.key %></div>
 		</td> 

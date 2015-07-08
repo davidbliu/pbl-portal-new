@@ -28,6 +28,18 @@ class ParseGoLink < ParseResource::Base
 		end
 		return dhash
 	end
+
+	def self.directory_hash(golinks)
+		dhash = Hash.new
+		golinks.each do |golink|
+			dir = golink.dir 
+			if not dhash.keys.include?(dir)
+				dhash[dir] = Array.new
+			end
+			dhash[dir]  << golink 
+		end
+		return dhash
+	end
 	
 	def self.directory_links(dir_name = '')
 		hash = self.dir_hash

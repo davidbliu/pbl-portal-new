@@ -1,4 +1,74 @@
 class GoController < ApplicationController
+
+	def affix
+		""" deal with key redirects if needed """
+		go_key = params.keys[0]
+		link_hash = go_link_hash
+		go_hash = go_link_key_hash
+		
+		if params.length >= 3 and go_hash.keys.include?(go_key)
+			# correctly used alias
+			golink = go_hash[go_key]
+			""" log tracking data for link click """
+			if current_member	
+				click = ParseGoLinkClick.new
+				click.member_email = current_member.email
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			else
+				click = ParseGoLinkClick.new
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			end
+			# send to link url
+			redirect_to golink.url
+		end
+
+		""" render the catalogue if no redirects """
+		@golinks = ParseGoLink.limit(10000).all.to_a
+
+		""" apply filters from searching and link types"""
+		@filters = Array.new
+
+		if params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
+			puts 'searching for : '+params[:search_term]
+			search_result_keys = ParseGoLink.search(params[:search_term])
+			puts 'search result keys were : '+search_result_keys.to_s
+			@golinks = @golinks.select{|x| search_result_keys.include?(x.key)}
+			filter = "search:" + params[:search_term]
+			@filters << filter
+		end
+
+		if params.keys.include?('link_type')
+			type = params[:link_type]
+			filter = "type:" + type
+			@filters << filter
+			@golinks = @golinks.select{|x| x.resolve_type == type}
+		end
+
+		""" get directory structure """
+		@num_links = @golinks.length
+
+		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
+
+		@subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
+		puts 'these are the subdirectories '+@subdirectories.to_s
+		@directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
+		@directory_tree = get_dir_tree(@directories, @subdirectories)
+		@directories.delete('/')
+		
+	end
+
+	def get_dir_tree(top_level, subdirectories)
+		tree = Hash.new
+		top_level.each do |top|
+			tree[top] = ParseGoLink.subdirectories(top).select{|x| subdirectories.include?(x)}
+		end
+		return tree
+	end
+
 	def index
 		go_key = params[:key]
 		link_hash = go_link_hash #see cache helper for details 
