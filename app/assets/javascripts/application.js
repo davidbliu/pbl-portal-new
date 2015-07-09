@@ -13,7 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
-//= require turbolinks
+
 
 function makeAjaxRequest(requestPath, requestType, requestData, successFunction, errorFunction){
 	console.log(requestData);
