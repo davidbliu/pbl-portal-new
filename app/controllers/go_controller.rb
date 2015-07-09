@@ -100,7 +100,7 @@ class GoController < ApplicationController
 			if status == 'favorite'
 				GoLinkFavorite.destroy_all(GoLinkFavorite.where(member_email: email, key: key).to_a)
 				puts 'trying to save fav'
-				fav = GoLinkFavorite.create(member_email: email, key: key, time: Time.now)
+				fav = GoLinkFavorite.new(member_email: email, key: key, time: Time.now)
 				fav.save
 			else
 				GoLinkFavorite.destroy_all(GoLinkFavorite.where(member_email: email, key: key).to_a)
