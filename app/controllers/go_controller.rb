@@ -311,6 +311,7 @@ class GoController < ApplicationController
 	""" end of helpers for the directory route """
 
 	def manage
+		@message = params[:message]
 		@directory = params[:directory]
 		@keys = go_link_key_hash.keys
 

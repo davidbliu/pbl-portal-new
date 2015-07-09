@@ -16,12 +16,21 @@
 .list-group{
 	margin-bottom:0px;
 }
+.two-list{
+	font-size:12px;
+}
+.three-list{
+	font-size:10px;
+}
 </style>
 
+<% if @message %>
+		<h4 style = 'color:green'><%= @message %></h4>
+		<% end %>
 
 <h1>Add A New PBL Link</h1>
 
-
+		
 		<!-- <button class = 'btn btn-material-red-700 btn-raised' id = 'add-go-link-btn'>Add PBL Link</button> -->
 		<h3>Step 1: Choose an Alias</h3>
 
@@ -37,11 +46,11 @@
 			<% @one_ply.each do |directory| %>
         	<li class = 'list-group-item'><a id = '<%= directory %>' class = 'directory-link' href = "#<%= directory.gsub('/', '').gsub('-', '') %>"><%= directory.split('/')[-1] %></a>
         		<% if @directory_tree[0][directory] and @directory_tree[0][directory].length != 0 %>
-        		<ul class = 'list-group'>
+        		<ul class = 'list-group two-list'>
         			<% @directory_tree[0][directory].each do |two_subdirectory| %>
         			<li class = 'list-group-item'><a id = '<%= two_subdirectory %>' class = 'directory-link' href = "#<%= two_subdirectory.gsub('/', '').gsub('-', '') %>"><%= two_subdirectory.split('/')[-1] %></a>
         				<% if @directory_tree[1][two_subdirectory] and @directory_tree[1][two_subdirectory].length != 0 %>
-        				<ul class = 'list-group'>
+        				<ul class = 'list-group three-list'>
         					<% @directory_tree[1][two_subdirectory].each do |three_subdirectory| %>
         						<li class = 'list-group-item'><a id = '<%= three_subdirectory %>' class = 'directory-link' href = "#<%= three_subdirectory.gsub('/', '').gsub('-', '') %>"><%= three_subdirectory.split('/')[-1] %></a></li>
         					<% end %>
@@ -59,7 +68,8 @@
 
         <h3>Optional (Advanced): Add Link to new Directory</h3>
         <div><input id = 'go-directory-input' type = 'text' class = 'go-input input-lg' placeholder = 'Example: /wd/portal/ui (note: only at-max 3-deep directories are valid)'></div>
-        <button class = 'btn btn-default btn-raised btn-material-red-900' id = 'add-go-link-btn'>Add PBL Link to New Directory (Advanced)</button> 
+        <a href = 'javascript:void(0);' class = 'directory-link dynamic-link' id = '/new/directory/here'>/new/directory/here</a>
+        <!-- <button class = 'btn btn-default btn-raised btn-material-red-900' id = 'add-go-link-btn'>Add PBL Link to New Directory (Advanced)</button>  -->
 
 <div class = 'row'>
 <!-- <h1>Owned By Me</h1> -->
@@ -123,7 +133,8 @@ function directoryLinkActions(){
 		      type: 'POST',
 		      data: {'key': key, 'url': url, 'description':description, 'directory': directory},
 		      success:function(data){
-		        window.location = '/go';
+		      	message = 'Your link ' + key + ' was successfully created';
+		        window.location = '/go/manage?message=' + message;
 		      },
 		      error:function (xhr, textStatus, thrownError){
 		        alert("Failed. Your link key may have already been assigned!");
@@ -160,6 +171,8 @@ $('#go-key-input').keyup(function(){
 
 $('#go-directory-input').keyup(function(){
 //check
+	$('.dynamic-link').text($(this).val());
+	$('.dynamic-link').attr('id', $(this).val());
 	if($(this).hasClass('error')){
 		$(this).removeClass('error');
 	}
