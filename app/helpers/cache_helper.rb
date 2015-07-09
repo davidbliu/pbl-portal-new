@@ -3,6 +3,10 @@ module CacheHelper
 	""" semester caching methods """
 
 	""" member caching methods """
+	def clear_member_cache
+		Rails.cache.write('member_email_hash', nil)
+	end
+	
 	def current_members
 		ParseMember.current_members
 	end

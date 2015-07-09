@@ -5,6 +5,9 @@
 	border: 0;
     box-shadow: none;
 }
+.error{
+	color:red;
+}
 </style>
 
 
@@ -29,50 +32,90 @@
 
 
 <script type = 'text/javascript'>
-function pullEventCatalogue(option){
-	// pull data from /go/catalogue
-	<% if current_member %>
-	member_id = '<%= current_member.id %>';
-	<% else %>
-	member_id = '-1';
-	<% end %>
-	$.ajax({
-      url: '/go/catalogue',
-      type: 'GET',
-      data: {'option': option, 'member_id': member_id},
-      success:function(data){
-        $('#catalogue-container').html(data);
-      },
-      error:function (xhr, textStatus, thrownError){
-        $('#catalogue-container').html('<h1>Failed to load catalogue</h1>');
-      }
-  	});
-}
+var keys = $.parseJSON("<%= escape_javascript(@keys.to_json).html_safe %>");
 function updateActions(){
 	$('#add-go-link-btn').click(function(){
-		
-		key = $('#go-key-input').val();
-		url = $('#go-url-input').val();
-		description = $('#go-description-input').val();
-		directory = $('#go-directory-input').val();
-
-		path = '/go/create'
-		successFunction = function (data){
-			window.location = '/go';
+		errors = 0;
+		$('.error').each(function(){
+			errors += 1;
+		});
+		if(errors > 0){
+			alert('Cannot save: there are '+errors + ' errors');
 		}
-		errorFunction = function(){
-			alert("Failed. Your link key may have already been assigned!");
+		else{
+			key = $('#go-key-input').val();
+			url = $('#go-url-input').val();
+			description = $('#go-description-input').val();
+			directory = $('#go-directory-input').val();
+			$.ajax({
+		      url: '/go/create',
+		      type: 'POST',
+		      data: {'key': key, 'url': url, 'description':description, 'directory': directory},
+		      success:function(data){
+		        window.location = '/go';
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert("Failed. Your link key may have already been assigned!");
+		      }
+		  });
 		}
-		data = {'key': key, 'url': url, 'description':description, 'directory': directory}
-		makeAjaxRequest(path, 'POST', data, successFunction, errorFunction);
-
 	});
 }
-/**
-* to be performed on page load
-*/
 $(document).ready(function(){
-	// pullEventCatalogue("member_links");
-	updateActions();
+
+$('#go-key-input').keyup(function(){
+//check
+	if($(this).hasClass('error')){
+		$(this).removeClass('error');
+	}
+	var punctuation = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ' ', ','];
+	key = $(this).val();
+	if(keys.indexOf(key) != -1){
+		$(this).addClass('error');
+	}
+	else{
+		for(var i=0;i<punctuation.length;i++){
+			if(key.indexOf(punctuation[i]) != -1){
+				$(this).addClass('error');
+			}
+		}
+	}
+
+});
+
+$('#go-directory-input').keyup(function(){
+//check
+	if($(this).hasClass('error')){
+		$(this).removeClass('error');
+	}
+	dir = $(this).val();
+	var punctuation = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ' ', ','];
+	if(dir.substring(0,1) != "/"){
+		$(this).addClass('error');
+	}
+	else{
+		for(var i=0;i<punctuation.length;i++){
+			if(dir.indexOf(punctuation[i]) != -1){
+				$(this).addClass('error');
+			}
+		}
+	}
+	//make sure can split by /
+	split = dir.split('//');
+	if(split.length > 1){
+		$(this).addClass('error');
+	}
+	nest = dir.split('/').length-1
+	if (nest > 3){
+		$(this).addClass('error');
+	}
+	console.log(nest);
+
+	console.log(split);
+});
+
+updateActions();
+
+
 });
 </script>

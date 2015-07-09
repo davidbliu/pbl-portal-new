@@ -242,8 +242,8 @@ class GoController < ApplicationController
 
 	def update
 		""" one can edit link url or description and owner but not much else, in particular link aliases cannot be changed """
-		Rails.cache.write('go_link_hash', nil)
-		link = ParseGoLink.find(params[:id])
+		link = go_link_hash[params[:id]]
+		#ParseGoLink.find(params[:id])
 		puts link
 		link.url = params[:url]
 		link.description = params[:description]
@@ -256,6 +256,7 @@ class GoController < ApplicationController
 			puts 'current member 2'
 		end
 		link.save
+		clear_go_cache
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
@@ -310,6 +311,7 @@ class GoController < ApplicationController
 
 	def manage
 		@directory = params[:directory]
+		@keys = go_link_key_hash.keys
 		# if current_member
 		# 	@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
 		# else
@@ -328,28 +330,24 @@ class GoController < ApplicationController
 	end
 
 	def create
-		Rails.cache.write('go_link_hash', nil)
-		Rails.cache.write('go_link_key_hash', nil)
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
 		directory = params[:directory]
-		if ParseGoLink.where(key: key).length > 0
-			render :nothing => true, :status => 500, :content_type => 'text/html'
-		else
-			golink = ParseGoLink.create(key: key, url: url, description: description, directory: directory)
-			if current_member
-				golink.member_email = current_member.email
-			end
-			golink.save
+		golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
+		if current_member
+			golink.member_email = current_member.email
 		end
+		golink.save
+		clear_go_cache
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
 	def destroy
-		Rails.cache.write('go_link_hash', nil)
+		# Rails.cache.write('go_link_hash', nil)
 		ParseGoLink.find(params[:id]).destroy
 		ParseGoLink.import #TODO should not have to reindex upon destroy
+		clear_go_cache
 		redirect_to '/go'
 	end
 

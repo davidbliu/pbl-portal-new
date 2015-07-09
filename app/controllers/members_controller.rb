@@ -22,6 +22,7 @@ class MembersController < ApplicationController
 	def index
 		# @current_members = ParseMember.current_members.sort_by{|x| x.committee}
 		@current_members = current_members
+		@current_member = current_member
 		# @committee_hash = ParseCommittee.hash	
 	end
 
