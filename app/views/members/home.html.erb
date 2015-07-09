@@ -42,7 +42,7 @@
 		<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
 </div>
 <div class = 'home-card'>
-		<% if @favorite_links %>
+		<% if @favorites %>
 		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
 		<%= render partial: "go/catalogue", locals: { go_links: @favorite_links, favorite_links: @favorites} %>
 		<% end %>

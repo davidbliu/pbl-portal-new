@@ -29,6 +29,20 @@ module CacheHelper
 	def clear_go_cache
 		Rails.cache.write("go_link_hash", nil)
 		Rails.cache.write("go_link_key_hash", nil)
+		Rails.cache.write("go_link_favorite_hash", nil)
+	end
+
+	def go_link_favorite_hash
+		a = Rails.cache.read('go_link_favorite_hash')
+		if a != nil
+			return a
+		end
+		a = GoLinkFavorite.hash 
+		Rails.cache.write('go_link_favorite_hash', a)
+	end
+
+	def invalidate_go_link_favorite_hash
+		Rails.cache.write("go_link_favorite_hash", nil)
 	end
 
 	def go_link_key_hash

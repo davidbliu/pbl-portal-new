@@ -12,7 +12,9 @@ class MembersController < ApplicationController
 		@golinks = go_link_hash.values #ParseGoLink.limit(10000).all.to_a
 		@trending_links = @golinks.select{|x| x.type == 'trending'}
 		if current_member and current_member.email
-			@favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+			# @favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+			# @favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
+			@favorites = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
 			@favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
 		end
 	end

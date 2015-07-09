@@ -79,7 +79,8 @@ class GoController < ApplicationController
 
 		""" get favorites """
 		if current_member
-			@favorite_links = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+			# @favorite_links = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
+			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
 		end
 		
 	end
@@ -106,6 +107,7 @@ class GoController < ApplicationController
 				GoLinkFavorite.destroy_all(GoLinkFavorite.where(member_email: email, key: key).to_a)
 			end
 		end
+		invalidate_go_link_favorite_hash
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
