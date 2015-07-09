@@ -93,9 +93,19 @@
     border: 0;
     color: white;
     background-color:#1976d2;
-    border-radius: 0px 5px 5px 0px;
+    /*border-radius: 0px 0px 0px 0px;*/
+    padding:0px;
 }
+#search-icon.glyphicon.glyphicon-search{
+	  font-size: 20px;
+  border-radius: 0px;
+  padding: 0px 10px 0px 10px;
+}
+#search-btn.btn.btn-info.btn-sm.btn-material-blue-500{
+	  left: -2px;
+  border-radius: 2px;
 
+}
 #custom-search-input button:hover{
     border: 0;
     box-shadow: none;
@@ -151,7 +161,8 @@
 <p><a href = '/go'>Remove Filters</a></p>
 <% end %>
 
-      	<h1><%= @num_links %> Links</h1>
+      	<!-- <h1><%= @num_links %> Links</h1> -->
+      	
       	<% @all_directories.sort.each do |directory| %>
 
 	      	<div class = 'directory-section-div'>
@@ -160,8 +171,8 @@
 				<div><% (0..index-1).each do |x| %><span class = 'mdi-hardware-keyboard-tab'></span><% end %><%= dir %></div>
 				<% end %>
 				</div> 
-					<a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
-
+				</h3>
+				<!-- <a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a> -->
 				<% if @directory_hash.include?(directory) %>
 				<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
 				<% end %>
@@ -176,7 +187,12 @@
 
 <div id = 'directory-container' class="col-md-3 scrollspy">
 
+	
+
         <ul id="affix-nav" class="nav hidden-xs hidden-sm affix" data-spy="affix">
+        	<div>
+				<h5><%= @num_links %> Links  <a href = '/go/manage' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:12px'></span></a></h5>
+			</div>
         	<div id="custom-search-input">
                 <div class="input-group">
                     <input id = 'search-input' type="text" class="input-sm" placeholder="Search for a PBL link" />
