@@ -13,20 +13,53 @@
   /*color: rgba(255,255,255,.84);*/
   background-color: black;
 }
+.list-group{
+	margin-bottom:0px;
+}
 </style>
 
 
 <h1>Add A New PBL Link</h1>
 
 
-		<button class = 'btn btn-material-red-700 btn-raised' id = 'add-go-link-btn'>Add PBL Link</button>
-
+		<!-- <button class = 'btn btn-material-red-700 btn-raised' id = 'add-go-link-btn'>Add PBL Link</button> -->
+		<h3>Step 1: Choose an Alias</h3>
 
 		<div><input id = 'go-key-input' type="text" class="go-input input-lg" placeholder="Link Alias (example: mission-doc)" /></div>
 		<!-- <input id = 'go-key-input' type = 'text' class = '' placeholder = 'Link Alias (example: mission-doc)'/> -->
+		<h3>Step 2: Paste URL</h3>
 		<div><input id = 'go-url-input' type = 'text' class = 'go-input input-lg' placeholder = 'Link URL (example: http://linkedin.com)'/></div>
-		<div><input id = 'go-description-input' type = 'text' class = 'go-input input-lg' placeholder = 'Recommended: Description (example: planning document for long movie)'/></div>
-		<div><input id = 'go-directory-input' type = 'text' class = 'go-input input-lg' placeholder = 'Optional: Directory (example: /ht/fall-2015) Only two-deep allowed!' <% if @directory %>value = '<%= @directory %>' <% end %>/></div>
+		<h3>Step 3: Provide a Description</h3>
+		<div><input id = 'go-description-input' type = 'text' class = 'go-input input-lg' placeholder = 'Description (example: planning document for long movie)'/></div>
+		
+		<h3>Finish: Choose a Directory for your PBL Link</h3>
+		<ul class = 'list-group'>
+			<% @one_ply.each do |directory| %>
+        	<li class = 'list-group-item'><a id = '<%= directory %>' class = 'directory-link' href = "#<%= directory.gsub('/', '').gsub('-', '') %>"><%= directory.split('/')[-1] %></a>
+        		<% if @directory_tree[0][directory] and @directory_tree[0][directory].length != 0 %>
+        		<ul class = 'list-group'>
+        			<% @directory_tree[0][directory].each do |two_subdirectory| %>
+        			<li class = 'list-group-item'><a id = '<%= two_subdirectory %>' class = 'directory-link' href = "#<%= two_subdirectory.gsub('/', '').gsub('-', '') %>"><%= two_subdirectory.split('/')[-1] %></a>
+        				<% if @directory_tree[1][two_subdirectory] and @directory_tree[1][two_subdirectory].length != 0 %>
+        				<ul class = 'list-group'>
+        					<% @directory_tree[1][two_subdirectory].each do |three_subdirectory| %>
+        						<li class = 'list-group-item'><a id = '<%= three_subdirectory %>' class = 'directory-link' href = "#<%= three_subdirectory.gsub('/', '').gsub('-', '') %>"><%= three_subdirectory.split('/')[-1] %></a></li>
+        					<% end %>
+        				</ul>
+        				<% end %>
+
+        			</li>
+        			<% end %>
+        		</ul>
+        		<% end %>
+        		</li>
+        	</li>
+        	<% end %>
+        </ul>
+
+        <h3>Optional (Advanced): Add Link to new Directory</h3>
+        <div><input id = 'go-directory-input' type = 'text' class = 'go-input input-lg' placeholder = 'New Directory here (note: only at-max 3-deep directories are valid)'></div>
+        <button class = 'btn btn-default btn-raised btn-material-red-900' id = 'add-go-link-btn'>Add PBL Link to New Directory (Advanced)</button> 
 
 <div class = 'row'>
 <!-- <h1>Owned By Me</h1> -->
@@ -44,8 +77,8 @@ function updateActions(){
 		$('.error').each(function(){
 			errors += 1;
 		});
-		if(errors > 0){
-			alert('Cannot save: there are '+errors + ' errors');
+		if(errors > 0 || $('#go-key-input').val() == ""){
+			alert('Cannot save: there are errors');
 		}
 		else{
 			key = $('#go-key-input').val();
@@ -66,7 +99,44 @@ function updateActions(){
 		}
 	});
 }
+
+function directoryLinkActions(){
+	$('.directory-link').click(function(event){
+	    event.preventDefault();
+	    dir = $(this).attr('id');
+	    console.log(dir);
+
+	    errors = 0;
+		$('.error').each(function(){
+			errors += 1;
+		});
+		if(errors > 0 || $('#go-key-input').val() == ""){
+			alert('Cannot save: there are errors');
+		}
+		else{
+			key = $('#go-key-input').val();
+			url = $('#go-url-input').val();
+			description = $('#go-description-input').val();
+			directory = dir;
+			$.ajax({
+		      url: '/go/create',
+		      type: 'POST',
+		      data: {'key': key, 'url': url, 'description':description, 'directory': directory},
+		      success:function(data){
+		        window.location = '/go';
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert("Failed. Your link key may have already been assigned!");
+		      }
+		  });
+		}
+	    
+	  }             
+	);
+}
 $(document).ready(function(){
+
+directoryLinkActions();
 
 $('#go-key-input').keyup(function(){
 //check
@@ -118,9 +188,6 @@ $('#go-directory-input').keyup(function(){
 
 	console.log(split);
 });
-
 updateActions();
-
-
 });
 </script>

@@ -247,7 +247,8 @@ class GoController < ApplicationController
 		puts link
 		link.url = params[:url]
 		link.description = params[:description]
-		link.directory = params[:directory]
+		# link.directory = params[:directory]
+		link.directory = params[:directory] != "" ? params[:directory] : '/PBL'
 		puts 'current member'
 		if current_member
 			puts 'current member 1'
@@ -312,6 +313,14 @@ class GoController < ApplicationController
 	def manage
 		@directory = params[:directory]
 		@keys = go_link_key_hash.keys
+
+		""" directories """
+		@golinks = go_link_hash.values
+		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
+		@directories = @directory_hash.keys.sort
+		@one_ply = ParseGoLink.one_ply(@directories)
+		@directory_tree = ParseGoLink.n_ply_tree(@directories)
+		@all_directories = ParseGoLink.all_directories(@golinks)
 		# if current_member
 		# 	@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
 		# else
@@ -334,7 +343,7 @@ class GoController < ApplicationController
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
-		directory = params[:directory]
+		directory = params[:directory] != "" ? params[:directory] : '/PBL'
 		golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
 		if current_member
 			golink.member_email = current_member.email
@@ -347,7 +356,7 @@ class GoController < ApplicationController
 	def destroy
 		# Rails.cache.write('go_link_hash', nil)
 		ParseGoLink.find(params[:id]).destroy
-		ParseGoLink.import #TODO should not have to reindex upon destroy
+		# ParseGoLink.import #TODO should not have to reindex upon destroy
 		clear_go_cache
 		redirect_to '/go'
 	end
