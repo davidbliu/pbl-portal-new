@@ -8,6 +8,7 @@ class MembersController < ApplicationController
 	before_filter :is_approved, :only => [:all, :index_committee]
 
 	def home
+		@current_member = current_member
 		@golinks = go_link_hash.values #ParseGoLink.limit(10000).all.to_a
 		@trending_links = @golinks.select{|x| x.type == 'trending'}
 		if current_member and current_member.email
