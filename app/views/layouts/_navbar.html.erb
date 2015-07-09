@@ -14,7 +14,11 @@
 }
 
 /* navbar */
+<% if @resource_hub %>
+.navbar-primary .navbar { background:black; border-bottom:none; }
+<% else %>
 .navbar-primary .navbar { background:#205081; border-bottom:none; }
+<% end %>
 /*.navbar-primary .navbar .nav > li > a {color: #501762;}*/
 /*.navbar-primary .navbar .nav > li > a:hover {color: #fff; background-color: black;}*/
 /*.navbar-primary .navbar .nav .active > a,.navbar .nav .active > a:hover {color: #fff; background-color: #501762;}*/
@@ -37,7 +41,7 @@ input:focus     { outline:none; }
 </style>
 <div class="navbar-sm">
    <div class="navbar-primary">
-<nav class="navbar navbar-default navbar-fixed-top navbar-material-blue-900" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>

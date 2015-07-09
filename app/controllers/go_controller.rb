@@ -83,6 +83,7 @@ class GoController < ApplicationController
 			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
 		end
 		
+		@resource_hub = true
 	end
 
 	def get_dir_tree(top_level, subdirectories)
@@ -329,6 +330,7 @@ class GoController < ApplicationController
 		# else
 		# 	@my_links = Array.new
 		# end
+		@resource_hub = true
 	end
 
 	def reindex
@@ -372,6 +374,7 @@ class GoController < ApplicationController
 		@golink = ParseGoLink.find(params[:id])
 		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.time}.reverse
 		# @member_hash = ParseMember.hash
+		@resource_hub = true
 	end
 
 
