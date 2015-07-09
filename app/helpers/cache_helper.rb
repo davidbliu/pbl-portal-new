@@ -39,6 +39,7 @@ module CacheHelper
 		end
 		a = GoLinkFavorite.hash 
 		Rails.cache.write('go_link_favorite_hash', a)
+		return a
 	end
 
 	def invalidate_go_link_favorite_hash
