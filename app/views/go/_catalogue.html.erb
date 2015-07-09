@@ -27,7 +27,7 @@
 </style>
 <table class = 'table table-hover table-condensed'>
 	<tbody>
-	<% go_links.each do |golink| %>
+	<% go_links.sort_by{|x| x.key}.each do |golink| %>
 	<tr class = 'link-row'>
 		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
 		<!-- <td><%= link_to golink.dir, '/go?cwd='+golink.dir %></td> -->

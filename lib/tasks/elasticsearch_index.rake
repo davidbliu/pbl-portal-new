@@ -17,55 +17,48 @@ namespace :elasticsearch do
 		search_data_objects = Array.new
 		# search through docs in parse links
 		doc_ids = Array.new
-		parse_go_links = ParseGoLink.all.to_a # pulls from parse not from rails cache
+		parse_go_links = ParseGoLink.limit(10000).all.to_a # pulls from parse not from rails cache
 		parse_go_links.each do |go_link|
 			# for scraping google docs
-			if go_link.url.include?('docs.google.com/document/d')
-				doc_id = go_link.url.split('/')[5]
-				puts 'scraping '+doc_id
-				# get fulltext
-				fulltext = get_doc_text(google_client, doc_id)
-				puts fulltext
-				search_data = ParseElasticsearchData.new
-				search_data.go_link_id = go_link.id
-				search_data.text = fulltext
-				search_data_objects << search_data
-			elsif go_link.url.include?('docs.google.com/spreadsheets')
-				doc_id = go_link.url.split('/')[5]
-				puts 'scraping '+doc_id
-				# get fulltext
-				fulltext = get_spreadsheet_text(google_client, doc_id)
-				puts fulltext
-				search_data = ParseElasticsearchData.new
-				search_data.go_link_id = go_link.id
-				search_data.text = fulltext
-				search_data_objects << search_data
-			else
-				puts 'not support url type : '+ go_link.url
-				# begin
-				# 	puts 'unsupported url type : '+ go_link.url
-				# 	puts 'getting fulltext of generic uri: '+go_link.url
-				# 	fulltext = get_url_fulltext(go_link.url)
-				# 	puts fulltext
-				# 	search_data = ParseElasticsearchData.new
-				# 	search_data.go_link_id = go_link.id
-				# 	search_data.text = fulltext
-				# 	search_data_objects << search_data
-				# rescue
-				# 	puts 'ERROR READING THIS URL: ' + go_link.url
-				# end
+			begin
+				if go_link.url.include?('docs.google.com/document/d')
+					doc_id = go_link.url.split('/')[5]
+					puts 'scraping: '+go_link.key
+					# get fulltext
+					fulltext = get_doc_text(google_client, doc_id)
+					# puts fulltext
+					search_data = ParseElasticsearchData.new
+					search_data.go_link_id = go_link.id
+					search_data.text = fulltext
+					search_data_objects << search_data
+				elsif go_link.url.include?('docs.google.com/spreadsheets')
+					doc_id = go_link.url.split('/')[5]
+					puts 'scraping: '+go_link.key
+					# get fulltext
+					fulltext = get_spreadsheet_text(google_client, doc_id)
+					# puts fulltext
+					search_data = ParseElasticsearchData.new
+					search_data.go_link_id = go_link.id
+					search_data.text = fulltext
+					search_data_objects << search_data
+				else
+					puts "\t" + ' not supported: '+ go_link.key
+				end
+			rescue
+				puts 'problem: '+go_link.url
 			end
 		end
-		doc_ids.each do |datum|
-			link_id = datum[0]
-			doc_id = datum[1]
-			doc_text = get_doc_text(google_client, doc_id)
-			puts doc_text
-			search_data = ParseElasticsearchData.new
-			search_data.go_link_id = link_id
-			search_data.text = doc_text
-			search_data_objects << search_data
-		end
+		# doc_ids.each do |datum|
+		# 	link_id = datum[0]
+		# 	doc_id = datum[1]
+		# 	doc_text = get_doc_text(google_client, doc_id)
+		# 	puts doc_text
+		# 	search_data = ParseElasticsearchData.new
+		# 	search_data.go_link_id = link_id
+		# 	search_data.text = doc_text
+		# 	search_data_objects << search_data
+		# end
+		puts 'saving all records!'
 		ParseElasticsearchData.save_all(search_data_objects)
 	end
 

@@ -321,7 +321,8 @@ class GoController < ApplicationController
 
 	def reindex
 		ParseGoLink.import
-		Rails.cache.write('go_link_hash', nil)
+		# Rails.cache.write('go_link_hash', nil)
+		clear_go_cache
 		redirect_to '/go'
 	end
 
