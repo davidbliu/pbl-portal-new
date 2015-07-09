@@ -125,6 +125,9 @@
 	margin-bottom:15px;
 	overflow:auto;
 }
+.mdi-hardware-keyboard-tab{
+	color:rgba(0,0,0,0.2);
+}
 </style>
 
 <body data-spy="scroll" data-target=".scrollspy" data-offset="115">
@@ -152,7 +155,11 @@
 
 	      	<div class = 'directory-section-div'>
 	      	<section id = "<%= directory.gsub('/', '').gsub('-', '') %>" class = 'directory-section'>
-				<h3><%= directory %>  <a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
+				<h3><div><% directory.split('/').select{|x| x!=''}.each_with_index do |dir, index| %>
+				<div><% (0..index-1).each do |x| %><span class = 'mdi-hardware-keyboard-tab'></span><% end %><%= dir %></div>
+				<% end %>
+				</div> 
+					<a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
 
 				<% if @directory_hash.include?(directory) %>
 				<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
