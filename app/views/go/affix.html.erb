@@ -181,15 +181,15 @@
             </div>
             <div style = 'height:10px'></div>
           <% @one_ply.each do |directory| %>
-        	<li><a class = 'directory-link' href = "#<%= directory.gsub('/', '').gsub('-', '') %>"><%= directory %></a>
+        	<li><a class = 'directory-link' href = "#<%= directory.gsub('/', '').gsub('-', '') %>"><%= directory.split('/')[-1] %></a>
         		<% if @directory_tree[0][directory] and @directory_tree[0][directory].length != 0 %>
         		<ul class = 'nav subdirectory-nav'>
         			<% @directory_tree[0][directory].each do |two_subdirectory| %>
-        			<li><a class = 'directory-link' href = "#<%= two_subdirectory.gsub('/', '').gsub('-', '') %>"><%= two_subdirectory %></a>
+        			<li><a class = 'directory-link' href = "#<%= two_subdirectory.gsub('/', '').gsub('-', '') %>"><%= two_subdirectory.split('/')[-1] %></a>
         				<% if @directory_tree[1][two_subdirectory] and @directory_tree[1][two_subdirectory].length != 0 %>
         				<ul class = 'nav sub-subdirectory-nav'>
         					<% @directory_tree[1][two_subdirectory].each do |three_subdirectory| %>
-        						<li><a class = 'directory-link' href = "#<%= three_subdirectory.gsub('/', '').gsub('-', '') %>"><%= three_subdirectory %></a></li>
+        						<li><a class = 'directory-link' href = "#<%= three_subdirectory.gsub('/', '').gsub('-', '') %>"><%= three_subdirectory.split('/')[-1] %></a></li>
         					<% end %>
         				</ul>
         				<% end %>
