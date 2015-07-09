@@ -100,13 +100,17 @@
     padding:0px;
 }
 #search-icon.glyphicon.glyphicon-search{
-	  font-size: 20px;
+	  /*font-size: 20px;*/
   border-radius: 0px;
-  padding: 0px 10px 0px 10px;
+  /*padding: 0px 10px 0px 10px;*/
+    font-size: 10px;
+  padding: 10px 10px 10px 10px;
+  margin-left: 0px;
 }
 #search-btn.btn.btn-info.btn-sm.btn-material-blue-500{
-	  left: -2px;
+
   border-radius: 2px;
+  left: 2px;
 
 }
 #custom-search-input button:hover{
@@ -142,9 +146,10 @@
   /*color: rgba(255,255,255,.84);*/
   background-color: black;
 }
+
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
-<body data-spy="scroll" data-target=".scrollspy" data-offset="115">
+<body data-spy="scroll" data-target=".scrollspy" data-offset="115" style = 'position:relative' id = 'scroll-spy-container'>
 
 <!-- Modal -->
 <%= render 'catalogue_modal' %>
@@ -234,9 +239,7 @@
   </div>
 </body>
 <%= javascript_include_tag "golink_catalogue" %>
-
 <script type = 'text/javascript'>
-
 function activateSearchButton(){
   $('#search-btn').click(function(){
     search_term = $('#search-input').val();

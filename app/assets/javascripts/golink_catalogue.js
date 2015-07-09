@@ -103,11 +103,11 @@ function favoriteLinkActions(){
 
 $(document).ready(function(){
 	directoryLinkScrollActions();
-  pullModalContentActions();
-  updateLinkActions();
-  deleteLinkActions();
-  
-  clipboardCopyActions();
-  favoriteLinkActions();
+	  pullModalContentActions();
+	  updateLinkActions();
+	  deleteLinkActions();
+	  
+	  clipboardCopyActions();
+	  favoriteLinkActions();
 });
 	
