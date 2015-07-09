@@ -152,7 +152,7 @@
 
 	      	<div class = 'directory-section-div'>
 	      	<section id = "<%= directory.gsub('/', '').gsub('-', '') %>" class = 'directory-section'>
-				<h3><%= directory %>  <a href = '/go/manage?directory=<%= directory %>'><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
+				<h3><%= directory %>  <a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
 
 				<% if @directory_hash.include?(directory) %>
 				<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
