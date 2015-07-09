@@ -9,14 +9,15 @@ class GoController < ApplicationController
 		go_key = params.keys[0]
 		link_hash = go_link_hash
 		go_hash = go_link_key_hash
+		@current_member = current_member
 		
 		if params.length >= 3 and go_hash.keys.include?(go_key)
 			# correctly used alias
 			golink = go_hash[go_key]
 			""" log tracking data for link click """
-			if current_member	
+			if @current_member	
 				click = ParseGoLinkClick.new
-				click.member_email = current_member.email
+				click.member_email = @current_member.email
 				click.key = golink.key
 				click.time = Time.now
 				click.save
@@ -63,14 +64,18 @@ class GoController < ApplicationController
 		@num_links = @golinks.length
 
 		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
+		@directories = @directory_hash.keys.sort
+		@one_ply = ParseGoLink.one_ply(@directories)
+		@directory_tree = ParseGoLink.n_ply_tree(@directories)
+		@all_directories = ParseGoLink.all_directories(@golinks)
+		# @subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
+		# puts 'these are the subdirectories '+@subdirectories.to_s
+		# # @directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
+		# # @directories = @directory_hash.keys.map{|x| x[1..len(x)]split('/')[0]}
+		# @directories = ParseGoLink.subdirectories
+		# @directory_tree = get_dir_tree(@directories, @subdirectories)
+		# @directories.delete('/')
 
-		@subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
-		puts 'these are the subdirectories '+@subdirectories.to_s
-		# @directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
-		# @directories = @directory_hash.keys.map{|x| x[1..len(x)]split('/')[0]}
-		@directories = ParseGoLink.subdirectories
-		@directory_tree = get_dir_tree(@directories, @subdirectories)
-		@directories.delete('/')
 
 		""" get favorites """
 		if current_member

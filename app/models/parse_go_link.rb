@@ -18,10 +18,10 @@ class ParseGoLink < ParseResource::Base
 
 	""" methods to help get directory tree """
 	def self.one_ply(directories)
-		directories.map{|x| '/' + x.split('/').select{|y| y!= ""}[0]}.uniq
+		directories.map{|x| '/' + x.split('/').select{|y| y!= ""}[0]}.uniq.sort
 	end
 	def self.two_ply(directories)
-		directories.select{|x| x.scan('/').length > 1}.map{|x| '/' + x.split('/').select{|y| y!= ""}[0] + '/' + x.split('/').select{|y| y!= ""}[1]}.uniq
+		directories.select{|x| x.scan('/').length > 1}.map{|x| '/' + x.split('/').select{|y| y!= ""}[0] + '/' + x.split('/').select{|y| y!= ""}[1]}.uniq.sort
 	end
 	def self.three_ply(directories)
 		three_ply_dirs = Array.new
@@ -29,6 +29,7 @@ class ParseGoLink < ParseResource::Base
 			splits = dir.split('/').select{|x| x!= ""}
 			three_ply_dirs << '/' + splits[0] + '/' + splits[1] + '/' + splits[2]
 		end
+		return three_ply_dirs.sort
 	end
 	def self.n_ply_tree(directories)
 		""" currently only returns a three ply tree"""
@@ -52,6 +53,7 @@ class ParseGoLink < ParseResource::Base
 			end
 			two_to_three[three_root] << three
 		end
+		""" sort all subdirectories """
 		return [one_to_two, two_to_three]
 	end
 
@@ -67,6 +69,14 @@ class ParseGoLink < ParseResource::Base
 			dhash[dir]  << golink 
 		end
 		return dhash
+	end
+
+	def self.directories(golinks)
+		golinks.map{|x| x.dir}.uniq
+	end
+	def self.all_directories(golinks)
+		dirs = self.directories(golinks)
+		return self.one_ply(dirs) + self.two_ply(dirs) + self.three_ply(dirs)
 	end
 
 	def self.directory_hash(golinks)

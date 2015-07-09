@@ -14,43 +14,30 @@
 }
 
 </style>
+<%= render 'go/catalogue_modal' %>
 <div class = 'row'>
 
 	<div class = 'col-md-4'>
-
-		
-
-		  <div class="home-card-small">
-		  	<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
-		    <ul class='list-group'>
-		    	<% @trending_links.each do |link| %>
-		    		<li class = 'list-group-item'><a href = '<%= link.url %>'>pbl.link/<%= link.key %></a></li>
-		    		<% end %>
-		    </ul>
-		  </div>
-
-
-
 		<div class="home-card-small">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
-		    <ul>
-		    	<li>PD Challenge ends tomorrow!</li>
+		    <ul class = 'list-group'>
+		    	<li class = 'list-group-item'>PD Challenge ends tomorrow!</li>
 		    </ul>
 		</div>	
 
 		<div class="home-card-small">
 		    <h3><span class = 'mdi-action-toc'></span>&nbsp;TO DO</h3>
-		    <ul>
-		    	<li>Sign up for 3 Concessions</li>
-		    	<li>Fill out mid-semester survey</li>
-		    	<li>Pay for Yearbook</li>
+		    <ul class = 'list-group'>
+		    	<li class = 'list-group-item'>Sign up for 3 Concessions</li>
+		    	<li class = 'list-group-item'>Fill out mid-semester survey</li>
+		    	<li class = 'list-group-item'>Pay for Yearbook</li>
 		    </ul>
 		</div>	
 	</div>
 
 <div class = 'col-md-8'>
 <div class = 'home-card'>
-		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Starred Resources</h3>
+		<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
 		<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
 </div>
 <div class = 'home-card'>
@@ -62,3 +49,13 @@
 
 </div>
 </div>
+
+<script type = 'text/javascript'>
+<% if @current_member %>
+var email = "<%= @current_member.email %>";
+<% else %>
+var email = "asdf";
+<% end %>
+</script>
+<%= javascript_include_tag "golink_catalogue" %>
+
