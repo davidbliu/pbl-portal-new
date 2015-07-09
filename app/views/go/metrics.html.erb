@@ -1,11 +1,10 @@
-<%= link_to 'Back to Catalogue', '/go' %>
-<h1><%= @golink.key %> Metrics</h1>
+<h1><span class = 'mdi-action-trending-up' style = 'font-size:50px'></span>&nbsp;<%= @golink.key %></h1>
 <div class = 'row'>
 	<div class = 'col-md-6'>
 	<table class = 'table table-condensed'>
 		<thead>
 			<th>Member</th>
-			<th>Time Clicked</th>
+			<th>Time</th>
 		</thead>
 		<tbody>
 			<% @clicks.each do |click| %>
@@ -16,7 +15,7 @@
 					Not Signed In
 					<% end %>
 				</td>
-				<td><%= click.updated_at %></td>
+				<td><%= click.time_string %></td>
 			</tr>
 			<% end %>
 		</tbody>

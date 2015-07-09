@@ -3,6 +3,9 @@ class ParseGoLinkClick < ParseResource::Base
 	fields :key, :member_id, :time, :old_member_id, :member_email
 
 
+	def time_string
+		self.time.strftime("%b %e, %Y at %l:%M %p")
+	end
 	def self.num_click_hash
 		""" keys are alias and num clicks is the number of times clicked """
 		chash = Hash.new

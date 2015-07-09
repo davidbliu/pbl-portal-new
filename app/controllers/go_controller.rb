@@ -309,6 +309,7 @@ class GoController < ApplicationController
 	""" end of helpers for the directory route """
 
 	def manage
+		@directory = params[:directory]
 		# if current_member
 		# 	@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
 		# else
@@ -358,7 +359,7 @@ class GoController < ApplicationController
 
 	def metrics
 		@golink = ParseGoLink.find(params[:id])
-		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.updated_at}
+		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.time}.reverse
 		# @member_hash = ParseMember.hash
 	end
 

@@ -137,9 +137,9 @@
       <div class="col-md-9 catalogue-div">
 
 
-      <div style = 'margin-bottom:15px'>
+      <!-- <div style = 'margin-bottom:15px'>
 <a href = '/go/manage' class = 'add-link' ><button class = 'btn btn-material-red-700 btn-raised'>Add New Link</button></a>
-</div>
+</div> -->
 
       	<% if @filters.length > 0 %>
 <h3>Filtering by&nbsp;
@@ -152,7 +152,8 @@
 
 	      	<div class = 'directory-section-div'>
 	      	<section id = "<%= directory.gsub('/', '').gsub('-', '') %>" class = 'directory-section'>
-				<h3><div class = ''><%= directory %></div></h3>
+				<h3><%= directory %>  <a href = '/go/manage?directory=<%= directory %>'><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a></h3>
+
 				<% if @directory_hash.include?(directory) %>
 				<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
 				<% end %>
