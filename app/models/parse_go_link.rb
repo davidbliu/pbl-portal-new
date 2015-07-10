@@ -15,6 +15,41 @@ class ParseGoLink < ParseResource::Base
 		return '/'
 	end
 
+	""" check valid key, url, directory """
+	def self.valid_key(key)
+		if key == ''
+			return false
+		end
+		stripped = key.gsub('-', '')
+		!stripped.match(/[^A-Za-z0-9]/)
+	end
+
+	def self.valid_url(url)
+		url.start_with?('http')
+	end
+
+	def self.valid_directory(directory)
+		if not directory.start_with?('/') 
+			return false
+		end
+		if directory.scan('/').length > 3
+			return false
+		end
+		if directory.end_with?('/')
+			return false
+		end
+		splits = directory.split('/')[1..-1]
+		if splits == nil or splits.length > 3
+			return false
+		end
+		
+		splits.each do |split|
+			if not self.valid_key(split)
+				return false
+			end
+		end
+		return true
+	end
 
 	""" methods to help get directory tree """
 	def self.one_ply(directories)
