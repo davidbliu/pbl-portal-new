@@ -38,7 +38,9 @@ function updateLinkActions(){
       type: 'POST',
       data: {'url': url ,'description': description, 'directory': directory},
       success:function(data){
-        location.reload();
+        // location.reload();
+        console.log('this link has been updated');
+        console.log(data);
       },
       error:function (xhr, textStatus, thrownError){
         alert('Failed');
