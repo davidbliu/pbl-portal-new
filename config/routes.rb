@@ -33,6 +33,10 @@ Dockernotes::Application.routes.draw do
   get '/go/lookup', to: 'go#lookup'
   get 'go/favorite', to: 'go#favorite'
 
+  """ chrome extension routes """
+  post '/chrome/create_go_link', to: 'chrome_extension#create_go_link'
+  get '/chrome/lookup_url', to: 'chrome_extension#lookup_url'
+
   resources :google_events do 
     collection do 
       get 'google_calendar_redirect'
