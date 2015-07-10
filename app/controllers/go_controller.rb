@@ -349,6 +349,9 @@ class GoController < ApplicationController
 		url = params[:url]
 		description = params[:description]
 		directory = params[:directory] != "" ? params[:directory] : '/PBL'
+		""" do some error checking """
+
+		""" save the new link """
 		golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
 		if current_member
 			golink.member_email = current_member.email
@@ -356,6 +359,10 @@ class GoController < ApplicationController
 		golink.save
 		clear_go_cache
 		# render :nothing => true, :status => 200, :content_type => 'text/html'
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		render json: "successfully created link", :status=>200, :content_type=>'text/html'
 	end
 
