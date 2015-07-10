@@ -17,7 +17,7 @@ class ParseGoLink < ParseResource::Base
 
 	""" check valid key, url, directory """
 	def self.valid_key(key)
-		if key == ''
+		if key == '' or go_link_hash.keys.include?(key)
 			return false
 		end
 		stripped = key.gsub('-', '')
