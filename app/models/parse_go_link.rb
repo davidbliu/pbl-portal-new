@@ -43,7 +43,7 @@ class ParseGoLink < ParseResource::Base
 			return false
 		end
 		splits.each do |split|
-			puts split
+			# puts split
 			stripped = split.gsub('-', '')
 			if not !stripped.match(/[^A-Za-z0-9]/)
 				return false
@@ -52,6 +52,40 @@ class ParseGoLink < ParseResource::Base
 		return true
 	end
 
+	""" methods to rename  directories """
+	def self.rename_directory(directory, new_directory)
+		""" cache must be invalidated after calling this method """
+		if self.valid_directory(new_directory)
+			golinks = ParseGoLink.hash.values
+			affected = golinks.select{|x| x.dir.start_with?(directory)}
+
+			changed_directory = Array.new
+			affected.each do |golink|
+				additional = golink.dir.split(directory)[-1] ? golink.dir.split(directory)[-1] : ""
+				new_dir = ParseGoLink.valid_directory(new_directory + additional) ? new_directory + additional : golink.dir
+				puts 'old: '+golink.dir + "\t" + 'new: ' + new_dir
+				golink.directory = new_dir
+				changed_directory << golink
+			end
+
+			puts 'Saving '+ changed_directory.length.to_s + ' links'
+			ParseGoLink.save_all(changed_directory)
+			return true
+		else
+			puts 'invalid directory'
+			return false
+		end
+	end
+	def self.create_directory(directory)
+		if self.valid_directory(directory)
+			uuid = SecureRandom.random_number(100000000).to_s
+			auto = ParseGoLink.new(key: "auto-generated-"+uuid, url: 'http://www.google.com', directory: directory, description: 'auto generated from creating new directory')
+			return auto.save
+		else
+			return false
+		end
+		
+	end
 	""" methods to help get directory tree """
 	def self.one_ply(directories)
 		directories.map{|x| '/' + x.split('/').select{|y| y!= ""}[0]}.uniq.sort

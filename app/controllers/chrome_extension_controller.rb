@@ -37,10 +37,11 @@ class ChromeExtensionController < ApplicationController
 
 	def lookup_url
 		matches = go_link_hash.values.select{|x| x.url == params[:url]}
-		match_string = ""
+		match_string = "<ul class = 'list-group'>"
 		matches.each do |match|
-			match_string += "<div><b>" + match.key + "</b></div>"
+			match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
 		end
+		match_string += "</ul>"
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
 		response.headers['Access-Control-Request-Method'] = '*'
@@ -48,6 +49,20 @@ class ChromeExtensionController < ApplicationController
 		render json: "<h3>Matches</h3>"+match_string, :status=>200, :content_type=>'text/html'
 	end
 
+
+	def create_directory
+		directory = params[:directory] 
+		if ParseGoLink.create_directory(directory)
+			clear_go_cache
+			response.headers['Access-Control-Allow-Origin'] = '*'
+			response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+			response.headers['Access-Control-Request-Method'] = '*'
+			response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+			render json: "<h3>Successfully created " + directory + "</h3>", :status=>200, :content_type=>'text/html'
+		else
+			render json: "Error creating directory", :status=>500, :content_type=>'text/html'
+		end
+	end
 
 	def directories_dropdown
 		@golinks = go_link_hash.values
@@ -61,5 +76,28 @@ class ChromeExtensionController < ApplicationController
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		render 'directories_dropdown', layout: false
+	end
+
+	def search
+		search_term = params[:search_term]
+		@golinks = go_link_hash.values
+		# filter by search term
+		results = Array.new
+		@golinks.each do |golink|
+			if golink.key.include?(search_term) or golink.url.include?(search_term) or golink.description.include?(search_term)
+				results << golink
+			else
+				golink.key.split('-').each do |term|
+					if term.include?(search_term)
+						results << golink
+					end
+				end
+			end
+		end
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+		render json: results, :status=>200
 	end
 end
