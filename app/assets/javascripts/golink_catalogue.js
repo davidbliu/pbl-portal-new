@@ -6,7 +6,20 @@ function pullModalContentActions(){
     // id = $(this).attr('id');
     hidden_info = $(this).find('.hidden-edit-info').html();
     //change modal content
-    $('#edit-modal-content').html(hidden_info);
+    hidden = $(this).find('.hidden-edit-info');
+    
+    id = $(hidden).find('#go-id-input').val();
+    url = $(hidden).find('#go-url-input').val();
+    description = $(hidden).find('#go-description-input').val();
+    directory = $(hidden).find('#go-directory-input').val();
+    // console.log('id was '+id + ' url was '+url + ' description was '+description + ' directory was ' + directory);
+
+    $('#edit-modal-content').find('#go-id-input').val(id);
+    $('#edit-modal-content').find('#go-url-input').val(url);
+    $('#edit-modal-content').find('#go-description-input').val(description);
+    $('#edit-modal-content').find('#directories-dropdown').find($(document.getElementById(directory)).prop({selected: true}));
+
+    // $('#edit-modal-content').html(hidden_info);
     $('#myModalLabel').html($(this).find('.hidden-edit-info').attr('id').split(',')[0]);
   });
 }
@@ -15,7 +28,7 @@ function updateLinkActions(){
   var id = $('#edit-modal-content').find("#go-id-input").val();
   url = $('#edit-modal-content').find("#go-url-input").val();
   description = $('#edit-modal-content').find("#go-description-input").val();
-  directory = $('#edit-modal-content').find('#go-directory-input').val();
+  directory = $('#edit-modal-content').find('#directories-dropdown').find(":selected").attr('id');
   console.log(url);
   console.log(description);
   console.log(directory);
