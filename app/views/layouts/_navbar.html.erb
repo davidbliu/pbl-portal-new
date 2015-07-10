@@ -17,7 +17,9 @@
 <% if @resource_hub %>
 .navbar-primary .navbar { background:black; border-bottom:none; }
 <% else %>
-.navbar-primary .navbar { background:#205081; border-bottom:none; }
+.navbar-primary .navbar { background: black;
+  /*#205081; */
+  border-bottom:none; }
 <% end %>
 /*.navbar-primary .navbar .nav > li > a {color: #501762;}*/
 /*.navbar-primary .navbar .nav > li > a:hover {color: #fff; background-color: black;}*/
@@ -50,14 +52,17 @@ input:focus     { outline:none; }
         <span class="icon-bar"></span>
       </button>
     </div>
-    <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/"><span style = 'font-size:20px' class = 'mdi-action-home'></span> [PBL][MP]</a>
+    <!-- <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/"><span style = 'font-size:20px' class = 'mdi-action-home'></span> [PBL][MP]</a> -->
+    <a class = 'navbar-brand' href = '/'><img src = '/assets/pbl-long-logo.png' style = 'height:25px'></img></a>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 
         <li class = 'inactive-li'>
           <a href="/go">
             <!-- <i class="fa fa-gears"></i>  -->
-            <span class = 'navbar-icon mdi-action-perm-media'></span> Resource Hub
+            <!-- <span class = 'navbar-icon mdi-action-perm-media'></span> -->
+            <span class = 'navbar-icon'><img src = '/assets/links-logo.png' style = 'height:15px;position:relative;top:-2px'></img></span>
+             Resource Hub
           </a>
         </li>
 
