@@ -355,7 +355,8 @@ class GoController < ApplicationController
 		end
 		golink.save
 		clear_go_cache
-		render :nothing => true, :status => 200, :content_type => 'text/html'
+		# render :nothing => true, :status => 200, :content_type => 'text/html'
+		render json: "successfully created link", :status=>200, :content_type=>'text/html'
 	end
 
 	def destroy

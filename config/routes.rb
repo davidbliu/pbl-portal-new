@@ -13,6 +13,7 @@ Dockernotes::Application.routes.draw do
   get '/go', to: 'go#affix'
   get '/go/manage', to: 'go#manage'
   post '/go/create', to: 'go#create'
+  # get '/go/create', to: 'go#create'
   get '/go/guide', to: 'go#guide'
   get '/go/catalogue', to: 'go#catalogue'
   get '/go/clicks', to: 'go_link_clicks#index'
