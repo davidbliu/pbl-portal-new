@@ -3,11 +3,11 @@
 */
 function pullModalContentActions(){
   $('.link-modal').click(function(){
-    id = $(this).attr('id');
+    // id = $(this).attr('id');
     hidden_info = $(this).find('.hidden-edit-info').html();
     //change modal content
     $('#edit-modal-content').html(hidden_info);
-    $('#myModalLabel').html($(this).find('.hidden-edit-info').attr('id'));
+    $('#myModalLabel').html($(this).find('.hidden-edit-info').attr('id').split(',')[0]);
   });
 }
 function updateLinkActions(){
@@ -65,7 +65,7 @@ function directoryLinkScrollActions(){
 function favoriteLinkActions(){
 	$('.favorite-link').click(function(event){
 		event.preventDefault();
-		key = $(this).attr('id');
+		key = $(this).attr('id').split(',')[0];
 		member_email = email;
 		
 		if($(this).hasClass("mdi-action-favorite-outline")){
