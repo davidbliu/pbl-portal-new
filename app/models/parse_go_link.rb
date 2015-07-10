@@ -42,9 +42,10 @@ class ParseGoLink < ParseResource::Base
 		if splits == nil or splits.length > 3
 			return false
 		end
-		
 		splits.each do |split|
-			if not self.valid_key(split)
+			puts split
+			stripped = split.gsub('-', '')
+			if not !stripped.match(/[^A-Za-z0-9]/)
 				return false
 			end
 		end
