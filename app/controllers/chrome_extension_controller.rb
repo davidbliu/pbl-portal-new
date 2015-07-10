@@ -47,4 +47,19 @@ class ChromeExtensionController < ApplicationController
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		render json: "<h3>Matches</h3>"+match_string, :status=>200, :content_type=>'text/html'
 	end
+
+
+	def directories_dropdown
+		@golinks = go_link_hash.values
+		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
+		@directories = @directory_hash.keys.sort
+		@one_ply = ParseGoLink.one_ply(@directories)
+		@directory_tree = ParseGoLink.n_ply_tree(@directories)
+		@all_directories = ParseGoLink.all_directories(@golinks)
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+		render 'directories_dropdown', layout: false
+	end
 end

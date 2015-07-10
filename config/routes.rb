@@ -36,6 +36,7 @@ Dockernotes::Application.routes.draw do
   """ chrome extension routes """
   post '/chrome/create_go_link', to: 'chrome_extension#create_go_link'
   get '/chrome/lookup_url', to: 'chrome_extension#lookup_url'
+  get '/chrome/directories_dropdown', to: 'chrome_extension#directories_dropdown'
 
   resources :google_events do 
     collection do 
