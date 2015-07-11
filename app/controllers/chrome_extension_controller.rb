@@ -42,11 +42,16 @@ class ChromeExtensionController < ApplicationController
 			match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
 		end
 		match_string += "</ul>"
+
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-		render json: "<h3>Matches</h3>"+match_string, :status=>200, :content_type=>'text/html'
+		if matches.length == 0 
+			render json: "<h3>This URL is not in PBL Links yet</h3>"+match_string, :status=>200, :content_type=>'text/html'
+		else
+			render json: "<h3>Matches</h3>"+match_string, :status=>200, :content_type=>'text/html'
+		end
 	end
 
 
