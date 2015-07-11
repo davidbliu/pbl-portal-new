@@ -48,9 +48,9 @@ class ChromeExtensionController < ApplicationController
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		if matches.length == 0 
-			render json: "<h3>This URL is not in PBL Links yet</h3>"+match_string, :status=>200, :content_type=>'text/html'
+			render json: "<h4>This URL is not in PBL Links yet</h4>"+match_string, :status=>200, :content_type=>'text/html'
 		else
-			render json: "<h3>Matches</h3>"+match_string, :status=>200, :content_type=>'text/html'
+			render json: match_string, :status=>200, :content_type=>'text/html'
 		end
 	end
 
