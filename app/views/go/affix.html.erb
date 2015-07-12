@@ -180,9 +180,8 @@
 				<% end %>
 				</div> 
 				</h3>
-				<!-- <a href = '/go/manage?directory=<%= directory %>' target="_blank"><span class = 'glyphicon glyphicon-plus-sign' style = 'font-size:15px'></span></a> -->
 				<% if @directory_hash.include?(directory) %>
-				<div><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
+				<div id = '<%= directory.gsub('/', '').gsub('-', '') %>-directory-container'><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory], favorite_links: @favorite_links} %></div>
 				<% end %>
 			</section>
 			</div>

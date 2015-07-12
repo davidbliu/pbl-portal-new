@@ -1,8 +1,4 @@
-
-<table class = 'directory-table table table-hover table-condensed'>
-	<tbody>
-	<% go_links.sort_by{|x| x.key}.each do |golink| %>
-	<tr class = 'link-row' id = '<%= golink.key %>-separator-row'>
+<tr class = 'link-row' id = '<%= golink.key %>-separator-row'>
 		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
 		<td class = 'golink-key-td'>
 			<b><%= golink.key %></b>
@@ -49,6 +45,3 @@
 			&nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a>
 		</td>
 	</tr>
-	<% end %>
-	</tbody>
-</table>

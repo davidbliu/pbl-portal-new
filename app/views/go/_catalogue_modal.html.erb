@@ -4,6 +4,15 @@
   height:15px;
   margin-top:5px;
 }
+.row-editing{
+  color:orange;
+}
+.row-success{
+  color:green;
+}
+.row-error{
+  color:red;
+}
 </style>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
@@ -16,6 +25,11 @@
         <div class="input-group" style = 'display:none'>
             <b class="input-group-addon" id="basic-addon1">ID</b>
             <input id = 'go-id-input' type="text" class="go-input input-sm" value="default" placeholder = "Link ID: (example: lklsd80lksm)" aria-describedby="basic-addon1">
+          </div>
+
+          <div class="input-group" style = 'display:none'>
+            <b class="input-group-addon" id="basic-addon4">Key</b>
+            <input id = 'go-key-input' type="text" class="go-input input-sm" value="default" placeholder = "Link Key: (example: mission)" aria-describedby="basic-addon4">
           </div>
 
           <div class="input-group">
@@ -38,7 +52,7 @@
       </div>
       <div class="modal-footer">
         <button id = 'delete-link-btn' type="button" class="btn btn-default btn-material-red-500" data-dismiss="modal">Delete</button>
-        <button id = 'save-link-btn' type="button" class="btn btn-material-blue-500">Save changes</button>
+        <button id = 'save-link-btn' type="button" class="btn btn-material-blue-500" data-dismiss="modal">Save changes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>

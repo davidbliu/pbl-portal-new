@@ -1,11 +1,24 @@
 class ChromeExtensionController < ApplicationController
 	def create_go_link
+
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
 		directory = params[:directory] != "" ? params[:directory] : '/PBL'
+		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
+		if override
+			key = key.split(':')[0]
+		end
+
+		puts 'override is '+override.to_s
 		""" do some error checking """
 		errors = Array.new
+
 		if not ParseGoLink.valid_key(key)
 			errors << "key"
 		end
@@ -16,8 +29,22 @@ class ChromeExtensionController < ApplicationController
 			errors << "directory"
 		end
 		""" if there are errors, return with errors """
-		if errors.length > 0
-			render json: "Error with creating link", :status=>500, :content_type=>'text/html'
+		if go_link_key_hash.keys.include?(key)
+			if not override
+				render json: "<h3>Key already exists. To override a key, submit as key:override</h3>", :status=>200, :content_type=>'text/html'
+			elsif errors.length == 0
+				golink = go_link_key_hash[key]
+				golink.url = url 
+				golink.directory = directory
+				golink.description = description
+				golink.save
+				clear_go_cache
+				render json: "<h3>"+key+" was successfully overridden</h3>", :status=> 200
+			else
+				render json: "<h3>Errors: " + errors.to_s + "</h3>", :status => 200
+			end
+		elsif errors.length > 0
+			render json: "<h3>Errors creating link: "+errors.to_s+" </h3>", :status=>500, :content_type=>'text/html'
 		else
 			""" save the new link """
 			golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
@@ -26,17 +53,13 @@ class ChromeExtensionController < ApplicationController
 			end
 			golink.save
 			clear_go_cache
-			# render :nothing => true, :status => 200, :content_type => 'text/html'
-			response.headers['Access-Control-Allow-Origin'] = '*'
-			response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
-			response.headers['Access-Control-Request-Method'] = '*'
-			response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 			render json: "<h3>Successfully created link</h3><p><h3>View your link at pbl.link/"+golink.key+"</h3></p>", :status=>200, :content_type=>'text/html'
 		end
 	end
 
 	def lookup_url
-		matches = go_link_hash.values.select{|x| x.url == params[:url]}
+		url = params[:url]
+		matches = go_link_hash.values.select{|x| x.is_url_match(url)}
 		match_string = "<ul class = 'list-group'>"
 		matches.each do |match|
 			match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
@@ -85,19 +108,25 @@ class ChromeExtensionController < ApplicationController
 
 	def search
 		search_term = params[:search_term]
-		@golinks = go_link_hash.values
-		# filter by search term
+		# @golinks = go_link_hash.values
+		# # filter by search term
+		# results = Array.new
+		# @golinks.each do |golink|
+		# 	if golink.key.include?(search_term) or golink.url.include?(search_term) or golink.description.include?(search_term)
+		# 		results << golink
+		# 	else
+		# 		golink.key.split('-').each do |term|
+		# 			if term.include?(search_term)
+		# 				results << golink
+		# 			end
+		# 		end
+		# 	end
+		# end
+		key_hash = go_link_key_hash
+		keys = ParseGoLink.search(search_term)
 		results = Array.new
-		@golinks.each do |golink|
-			if golink.key.include?(search_term) or golink.url.include?(search_term) or golink.description.include?(search_term)
-				results << golink
-			else
-				golink.key.split('-').each do |term|
-					if term.include?(search_term)
-						results << golink
-					end
-				end
-			end
+		keys.each do |key|
+			results << key_hash[key]
 		end
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'

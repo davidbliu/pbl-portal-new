@@ -15,9 +15,20 @@ class ParseGoLink < ParseResource::Base
 		return '/'
 	end
 
+	def is_url_match(url)
+		if self.url == url
+			return true
+		end
+		if self.url.include?('docs.google.com')
+			doc_id = self.url.split('/d/')[1].split('/')[0]
+			if url.include?(doc_id)
+				return true
+			end
+		end
+	end
 	""" check valid key, url, directory """
 	def self.valid_key(key)
-		if key == '' or self.key_hash.keys.include?(key)
+		if key == '' #or self.key_hash.keys.include?(key)
 			return false
 		end
 		stripped = key.gsub('-', '')
