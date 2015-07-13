@@ -31,7 +31,13 @@ class ChromeExtensionController < ApplicationController
 		""" if there are errors, return with errors """
 		if go_link_key_hash.keys.include?(key)
 			if not override
-				render json: "<h3>Key already exists. To override a key, submit as key:override</h3>", :status=>200, :content_type=>'text/html'
+				old_link = go_link_key_hash[key]
+				msg = "<h3>Key "+key+" already exists</h3>"
+				msg += "<ul class = 'list-group'><li class = 'list-group-item'><b>Description: </b>"+old_link.description + "</li>"
+				msg += "<li class = 'list-group-item'><b>URL: </b>"+old_link.url + "</li>"
+				msg += "<li class = 'list-group-item'><b>Directory: </b>"+old_link.dir + "</li></ul>"
+				msg += "<h4 style = 'color:blue'>To override a key, submit as key as \"key:override\"</h4>"
+				render json: msg, :status=>200, :content_type=>'text/html'
 			elsif errors.length == 0
 				golink = go_link_key_hash[key]
 				golink.url = url 
@@ -39,7 +45,7 @@ class ChromeExtensionController < ApplicationController
 				golink.description = description
 				golink.save
 				clear_go_cache
-				render json: "<h3>"+key+" was successfully overridden</h3>", :status=> 200
+				render json: "<h3>"+key+" was successfully overridden</h3><button class = 'btn btn-danger' id = 'undo-btn'>Remove</button>", :status=> 200
 			else
 				render json: "<h3>Errors: " + errors.to_s + "</h3>", :status => 200
 			end
@@ -53,8 +59,26 @@ class ChromeExtensionController < ApplicationController
 			end
 			golink.save
 			clear_go_cache
-			render json: "<h3>Successfully created link</h3><p><h3>View your link at pbl.link/"+golink.key+"</h3></p>", :status=>200, :content_type=>'text/html'
+			render json: "<h3>Successfully created link</h3><ul class = 'list-group'><li class = 'list-group-item'>pbl.link/"+golink.key+"</li></ul><button class = 'btn btn-danger' id = 'undo-btn'>Undo</button>", :status=>200, :content_type=>'text/html'
 		end
+	end
+
+	def undo_create
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
+		key = params[:key]
+
+		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
+		if override
+			key = key.split(':')[0]
+		end
+
+		go_link_key_hash[key].destroy
+		clear_go_cache
+		render json: "<h3>"+key+" has been removed</h3>", :status => 200
 	end
 
 	def lookup_url
