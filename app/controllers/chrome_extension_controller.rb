@@ -43,6 +43,9 @@ class ChromeExtensionController < ApplicationController
 				golink.url = url 
 				golink.directory = directory
 				golink.description = description
+				if params[:email] and params[:email] != ""
+					golink.member_email = params[:email]
+				end
 				golink.save
 				clear_go_cache
 				render json: "<h3>"+key+" was successfully overridden</h3><button class = 'btn btn-danger' id = 'undo-btn'>Remove</button>", :status=> 200
@@ -54,8 +57,8 @@ class ChromeExtensionController < ApplicationController
 		else
 			""" save the new link """
 			golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
-			if current_member
-				golink.member_email = current_member.email
+			if params[:email] and params[:email] != ""
+				golink.member_email = params[:email]
 			end
 			golink.save
 			clear_go_cache
