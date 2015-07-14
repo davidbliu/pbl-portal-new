@@ -15,6 +15,7 @@ class GoController < ApplicationController
 			results << key_hash[key]
 		end
 		@golinks = results
+		@num_links = @golinks.length
 		""" get favorites """
 		if current_member
 			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
