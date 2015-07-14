@@ -4,6 +4,23 @@ class GoController < ApplicationController
 	def mobile
 		# TODO support mobile browsing
 	end
+
+	def search
+		@search_term = params[:search_term]
+		puts 'searching for : '+params[:search_term]
+		key_hash = go_link_key_hash
+		keys = ParseGoLink.search(@search_term)
+		results = Array.new
+		keys.each do |key|
+			results << key_hash[key]
+		end
+		@golinks = results
+		""" get favorites """
+		if current_member
+			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
+		end
+	end
+
 	def affix
 		""" deal with key redirects if needed """
 		go_key = params.keys[0]
@@ -33,7 +50,6 @@ class GoController < ApplicationController
 
 		""" render the catalogue if no redirects """
 		@golinks = link_hash.values
-		#ParseGoLink.limit(10000).all.to_a
 
 		""" apply filters from searching and link types"""
 		@filters = Array.new
@@ -53,12 +69,13 @@ class GoController < ApplicationController
 			end
 		end
 
-		if params.keys.include?('link_type')
-			type = params[:link_type]
-			filter = "type:" + type
-			@filters << filter
-			@golinks = @golinks.select{|x| x.resolve_type == type}
-		end
+		""" removed filtering by link type """
+		# if params.keys.include?('link_type')
+		# 	type = params[:link_type]
+		# 	filter = "type:" + type
+		# 	@filters << filter
+		# 	@golinks = @golinks.select{|x| x.resolve_type == type}
+		# end
 
 		""" get directory structure """
 		@num_links = @golinks.length
@@ -141,6 +158,7 @@ class GoController < ApplicationController
 		end
 		
 	end
+
 	def go(key = nil)
 		"""put permissions on golinks?"""
 		puts 'here are params '+params.to_s
@@ -393,8 +411,10 @@ class GoController < ApplicationController
 	end
 
 	def metrics
-		@golink = ParseGoLink.find(params[:id])
-		@clicks = ParseGoLinkClick.where(key: @golink.key).sort_by{|x| x.time}.reverse
+		# @golink = ParseGoLink.find(params[:id])
+		key = params[:key]
+		@golink = go_link_key_hash[key]
+		@clicks = ParseGoLinkClick.where(key: key).sort_by{|x| x.time}.reverse
 		# @member_hash = ParseMember.hash
 		@resource_hub = true
 	end

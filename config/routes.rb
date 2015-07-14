@@ -25,13 +25,14 @@ Dockernotes::Application.routes.draw do
   get '/go/:id/member_links', to: 'go#member_links' # what links has this member created
   get '/go/directories', to: 'go#directories'
   get '/go/clearcache', to: 'go#clearcache'
-  get '/go/:id/metrics', to: 'go#metrics'
+  get '/go/:key/metrics', to: 'go#metrics'
   get '/go/cwd', to: 'go#cwd'
   get '/:key/go', to: 'go#index'
   get '/go/affix', to: 'go#affix'
   get '/go/:url/lookup', to: 'go#lookup'
   get '/go/lookup', to: 'go#lookup'
   get 'go/favorite', to: 'go#favorite'
+  get 'go/search', to: 'go#search'
 
   """ chrome extension routes """
   post '/chrome/create_go_link', to: 'chrome_extension#create_go_link'

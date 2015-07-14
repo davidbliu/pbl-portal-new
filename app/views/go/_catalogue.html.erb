@@ -1,11 +1,10 @@
 
 <table class = 'directory-table table table-hover table-condensed'>
 	<tbody>
-	<% go_links.sort_by{|x| x.key}.each do |golink| %>
+	<% go_links.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.key %>-separator-row'>
-		<td><a href = '/go/affix?link_type=<%= golink.resolve_type %>'><img class = '' src = '<%= golink.get_type_image %>' height=17/></a></td>
-		<td class = 'golink-key-td'>
-			<b><%= golink.key %></b>
+		<td><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
+		<td class = 'golink-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'><%= golink.description %></td>
 		<td style='text-align:right'>
@@ -14,7 +13,7 @@
 			<% else %>
 			<a href = 'javascript:void(0);'><i id = '<%= golink.key %>,favorite' class = 'favorite-link mdi-action-favorite-outline' style = 'font-size:15px'></i></a>
 			<% end %>
-			&nbsp;<a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><i class = 'mdi-av-play-arrow' style = 'font-size:15px'></i></a>
+			<!-- &nbsp;<a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><i class = 'mdi-av-play-arrow' style = 'font-size:15px'></i></a> -->
 			&nbsp;<a href = '#' class = 'link-modal' id = '<%= golink.id %>-modal' data-toggle="modal" data-target="#myModal" href = '#'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
 
 				<div class = 'hidden-edit-info' id = '<%= golink.key %>,edit'>
@@ -45,7 +44,7 @@
 				</div>
 				<!-- end of hidden -->
 			</a>
-			&nbsp;<a href = '/go/<%= golink.id %>/metrics' target="_blank"><i class = 'mdi-action-trending-up' style = 'font-size:15px'></i></a>
+			<!-- &nbsp;<a href = '/go/<%= golink.id %>/metrics' target="_blank"><i class = 'mdi-action-trending-up' style = 'font-size:15px'></i></a> -->
 			&nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a>
 		</td>
 	</tr>

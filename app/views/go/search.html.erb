@@ -157,38 +157,12 @@
       
 
       <div class="col-md-9 catalogue-div">
-
-<h1 class = 'middle-title'>PBL Links</h1>
+      	<h1 class = 'middle-title'>PBL Links</h1>
     <p>PBL Links is a custom URL shortener for PBL. PBL Links has two main goals: simplifying the way we <b>access and discover resources</b> in PBL. </p>
     <a href = '/go/guide'>Read More about PBL Links</a>
 
-      <!-- <div style = 'margin-bottom:15px'>
-<a href = '/go/manage' class = 'add-link' ><button class = 'btn btn-material-red-700 btn-raised'>Add New Link</button></a>
-</div> -->
-
-      	<% if @filters.length > 0 %>
-<h3>Filtering by&nbsp;
-<% @filters.each do |f| %><div class = 'label label-material-blue-900'><%= f %></div><% end %></h3>
-<p><a href = '/go'>Remove Filters</a></p>
-<% end %>
-
-      	<!-- <h1><%= @num_links %> Links</h1> -->
-      	
-      	<% @all_directories.sort.each do |directory| %>
-
-	      	<div class = 'directory-section-div'>
-	      	<section id = "<%= directory.gsub('/', '').gsub('-', '') %>" class = 'directory-section'>
-				<h3><div><% directory.split('/').select{|x| x!=''}.each_with_index do |dir, index| %>
-				<div><% (0..index-1).each do |x| %><span class = 'mdi-hardware-keyboard-tab'></span><% end %><%= dir %></div>
-				<% end %>
-				</div> 
-				</h3>
-				<% if @directory_hash.include?(directory) %>
-				<div id = '<%= directory.gsub('/', '').gsub('-', '') %>-directory-container'><%= render partial: "catalogue", locals: { go_links: @directory_hash[directory].sort_by{|x| [x.resolve_type, x.key]}, favorite_links: @favorite_links} %></div>
-				<% end %>
-			</section>
-			</div>
-		<% end %>
+    <h3>Search Results for "<%= @search_term %>"</h3>
+		<%= render partial: "catalogue", locals: { go_links: @golinks, favorite_links: @favorite_links} %>
 
 
         <!--  -->
@@ -217,27 +191,9 @@
 	            </div>
         	</div>
             <div style = 'height:10px'></div>
-          <% @one_ply.each do |directory| %>
-        	<li><a class = 'directory-link' href = "#<%= directory.gsub('/', '').gsub('-', '') %>"><%= directory.split('/')[-1] %></a>
-        		<% if @directory_tree[0][directory] and @directory_tree[0][directory].length != 0 %>
-        		<ul class = 'nav subdirectory-nav'>
-        			<% @directory_tree[0][directory].each do |two_subdirectory| %>
-        			<li><a class = 'directory-link' href = "#<%= two_subdirectory.gsub('/', '').gsub('-', '') %>"><%= two_subdirectory.split('/')[-1] %></a>
-        				<% if @directory_tree[1][two_subdirectory] and @directory_tree[1][two_subdirectory].length != 0 %>
-        				<ul class = 'nav sub-subdirectory-nav'>
-        					<% @directory_tree[1][two_subdirectory].each do |three_subdirectory| %>
-        						<li><a class = 'directory-link' href = "#<%= three_subdirectory.gsub('/', '').gsub('-', '') %>"><%= three_subdirectory.split('/')[-1] %></a></li>
-        					<% end %>
-        				</ul>
-        				<% end %>
-
-        			</li>
-        			<% end %>
-        		</ul>
-        		<% end %>
-        		</li>
-        	</li>
-        	<% end %>
+            <div>Searching by "<%= @search_term %>"</div>
+            <a href = '/go'>Remove Search Filter</a>
+          
         </ul>
   </div>
 </body>
@@ -265,10 +221,3 @@ var email = "asdf";
 <% end %>
 </script>
 <!-- catalogue scripts -->
-
-    
-  
-
- 
-
-
