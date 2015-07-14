@@ -41,7 +41,7 @@ Dockernotes::Application.routes.draw do
   post '/chrome/create_directory', to: 'chrome_extension#create_directory'
   get '/chrome/search', to: 'chrome_extension#search'
   post '/chrome/undo_create_go_link', to: 'chrome_extension#undo_create'
-
+  get '/chrome/favorite_links', to: 'chrome_extension#favorite_links'
   resources :google_events do 
     collection do 
       get 'google_calendar_redirect'
