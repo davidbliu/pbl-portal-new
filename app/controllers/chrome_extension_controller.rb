@@ -164,12 +164,12 @@ class ChromeExtensionController < ApplicationController
 
 	def favorite_links
 		email = params[:email]
-		@favorite_links = (go_link_favorite_hash.keys.include?(email) ? Set.new(go_link_favorite_hash[email]) : Array.new)
+		existing_keys = go_link_key_hash.keys
+		@favorite_links = (go_link_favorite_hash.keys.include?(email) ? Set.new(go_link_favorite_hash[email].select{|x| existing_keys.include?(x)}) : Array.new)
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-		# render json: favorite_links, :status=>200
 		render 'favorite_links', layout: false
 	end
 end
