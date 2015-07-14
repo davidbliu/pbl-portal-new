@@ -6,9 +6,22 @@
 	text-align:center;
 }
 </style>
-<h1 class = 'middle-title'>PBL Links</h1>
+<ul class = 'list-group'>
+	<li class = 'list-group-item'><a href = "#aim">Our Aim</a></li>
+	<li class = 'list-group-item'><a href = "#components">PBL Link Components</a></li>
+	<li class = 'list-group-item'><a href = "#installing">Installing the Chrome Extension</a></li>
+	<li class = 'list-group-item'><a href = "#extension">Using the Chrome Extension</a>
+		<ul>
+			<li><a href = '#looking-up-links'>Looking up URLs</a></li>
+			<li><a href = '#adding-links'>Adding new Links</a></li>
+			<li><a href = '#updating-links'>Updating Existing Links</a></li>
+		</ul>
+	</li>
+	<li class = 'list-group-item'><a href = "#conventions">Naming Conventions and Directory Structure</a></li>
+	</ul>
+<!-- <h1 class = 'middle-title'>PBL Links</h1>
 		<p>PBL Links is a custom URL shortener for PBL. PBL Links has two main goals: simplifying the way we <b>access and discover resources</b> in PBL.</p>
-<img src = '/assets/links-logo.png' height=150></img>
+<img src = '/assets/links-logo.png' height=150></img> -->
 
 <h3 id = 'aim' class = 'middle-title'>Our aim is to provide you</h3>
 
@@ -25,7 +38,7 @@
 </p>
 
 <h4>PBL Links</h4>
-<p>At it's very simplest, a PBL Links is a key/alias and a URL. when you visit pbl.link/key you are redirected to the URL saved behind that key. A key can only point to one URL whereas one URL can be pointed to by multiple keys (for example pbl.link/mission and pbl.link/mission-statement could be configured to point to the same document). Keys can be overrited, however. For example, pbl.link/chalking could be reset each chalking cycle to point to the current chalking sign up sheet.
+<p>At it's very simplest, a PBL Links is a key/alias and a URL. when you visit pbl.link/key you are redirected to the URL saved behind that key. A key can only point to one URL whereas one URL can be pointed to by multiple keys (for example pbl.link/mission and pbl.link/mission-statement could be configured to point to the same document). Keys can be overwritten, however. For example, pbl.link/chalking could be reset each chalking cycle to point to the current chalking sign up sheet.
 
 
 <h4>PBL Link Catalogue</h4>
@@ -51,8 +64,41 @@
 </ol>
 </p>
 
+<img src = '/assets/instruction-manual.png' height=150></img>
+<h3 id = 'extension' class = 'middle-title'>Using PBL Links Chrome Extension</h3>
+<p>Our Chrome Extension brings PBL Links to your fingertips when browsing the internet. You can quickly lookup, add, edit, and search links without having to switch context
+<h4 id = 'looking-up-links'>Looking up a link</h4>
+<p>We are encouraging PBL Links as the primary form of information currency in PBL. Instead of passing URLs, we aim to pass PBL Links. This keeps resources searchable, accessable, and reliable. When you visit any webpage, you can use the chrome extension to quickly look up what the PBL Link for that webpage is or find out if it has not been made into a PBL Link yet. If your webpage is a PBL Link you will see something like this
+	<img src = '/assets/extension-lookup-example.png' height=75></img>
+<h4 id = 'adding-links'>Adding a PBL Link</h4>
+<p>The Chrome Extension is the recommended way to add a Link. You can add a link by 
+	<ol>
+		<li>Click the PBL Extension icon</li>
+		<li>Click "Add a PBL Links"</li>
+		<li>The current tab's URL will be copied in as the URL, but you can edit this</li>
+		<li><img src = '/assets/extension-add-example.png' height=100></img></li>
+		<li>Provide a key for the URL (see <a href = '#conventions'>Naming Conventions</a>)</li>
+		<li>Provide a description and directory for your link
+			<ul>
+				<li>If you cannot find a good directory for your link, consider <b>creating a new directory</b></li>
+				<li>Click "Create New Directory"</li>
+				<li>Enter a directory name (see <a href = '#conventions'>Directory Structure Conventions</a>)</li>
+				<li><img src = '/assets/extension-directory-example.png' height=100></img></li>
+			</ul>
+		</li>
+		<li>Click "Add New Link," You will see a confirmation screen when the link has been added</li>
+		<li><img src = '/assets/extension-add-confirmation-example.png' height=100></img></li>
+		<li>visit pbl.link/key to see your resource up and running!</li>
+		<li>We run a daily indexing job, so you will be able to search for your link in our search engine within a day of creating your link</li>
+	</ol>
+	It is also possible to add links by visiting <a href = "http://add.pbl.link">add.pbl.link</a> but we <b>highly recommend using our chrome extension instead (<a href = 'http://pbl.link/chrome-extension'>pbl.link/chrome-extension</a>)</b>
+</p>
+<h4 id = 'updating-links'>Updating an Existing Link</h4>
+
+</p>
+
 <img src = '/assets/writing.png' height=150></img>
-<h3 id = 'installing' class = 'middle-title'>Naming Conventions and Directory Structure</h3>
+<h3 id = 'conventions' class = 'middle-title'>Naming Conventions and Directory Structure</h3>
 <p>To get the most out of PBL Links, we've adopted this naming convention and directory structure
 <ul>
 <li>Keys are lowercase alphanumeric words separated by a hyphen ("-") (example: wd-drive)</li>
