@@ -20,7 +20,7 @@ Installation steps are provided in install.sh (for Ubuntu 14.04) and mac_install
 
 
 # Design
-
+![Portal ER Diagram](/documentation/er_diagram.jpg?raw=true "Portal ER Diagram")
 ## Member Database
 
 ### Member (Model)
