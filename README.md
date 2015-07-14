@@ -10,15 +10,14 @@
 
 # Overview
 
-The 'portal' refers to this web application which provides three main services: member database, points, and tabling. This README is meant to be a developers guide to getting started with the portal
+The 'portal' refers to this web application which provides three main services: member database, points, and tabling. 
+
+Recent additions to the portal are __PBL Links__ and __Deliberations__.
 
 # Installation
 
-See the installation instructions on Piazza (TODO duplicate them here)
+Installation steps are provided in install.sh (for Ubuntu 14.04) and mac_install.sh (for mac). You can run these scripts like "sudo sh install.sh"
 
-# Frontend Documentation
-
-We expect only these models/methods to be exposed to the frontend. Here is documentation for the methods that you need to develop a frontend for the portal
 
 # Design
 
