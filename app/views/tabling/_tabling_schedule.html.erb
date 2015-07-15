@@ -8,9 +8,9 @@
 		<div class = 'tabling-day'>
 		<% @slots[tabling_day].each do |tabling_slot| %>
 			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
-				<div class = 'tabling-slot-label label label-material-purple-500'><%= tabling_slot.time_string %></div>
+				<h4 class = 'tabling-slot-label'><%= tabling_slot.time_string %></h4>
 				<% tabling_slot.member_emails.each do |email| %>
-					<div><%= member_email_hash[email].name %></div>
+					<div><img src = '<%= member_email_hash[email].gravatar_url %>' class ='profile-image profile-image-small'></img><%= member_email_hash[email].name %></div>
 				<% end %>
 			</div>
 		<% end %>

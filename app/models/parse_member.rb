@@ -8,6 +8,10 @@ class ParseMember < ParseResource::Base
 	:role, :year, :committee
 
 
+	def gravatar_url(size = 100)
+		gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
+    	return "http://gravatar.com/avatar/#{gravatar_id}.png?s="+size.to_s
+	end
 	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
 
 	def self.hash 

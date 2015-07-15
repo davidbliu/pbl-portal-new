@@ -1,29 +1,25 @@
+<style type = 'text/css'>
+.small{
+	text-decoration: line-through;
+	opacity:0.3;
+}
+</style>
+
 <table class = 'table table-condensed'>
-	<thead>
-		<th></th>
-		<th>List</th>
-		<th>Task</th>
-	<!-- 	<th>Assigner</th>
-		<th>Assignee</th> -->
-		<!-- <th>Labels</th> -->
-		<th>Due</th>
-	</thead>
+	
 	<tbody>
 		<% [false, true].each do |state| %>
 		<div id = '<%= state %>-cards'>
 			<% cards.select{|x| x.closed? == state}.each do |card| %>
 			<% if card.closed? %>
-			<tr class = 'text-muted'>
-			<td><input checked = 'checked' type="checkbox"></td>
+			<tr class = 'small' id = '<%= card.id %>-row'>
+			<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked = 'checked'></td>
 			<% else %>
-			<tr>
-			<td><input type="checkbox"></td>
+			<tr id = '<%= card.id %>-row'>
+			<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'></td>
 			<% end %>
 				<td><%= list_hash[card.list_id].name %></td>
 				<td><a href = '<%= card.url %>' target = '_blank'><%= card.name %></a>
-				<!-- </td> -->
-				
-				<!-- <td> -->
 					<% card.card_labels.each do |label| %>
 						<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
 					<% end %>
@@ -35,3 +31,21 @@
 		</div>
 	</tbody>
 </table>
+
+
+<script type = 'text/javascript'>
+function activateTaskCheckbox(){
+	$('.task-checkbox').click(function(){
+		// alert($(this).attr('id'));
+		id = $(this).attr('id');
+		row = $('#' + id + '-row');
+		if($(row).hasClass('small')){
+			$(row).removeClass('small');
+		}
+		else{
+			$(row).addClass('small');
+		}
+	});
+}
+activateTaskCheckbox();
+</script>

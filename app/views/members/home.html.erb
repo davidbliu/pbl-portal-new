@@ -17,8 +17,13 @@
 <%= stylesheet_link_tag "golink_catalogue" %>
 <%= render 'go/catalogue_modal' %>
 <div class = 'row'>
-
 	<div class = 'col-md-6'>
+		<% if current_member %>
+		<div id = 'me-div'>
+			<img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img>
+			<div>Set your professional image on <a href = 'http://pbl.link/gravatar' target = '_blank'>pbl.link/gravatar</a></div>
+		</div>
+		<% end %>
 		<div class="home-card-small">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
 		    <ul class = 'list-group'>
@@ -27,9 +32,9 @@
 		</div>	
 
 		<div class="home-card-small">
-		    <h3><span class = 'mdi-action-toc'></span>&nbsp;Tasks</h3>
-		    <div>Update Tasks at <a href = 'http://pbl.link/neon-trello'>pbl.link/update-tasks</a></div>
-		    <div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div>
+		    <h3><img src = '/assets/trello-logo.png' height=45></img>&nbsp;Tasks</h3>
+		    <div>Update Tasks at <a href = 'http://pbl.link/neon-trello' target = '_blank'>pbl.link/trello</a></div>
+		    <p><div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div></p>
 		</div>	
 	</div>
 

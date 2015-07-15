@@ -5,6 +5,7 @@
 <table class='table table-striped'>
   <thead>
     <tr>
+      <th></th>
       <th>Name</th>
       <th>Committee</th>
       <th>Role</th>
@@ -18,6 +19,7 @@
   <tbody>
     <% @current_members.each do |member| %>
       <tr>
+        <td><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img></td>
         <td><%= member.name %></td>
         <td><%= member.committee %></td>
         <td><%= member.role.capitalize %></td>

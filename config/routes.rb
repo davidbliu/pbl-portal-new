@@ -45,6 +45,8 @@ Dockernotes::Application.routes.draw do
 
   """tasks routes """
   get '/tasks', to:'tasks#home'
+  get '/tasks/clearcache', to: 'tasks#clearcache'
+  get '/tasks/guide', to: 'tasks#guide'
 
   resources :google_events do 
     collection do 

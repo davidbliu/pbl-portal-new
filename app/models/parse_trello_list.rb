@@ -7,8 +7,20 @@ class ParseTrelloList < ParseResource::Base
 		due ? due.strftime("%a %m/%d/%y at %H:%M") : ''
 	end
 
+
 	def self.list_hash
-		return ParseTrelloList.limit(10000).all.index_by(&:list_id)
+		a = Rails.cache.read('trello_list_hash')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloList.limit(10000).all.index_by(&:list_id)
+		Rails.cache.write('trello_list_hash', a)
+		return a
+	end
+
+	def self.board_ids
+		# self.list_hash.values.map{|x| x.board_id}
+		return ['5588dbbc2442c13db37dd6dd']
 	end
 
 	def self.import
