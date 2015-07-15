@@ -18,7 +18,7 @@
 <%= render 'go/catalogue_modal' %>
 <div class = 'row'>
 
-	<div class = 'col-md-4'>
+	<div class = 'col-md-6'>
 		<div class="home-card-small">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
 		    <ul class = 'list-group'>
@@ -27,16 +27,13 @@
 		</div>	
 
 		<div class="home-card-small">
-		    <h3><span class = 'mdi-action-toc'></span>&nbsp;TO DO</h3>
-		    <ul class = 'list-group'>
-		    	<li class = 'list-group-item'>Sign up for 3 Concessions</li>
-		    	<li class = 'list-group-item'>Fill out mid-semester survey</li>
-		    	<li class = 'list-group-item'>Pay for Yearbook</li>
-		    </ul>
+		    <h3><span class = 'mdi-action-toc'></span>&nbsp;Tasks</h3>
+		    <div>Update Tasks at <a href = 'http://pbl.link/neon-trello'>pbl.link/update-tasks</a></div>
+		    <div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div>
 		</div>	
 	</div>
 
-<div class = 'col-md-8'>
+<div class = 'col-md-6'>
 <div class = 'home-card'>
 		<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
 		<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
@@ -59,4 +56,4 @@ var email = "asdf";
 <% end %>
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
-
+<%= javascript_include_tag "trello_tasks" %>

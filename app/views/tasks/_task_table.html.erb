@@ -1,0 +1,37 @@
+<table class = 'table table-condensed'>
+	<thead>
+		<th></th>
+		<th>List</th>
+		<th>Task</th>
+	<!-- 	<th>Assigner</th>
+		<th>Assignee</th> -->
+		<!-- <th>Labels</th> -->
+		<th>Due</th>
+	</thead>
+	<tbody>
+		<% [false, true].each do |state| %>
+		<div id = '<%= state %>-cards'>
+			<% cards.select{|x| x.closed? == state}.each do |card| %>
+			<% if card.closed? %>
+			<tr class = 'text-muted'>
+			<td><input checked = 'checked' type="checkbox"></td>
+			<% else %>
+			<tr>
+			<td><input type="checkbox"></td>
+			<% end %>
+				<td><%= list_hash[card.list_id].name %></td>
+				<td><a href = '<%= card.url %>' target = '_blank'><%= card.name %></a>
+				<!-- </td> -->
+				
+				<!-- <td> -->
+					<% card.card_labels.each do |label| %>
+						<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
+					<% end %>
+				</td>
+				<td><%= ParseTrelloList.due_string(card.due) %></td>
+			</tr>
+			<% end %>
+		<% end %>
+		</div>
+	</tbody>
+</table>

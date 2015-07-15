@@ -74,6 +74,9 @@ gem 'elasticsearch-rails'
 # show thumbnails of links
 gem 'link_thumbnailer'
 
+# tasks
+gem 'ruby-trello'
+
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
 #

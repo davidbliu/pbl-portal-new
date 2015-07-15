@@ -8,6 +8,7 @@ end
 board_id = '5588dbbc2442c13db37dd6dd'
 # bob = Trello::Member.find("bobtester")
 # boards = Trello::Board.find(board_id)
+
 me = Trello::Member.find('davidliu42')
 
 my_cards = me.cards(:filter => :all).select{|x| x.board_id == board_id}
@@ -16,5 +17,14 @@ my_cards.each do |card|
 	# puts "\t" + card.due.to_s
 	# puts "\t" + card.desc.to_s
 	# puts "\t" + card.board_id
+end
+
+me.boards.each do |board|
+	board.lists.each do |list|
+		puts list.name + list.id.to_s
+		list.cards.each do |card|
+			puts "\t" + card.name
+		end
+	end
 end
 puts 'done'
