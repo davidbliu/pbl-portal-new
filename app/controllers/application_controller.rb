@@ -5,13 +5,27 @@ class ApplicationController < ActionController::Base
   # include SessionsHelper
   include AuthHelper
   # include GoogleApiHelper
-  # include CalendarsHelper
+  include CalendarsHelper
   # include EventsHelper
   include CacheHelper
   before_filter :current_member 
   
 
 
+  def calendar_pull
+    cal = Google::Calendar.new(:client_id     => ENV['GOOGLE_INSTALLED_CLIENT_ID'], 
+                           :client_secret => ENV['GOOGLE_INSTALLED_CLIENT_SECRET'],
+                           :calendar      => GoogleEvent.pbl_events_calendar_id,
+                           :redirect_url  => "urn:ietf:wg:oauth:2.0:oob" # this is what Google uses for 'applications'
+                           )
+  cal.login_with_refresh_token(ENV['REFRESH_TOKEN'])
+  now = Time.now.utc
+    start_min = Time.now-4.months
+    start_max = start_min + 1.week
+    @google_events = cal.find_events_in_range(start_min, start_max, :max_results=>1000)
+
+    render 'layouts/google_events', :layout=>false
+  end
 
   def clearcache
     """ clears all items from cache """

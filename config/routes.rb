@@ -53,6 +53,8 @@ Dockernotes::Application.routes.draw do
   get '/tasks/create', to: 'tasks#create'
   post '/tasks/create_task', to: 'tasks#create_task'
 
+  get 'calendar_pull', to: 'application#calendar_pull'
+
   resources :google_events do 
     collection do 
       get 'google_calendar_redirect'

@@ -27,7 +27,10 @@ class TasksController < ApplicationController
 	end
 
 	def create
-		@trello_members = member_email_hash.values.select{|x| x.has_trello and x.email}
+		@trello_members = current_members.select{|x| x.has_trello and x.email}
+		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
+		@board_hash = ParseTrelloBoard.registered_boards
+		@main_board = ParseTrelloBoard.main_board
 	end
 
 
@@ -61,8 +64,9 @@ class TasksController < ApplicationController
 		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
 		  config.member_token = trello_member_token # The token from step 3.
 		end
-		main_board = ParseTrelloBoard.registered_boards.values.select{|x| x.status=='main'}[0]
-		doing_list = ParseTrelloList.list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == main_board.board_id}[0]
+		# main_board = ParseTrelloBoard.registered_boards.values.select{|x| x.status=='main'}[0]
+		board_id = params[:board_id]
+		doing_list = ParseTrelloList.list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
 		card = Trello::Card.create(name: task_name, description: task_description, member_ids: member_ids.join(','), list_id: doing_list.list_id)
 		card.save
 

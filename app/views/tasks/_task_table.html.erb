@@ -19,17 +19,26 @@
 .text-detail{
 	font-size:10px;
 }
+a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 </style>
 
 <!-- <table class = 'table table-condensed'> -->
 	
 	<!-- <tbody> -->
+	<ul class = 'list-group'>
+		<% board_hash.keys.reverse.each do |board_id| %>
+		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
+		<li class = 'list-group-item'><a href = '#<%= board_id %>-card-anchor'><%= board_hash[board_id].name %></a></li>
+		<% end %>
+		<% end %>
+	</ul>
 	
 		
 	<% board_hash.keys.reverse.each do |board_id| %>
 		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
 		<div class = 'task-list-card shadow-z-1'>
-			<h4><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
+			
+			<h4><a class="anchor" id = '<%= board_id %>-card-anchor'></a><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
 				<ul class = 'list-group'>
 				<% [false, true].each do |state| %>
 					<% cards.select{|x| x.board_id == board_id and list_hash[x.list_id].name.include?("Done") == state}.each do |card| %>
@@ -48,6 +57,7 @@
 							<% end %>
 							</div> <!-- end of main-content -->
 							<div class = 'text-muted text-detail'><%= ParseTrelloList.due_string(card.due) %></div>
+							<div class = 'text-muted text-detail card-description'><%= card.desc %></div>
 							<div style = 'display:none' class = 'hidden-card-info'><%= card.to_json %></div>
 						</li>
 					<% end %>

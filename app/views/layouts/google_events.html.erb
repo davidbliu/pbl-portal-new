@@ -1,0 +1,13 @@
+<% if @google_events.length == 0 %>
+<h4>No Upcoming Events</h4>
+<% end %>
+<% @google_events.each do |event| %>
+<div class = 'event-div'>
+	<div><%= event.title %></div>
+	<div class = 'smalltext text-muted'><%= event.location %></div>
+	<div class = 'smalltext text-muted'><%= event.description %></div>
+	<div class = 'smalltext text-muted'><%= time_to_string(event.start_time) %> to <%= time_to_string(event.end_time) %></div>
+</div>
+<% end %>
+
+<!-- { "summary": "[PBL] Faculty Mentorship Program Lunch - Frank Schultz", "description": "", "location": "Pasta Bene, 2565 Telegraph Avenue, Berkeley, CA 94704, United States", "start": { "dateTime": "2015-04-17T18:00:00Z" }, "end": { "dateTime": "2015-04-17T20:00:00Z" }, "attendees": [ { "displayName": "", "email": "fschultz@berkeley.edu", "responseStatus": "accepted" }], "reminders": { "useDefault": true } } -->

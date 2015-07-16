@@ -10,4 +10,13 @@ module CalendarsHelper
     id.split('-dot-').join('.').split('-at-').join('@')
   end
 
+  def time_to_string(time)
+  	if time
+  		utc_time = Time.iso8601(time)
+  		t = utc_time+ Time.zone_offset("PDT")
+		return t.strftime("%l:%M %p %a %m/%d/%y")
+	end
+	return ''
+  end
+
 end

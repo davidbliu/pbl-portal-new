@@ -12,7 +12,14 @@
 	padding: 0px 10px 0px 10px;
 	margin:15px;
 }
-
+.right-card{
+	/*border:1px solid rgba(0,0,0,0.1);*/
+	margin:10px;	
+	border-radius:5px;
+	background-color: rgba(247, 247, 247, 0.85);
+  border-radius:5px;
+  padding: 10px;
+}
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
 <%= render 'go/catalogue_modal' %>
@@ -42,16 +49,21 @@
 <div class = 'col-md-6'>
 	<div class="home-card">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
-		    <ul class = 'list-group'>
-		    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
-		    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
-		    	<li class = 'list-group-item'>Dont forget to check out professional photos at <a href = 'http://pbl.link/of-photos'>pbl.link/of-photos</a></li>
-		    </ul>
+		    <div class = 'right-card shadow-z-1'>
+			    <ul class = 'list-group'>
+			    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
+			    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
+			    	<li class = 'list-group-item'>Dont forget to check out professional photos at <a href = 'http://pbl.link/of-photos'>pbl.link/of-photos</a></li>
+			    </ul>
+			</div>
 		</div>	
 
 		<div class = 'home-card'>
-			<h3>Upcoming Events</h3>
+			<h3><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
 		<!-- 	<iframe src="https://www.google.com/calendar/embed?showPrint=0&amp;showTabs=0&amp;showCalendars=0&amp;showTz=0&amp;mode=AGENDA&amp;height=400&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=8bo2rpf4joem2kq9q2n940p1ss%40group.calendar.google.com&amp;color=%23B1365F&amp;ctz=America%2FLos_Angeles" style=" border-width:0 " width="100%" height="400" frameborder="0" scrolling="no"></iframe> -->
+			<div class = 'right-card shadow-z-1' id = 'events-container'>
+				<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>
+			</div>
 		</div>
 
 
@@ -83,3 +95,4 @@ var email = "asdf";
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
 <%= javascript_include_tag "trello_tasks" %>
+<%= javascript_include_tag "calendar_pull" %>

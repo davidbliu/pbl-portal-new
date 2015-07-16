@@ -8,11 +8,17 @@
 	border:none;
 }
 .member-div{
-	margin:5px;
+	padding:5px;
 }
 .member-div:hover{
 	/*margin:5px;*/
 	cursor:pointer;
+}
+.smalltext{
+	font-size:10px;
+}
+.member-unregistered-div{
+	float:left; margin-left:15px;
 }
 </style>
 <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/>
@@ -26,7 +32,18 @@
 <h4>Step 1: What is the Task?</h4>
 <input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
 
-<!-- <h4>Provide a brief description</h4> -->
+<h5>Optional: Select a Custom Board to send it to</h5>
+<p class = 'smalltext'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
+<p class = 'smalltext'>Read more about <a href = '#'>setting up custom boards</a></p>
+<select id = 'board-select' class = 'input-sm'>
+	<% @board_hash.keys.each do |board_id| %>
+		<% if board_id == @main_board.board_id %>
+		<option id = '<%= board_id %>' selected>Default: <%= @board_hash[board_id].name %></option>
+		<% else %>
+		<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>
+		<% end %>
+	<% end %>
+</select>
 <!-- <textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea> -->
 
 </div>
@@ -38,21 +55,25 @@
 	<div class = 'member-div' id = '<%= member.trello_member_id %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
 <% end %>
 
+<h5>Someone missing from this list?</h5>
+<p class = 'smalltext'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</p>
+<p><% @unregistered_members.each do |member| %>
+	<div class = 'member-unregistered-div'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= member.name %></div>
+<% end %>
+</p>
 </div>
 
 <div class = 'col-md-4'>
 
 <h4>Step 3: Create Your Task</h4>
 <button id = 'create-btn' class = 'btn btn-material-blue-500'>Create</button>
-
+<div id = 'update-container' style = 'display:none;'></div>
 </div>
 </div>
 <!-- end of row -->
 
 <div class = 'row'>
-<div id = 'update-container' style = 'display:none;text-align:center'>
-<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100>
-</div>
+
 
 </div>
 
@@ -65,7 +86,7 @@ $('.member-div').click(function(){
 		$(this).addClass('card');
 	}
 });
-
+var loader_image = "<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>";
 $('#create-btn').click(function(){
 	task_name = $('#task-name-input').val();
 	// task_description = $('#task-description-input').val();
@@ -75,14 +96,17 @@ $('#create-btn').click(function(){
 			member_ids.push($(this).attr('id'));
 		}
 	});
+	board_id = $('#board-select :selected').attr('id');
+	console.log(board_id);
 	console.log(task_name);
 	console.log(member_ids);
 	//activate spinner
 	$('#update-container').show();
+	$('#update-container').html(loader_image);
 	$.ajax({
 	      url: '/tasks/create_task/',
 	      type: 'POST',
-	      data: {name: task_name, description: '', member_ids: member_ids},
+	      data: {name: task_name, description: '', member_ids: member_ids, board_id: board_id},
 	      success:function(data){
 	        // location.reload();
 	        $('#update-container').html(data);
