@@ -51,6 +51,7 @@ Dockernotes::Application.routes.draw do
   get '/tasks/import', to: 'tasks#import'
   get '/tasks/update_trello_info', to: 'tasks#update_trello_info'
   get '/tasks/create', to: 'tasks#create'
+  post '/tasks/create_task', to: 'tasks#create_task'
 
   resources :google_events do 
     collection do 

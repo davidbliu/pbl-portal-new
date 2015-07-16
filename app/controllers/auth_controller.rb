@@ -4,6 +4,7 @@ class AuthController < ApplicationController
 	end
 
 	def google_callback
+		puts 'callback is starting'
 		result = Hash.new
 		authentication_info = request.env["omniauth.auth"]
 		

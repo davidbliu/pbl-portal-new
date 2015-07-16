@@ -10,7 +10,7 @@
 			<div class = 'tabling-slot' id = '<%= tabling_slot.id %>'>
 				<h4 class = 'tabling-slot-label'><%= tabling_slot.time_string %></h4>
 				<% tabling_slot.member_emails.each do |email| %>
-					<div><img src = '<%= member_email_hash[email].gravatar_url %>' class ='profile-image profile-image-small'></img><%= member_email_hash[email].name %></div>
+					<div style = 'margin-bottom:5px'><img src = '<%= member_email_hash[email].gravatar_url %>' class ='profile-image profile-image-small'></img>&nbsp;&nbsp;<%= member_email_hash[email].name %></div>
 				<% end %>
 			</div>
 		<% end %>

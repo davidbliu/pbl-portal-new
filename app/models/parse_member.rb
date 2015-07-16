@@ -5,12 +5,16 @@ class ParseMember < ParseResource::Base
 	:profile, :old_member_id, :remember_token, 
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
-	:role, :year, :committee, :trello_id, :trello_token
+	:role, :year, :committee, :trello_id, :trello_token, :trello_member_id
 
 
 	def gravatar_url(size = 100)
 		gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
     	return "http://gravatar.com/avatar/#{gravatar_id}.png?s="+size.to_s
+	end
+
+	def has_trello
+		self.trello_id != nil and self.trello_id != '' and self.trello_token != nil and self.trello_token != ''
 	end
 	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
 

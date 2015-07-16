@@ -4,7 +4,11 @@ class ParseTrelloList < ParseResource::Base
 	fields :name, :list_id, :board_id, :board_name
 
 	def self.due_string(due)
-		due ? due.strftime("%a %m/%d/%y at %H:%M") : ''
+		if due
+			due = due+ Time.zone_offset("PDT")
+			return due.strftime("%l:%M %p %a %m/%d/%y")
+		end
+		return ''
 	end
 
 
@@ -18,35 +22,6 @@ class ParseTrelloList < ParseResource::Base
 		return a
 	end
 
-	def self.board_hash
-		a = Rails.cache.read('trello_board_hash')
-		if a != nil
-			return a
-		end
-		a = Hash.new
-		ParseTrelloList.list_hash.values.each do |elem|
-			if not a.keys.include?(elem.board_id)
-				a[elem.board_id] = elem.board_name
-			end
-		end
-		Rails.cache.write('trello_board_hash', a)
-		return a
-	end
-
-	def self.board_lists
-		list_hash = ParseTrelloList.list_hash
-		h = Hash.new
-		self.board_hash.keys.each do |board_id|
-			h[board_id] = list_hash.values.select{|y| y.board_id == board_id}
-		end
-		return h
-	end
-
-	def self.board_ids
-		# self.list_hash.values.map{|x| x.board_id}
-		return ['5588dbbc2442c13db37dd6dd', '5539e97cba55f9125828d4e6']
-	end
-
 	def self.import
 		lists = Array.new
 		seen_board_ids = Array.new
@@ -58,6 +33,12 @@ class ParseTrelloList < ParseResource::Base
 				end
 
 				me = Trello::Member.find(member.trello_id)
+
+				""" save the member_id for fast access """
+				member_id = me.id
+				member.trello_member_id = member_id
+				member.save
+
 				me.boards.each do |board|
 					if not seen_board_ids.include?(board.id)
 						puts board.name
@@ -74,6 +55,19 @@ class ParseTrelloList < ParseResource::Base
 		puts 'saving lists'
 		ParseTrelloList.destroy_all
 		ParseTrelloList.save_all(lists)
+		seen_board_ids = Array.new
+		boards = Array.new
+		ParseTrelloList.limit(10000).all.each do |list|
+			if not seen_board_ids.include?(list.board_id)
+				seen_board_ids << list.board_id 
+				board = ParseTrelloBoard.new(name: list.board_name, board_id: list.board_id, status: "")
+				boards << board
+				puts board.name
+			end
+		end
+		puts 'saving boards....'
+		ParseTrelloBoard.destroy_all
+		ParseTrelloBoard.save_all(boards)
 		return true
 	end
 end

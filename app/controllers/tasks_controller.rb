@@ -17,15 +17,9 @@ class TasksController < ApplicationController
 		if trello_member_id and trello_member_token and trello_member_id != '' and trello_member_token != ''
 			me = Trello::Member.find(trello_member_id)
 			@list_hash = ParseTrelloList.list_hash
-			@board_hash = ParseTrelloList.board_hash
-			@board_lists = ParseTrelloList.board_lists
+			@board_hash = ParseTrelloBoard.registered_boards
 			@cards = me.cards(:filter => :all).select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
-			
-			@cards.each do |card|
-				puts card.name
-				puts @board_hash[card.board_id]
-				puts @list_hash[card.list_id].name
-			end
+
 			render 'home', :layout => false
 		else
 			render "no_trello", :layout=>false
@@ -33,14 +27,16 @@ class TasksController < ApplicationController
 	end
 
 	def create
+		@trello_members = member_email_hash.values.select{|x| x.has_trello and x.email}
 	end
+
 
 	def guide
 	end 
 
 	def clearcache
 		Rails.cache.write('trello_list_hash', nil)
-		Rails.cache.write('trello_board_hash', nil)
+		Rails.cache.write('registered_boards', nil)
 		redirect_to root_path
 	end
 
@@ -53,6 +49,24 @@ class TasksController < ApplicationController
 		Rails.cache.write('trello_list_hash', nil)
 		Rails.cache.write('trello_board_hash', nil)
 		redirect_to root_path
+	end
+
+	def create_task
+		task_name = params[:name]
+		task_description = params[:description]
+		member_ids = params[:member_ids]
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		main_board = ParseTrelloBoard.registered_boards.values.select{|x| x.status=='main'}[0]
+		doing_list = ParseTrelloList.list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == main_board.board_id}[0]
+		card = Trello::Card.create(name: task_name, description: task_description, member_ids: member_ids.join(','), list_id: doing_list.list_id)
+		card.save
+		render nothing: true, :status=>200
+
 	end
 
 	def update

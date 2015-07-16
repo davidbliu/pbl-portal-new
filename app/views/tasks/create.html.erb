@@ -1,1 +1,107 @@
-<h1>Create a Task</h1>
+<style type = 'text/css'>
+#task-name-input{
+	width:100%;
+	border:none;
+}
+#task-description-input{
+	width:100%;
+	border:none;
+}
+.member-div{
+	margin:5px;
+}
+.member-div:hover{
+	/*margin:5px;*/
+	cursor:pointer;
+}
+</style>
+<link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/>
+<script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script>
+<h1 style = 'text-align:center'><img src = '/assets/trello-logo.png' height=50></img> Create a Task</h1>
+
+
+<div class = 'col-md-4'>
+
+<h4>Step 1: What is the Task?</h4>
+<input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
+
+<h4>Provide a brief description</h4>
+<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
+
+<h4>Provide a Due Date</h4>
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+
+<div class = 'col-md-4'>
+
+<h4>Step 2: Select Members to Assign</h4>
+<% @trello_members.each do |member| %>
+	<div class = 'member-div' id = '<%= member.trello_member_id %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
+<% end %>
+
+</div>
+
+<div class = 'col-md-4'>
+
+<h4>Step 3: Create Your Task</h4>
+<button id = 'create-btn' class = 'btn btn-material-blue-500'>Create</button>
+
+</div>
+
+<script type = 'text/javascript'>
+$('.member-div').click(function(){
+	if($(this).hasClass('card')){
+		$(this).removeClass('card');
+	}
+	else{
+		$(this).addClass('card');
+	}
+});
+
+$('#create-btn').click(function(){
+	task_name = $('#task-name-input').val();
+	task_description = $('#task-description-input').val();
+	member_ids = [];
+	$('.member-div').each(function(){
+		if($(this).hasClass('card')){
+			member_ids.push($(this).attr('id'));
+		}
+	});
+	console.log(task_name);
+	console.log(task_description);
+	console.log(member_ids);
+	$.ajax({
+	      url: '/tasks/create_task/',
+	      type: 'POST',
+	      data: {name: task_name, description: task_description, member_ids: member_ids},
+	      success:function(data){
+	        // location.reload();
+	        alert('Task successfully created');
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed');
+	      }
+	  });
+
+});
+
+$(document).ready(function(){
+	$('#datetimepicker1').datetimepicker();
+});
+</script>
