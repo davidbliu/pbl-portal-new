@@ -12,5 +12,9 @@ class ParseTrelloBoard < ParseResource::Base
 		return a
 	end
 
+	def self.main_board
+		return self.registered_boards.values.select{|x| x.status=='main'}[0]
+	end
+
 
 end

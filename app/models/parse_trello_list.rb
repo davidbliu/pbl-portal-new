@@ -35,9 +35,11 @@ class ParseTrelloList < ParseResource::Base
 				me = Trello::Member.find(member.trello_id)
 
 				""" save the member_id for fast access """
-				member_id = me.id
-				member.trello_member_id = member_id
-				member.save
+				if member.trello_member_id == nil
+					member_id = me.id
+					member.trello_member_id = member_id
+					member.save
+				end
 
 				me.boards.each do |board|
 					if not seen_board_ids.include?(board.id)

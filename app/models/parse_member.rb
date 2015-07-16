@@ -14,7 +14,7 @@ class ParseMember < ParseResource::Base
 	end
 
 	def has_trello
-		self.trello_id != nil and self.trello_id != '' and self.trello_token != nil and self.trello_token != ''
+		self.trello_id != nil and self.trello_id != '' and self.trello_token != nil and self.trello_token != '' and self.trello_member_id and self.trello_member_id != ''
 	end
 	""" WE USE EMAIL AS PRIMARY KEY: TODO SOME SORT OF VALIDATION CONSTRAINT """ 
 

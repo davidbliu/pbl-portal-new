@@ -65,19 +65,21 @@ class TasksController < ApplicationController
 		doing_list = ParseTrelloList.list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == main_board.board_id}[0]
 		card = Trello::Card.create(name: task_name, description: task_description, member_ids: member_ids.join(','), list_id: doing_list.list_id)
 		card.save
-		render nothing: true, :status=>200
+
+		@card = card
+		# render nothing: true, :status=>200
+		render 'task_created', :layout=>false
 
 	end
 
 	def update
 		@list_hash = ParseTrelloList.list_hash
-		@board_hash = ParseTrelloList.board_hash
-		@board_lists = ParseTrelloList.board_lists
+		@board_hash = ParseTrelloBoard.registered_boards
 		card_id = params[:card_id]
 		list_id = params[:list_id]
 		board_id  = params[:board_id]
 		checked = params[:checked]
-		board_lists =  @board_lists[board_id]
+		board_lists =  @list_hash.values.select{|x| x.board_id == board_id}
 
 		""" configure Trello for this user """
 		trello_member_token = current_member.trello_token # david
@@ -93,11 +95,9 @@ class TasksController < ApplicationController
 		else
 			working_list = board_lists.select{|x| x.name.include?("Doing")}[0]
 			card.list_id = working_list.list_id
-			puts 'THIS ONE'
 			puts working_list
 		end
 		card = card.save
-		puts card
 		render nothing: true, :status=>200
 	end
 
@@ -105,6 +105,18 @@ class TasksController < ApplicationController
 		if current_member
 			current_member.trello_id = params[:id]
 			current_member.trello_token = params[:key]
+
+			""" configure Trello for this user """
+			if current_member.trello_token != nil and current_member.trello_id != nil and current_member.trello_token != '' and current_member.trello_id != ''
+				trello_member_token = current_member.trello_token # david
+				Trello.configure do |config|
+				  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+				  config.member_token = trello_member_token # The token from step 3.
+				end
+				me  = Trello::Member.find(current_member.trello_id)
+				current_member.trello_member_id = me.id
+			end
+
 			current_member.save
 			clear_member_cache
 		end

@@ -14,7 +14,7 @@
 </style>
 <div id = 'trello-setup-container'>
 <h4>Oops, it looks like you don't have a Trello account set up yet!</h4>
-<p>Setting up Trello on the Portal is quick!
+<p id = 'set-up-trello-p'>Setting up Trello on the Portal is quick!
 	<ol>
 		<li>Visit <a href = 'http://pbl.link/trello-account' target = '_blank'>pbl.link/trello-account</a> to create an account on Trello</li>
 		<li>Visit <a href = 'http://pbl.link/trello-token' target = '_blank'>pbl.link/trello-token</a> to get an access token for the Portal to use</li>
@@ -30,6 +30,7 @@
 <script type = 'text/javascript'>
 function updateTrelloActions(){
    $("#update-trello-btn").click(function(){
+   		$('#set-up-trello-p').html("<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>");
   		id = $('#trello-id-input').val();
   		key = $('#trello-key-input').val();
   		window.location.replace("/tasks/update_trello_info?key="+key+"&id="+id);

@@ -20,31 +20,14 @@
 <h1 style = 'text-align:center'><img src = '/assets/trello-logo.png' height=50></img> Create a Task</h1>
 
 
+<div class = 'row'>
 <div class = 'col-md-4'>
 
 <h4>Step 1: What is the Task?</h4>
 <input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
 
-<h4>Provide a brief description</h4>
-<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
-
-<h4>Provide a Due Date</h4>
-<div class="container">
-    <div class="row">
-        <div class='col-sm-6'>
-            <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                    <input type='text' class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-            </div>
-        </div>
-        
-    </div>
-</div>
-
+<!-- <h4>Provide a brief description</h4> -->
+<!-- <textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea> -->
 
 </div>
 
@@ -63,6 +46,15 @@
 <button id = 'create-btn' class = 'btn btn-material-blue-500'>Create</button>
 
 </div>
+</div>
+<!-- end of row -->
+
+<div class = 'row'>
+<div id = 'update-container' style = 'display:none;text-align:center'>
+<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100>
+</div>
+
+</div>
 
 <script type = 'text/javascript'>
 $('.member-div').click(function(){
@@ -76,7 +68,7 @@ $('.member-div').click(function(){
 
 $('#create-btn').click(function(){
 	task_name = $('#task-name-input').val();
-	task_description = $('#task-description-input').val();
+	// task_description = $('#task-description-input').val();
 	member_ids = [];
 	$('.member-div').each(function(){
 		if($(this).hasClass('card')){
@@ -84,24 +76,22 @@ $('#create-btn').click(function(){
 		}
 	});
 	console.log(task_name);
-	console.log(task_description);
 	console.log(member_ids);
+	//activate spinner
+	$('#update-container').show();
 	$.ajax({
 	      url: '/tasks/create_task/',
 	      type: 'POST',
-	      data: {name: task_name, description: task_description, member_ids: member_ids},
+	      data: {name: task_name, description: '', member_ids: member_ids},
 	      success:function(data){
 	        // location.reload();
-	        alert('Task successfully created');
+	        $('#update-container').html(data);
 	      },
 	      error:function (xhr, textStatus, thrownError){
-	        alert('failed');
+	        $('#update-container').html('<h2>Failed to create task</h2>');
 	      }
 	  });
 
 });
 
-$(document).ready(function(){
-	$('#datetimepicker1').datetimepicker();
-});
 </script>
