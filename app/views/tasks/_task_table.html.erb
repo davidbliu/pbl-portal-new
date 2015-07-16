@@ -3,6 +3,8 @@
 	text-decoration: line-through;
 	opacity:0.3;
 }
+.list-option{
+}
 </style>
 
 <table class = 'table table-condensed'>
@@ -10,22 +12,25 @@
 	<tbody>
 		<% [false, true].each do |state| %>
 		<div id = '<%= state %>-cards'>
-			<% cards.select{|x| x.closed? == state}.each do |card| %>
-			<% if card.closed? %>
-			<tr class = 'small' id = '<%= card.id %>-row'>
-			<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked = 'checked'></td>
-			<% else %>
-			<tr id = '<%= card.id %>-row'>
-			<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'></td>
-			<% end %>
-				<td><%= list_hash[card.list_id].name %></td>
-				<td><a href = '<%= card.url %>' target = '_blank'><%= card.name %></a>
-					<% card.card_labels.each do |label| %>
-						<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
-					<% end %>
-				</td>
-				<td><%= ParseTrelloList.due_string(card.due) %></td>
-			</tr>
+			<% cards.select{|x| list_hash[x.list_id].name.include?("Done") == state}.each do |card| %>
+
+				<% if state == true %>
+				<tr class = 'small' id = '<%= card.id %>-row'>
+				<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked = 'checked'></td>
+				<% else %>
+				<tr id = '<%= card.id %>-row'>
+				<td><input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'></td>
+				<% end %>
+
+					<td><a href = '<%= card.url %>' target = '_blank'><%= card.name %></a>
+						<% card.card_labels.each do |label| %>
+							<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
+						<% end %>
+					</td>
+					<td><%= ParseTrelloList.due_string(card.due) %></td>
+					<td style = 'display:none' class = 'hidden-card-info'><%= card.to_json %></td>
+				</tr>
+
 			<% end %>
 		<% end %>
 		</div>
@@ -36,15 +41,41 @@
 <script type = 'text/javascript'>
 function activateTaskCheckbox(){
 	$('.task-checkbox').click(function(){
-		// alert($(this).attr('id'));
+
 		id = $(this).attr('id');
 		row = $('#' + id + '-row');
-		if($(row).hasClass('small')){
-			$(row).removeClass('small');
+
+		card_data = JSON.parse($(row).find('.hidden-card-info').html());
+		board_id = card_data.board_id
+		list_id = card_data.list_id
+		checked = false;
+		if ($(this).is(':checked')){
+			checked = true;
 		}
-		else{
-			$(row).addClass('small');
-		}
+		console.log(card_data);
+		console.log(checked);
+		that = $(this);
+		$.ajax({
+	      url: '/tasks/update',
+	      type: 'POST',
+	      data: {card_id: card_data.id, list_id: card_data.list_id, board_id: card_data.board_id, checked: checked},
+	      success:function(data){
+	        //toggle done or not
+			if($(row).hasClass('small')){
+				$(row).removeClass('small');
+			}
+			else{
+				$(row).addClass('small');
+			}
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	      	console.log("errror");
+	      	console.log(xhr);
+	        $(that).attr('checked', false);
+	      }
+	  	});
+
+		
 	});
 }
 activateTaskCheckbox();

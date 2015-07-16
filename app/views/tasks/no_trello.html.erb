@@ -1,0 +1,36 @@
+<style type = 'text/css'>
+#trello-setup-container{
+	  border: 1px solid rgba(0,0,0,0.1);
+	  padding: 15px;
+	  /*background-color: white;*/
+}
+.trello-input{
+	width:100%;
+	margin:5px;
+}
+</style>
+<div id = 'trello-setup-container'>
+<h4>Oops, it looks like you don't have a Trello account set up yet!</h4>
+<p>Setting up Trello on the Portal is quick!
+	<ol>
+		<li>Visit <a href = 'http://pbl.link/trello-account' target = '_blank'>pbl.link/trello-account</a> to create an account on Trello</li>
+		<li>Visit <a href = 'http://pbl.link/trello-token' target = '_blank'>pbl.link/trello-token</a> to get an access token for the Portal to use</li>
+		<li>Enter your account id and token here
+			<div><input id = 'trello-id-input' style = 'width:100%;border:none' class = 'trello-input input-sm' type = 'text' placeholder = 'ID (example: davidliu42)'/></div>
+			<div><input id = 'trello-key-input' style = 'width:100%;border:none;margin-top:3px' class = 'trello-input input-sm' type = 'text' placeholder = 'Token (example: 6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1)'/></div>
+		</li>
+		<li>Click <button id = 'update-trello-btn' type = 'btn' class = 'btn btn-primary btn-material-blue-700'>Submit</button> to save your information!</li>
+	</ol>
+</p>
+</div>
+
+<script type = 'text/javascript'>
+function updateTrelloActions(){
+   $("#update-trello-btn").click(function(){
+  		id = $('#trello-id-input').val();
+  		key = $('#trello-key-input').val();
+  		window.location.replace("/tasks/update_trello_info?key="+key+"&id="+id);
+	}); 
+}
+updateTrelloActions();
+</script>

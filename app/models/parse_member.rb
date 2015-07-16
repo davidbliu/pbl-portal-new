@@ -5,7 +5,7 @@ class ParseMember < ParseResource::Base
 	:profile, :old_member_id, :remember_token, 
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
-	:role, :year, :committee
+	:role, :year, :committee, :trello_id, :trello_token
 
 
 	def gravatar_url(size = 100)

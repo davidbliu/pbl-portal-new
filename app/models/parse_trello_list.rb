@@ -18,27 +18,57 @@ class ParseTrelloList < ParseResource::Base
 		return a
 	end
 
+	def self.board_hash
+		a = Rails.cache.read('trello_board_hash')
+		if a != nil
+			return a
+		end
+		a = Hash.new
+		ParseTrelloList.list_hash.values.each do |elem|
+			if not a.keys.include?(elem.board_id)
+				a[elem.board_id] = elem.board_name
+			end
+		end
+		Rails.cache.write('trello_board_hash', a)
+		return a
+	end
+
+	def self.board_lists
+		list_hash = ParseTrelloList.list_hash
+		h = Hash.new
+		self.board_hash.keys.each do |board_id|
+			h[board_id] = list_hash.values.select{|y| y.board_id == board_id}
+		end
+		return h
+	end
+
 	def self.board_ids
 		# self.list_hash.values.map{|x| x.board_id}
-		return ['5588dbbc2442c13db37dd6dd']
+		return ['5588dbbc2442c13db37dd6dd', '5539e97cba55f9125828d4e6']
 	end
 
 	def self.import
-		Trello.configure do |config|
-		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
-		  config.member_token = 'a8ce658eb73365a1981c07da5c736196dab1e61539d28ea8ac146ad4521d8d93' #davids
-		  # config.member_token = '6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1' #andreas
-		end
-
-		me = Trello::Member.find('davidliu42')
-
 		lists = Array.new
-		me.boards.each do |board|
-			puts board.name
-			puts board.id.to_s
-			board.lists.each do |list|
-				puts list.name + list.id.to_s
-				lists << ParseTrelloList.new(name: list.name, list_id: list.id, board_name: board.name, board_id: board.id)
+		seen_board_ids = Array.new
+		ParseMember.email_hash.values.each do |member|
+			if member.trello_token and member.trello_id and member.trello_token != '' and member.trello_id != ''
+				Trello.configure do |config|
+				  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119'
+				  config.member_token = member.trello_token
+				end
+
+				me = Trello::Member.find(member.trello_id)
+				me.boards.each do |board|
+					if not seen_board_ids.include?(board.id)
+						puts board.name
+						puts board.id.to_s
+						seen_board_ids << board.id
+						board.lists.each do |list|
+							puts list.name + list.id.to_s
+							lists << ParseTrelloList.new(name: list.name, list_id: list.id, board_name: board.name, board_id: board.id)
+						end
+					end
+				end
 			end
 		end
 		puts 'saving lists'

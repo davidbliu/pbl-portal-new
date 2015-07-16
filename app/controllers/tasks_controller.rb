@@ -2,22 +2,37 @@ require 'trello'
 class TasksController < ApplicationController
 
 	def home
-		trello_member_id = 'davidliu42'
-		# trello_member_id = 'andreakwan1'
-		trello_member_token = '2db727aef93291576d554f7516cf11e179c9c19b8b4bd7fc755add71ac96556e' # David
-		# trello_member_token = '6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1' # Andrea
 
+		# # trello_member_id = 'andreakwan1'
+		# trello_member_token = '2db727aef93291576d554f7516cf11e179c9c19b8b4bd7fc755add71ac96556e' # David
+		# # trello_member_token = '6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1' # Andrea
+
+		trello_member_id = current_member.trello_id
+		trello_member_token = current_member.trello_token
 		Trello.configure do |config|
 		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
 		  config.member_token = trello_member_token # The token from step 3.
-		  # config.member_token = '6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1' #andreas
 		end
-		# me = Trello::Member.find('andreakwan1')
-		me = Trello::Member.find(trello_member_id)
 
-		@cards = me.cards(:filter => :all).select{|x| ParseTrelloList.board_ids.include?(x.board_id) }
-		@list_hash = ParseTrelloList.list_hash
-		render 'home', :layout => false
+		if trello_member_id and trello_member_token and trello_member_id != '' and trello_member_token != ''
+			me = Trello::Member.find(trello_member_id)
+			@list_hash = ParseTrelloList.list_hash
+			@board_hash = ParseTrelloList.board_hash
+			@board_lists = ParseTrelloList.board_lists
+			@cards = me.cards(:filter => :all).select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
+			
+			@cards.each do |card|
+				puts card.name
+				puts @board_hash[card.board_id]
+				puts @list_hash[card.list_id].name
+			end
+			render 'home', :layout => false
+		else
+			render "no_trello", :layout=>false
+		end
+	end
+
+	def create
 	end
 
 	def guide
@@ -25,11 +40,61 @@ class TasksController < ApplicationController
 
 	def clearcache
 		Rails.cache.write('trello_list_hash', nil)
+		Rails.cache.write('trello_board_hash', nil)
 		redirect_to root_path
 	end
 
 	def wd_board_id
 		'5588dbbc2442c13db37dd6dd'
+	end
+
+	def import
+		ParseTrelloList.import
+		Rails.cache.write('trello_list_hash', nil)
+		Rails.cache.write('trello_board_hash', nil)
+		redirect_to root_path
+	end
+
+	def update
+		@list_hash = ParseTrelloList.list_hash
+		@board_hash = ParseTrelloList.board_hash
+		@board_lists = ParseTrelloList.board_lists
+		card_id = params[:card_id]
+		list_id = params[:list_id]
+		board_id  = params[:board_id]
+		checked = params[:checked]
+		board_lists =  @board_lists[board_id]
+
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+
+		card = Trello::Card.find(card_id)
+		if checked == 'true'
+			done_list = board_lists.select{|x| x.name.include?("Done")}[0]
+			card.list_id = done_list.list_id
+		else
+			working_list = board_lists.select{|x| x.name.include?("Doing")}[0]
+			card.list_id = working_list.list_id
+			puts 'THIS ONE'
+			puts working_list
+		end
+		card = card.save
+		puts card
+		render nothing: true, :status=>200
+	end
+
+	def update_trello_info
+		if current_member
+			current_member.trello_id = params[:id]
+			current_member.trello_token = params[:key]
+			current_member.save
+			clear_member_cache
+		end
+		redirect_to '/'
 	end
 end
 
