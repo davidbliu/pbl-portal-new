@@ -2,19 +2,20 @@
 .small{
 	text-decoration: line-through;
 	opacity:0.3;
+	/*display:none;*/
+}
+.done-cards{
+	display:none;
 }
 .list-option{
 }
 .task-list-card{
 	/*border:1px solid rgba(0,0,0,0.1);*/
-	margin:10px;
-
+	margin:10px;	
 	border-radius:5px;
-
 	background-color: rgba(247, 247, 247, 0.85);
-	  border-radius:5px;
-
-	  padding: 10px;
+  border-radius:5px;
+  padding: 10px;
 }
 .text-detail{
 	font-size:10px;
@@ -41,13 +42,18 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 			<h4><a class="anchor" id = '<%= board_id %>-card-anchor'></a><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
 				<ul class = 'list-group'>
 				<% [false, true].each do |state| %>
+				<% if state %>
+				<div id = '<%= board_id %>-done-cards' class = 'done-cards'>
+				<% else %>
+				<div id = '<%= board_id %>-doing-cards' class = 'doing-cards'>
+				<% end %>
 					<% cards.select{|x| x.board_id == board_id and list_hash[x.list_id].name.include?("Done") == state}.each do |card| %>
 						<% if state == true %>
-						<li class = 'list-group-item small' id = '<%= card.id %>-row'>
+						<li class = 'list-group-item small <%= board_id %>-li' id = '<%= card.id %>-row'>
 							<div class = 'main-content'>
 							<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked = 'checked'>
 						<% else %>
-						<li class = 'list-group-item' id = '<%= card.id %>-row'>
+						<li class = 'list-group-item <%= board_id %>-li' id = '<%= card.id %>-row'>
 							<div class = 'main-content'>
 							<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'>
 						<% end %>
@@ -62,7 +68,10 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 						</li>
 					<% end %>
 				<% end %>
+				</div>
 				</ul>
+				
+				<a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Done Tasks</a>
 		</div>
 		<% end %><!-- end of check if there are cards-->
 	<% end %>
@@ -110,5 +119,22 @@ function activateTaskCheckbox(){
 		
 	});
 }
+function activateToggleDone(){
+	$('.toggle-done').click(function(){
+		board_id = $(this).attr('id').split('-')[0];
+		// $('.'+board_id+'-li').each(function(){
+		// 	$(this).toggle();
+		// });
+		$('#'+board_id+'-done-cards').slideToggle();
+		if($(this).text()== 'Show Done Tasks'){
+			$(this).text('Hide Done Tasks');
+		}
+		else{
+			$(this).html('Show Done Tasks');
+		}
+		
+	});
+}
 activateTaskCheckbox();
+activateToggleDone();
 </script>

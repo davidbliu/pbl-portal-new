@@ -16,8 +16,8 @@ class TasksController < ApplicationController
 
 		if trello_member_id and trello_member_token and trello_member_id != '' and trello_member_token != ''
 			me = Trello::Member.find(trello_member_id)
-			@list_hash = ParseTrelloList.list_hash
-			@board_hash = ParseTrelloBoard.registered_boards
+			@list_hash = trello_list_hash
+			@board_hash = registered_boards
 			@cards = me.cards(:filter => :all).select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
 
 			render 'home', :layout => false
@@ -29,8 +29,11 @@ class TasksController < ApplicationController
 	def create
 		@trello_members = current_members.select{|x| x.has_trello and x.email}
 		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
-		@board_hash = ParseTrelloBoard.registered_boards
-		@main_board = ParseTrelloBoard.main_board
+		# see cache helper for how these are computed
+		@board_hash = registered_boards
+		@main_board = main_board
+		@trello_label_hash = trello_label_hash
+		@board_members_hash = trello_board_members_hash
 	end
 
 
@@ -38,8 +41,7 @@ class TasksController < ApplicationController
 	end 
 
 	def clearcache
-		Rails.cache.write('trello_list_hash', nil)
-		Rails.cache.write('registered_boards', nil)
+		clear_tasks_cache
 		redirect_to root_path
 	end
 
@@ -49,8 +51,7 @@ class TasksController < ApplicationController
 
 	def import
 		ParseTrelloList.import
-		Rails.cache.write('trello_list_hash', nil)
-		Rails.cache.write('trello_board_hash', nil)
+		clear_tasks_cache
 		redirect_to root_path
 	end
 
@@ -66,7 +67,7 @@ class TasksController < ApplicationController
 		end
 		# main_board = ParseTrelloBoard.registered_boards.values.select{|x| x.status=='main'}[0]
 		board_id = params[:board_id]
-		doing_list = ParseTrelloList.list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
+		doing_list = trello_list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
 		card = Trello::Card.create(name: task_name, description: task_description, member_ids: member_ids.join(','), list_id: doing_list.list_id)
 		card.save
 
@@ -77,8 +78,8 @@ class TasksController < ApplicationController
 	end
 
 	def update
-		@list_hash = ParseTrelloList.list_hash
-		@board_hash = ParseTrelloBoard.registered_boards
+		@list_hash = trello_list_hash
+		@board_hash = registered_boards
 		card_id = params[:card_id]
 		list_id = params[:list_id]
 		board_id  = params[:board_id]

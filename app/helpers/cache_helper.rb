@@ -65,4 +65,64 @@ module CacheHelper
 		Rails.cache.write('go_link_hash', a)
 		return a
 	end
+
+	""" tasks cache """
+
+	def clear_tasks_cache
+		Rails.cache.write('registered_boards', nil)
+		Rails.cache.write('main_board', nil)
+		Rails.cache.write('label_hash', nil)
+		Rails.cache.write('trello_list_hash', nil)
+	end
+	def registered_boards
+		a = Rails.cache.read('registered_boards')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloBoard.registered_boards
+		Rails.cache.write('registered_boards', a)
+		return a
+	end
+
+	def main_board
+		a = Rails.cache.read('main_board')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloBoard.main_board
+		Rails.cache.write('main_board', a)
+		return a
+	end
+
+	def trello_label_hash
+		a = Rails.cache.read('label_hash')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloBoard.label_hash
+		Rails.cache.write('label_hash', a)
+		return a
+	end
+
+	def trello_list_hash
+		a = Rails.cache.read('trello_list_hash')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloList.list_hash
+		Rails.cache.write('trello_list_hash', a)
+		return a
+	end
+
+	def trello_board_members_hash
+		a = Rails.cache.read('trello_board_members_hash')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloBoard.board_members_hash
+		Rails.cache.write('trello_board_members_hash', a)
+		return a
+	end
+
+
 end

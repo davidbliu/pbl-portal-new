@@ -20,6 +20,20 @@
 .member-unregistered-div{
 	float:left; margin-left:15px;
 }
+.label.label-primary{
+	  clear: both;
+  margin: 3px;
+  display: block;
+  width: 50%;
+  padding:5px;
+  border-radius:3px;
+}
+.label.label-primary:hover{
+	cursor:pointer;
+}
+.label.label-primary.selected-label{
+	width:75%;
+}
 </style>
 <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/>
 <script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script>
@@ -32,19 +46,34 @@
 <h4>Step 1: What is the Task?</h4>
 <input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
 
+<h5>Describe it</h5>
+<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
+
+
 <h5>Optional: Select a Custom Board to send it to</h5>
-<p class = 'smalltext'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
-<p class = 'smalltext'>Read more about <a href = '#'>setting up custom boards</a></p>
+<p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
+<p class = 'smalltext text-muted'>Read more about <a href = '#'>setting up custom boards</a></p>
 <select id = 'board-select' class = 'input-sm'>
 	<% @board_hash.keys.each do |board_id| %>
 		<% if board_id == @main_board.board_id %>
 		<option id = '<%= board_id %>' selected>Default: <%= @board_hash[board_id].name %></option>
 		<% else %>
-		<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>
+			<% if current_member and current_member.trello_member_id and @board_members_hash[board_id].include?(current_member.trello_member_id) %>
+			<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>
+			<% end %>
 		<% end %>
 	<% end %>
 </select>
-<!-- <textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea> -->
+
+
+<h5>Give it Labels</h5>
+<div id = 'labels-container'>
+<% @trello_label_hash[@main_board.board_id].each do |key, value| %>
+<div class = 'label label-primary' style = 'background-color:<%= value %>;'><%= key %></div>
+<% end %>
+</div>
+
+
 
 </div>
 
@@ -56,7 +85,7 @@
 <% end %>
 
 <h5>Someone missing from this list?</h5>
-<p class = 'smalltext'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</p>
+<p class = 'smalltext text-muted'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</p>
 <p><% @unregistered_members.each do |member| %>
 	<div class = 'member-unregistered-div'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= member.name %></div>
 <% end %>
@@ -78,6 +107,49 @@
 </div>
 
 <script type = 'text/javascript'>
+var board_members_hash = JSON.parse('<%= @board_members_hash.to_json.html_safe %>');
+var board_labels_hash = JSON.parse('<%= @trello_label_hash.to_json.html_safe %>');
+function activateLabelClicks(){
+	$('.label.label-primary').click(function(){
+		if($(this).hasClass('selected-label')){
+			$(this).removeClass('selected-label');
+		}
+		else{
+			$(this).addClass('selected-label');
+		}
+	});
+}
+activateLabelClicks();
+$('#board-select').change(function(){
+	board_id = $('#board-select :selected').attr('id');
+	// change members
+	$('.member-div').each(function(){
+		if($(this).hasClass('card')){
+			$(this).removeClass('card');
+		}
+		id = $(this).attr('id');
+		if(board_members_hash[board_id].indexOf(id) == -1){
+			$(this).hide();
+		}
+		else{
+			$(this).show();
+		}
+	});
+	// change labels
+	$('#labels-container').html("");
+	labels = board_labels_hash[board_id];
+	console.log(labels);
+	keys = Object.keys(labels);
+	for(var i=0;i<keys.length;i++){
+		label = keys[i];
+		label_div = document.createElement('div');
+		$(label_div).text(label);
+		$(label_div).attr('style', 'background-color:'+labels[label]);
+		$(label_div).attr('class', 'label label-primary');
+		$('#labels-container').prepend(label_div);
+	}
+	activateLabelClicks();
+});
 $('.member-div').click(function(){
 	if($(this).hasClass('card')){
 		$(this).removeClass('card');

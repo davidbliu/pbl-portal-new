@@ -13,17 +13,18 @@ class ParseTrelloList < ParseResource::Base
 
 
 	def self.list_hash
-		a = Rails.cache.read('trello_list_hash')
-		if a != nil
-			return a
-		end
+		# a = Rails.cache.read('trello_list_hash')
+		# if a != nil
+		# 	return a
+		# end
 		a = ParseTrelloList.limit(10000).all.index_by(&:list_id)
-		Rails.cache.write('trello_list_hash', a)
+		# Rails.cache.write('trello_list_hash', a)
 		return a
 	end
 
 	def self.import
 		lists = Array.new
+		all_boards = Array.new
 		seen_board_ids = Array.new
 		ParseMember.email_hash.values.each do |member|
 			if member.trello_token and member.trello_id and member.trello_token != '' and member.trello_id != ''
@@ -41,15 +42,30 @@ class ParseTrelloList < ParseResource::Base
 					member.save
 				end
 
+				""" go through all of the members boards and save all boards, lists, and labels """ 
 				me.boards.each do |board|
 					if not seen_board_ids.include?(board.id)
-						puts board.name
-						puts board.id.to_s
+						puts 'This is your board: '  + board.name
 						seen_board_ids << board.id
+						# save all the lists in this board
 						board.lists.each do |list|
-							puts list.name + list.id.to_s
+							puts "\t" + list.name
 							lists << ParseTrelloList.new(name: list.name, list_id: list.id, board_name: board.name, board_id: board.id)
 						end
+
+						#save all the members in this board
+						members = board.members
+						member_usernames =  members.map{|x| x.username}
+						member_ids = members.map{|x| x.id}
+						# get all labels in board
+						# labels = JSON.parse(board.labels.to_json)
+						# valid_labels = Hash.new
+						# labels.keys.each do |color|
+						# 	if labels[color] != ""
+						# 		valid_labels[labels[color]] = color
+						# 	end
+						# end
+						all_boards << ParseTrelloBoard.new(name: board.name, board_id: board.id, status: '', labels: board.labels.to_json.to_s, member_usernames: member_usernames, member_ids: member_ids)
 					end
 				end
 			end
@@ -57,19 +73,10 @@ class ParseTrelloList < ParseResource::Base
 		puts 'saving lists'
 		ParseTrelloList.destroy_all
 		ParseTrelloList.save_all(lists)
-		seen_board_ids = Array.new
-		boards = Array.new
-		ParseTrelloList.limit(10000).all.each do |list|
-			if not seen_board_ids.include?(list.board_id)
-				seen_board_ids << list.board_id 
-				board = ParseTrelloBoard.new(name: list.board_name, board_id: list.board_id, status: "")
-				boards << board
-				puts board.name
-			end
-		end
-		puts 'saving boards....'
+		puts 'saving boards'
 		ParseTrelloBoard.destroy_all
-		ParseTrelloBoard.save_all(boards)
+		ParseTrelloBoard.save_all(all_boards)
+
 		return true
 	end
 end
