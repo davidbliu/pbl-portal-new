@@ -24,8 +24,10 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 </style>
 
 <!-- <table class = 'table table-condensed'> -->
-	
+	<%= render partial: "card_modal" %>
 	<!-- <tbody> -->
+	<h4>Task Boards</h4>
+	<p>Register a new Task Board at <a href = '/tasks/register_board'>pbl.link/register-board</a>
 	<ul class = 'list-group'>
 		<% board_hash.keys.reverse.each do |board_id| %>
 		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
@@ -56,13 +58,13 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 							<div class = 'main-content'>
 							<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'>
 						<% end %>
-							<a href = '<%= card.url %>' target = '_blank'><%= card.name %></a>
+							<a class = 'card-modal-link' id = '<%= card.id %>' data-toggle="modal" data-target="#taskCardModal" href = '#'><%= card.name %></a>
 							<% card.card_labels.each do |label| %>
 								<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
 							<% end %>
 							</div> <!-- end of main-content -->
 							<div class = 'text-muted text-detail'><%= ParseTrelloList.due_string(card.due) %></div>
-							<div class = 'text-muted text-detail card-description'><%= card.desc %></div>
+							<div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div>
 							<div class = 'text-muted text-detail'>
 								<% if creator_hash.keys.include?(card.id) %>
 								Assigned by: <img src = '<%= member_email_hash[creator_hash[card.id]].gravatar_url %>' class = 'profile-image profile-image-tiny'></img>
@@ -91,7 +93,7 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 	<!-- </tbody> -->
 <!-- </table> -->
 
-
+<%= javascript_include_tag "tasks_modal" %>
 <script type = 'text/javascript'>
 function activateTaskCheckbox(){
 	$('.task-checkbox').click(function(){
@@ -106,8 +108,6 @@ function activateTaskCheckbox(){
 		if ($(this).is(':checked')){
 			checked = true;
 		}
-		console.log(card_data);
-		console.log(checked);
 		that = $(this);
 		$.ajax({
 	      url: '/tasks/update',
@@ -148,6 +148,10 @@ function activateToggleDone(){
 		
 	});
 }
+function activatePopovers(){
+    $('[data-toggle="popover"]').popover();   
+}
 activateTaskCheckbox();
 activateToggleDone();
+activatePopovers();
 </script>

@@ -1,4 +1,5 @@
 require 'trello'
+require 'set'
 class TasksController < ApplicationController
 
 	def home
@@ -7,6 +8,8 @@ class TasksController < ApplicationController
 		# trello_member_token = '2db727aef93291576d554f7516cf11e179c9c19b8b4bd7fc755add71ac96556e' # David
 		# # trello_member_token = '6a993253e0451753daff16f928c90fdd7c7e1189b48f02298e9dd14bba400ee1' # Andrea
 
+		@member_email_hash = member_email_hash
+		email_set = Set.new(@member_email_hash.keys)
 		trello_member_id = current_member.trello_id
 		trello_member_token = current_member.trello_token
 		Trello.configure do |config|
@@ -21,7 +24,7 @@ class TasksController < ApplicationController
 			@cards = me.cards(:filter => :all).select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
 			@creator_hash = Hash.new
 			for card in @cards
-				assigned_by = card_assigned_by(card.desc)
+				assigned_by = card_assigned_by(card.desc, email_set)
 				if assigned_by
 					@creator_hash[card.id] = assigned_by
 					puts 'assigned_by'
@@ -29,18 +32,42 @@ class TasksController < ApplicationController
 				end
 			end
 			@trello_member_hash = trello_member_hash
-			@member_email_hash = member_email_hash
+			
 			render 'home', :layout => false
 		else
 			render "no_trello", :layout=>false
 		end
 	end
 
-	def card_assigned_by(description)
-		if description.include?('<%created_by')
-			return description.split('<%created_by')[-1].split('%>')[0].gsub(':', '')
+	def card_assigned_by(description, email_set)
+		if description.include?('{{')
+			email =  description.split('{{')[-1].split('}}')[0]
+			if email_set.include?(email)
+				return email
+			end
 		end
 		return nil
+	end
+
+	def card
+		card_id = params[:id]
+		trello_member_id = current_member.trello_id
+		trello_member_token = current_member.trello_token
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+
+		@card = Trello::Card.find(card_id)
+		puts @card.to_json
+		@comments = @card.actions({filter: 'commentCard'})
+		@trello_member_hash = trello_member_hash
+		@member_email_hash = member_email_hash
+		@assigned_by = card_assigned_by(@card.desc, Set.new(@member_email_hash.keys))
+
+		# [{"id":"55a93dd70a2bcdd7a3f94cd1","type":"commentCard","data":{"dateLastEdited":"2015-07-17T18:01:31.640Z","textData":{"emoji":{}},"text":"see checklists toohttps://trello.com/c/RW6bqRrF/33-pay-rent ","card":{"id":"55a931a128036166e7556463","name":"see cards you created","idShort":84,"shortLink":"hfDZb5Vc"},"board":{"id":"55a743ed1ac5db0f968e41fd","name":"PBL Fall 2015","shortLink":"H1gYqoQP"},"list":{"id":"55a743ef2281324196e553f8","name":"Doing"}},"date":"2015-07-17T17:39:35Z","member_creator_id":"541f7c0ad818e679cccd2c07","member_participant":null},{"id":"55a93dd3c1921ec5afd33f3a","type":"commentCard","data":{"list":{"name":"Doing","id":"55a743ef2281324196e553f8"},"board":{"shortLink":"H1gYqoQP","name":"PBL Fall 2015","id":"55a743ed1ac5db0f968e41fd"},"card":{"shortLink":"hfDZb5Vc","idShort":84,"name":"see cards you created","id":"55a931a128036166e7556463"},"text":"also be able to see comments"},"date":"2015-07-17T17:39:31Z","member_creator_id":"541f7c0ad818e679cccd2c07","member_participant":null}]
+
+		render 'card', :layout=>false
 	end
 
 	def create
@@ -89,7 +116,7 @@ class TasksController < ApplicationController
 		
 		# save the creator of the card
 		if current_member and current_member.email
-			task_description += "\n" + "<%created_by:"+current_member.email+"%>"
+			task_description += "\n" + "{{"+current_member.email+"}}"
 		end
 		card = Trello::Card.create(name: task_name, desc: task_description, member_ids: member_ids.join(','),list_id: doing_list.list_id)
 		puts 'saving card'

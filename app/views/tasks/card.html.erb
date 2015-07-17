@@ -1,0 +1,70 @@
+<style type = 'text/css'>
+.completed-check-item{
+	text-decoration: line-through;
+}
+.inner-p{
+	font-size:13px;
+	margin-left:25px;
+}
+</style>
+<h4>Task: <a href ='<%= @card.url %>'><%= @card.name %></a></h4>
+<p>
+<% @card.card_labels.each do |label| %>
+<div class = 'label label-default' style = 'background-color:<%= label['color'] %>' target = '_blank'><%= label['name'] %></div>
+<% end %>
+</p>
+
+<h5>Due <%= ParseTrelloList.due_string(@card.due) %></h5>
+
+<h5>Members</h5>
+<% if @assigned_by and @assigned_by != '' %>
+<p class = 'inner-p'>Assigned By: <img src = '<%= @member_email_hash[@assigned_by].gravatar_url %>' class = 'profile-image profile-image-small'></img><%= @member_email_hash[@assigned_by].name %></p>
+<% end %>
+<p class = 'inner-p'>Collaborators: 
+	<% @card.member_ids.each do |trello_member_id| %>
+	<% if @trelloo_member_hash and @trello_member.hash.keys.include?(trello_member_id) %>
+		<img src = '<%= @trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= @trello_member_hash[trello_member_id].name %>
+	<% end %>
+	<% end %>
+</p>
+
+
+<h5>Description</h5>
+<p class = 'inner-p'><%= @card.desc %></p>
+
+<% if @comments and @comments.length>0 %>
+<h5>Comments</h5>
+<p class = 'inner-p'>
+	<%@comments.each do |comment| %>
+	<% if @trello_member_hash and @trello_member_hash.keys.include?(comment.member_creator_id) %>
+	<p><img src = '<%= @trello_member_hash[comment.member_creator_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= comment.data['text'] %></p>
+	<% else %>
+	<p><%= comment.data['text'] %></p>
+	<% end %>
+	<% end %>
+</p>
+<% end %>
+
+<% if @card.checklists.length >0 %>
+<h5>Checklists</h5>
+<p class = 'inner-p'>
+	<% @card.checklists.each do |checklist| %>
+	<div>
+		<div><b><%= checklist.name %></b>
+			<ul>
+				<% checklist.check_items.each do |check_item| %>
+				<% if check_item['state'] == 'complete' %>
+				<li class = 'completed-check-item'><%= check_item['name'] %></li>
+				<% else %>
+				<li><%= check_item['name'] %></li>
+				<% end %>
+				<% end %>
+			</ul>
+		</div>
+	</div>
+	<% end %>
+</p>
+<% end %>
+
+
+<div><a href = '<%= @card.url %>' target = '_blank'>See full card details on Trello</a></div>

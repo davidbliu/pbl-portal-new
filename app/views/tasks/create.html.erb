@@ -61,6 +61,9 @@
 
 	<h5>Describe it</h5>
 	<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
+
+	<h5>When is it Due?<h5>
+
 </div>
 
 <h5>Optional: Select a Custom Board to send it to</h5>
@@ -80,6 +83,7 @@
 
 
 <h5>Give it Labels</h5>
+<p class = 'text-muted smalltext'>We recommend adding one or two labels. Labels make it easier for you to organize your tasks!</p>
 <div id = 'labels-container'>
 <% @trello_label_hash[@main_board.board_id].each do |label| %>
 <div id = '<%= label['id'] %>' class = 'label label-primary' style = 'background-color:<%= label['color'] %>;'><%= label['name'] %></div>

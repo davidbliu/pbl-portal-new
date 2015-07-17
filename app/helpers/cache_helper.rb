@@ -73,12 +73,18 @@ module CacheHelper
 		Rails.cache.write('main_board', nil)
 		Rails.cache.write('label_hash', nil)
 		Rails.cache.write('trello_list_hash', nil)
+		Rails.cache.write('trello_board_members_hash', nil)
 	end
 
 	""" trello id to ParseMember """
 	def trello_member_hash
 		puts 'called trello_member_hash'
-		current_members.select{|x| x.has_trello}.index_by(&:trello_member_id)
+		h = Hash.new
+		current_members.select{|x| x.has_trello}.each do |member|
+			h[member.trello_member_id] = member
+		end
+		return h
+		# index_by(&:trello_member_id)
 	end
 
 	def registered_boards

@@ -27,4 +27,7 @@ me.boards.each do |board|
 		end
 	end
 end
+
 puts 'done'
+
+puts me.actions.to_json

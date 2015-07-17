@@ -52,6 +52,7 @@ Dockernotes::Application.routes.draw do
   get '/tasks/update_trello_info', to: 'tasks#update_trello_info'
   get '/tasks/create', to: 'tasks#create'
   post '/tasks/create_task', to: 'tasks#create_task'
+  get '/tasks/card/:id', to: 'tasks#card'
 
   get 'calendar_pull', to: 'application#calendar_pull'
 
