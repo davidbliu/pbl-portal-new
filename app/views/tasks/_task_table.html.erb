@@ -26,8 +26,12 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 <!-- <table class = 'table table-condensed'> -->
 	<%= render partial: "card_modal" %>
 	<!-- <tbody> -->
-	<h4>Task Boards</h4>
-	<p>Register a new Task Board at <a href = '/tasks/register_board'>pbl.link/register-board</a>
+	<% if cards == nil or cards.length == 0 %>
+	<p>No cards displayed? Join our Trello Board to start creating and receiving tasks! <a href = 'http://pbl.link/trello'>pbl.link/trello</a></p>
+	<% end %>
+
+	<h4>Your Task Boards</h4>
+	<p>Register a new Task Board at <a href = '/tasks/register_board' target = '_blank'>pbl.link/register-board</a>
 	<ul class = 'list-group'>
 		<% board_hash.keys.reverse.each do |board_id| %>
 		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
