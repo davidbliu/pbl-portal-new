@@ -19,11 +19,28 @@ class TasksController < ApplicationController
 			@list_hash = trello_list_hash
 			@board_hash = registered_boards
 			@cards = me.cards(:filter => :all).select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
-
+			@creator_hash = Hash.new
+			for card in @cards
+				assigned_by = card_assigned_by(card.desc)
+				if assigned_by
+					@creator_hash[card.id] = assigned_by
+					puts 'assigned_by'
+					puts assigned_by
+				end
+			end
+			@trello_member_hash = trello_member_hash
+			@member_email_hash = member_email_hash
 			render 'home', :layout => false
 		else
 			render "no_trello", :layout=>false
 		end
+	end
+
+	def card_assigned_by(description)
+		if description.include?('<%created_by')
+			return description.split('<%created_by')[-1].split('%>')[0].gsub(':', '')
+		end
+		return nil
 	end
 
 	def create
@@ -59,6 +76,7 @@ class TasksController < ApplicationController
 		task_name = params[:name]
 		task_description = params[:description]
 		member_ids = params[:member_ids]
+		label_ids = params[:label_ids]
 		""" configure Trello for this user """
 		trello_member_token = current_member.trello_token # david
 		Trello.configure do |config|
@@ -68,8 +86,20 @@ class TasksController < ApplicationController
 		# main_board = ParseTrelloBoard.registered_boards.values.select{|x| x.status=='main'}[0]
 		board_id = params[:board_id]
 		doing_list = trello_list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
-		card = Trello::Card.create(name: task_name, description: task_description, member_ids: member_ids.join(','), list_id: doing_list.list_id)
+		
+		# save the creator of the card
+		if current_member and current_member.email
+			task_description += "\n" + "<%created_by:"+current_member.email+"%>"
+		end
+		card = Trello::Card.create(name: task_name, desc: task_description, member_ids: member_ids.join(','),list_id: doing_list.list_id)
+		puts 'saving card'
 		card.save
+		puts 'adding labels'
+		for label_id in label_ids
+			label = Trello::Label.find(label_id)
+			puts label
+			card.add_label(label)
+		end
 
 		@card = card
 		# render nothing: true, :status=>200

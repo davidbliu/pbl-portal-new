@@ -34,6 +34,18 @@
 .label.label-primary.selected-label{
 	width:75%;
 }
+
+.create-card{
+	margin:10px;	
+	border-radius:5px;
+	background-color: rgba(247, 247, 247, 0.85);
+  border-radius:5px;
+  padding: 10px;
+}
+.profile-image.profile-image-small{
+	height:17px;
+}
+}
 </style>
 <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/>
 <script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script>
@@ -43,12 +55,13 @@
 <div class = 'row'>
 <div class = 'col-md-4'>
 
-<h4>Step 1: What is the Task?</h4>
-<input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
+<div class = 'create-card shadow-z-1'>
+	<h4>Step 1: What is the Task?</h4>
+	<input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
 
-<h5>Describe it</h5>
-<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
-
+	<h5>Describe it</h5>
+	<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
+</div>
 
 <h5>Optional: Select a Custom Board to send it to</h5>
 <p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
@@ -68,8 +81,8 @@
 
 <h5>Give it Labels</h5>
 <div id = 'labels-container'>
-<% @trello_label_hash[@main_board.board_id].each do |key, value| %>
-<div class = 'label label-primary' style = 'background-color:<%= value %>;'><%= key %></div>
+<% @trello_label_hash[@main_board.board_id].each do |label| %>
+<div id = '<%= label['id'] %>' class = 'label label-primary' style = 'background-color:<%= label['color'] %>;'><%= label['name'] %></div>
 <% end %>
 </div>
 
@@ -79,27 +92,34 @@
 
 <div class = 'col-md-4'>
 
-<h4>Step 2: Select Members to Assign</h4>
-<% @trello_members.each do |member| %>
-	<div class = 'member-div' id = '<%= member.trello_member_id %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
-<% end %>
+
+<div class = 'create-card shadow-z-1'>
+	<h4>Step 2: Select Members to Assign</h4>
+	<% @trello_members.each do |member| %>
+		<div class = 'member-div' id = '<%= member.trello_member_id %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
+	<% end %>
+</div>
 
 <h5>Someone missing from this list?</h5>
 <p class = 'smalltext text-muted'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</p>
 <p><% @unregistered_members.each do |member| %>
-	<div class = 'member-unregistered-div'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= member.name %></div>
+	<div class = 'member-unregistered-div smalltext text-muted'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= member.name %></div>
 <% end %>
 </p>
 </div>
 
 <div class = 'col-md-4'>
 
+<div class = 'create-card shadow-z-1'>
 <h4>Step 3: Create Your Task</h4>
-<button id = 'create-btn' class = 'btn btn-material-blue-500'>Create</button>
-<div id = 'update-container' style = 'display:none;'></div>
+	<button id = 'create-btn' class = 'btn btn-material-blue-500'>Create</button>
+	<div id = 'update-container' style = 'display:none;'></div>
 </div>
-</div>
-<!-- end of row -->
+
+
+
+</div><!-- end of col -->
+</div><!-- end of row -->
 
 <div class = 'row'>
 
@@ -138,15 +158,17 @@ $('#board-select').change(function(){
 	// change labels
 	$('#labels-container').html("");
 	labels = board_labels_hash[board_id];
-	console.log(labels);
-	keys = Object.keys(labels);
-	for(var i=0;i<keys.length;i++){
-		label = keys[i];
-		label_div = document.createElement('div');
-		$(label_div).text(label);
-		$(label_div).attr('style', 'background-color:'+labels[label]);
-		$(label_div).attr('class', 'label label-primary');
-		$('#labels-container').prepend(label_div);
+	for(var i=0;i<labels.length;i++){
+		label = labels[i];
+		if (label['name']!='')
+		{
+			label_div = document.createElement('div');
+			$(label_div).text(label['name']);
+			$(label_div).attr('style', 'background-color:'+label['color']);
+			$(label_div).attr('class', 'label label-primary');
+			$(label_div).attr('id', label['id']);
+			$('#labels-container').prepend(label_div);
+		}
 	}
 	activateLabelClicks();
 });
@@ -161,12 +183,17 @@ $('.member-div').click(function(){
 var loader_image = "<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>";
 $('#create-btn').click(function(){
 	task_name = $('#task-name-input').val();
-	// task_description = $('#task-description-input').val();
+	task_description = $('#task-description-input').val();
 	member_ids = [];
 	$('.member-div').each(function(){
 		if($(this).hasClass('card')){
 			member_ids.push($(this).attr('id'));
 		}
+	});
+	//get labels
+	label_ids = [];
+	$('.label.label-primary.selected-label').each(function(){
+		label_ids.push($(this).attr('id'));
 	});
 	board_id = $('#board-select :selected').attr('id');
 	console.log(board_id);
@@ -178,7 +205,7 @@ $('#create-btn').click(function(){
 	$.ajax({
 	      url: '/tasks/create_task/',
 	      type: 'POST',
-	      data: {name: task_name, description: '', member_ids: member_ids, board_id: board_id},
+	      data: {'name': task_name, 'description': task_description, 'member_ids': member_ids, 'board_id': board_id, 'label_ids':label_ids},
 	      success:function(data){
 	        // location.reload();
 	        $('#update-container').html(data);

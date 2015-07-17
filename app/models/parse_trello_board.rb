@@ -29,13 +29,7 @@ class ParseTrelloBoard < ParseResource::Base
 	end
 
 	def get_labels
-		labels = JSON.parse(self.labels)
-		valid_labels = Hash.new
-		labels.keys.each do |color|
-			if labels[color] != ""
-				valid_labels[labels[color]] = color
-			end
-		end
-		return valid_labels
+		labels = self.labels.map{|x| JSON.parse(x)}
+		return labels
 	end
 end

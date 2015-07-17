@@ -57,15 +57,9 @@ class ParseTrelloList < ParseResource::Base
 						members = board.members
 						member_usernames =  members.map{|x| x.username}
 						member_ids = members.map{|x| x.id}
-						# get all labels in board
-						# labels = JSON.parse(board.labels.to_json)
-						# valid_labels = Hash.new
-						# labels.keys.each do |color|
-						# 	if labels[color] != ""
-						# 		valid_labels[labels[color]] = color
-						# 	end
-						# end
-						all_boards << ParseTrelloBoard.new(name: board.name, board_id: board.id, status: '', labels: board.labels.to_json.to_s, member_usernames: member_usernames, member_ids: member_ids)
+				
+						labels =  board.labels(names=false).map{|x| x.to_json}
+						all_boards << ParseTrelloBoard.new(name: board.name, board_id: board.id, status: '', labels: labels, member_usernames: member_usernames, member_ids: member_ids)
 					end
 				end
 			end

@@ -34,7 +34,6 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 		<% end %>
 	</ul>
 	
-		
 	<% board_hash.keys.reverse.each do |board_id| %>
 		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
 		<div class = 'task-list-card shadow-z-1'>
@@ -64,6 +63,20 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 							</div> <!-- end of main-content -->
 							<div class = 'text-muted text-detail'><%= ParseTrelloList.due_string(card.due) %></div>
 							<div class = 'text-muted text-detail card-description'><%= card.desc %></div>
+							<div class = 'text-muted text-detail'>
+								<% if creator_hash.keys.include?(card.id) %>
+								Assigned by: <img src = '<%= member_email_hash[creator_hash[card.id]].gravatar_url %>' class = 'profile-image profile-image-tiny'></img>
+								<% end %>
+								Assignees: 
+								<% card.member_ids.each do |trello_member_id| %>
+								<% if trello_member_hash.keys.include?(trello_member_id) %>
+								<img src = '<%= trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
+								<% end %>
+								<% end %>
+							</div>
+							<div class = 'text-muted text-detail'>
+								
+							</div>
 							<div style = 'display:none' class = 'hidden-card-info'><%= card.to_json %></div>
 						</li>
 					<% end %>

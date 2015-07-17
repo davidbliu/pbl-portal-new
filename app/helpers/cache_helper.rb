@@ -74,6 +74,13 @@ module CacheHelper
 		Rails.cache.write('label_hash', nil)
 		Rails.cache.write('trello_list_hash', nil)
 	end
+
+	""" trello id to ParseMember """
+	def trello_member_hash
+		puts 'called trello_member_hash'
+		current_members.select{|x| x.has_trello}.index_by(&:trello_member_id)
+	end
+
 	def registered_boards
 		a = Rails.cache.read('registered_boards')
 		if a != nil
