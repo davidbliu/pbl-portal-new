@@ -1,0 +1,20 @@
+<h4>Only Tasks from Registered Boards appear in PBL Tasks</h4>
+<p>
+	<ol>
+		<li>Check our <a href = '/'>Homepage</a> to see if your board is showing tasks</li>
+		<li>If you dont see tasks from your board
+			<ul>
+				<li>It may be unregistered, proceed to step 3</li>
+				<li>It may be registered but you just have no cards assigned! <span class = 'text-muted'>The portal only displays cards that are assigned to you</span></li>
+			</ul>
+		<li>Select your board from the dropdown menu below and click the "Register Board" button, you will be redirected to the Homepage</li>
+	</ol>
+</p>
+
+<select class = 'board-dropdown input-lg'>
+	<% @boards.each do |board| %>
+	<option id = '<%= board.id %>'><%= board.name %></option>
+	<% end %>
+</select>
+<button class = 'btn btn-material-blue-500'>Register Board</button>
+

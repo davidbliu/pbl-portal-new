@@ -22,7 +22,7 @@
 <% end %>
 <p class = 'inner-p'>Collaborators: 
 	<% @card.member_ids.each do |trello_member_id| %>
-	<% if @trelloo_member_hash and @trello_member.hash.keys.include?(trello_member_id) %>
+	<% if @trello_member_hash and @trello_member_hash.keys.include?(trello_member_id) %>
 		<img src = '<%= @trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= @trello_member_hash[trello_member_id].name %>
 	<% end %>
 	<% end %>

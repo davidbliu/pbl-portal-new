@@ -206,6 +206,19 @@ class TasksController < ApplicationController
 		end
 		redirect_to '/'
 	end
+
+	def register_board
+		if params[:board_id]
+
+		end
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		me  = Trello::Member.find(current_member.trello_id)
+		@boards = me.boards
+	end
 end
 
 # https://trello.com/1/authorize?key=bddce21ba2ef6ac469c47202ab487119&name=PBL+Portal+Tasks&expiration=never&response_type=token&scope=read,write
