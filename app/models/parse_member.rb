@@ -47,15 +47,15 @@ class ParseMember < ParseResource::Base
 	""" get members by types """
 
 	def self.current_members(semester = ParseSemester.current_semester)
-		cms = Rails.cache.read('current_members')
-		if cms != nil 
-			return cms
-		end
+		# cms = Rails.cache.read('current_members')
+		# if cms != nil 
+		# 	return cms
+		# end
 		mhash = ParseMember.email_hash
 		keys = Set.new(mhash.keys)
 		emails = ParseCommitteeMember.limit(1000).where(semester_name: semester.name).map{|x| x.member_email}
 		cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
-		Rails.cache.write('current_members', cms)
+		# Rails.cache.write('current_members', cms)
 		return cms
 	end
 

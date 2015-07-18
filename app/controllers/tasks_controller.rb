@@ -72,12 +72,34 @@ class TasksController < ApplicationController
 
 	def create
 		@trello_members = current_members.select{|x| x.has_trello and x.email}
+		puts current_members.select{|x| x.has_trello}.map{|x| x.email}
+		puts 'divider'
+		puts current_members.select{|x| x.email == 'alice.sun94@gmail.com'}[0].email
+		puts current_members.select{|x| x.email == 'alice.sun94@gmail.com'}[0].has_trello
 		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
 		# see cache helper for how these are computed
 		@board_hash = registered_boards
 		@main_board = main_board
 		@trello_label_hash = trello_label_hash
 		@board_members_hash = trello_board_members_hash
+		# sorting members by committee
+		@member_email_hash = member_email_hash
+		@committee_member_hash = committee_member_hash
+		@cm_trello_hash = Hash.new
+		@committee_member_hash.keys.each do |c|
+			emails = @committee_member_hash[c]
+			trello_members = Array.new
+			emails.each do |email|
+				member= @member_email_hash[email]
+				if member.has_trello
+					trello_members << member
+				end
+			end
+			if trello_members.length >0
+				@cm_trello_hash[c] = trello_members
+			end
+		end
+
 	end
 
 

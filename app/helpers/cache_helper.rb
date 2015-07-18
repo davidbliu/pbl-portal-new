@@ -5,10 +5,17 @@ module CacheHelper
 	""" member caching methods """
 	def clear_member_cache
 		Rails.cache.write('member_email_hash', nil)
+		Rails.cache.write('current_members', nil)
 	end
 	
 	def current_members
-		ParseMember.current_members
+		a = Rails.cache.read('current_members')
+		if a != nil
+			return a
+		end
+		a = ParseMember.current_members
+		Rails.cache.write('current_members', a)
+		return a
 	end
 
 	def member_email_hash
@@ -19,6 +26,17 @@ module CacheHelper
 		a = ParseMember.limit(10000).all.index_by(&:email)
 		Rails.cache.write('member_email_hash', a)
 		return a
+	end
+
+	def committee_member_hash
+		h = Hash.new
+		member_email_hash.values.each do |member|
+			if member.committee and not h.keys.include?(member.committee)
+				h[member.committee] = Array.new
+			end
+			h[member.committee] << member.email
+		end
+		return h
 	end
 
 	""" tabling caching methods """

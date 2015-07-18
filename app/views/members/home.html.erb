@@ -27,7 +27,7 @@
 	<div class = 'col-md-6'>
 		<% if current_member %>
 		<div id = 'me-div'>
-			<img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img>
+			<a href = '/members/<%= current_member.id %>'><img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img></a>
 			<div>Set your professional image on <a href = 'http://pbl.link/gravatar' target = '_blank'>pbl.link/gravatar</a></div>
 		</div>
 		<% end %>
@@ -99,4 +99,4 @@ var email = "asdf";
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
 <%= javascript_include_tag "trello_tasks" %>
-<%= javascript_include_tag "calendar_pull" %> 
+<%= javascript_include_tag "calendar_pull" %>

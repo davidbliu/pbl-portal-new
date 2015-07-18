@@ -54,6 +54,9 @@ Dockernotes::Application.routes.draw do
   post '/tasks/create_task', to: 'tasks#create_task'
   get '/tasks/card/:id', to: 'tasks#card'
 
+  """me routes"""
+  get '/member/:email', to: 'members#member'
+
   get 'calendar_pull', to: 'application#calendar_pull'
 
   resources :google_events do 

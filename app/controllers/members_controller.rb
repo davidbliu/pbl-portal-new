@@ -18,6 +18,19 @@ class MembersController < ApplicationController
 			@favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
 		end
 	end
+
+	def me
+		if not current_member
+			render json: 'Please sign in to view this page', :status=>200
+		else
+			render 'me'
+		end
+	end
+
+	def show
+		@member = ParseMember.find(params[:id])
+		render 'member'
+	end
 	
 	#
 	# shows only members from current semester
@@ -89,9 +102,7 @@ class MembersController < ApplicationController
 	def quick_stats
 	end
 
-	def show
-		@member = Member.find(params[:id])
-	end
+	
 	def account
 	end
 	def update_account
