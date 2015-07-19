@@ -18,14 +18,18 @@
 		<div class = 'text-muted text-detail'><%= due_string(card.due) %></div>
 		<div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div>
 		<div class = 'text-muted text-detail'>
-			<% if creator_hash.keys.include?(card.id) %>
-			Assigned by: <img src = '<%= member_email_hash[creator_hash[card.id]].gravatar_url %>' class = 'profile-image profile-image-tiny'></img>
+			<% if card_hash.keys.include?(card.id) %>
+				Task Created By: 
+				<% card_hash[card.id].assigner_emails.each do |email| %>
+				<img src = '<%= member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
+				<% end %>
 			<% end %>
-			Assignees: 
-			<% card.member_ids.each do |trello_member_id| %>
-			<% if trello_member_hash.keys.include?(trello_member_id) %>
-			<img src = '<%= trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
-			<% end %>
+			<!-- TODO save keys in single variabel -->
+			<% if card_hash.keys.include?(card.id) %>
+				Assignees: 
+				<% card_hash[card.id].assigned_emails.each do |email| %>
+				<img src = '<%= member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
+				<% end %>
 			<% end %>
 		</div>
 		<div class = 'text-muted text-detail'>

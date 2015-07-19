@@ -17,14 +17,16 @@
 <h5>Due <%= ParseTrelloList.due_string(@card.due) %></h5>
 
 <h5>Members</h5>
-<% if @assigned_by and @assigned_by != '' %>
-<p class = 'inner-p'>Assigned By: <img src = '<%= @member_email_hash[@assigned_by].gravatar_url %>' class = 'profile-image profile-image-small'></img><%= @member_email_hash[@assigned_by].name %></p>
-<% end %>
-<p class = 'inner-p'>Collaborators: 
-	<% @card.member_ids.each do |trello_member_id| %>
-	<% if @trello_member_hash and @trello_member_hash.keys.include?(trello_member_id) %>
-		<img src = '<%= @trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= @trello_member_hash[trello_member_id].name %>
+<p class = 'inner-p'>
+	Created By: 
+	<% @assigned_by.each do |email| %>
+	<img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;
 	<% end %>
+</p>
+<p class = 'inner-p'>
+	Collaborators: 
+	<% @assigned.each do |email| %>
+	<img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;
 	<% end %>
 </p>
 

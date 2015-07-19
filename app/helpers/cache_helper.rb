@@ -92,6 +92,11 @@ module CacheHelper
 		Rails.cache.write('label_hash', nil)
 		Rails.cache.write('trello_list_hash', nil)
 		Rails.cache.write('trello_board_members_hash', nil)
+		Rails.cache.write('trello_card_hash', nil)
+	end
+
+	def clear_card_cache
+		Rails.cache.write('trello_card_hash', nil)
 	end
 
 	""" trello id to ParseMember """
@@ -159,6 +164,16 @@ module CacheHelper
 			a[board_id] = m
 		end
 		Rails.cache.write('trello_board_members_hash', a)
+		return a
+	end
+
+	def trello_card_hash
+		a = Rails.cache.read('trello_card_hash')
+		if a != nil
+			return a
+		end
+		a = ParseTrelloCard.limit(10000).all.index_by(&:card_id)
+		Rails.cache.write('trello_card_hash', a)
 		return a
 	end
 

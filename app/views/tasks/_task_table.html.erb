@@ -41,7 +41,7 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 			<h4><a class="anchor" id = '<%= board_id %>-card-anchor'></a><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
 				<ul class = 'list-group'>
 				<div id = '<%= board_id %>-doing-cards' class = 'doing-cards'>
-						<%= render partial: "board_cards", locals: {board_id: board_id, cards: cards.select{|x| x.board_id == board_id},trello_member_hash: trello_member_hash, member_email_hash: member_email_hash, creator_hash: creator_hash, type: "Incomplete"} %>
+						<%= render partial: "board_cards", locals: {card_hash: card_hash, board_id: board_id, cards: cards.select{|x| x.board_id == board_id},trello_member_hash: trello_member_hash, member_email_hash: member_email_hash, type: "Incomplete"} %>
 				</div>
 				</ul>
 				
