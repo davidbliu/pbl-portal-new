@@ -72,7 +72,7 @@
 			<% if board_id == @main_board.board_id %>
 			<option id = '<%= board_id %>' selected>Default: <%= @board_hash[board_id].name %></option>
 			<% else %>
-				<% if current_member and current_member.trello_member_id and @board_members_hash[board_id].include?(current_member.trello_member_id) %>
+				<% if current_member and current_member.trello_member_id and @board_members_hash[board_id].include?(current_member.email) %>
 				<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>
 				<% end %>
 			<% end %>
@@ -96,7 +96,7 @@
 	<div style = 'border-bottom:1px solid rgba(0,0,0,0.1)'>
 		<h4><%= committee %></h4>
 		<% @cm_trello_hash[committee].each do |member| %>
-			<div class = 'member-div' id = '<%= member.trello_member_id %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
+			<div class = 'member-div' id = '<%= member.email %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
 		<% end %>
 	</div>
 	<% end %>
@@ -154,6 +154,7 @@ $('#board-select').change(function(){
 	board_id = $('#board-select :selected').attr('id');
 	// change members
 	$('.member-div').each(function(){
+		$(this).show();
 		if($(this).hasClass('card')){
 			$(this).removeClass('card');
 		}

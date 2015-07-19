@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   include AuthHelper
   # include GoogleApiHelper
   include CalendarsHelper
+  include TasksHelper
   # include EventsHelper
   include CacheHelper
   before_filter :current_member 

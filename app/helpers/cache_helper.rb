@@ -150,7 +150,14 @@ module CacheHelper
 		if a != nil
 			return a
 		end
-		a = ParseTrelloBoard.board_members_hash
+		members = current_members
+		a = Hash.new
+		registered_boards.values.each do |board|
+			board_id = board.board_id
+			ids = board.member_ids
+			m = members.select{|x| ids.include?(x.trello_member_id) and x.email != nil}.map{|x| x.email}
+			a[board_id] = m
+		end
 		Rails.cache.write('trello_board_members_hash', a)
 		return a
 	end

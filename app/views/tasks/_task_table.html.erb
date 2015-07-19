@@ -2,10 +2,6 @@
 .small{
 	text-decoration: line-through;
 	opacity:0.3;
-	/*display:none;*/
-}
-.done-cards{
-	display:none;
 }
 .list-option{
 }
@@ -14,8 +10,8 @@
 	margin:10px;	
 	border-radius:5px;
 	background-color: rgba(247, 247, 247, 0.85);
-  border-radius:5px;
-  padding: 10px;
+	  border-radius:5px;
+	  padding: 10px;
 }
 .text-detail{
 	font-size:10px;
@@ -33,66 +29,24 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 	<h4>Your Task Boards</h4>
 	<p>Register a new Task Board at <a href = '/tasks/register_board' target = '_blank'>pbl.link/register-board</a>
 	<ul class = 'list-group'>
-		<% board_hash.keys.reverse.each do |board_id| %>
-		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
+		<% @boards.map{|x| x.board_id}.each do |board_id| %>
 		<li class = 'list-group-item'><a href = '#<%= board_id %>-card-anchor'><%= board_hash[board_id].name %></a></li>
-		<% end %>
 		<% end %>
 	</ul>
 	
-	<% board_hash.keys.reverse.each do |board_id| %>
-		<% if cards.select{|x| x.board_id == board_id}.length >0 %>
+	<% @boards.map{|x| x.board_id}.each do |board_id| %>
+
 		<div class = 'task-list-card shadow-z-1'>
 			
 			<h4><a class="anchor" id = '<%= board_id %>-card-anchor'></a><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
 				<ul class = 'list-group'>
-				<% [false, true].each do |state| %>
-				<% if state %>
-				<div id = '<%= board_id %>-done-cards' class = 'done-cards'>
-				<% else %>
 				<div id = '<%= board_id %>-doing-cards' class = 'doing-cards'>
-				<% end %>
-					<% cards.select{|x| x.board_id == board_id and list_hash[x.list_id].name.include?("Done") == state}.each do |card| %>
-						<% if state == true %>
-						<li class = 'list-group-item small <%= board_id %>-li' id = '<%= card.id %>-row'>
-							<div class = 'main-content'>
-							<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked = 'checked'>
-						<% else %>
-						<li class = 'list-group-item <%= board_id %>-li' id = '<%= card.id %>-row'>
-							<div class = 'main-content'>
-							<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'>
-						<% end %>
-							<a class = 'card-modal-link' id = '<%= card.id %>' data-toggle="modal" data-target="#taskCardModal" href = '#'><%= card.name %></a>
-							<% card.card_labels.each do |label| %>
-								<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
-							<% end %>
-							</div> <!-- end of main-content -->
-							<div class = 'text-muted text-detail'><%= ParseTrelloList.due_string(card.due) %></div>
-							<div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div>
-							<div class = 'text-muted text-detail'>
-								<% if creator_hash.keys.include?(card.id) %>
-								Assigned by: <img src = '<%= member_email_hash[creator_hash[card.id]].gravatar_url %>' class = 'profile-image profile-image-tiny'></img>
-								<% end %>
-								Assignees: 
-								<% card.member_ids.each do |trello_member_id| %>
-								<% if trello_member_hash.keys.include?(trello_member_id) %>
-								<img src = '<%= trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
-								<% end %>
-								<% end %>
-							</div>
-							<div class = 'text-muted text-detail'>
-								
-							</div>
-							<div style = 'display:none' class = 'hidden-card-info'><%= card.to_json %></div>
-						</li>
-					<% end %>
-				<% end %>
+						<%= render partial: "board_cards", locals: {board_id: board_id, cards: cards.select{|x| x.board_id == board_id},trello_member_hash: trello_member_hash, member_email_hash: member_email_hash, creator_hash: creator_hash, type: "Incomplete"} %>
 				</div>
 				</ul>
 				
-				<a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Done Tasks</a>
+				<a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Completed Tasks</a>
 		</div>
-		<% end %><!-- end of check if there are cards-->
 	<% end %>
 	<!-- </tbody> -->
 <!-- </table> -->
@@ -100,7 +54,7 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 <%= javascript_include_tag "tasks_modal" %>
 <script type = 'text/javascript'>
 function activateTaskCheckbox(){
-	$('.task-checkbox').click(function(){
+	$('.task-checkbox').unbind('click').click(function(){
 
 		id = $(this).attr('id');
 		row = $('#' + id + '-row');
@@ -132,28 +86,29 @@ function activateTaskCheckbox(){
 	        $(that).attr('checked', false);
 	      }
 	  	});
-
-		
 	});
 }
 function activateToggleDone(){
 	$('.toggle-done').click(function(){
 		board_id = $(this).attr('id').split('-')[0];
-		// $('.'+board_id+'-li').each(function(){
-		// 	$(this).toggle();
-		// });
-		$('#'+board_id+'-done-cards').slideToggle();
-		if($(this).text()== 'Show Done Tasks'){
-			$(this).text('Hide Done Tasks');
-		}
-		else{
-			$(this).html('Show Done Tasks');
-		}
+		// ajax request to get
+		that = $(this); 
+		
+		$.ajax({
+	      url: '/tasks/board_cards/'+board_id,
+	      type: 'GET',
+	      success:function(data){
+	        $('#'+board_id+'-doing-cards').append(data);
+	        activateTaskCheckbox();
+	        pullModalContentActions(); // from tasks_modal included javascript in assets
+	        $(that).hide();
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed to pull cards');
+	      }
+	  });
 		
 	});
-}
-function activatePopovers(){
-    $('[data-toggle="popover"]').popover();   
 }
 activateTaskCheckbox();
 activateToggleDone();

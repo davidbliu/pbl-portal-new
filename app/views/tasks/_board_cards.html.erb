@@ -1,0 +1,36 @@
+<% cards.each do |card| %>
+	<% if type == "Complete" %>
+	<li class = 'list-group-item <%= board_id %>-li small' id = '<%= card.id %>-row'>
+	<% else %>
+	<li class = 'list-group-item <%= board_id %>-li' id = '<%= card.id %>-row'>
+	<% end %>
+		<div class = 'main-content'>
+		<% if type == "Complete" %>
+		<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked>
+		<% else %>
+		<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'>
+		<% end %>
+		<a class = 'card-modal-link' id = '<%= card.id %>' data-toggle="modal" data-target="#taskCardModal" href = '#'><%= card.name %></a>
+		<% card.card_labels.each do |label| %>
+			<div class = 'label label-default' style = 'background-color:<%= label['color'] %>'><%= label['name'] %></div>
+		<% end %>
+		</div> <!-- end of main-content -->
+		<div class = 'text-muted text-detail'><%= due_string(card.due) %></div>
+		<div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div>
+		<div class = 'text-muted text-detail'>
+			<% if creator_hash.keys.include?(card.id) %>
+			Assigned by: <img src = '<%= member_email_hash[creator_hash[card.id]].gravatar_url %>' class = 'profile-image profile-image-tiny'></img>
+			<% end %>
+			Assignees: 
+			<% card.member_ids.each do |trello_member_id| %>
+			<% if trello_member_hash.keys.include?(trello_member_id) %>
+			<img src = '<%= trello_member_hash[trello_member_id].gravatar_url %>' class = 'profile-image profile-image-tiny' ></img>
+			<% end %>
+			<% end %>
+		</div>
+		<div class = 'text-muted text-detail'>
+			
+		</div>
+		<div style = 'display:none' class = 'hidden-card-info'><%= card.to_json %></div>
+	</li>
+<% end %>
