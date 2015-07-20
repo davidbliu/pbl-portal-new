@@ -2,9 +2,13 @@
 .main-content-div{
 	padding:15px;
 	margin:10px;
+	background-color: rgba(247, 247, 247, 0.85);
 }
 .smalltext{
 	font-size:10px;
+}
+.unwritable-input{
+	border:none;
 }
 </style>
 
@@ -14,30 +18,58 @@
 
 <div class = 'col-md-8'>
 	<div class = 'shadow-z-1 main-content-div'>
-	<h3 style = 'text-align:center'>How it works</h3>
+	<h3 style = 'text-align:center'>Quick Start</h3>
 	<p style = 'text-align:center'>We have created a task board at <a href = 'http://pbl.link/trello' target = '_blank'>pbl.link/trello</a> that the Portal updates automatically. Here's the lowdown on how to get set up!</p>
 	<p style = 'text-align:left'>
-		<ol class = 'list-group'>
-		<li class = 'list-group-item'>Setup a Trello Account</li>
-		<li class = 'list-group-item'>Provide the Portal with your account's information</li>
-		<li class = 'list-group-item'>Start Using PBL Tasks!</li>
+		<ol>
+		<li>Setup a Trello Account
+		</li>
+		<li>Provide the Portal with your account's information
+			<ul class = 'smalltext text-muted'>
+				<li>Visit the Portal Homepage (pbl.link/portal)</li>
+				<li>If no Trello Account information exists, you will be prompted for Trello ID and Token</li>
+				<li>Follow the instructions listed to get your Trello ID and Token</li>
+			</ul>
+		</li>
+		<li>After Submitting, you will be added to our main task board (PBL Fall 2015)</li>
+		<li>Start Using PBL Tasks!
+			<ul class = 'smalltext text-muted'>
+				<li>If you have additional Trello Boards you would like to integrate with the Portal, contact WD Chairs! We will help you register an existing board with the Portal</li>
+			</ul>
+		</li>
 		</ol>
 	</p>
 	</div>
+
+	<div class = 'shadow-z-1 main-content-div'>
+		<h3 style = 'text-align:center'>Manage Your Tasks</h3>
+		<h4>Tasks I've Assigned</h4>
+		<div class = 'tasks-assigned-container'>
+			<!-- <img src = '<%= loading_image %>' height=100></img> -->
+			Coming soon...
+		</div>
+
+	</div>
+
 </div>
 
 <div class = 'col-md-4'>
 
+	<% if current_member %>
 	<div class = 'main-content-div shadow-z-1'>
 		<h3>Your Account Settings</h3>
 		<p>
-			<div><b>Trello User ID</b></div>
-			<div><b>Trello Account Token</b></div>
+			<div><b>Trello User ID</b> <input type = 'text' class = 'input-sm unwritable-input' value = '<%= current_member.trello_id %>'readonly></input></div>
+			<div style = 'height:5px'></div>
+			<div><b>Trello Account Token</b> <input type = 'text' class = 'input-sm unwritable-input' value='<%= current_member.trello_token %>' readonly></input></div>
+			<div style = 'height:5px'></div>
 			<p class = 'text-muted smalltext'>See something wrong? <a href = '/tasks/update_trello_info'>Reset Trello Settings</a></p>
 		</p>
 	</div>
+	<% end %>
+
 	<div class = 'trello-helper-div shadow-z-1 main-content-div'>
-		<h3>Manage Your Tasks</h3>
+		<h3>Important Resources</h3>
 	    <div>Manage Trello Board at <a href = 'http://pbl.link/fa15-trello' target = '_blank'>pbl.link/trello</a></div>
 	    <div>Create New Tasks at <a href = '/tasks/create' target = '_blank'>pbl.link/create-task</a></div>
 	</div>

@@ -19,7 +19,7 @@
 		<% end %>
 		</div> <!-- end of main-content -->
 		<div class = 'text-muted text-detail'><%= due_string(card.due) %></div>
-		<div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div>
+		<!-- <div class = 'text-muted text-detail card-description'><%= card.desc.gsub /{{.*}}/, '' %></div> -->
 		<div class = 'text-muted text-detail'>
 			<% if card_hash.keys.include?(card.id) %>
 				Task Created By: 
