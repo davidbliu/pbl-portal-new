@@ -27,7 +27,7 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 	<% end %>
 
 	<h4>Your Task Boards</h4>
-	<p>Register a new Task Board at <a href = '/tasks/register_board' target = '_blank'>pbl.link/register-board</a>
+	<p>Please contact Web Development Chairs to register a custom board
 	<ul class = 'list-group'>
 		<% @boards.map{|x| x.board_id}.each do |board_id| %>
 		<li class = 'list-group-item'><a href = '#<%= board_id %>-card-anchor'><%= board_hash[board_id].name %></a></li>
@@ -60,6 +60,9 @@ function activateTaskCheckbox(){
 
 		id = $(this).attr('id');
 		row = $('#' + id + '-row');
+		//show loading 
+		loading_image_src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif'
+		$(row).append("<img src='"+loading_image_src+"' style = 'height:15px' id = '"+id+"-loading-image'></img>");
 
 		card_data = JSON.parse($(row).find('.hidden-card-info').html());
 		board_id = card_data.board_id
@@ -75,9 +78,11 @@ function activateTaskCheckbox(){
 	      data: {card_id: card_data.id, list_id: card_data.list_id, board_id: card_data.board_id, checked: checked},
 	      success:function(data){
 	        //toggle done or not
+	        
 			if($(row).hasClass('small')){
 				$(row).removeClass('small');
 				$('#'+board_id+'-doing-cards').prepend(row);
+				$('#'+id+'-loading-image').remove();
 			}
 			else{
 				// $(row).addClass('small');

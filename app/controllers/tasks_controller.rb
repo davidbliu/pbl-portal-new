@@ -15,7 +15,9 @@ class TasksController < ApplicationController
 		if trello_member_id and trello_member_token and trello_member_id != '' and trello_member_token != ''
 			me = Trello::Member.find(trello_member_id)
 			@board_hash = registered_boards
-			@boards = @board_hash.values.select{|x| x.member_ids.include?(current_member.trello_member_id)}
+			@boards = me.boards.select{|x| @board_hash.keys.include?(x.id)}.map{|x| @board_hash[x.id]}
+			# @boards = @board_hash.values.select{|x| x.member_ids.include?(current_member.trello_member_id)}
+			# @boards = me.boards
 			@cards = me.cards(:filter => :all)#.select{|x| @board_hash.keys.include?(x.board_id) and @list_hash.keys.include?(x.list_id)}
 			@trello_card_hash = trello_card_hash
 			render 'home', :layout => false
@@ -246,6 +248,10 @@ class TasksController < ApplicationController
 				end
 				me  = Trello::Member.find(current_member.trello_id)
 				current_member.trello_member_id = me.id
+				# add this memeber to the main trello board
+				board = Trello::Board.find(main_board.board_id)
+				puts board.to_json
+				board.add_member(me)
 			end
 
 			current_member.save
