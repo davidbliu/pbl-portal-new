@@ -1,3 +1,6 @@
+<% if cards.length == 0 %>
+<p>nothing to show</p>
+<% end %>
 <% cards.each do |card| %>
 	<% if type == "Complete" %>
 	<li class = 'list-group-item <%= board_id %>-li small' id = '<%= card.id %>-row'>

@@ -43,6 +43,8 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 				<div id = '<%= board_id %>-doing-cards' class = 'doing-cards'>
 						<%= render partial: "board_cards", locals: {card_hash: card_hash, board_id: board_id, cards: cards.select{|x| x.board_id == board_id},trello_member_hash: trello_member_hash, member_email_hash: member_email_hash, type: "Incomplete"} %>
 				</div>
+				<div id = '<%= board_id %>-pulled-cards' class = 'pulled-cards'>
+				</div>
 				</ul>
 				
 				<a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Completed Tasks</a>
@@ -75,9 +77,11 @@ function activateTaskCheckbox(){
 	        //toggle done or not
 			if($(row).hasClass('small')){
 				$(row).removeClass('small');
+				$('#'+board_id+'-doing-cards').prepend(row);
 			}
 			else{
-				$(row).addClass('small');
+				// $(row).addClass('small');
+				$(row).remove();
 			}
 	      },
 	      error:function (xhr, textStatus, thrownError){
@@ -92,18 +96,24 @@ function activateToggleDone(){
 	$('.toggle-done').click(function(){
 		board_id = $(this).attr('id').split('-')[0];
 		// ajax request to get
-		that = $(this); 
-		
+		// that = $(this); 
+
+		//show loading 
+		loading_image_src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif'
+		$('#'+board_id+'-pulled-cards').append("<img src='"+loading_image_src+"' style = 'height:50px' id = '"+board_id+"-loading-image'></img>");
 		$.ajax({
 	      url: '/tasks/board_cards/'+board_id,
 	      type: 'GET',
 	      success:function(data){
-	        $('#'+board_id+'-doing-cards').append(data);
+	      	$('#'+board_id+'-pulled-cards').html('');
+	      	// $('#'+board_id+'-loading-image').remove();
+	        $('#'+board_id+'-pulled-cards').append(data);
 	        activateTaskCheckbox();
 	        pullModalContentActions(); // from tasks_modal included javascript in assets
-	        $(that).hide();
+	        // $(that).hide();
 	      },
 	      error:function (xhr, textStatus, thrownError){
+	      	$('#'+board_id+'-loading-image').remove();
 	        alert('failed to pull cards');
 	      }
 	  });
