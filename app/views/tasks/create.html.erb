@@ -7,6 +7,10 @@
 	width:100%;
 	border:none;
 }
+.input-sm{
+	width:100%;
+	border:none;
+}
 .member-div{
 	padding:5px;
 }
@@ -45,10 +49,19 @@
 .profile-image.profile-image-small{
 	height:17px;
 }
+
+#due-date-icon{
+	margin-top:3px;
+	display:inline;
+	font-size:17px;
+	color:#428bca;
 }
 </style>
-<link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/>
-<script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script>
+
+<%= stylesheet_link_tag 'datetimepicker.min.css' %>
+
+<!-- <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/> -->
+<!-- <script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script> -->
 <h1 style = 'text-align:center'><img src = '/assets/trello-logo.png' height=50></img> Create a Task</h1>
 
 
@@ -62,7 +75,13 @@
 	<textarea id = 'task-description-input' class = 'input-sm' rows="5" placeholder="Description (example: find the concessions for at pbl.link/concessions, please fill out three available timeslots"></textarea>
 
 	<h5>Set a due date?<h5>
-	<p class = 'text-muted smalltext'>Due dates are optional but recommended<div><a href= 'javascript:void(0);'>Click here to set a due date</a></div></p>
+		<div>
+	  <div id="datetimepicker1" class="input-append date">
+	  	<input id = 'due-date-input' data-format="dd/MM/yyyy hh:mm:ss" type="text" placeholder = 'dd/MM/yyyy hh:mm:ss' class = 'input-sm'><span class = 'add-on'><i id = 'due-date-icon' data-time-icon="icon-time" data-date-icon="icon-calendar" class = 'mdi-action-alarm-add'></i></span></input>
+	    
+	  </div>
+	</div>
+	
 
 	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Optional: Select a Custom Board to send it to</h5>
 	<p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
@@ -136,6 +155,16 @@
 <div class = 'col-md-4'></div>
 </div>
 
+<%= javascript_include_tag 'datetimepicker.min.js' %>
+<script type="text/javascript">
+	  $(function() {
+	    $('#datetimepicker1').datetimepicker({
+	      language: 'pt-BR'
+	    });
+	  });
+	</script>
+
+
 <script type = 'text/javascript'>
 var board_members_hash = JSON.parse('<%= @board_members_hash.to_json.html_safe %>');
 var board_labels_hash = JSON.parse('<%= @trello_label_hash.to_json.html_safe %>');
@@ -207,6 +236,9 @@ $('#create-btn').click(function(){
 		label_ids.push($(this).attr('id'));
 	});
 	board_id = $('#board-select :selected').attr('id');
+	//get due date
+	due_date = $('#due-date-input').val();
+	console.log(due_date);
 	console.log(board_id);
 	console.log(task_name);
 	console.log(member_ids);
@@ -216,7 +248,7 @@ $('#create-btn').click(function(){
 	$.ajax({
 	      url: '/tasks/create_task/',
 	      type: 'POST',
-	      data: {'name': task_name, 'description': task_description, 'member_ids': member_ids, 'board_id': board_id, 'label_ids':label_ids},
+	      data: {'name': task_name, 'description': task_description, 'member_ids': member_ids, 'board_id': board_id, 'label_ids':label_ids, 'due_date':due_date},
 	      success:function(data){
 	        // location.reload();
 	        $('#update-container').html(data);

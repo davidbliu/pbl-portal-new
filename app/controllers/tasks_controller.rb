@@ -167,16 +167,19 @@ class TasksController < ApplicationController
 		board_id = params[:board_id]
 		doing_list = trello_list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
 		
-		# # save the creator of the card in the description
-		# if current_member and current_member.email
-		# 	task_description += "\n" + "{{"+current_member.email+"}}"
-		# end
-		# # save the assignees in the description
-		# task_description += "\n"+"$$"+member_emails.join(',')+"$$"
+		
 
 
 
 		card = Trello::Card.create(name: task_name, desc: task_description, member_ids: member_ids.join(','),list_id: doing_list.list_id)
+		# save the due date
+		due_date = params[:due_date]
+		if due_date and due_date != ''
+			due = DateTime.strptime(due_date, '%d/%m/%Y %H:%M:%S')
+			pc_time = Time.parse(due.to_s).utc
+			utc_time = pc_time - Time.zone_offset("PDT")
+			card.due = utc_time
+		end
 		puts 'saving card'
 		card.save
 		puts 'adding labels'
