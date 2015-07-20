@@ -29,15 +29,31 @@
 	border:1px solid rgba(0,0,0,0.1);
 
 }
+#card-description-input{
+	width:100%;
+	border:1px solid rgba(0,0,0,0.1);
+	min-height:100px;
+
+}
 </style>
 <h4><a href ='<%= @card.url %>'><%= @card.name %></a></h4>
-<p>
+
+<% if @card.due %>
+<h4><div class = 'label label-material-red-700'>Due <%= ParseTrelloList.due_string(@card.due) %></div></h4>
+<% end %>
+
+
+<h5>Labels</h5>
+<div class = 'inner-p section-div'>
+<% if @card.card_labels.length > 0 %>
 <% @card.card_labels.each do |label| %>
 <div class = 'label label-default' style = 'background-color:<%= label['color'] %>' target = '_blank'><%= label['name'] %></div>
 <% end %>
-</p>
+<% else %>
+<span class = 'text-muted'>There are no labels for this card</span>
+<% end %>
+</div>
 
-<h4><div class = 'label label-default'>Due <%= ParseTrelloList.due_string(@card.due) %></div></h4>
 
 <h5>Members</h5>
 <div class = 'inner-p section-div'>
@@ -55,7 +71,21 @@
 
 
 <h5>Description</h5>
-<div class = 'inner-p section-div'><%= @card.desc %></div>
+<div class = 'inner-p section-div'>
+
+<div class = 'description-container'>
+	<div id = 'card-description'><%= simple_format(@card.desc) %></div>
+	<textarea id = 'card-description-input' style = 'display:none' class = 'input-sm'><%= @card.desc %></textarea>
+</div>
+<div id = 'description-options-container'>
+	<a id = 'edit-description-link' href = 'javascript:void(0);'>Edit this description</a>
+	<a id = 'save-description-link' style = 'display:none' href = 'javascript:void(0);'>Save</a>
+	<a id = 'cancel-description-link' style = 'display:none' href = 'javascript:void(0);'>Cancel</a>
+	<img id = 'description-loader' src = '<%= loading_image %>' height=25 style = 'display:none'></img>
+</div>
+
+
+</div>
 
 
 <h5>Checklists</h5>
@@ -82,7 +112,7 @@
 
 
 <h5>Comments</h5>
-<div class = 'inner-p section-div'>
+<div class = 'inner-p section-div' id = 'comments-section'>
 
 	<% if @comments and @comments.length>0 %>
 	<%@comments.each do |comment| %>
@@ -100,14 +130,85 @@
 
 	<div id = 'comment-input-div'>
 		<input id = 'comment-input' type = 'text' class = 'input-sm' placeholder = 'Have a commment?'></input>
-		<button class = 'btn btn-material-purple-500'>Add A Comment</button>
+		<button id = 'comment-btn' class = 'btn btn-material-purple-500'>Add A Comment</button>
+		<img id = 'comment-loader' src = '<%= loading_image %>' height=25 style = 'display:none'></img>
 	</div>
 </div>
 
 
+<div><a href = '<%= @card.url %>' target = '_blank'>View the card in Trello</a></div>
 
 
 
+<script type = 'text/javascript'>
+$('#edit-description-link').click(function(){
+	$('#edit-description-link').hide();
+	$('#card-description').hide();
+	$('#save-description-link').show();
+	$('#cancel-description-link').show();
+	$('#card-description-input').show();
+	$('#card-description-input').val($('#card-description').text());
+});
+$('#cancel-description-link').click(function(){
+	$('#edit-description-link').show();
+	$('#card-description').show();
+	$('#save-description-link').hide();
+	$('#cancel-description-link').hide();
+	$('#card-description-input').hide();
+});
+$('#save-description-link').click(function(){
+	card_id = '<%= @card.id %>';
+	description = $('#card-description-input').val();
+	$('#description-loader').show();
+	$.ajax({
+      url: '/tasks/update_description/'+card_id,
+      type: 'POST',
+      data: {'description': description},
+      success:function(data){
+      	$('#description-loader').hide();
+        $('#card-description').html(description);
 
+        $('#edit-description-link').show();
+		$('#card-description').show();
+		$('#save-description-link').hide();
+		$('#cancel-description-link').hide();
+		$('#card-description-input').hide();
 
-<div><a href = '<%= @card.url %>' target = '_blank'>See full task details or edit this card on Trello</a></div>
+      },
+      error:function (xhr, textStatus, thrownError){
+      	$('#description-loader').hide();
+        alert('failed');
+      }
+  });
+});
+$('#comment-btn').click(function(){
+	comment = $('#comment-input').val();
+	card_id = '<%= @card.id %>';
+	that = $(this);
+	$('#comment-loader').show();
+	$.ajax({
+	      url: '/tasks/add_comment/'+card_id,
+	      type: 'POST',
+	      data: {'comment': comment},
+	      success:function(data){
+	      	$('#comment-loader').hide();
+	      	$('#comment-input').val('');
+	        //add a comment to the comments section
+	        console.log(data);
+	        comment_div = document.createElement('div');
+	        image = document.createElement('img');
+	        $(image).attr('src', '<%= current_member.gravatar_url %>');
+	        $(image).addClass('profile-image');
+	        $(image).addClass('profile-image-small');
+	        $(comment_div).addClass('comment-div');
+	        $(comment_div).append(image);
+	        $(comment_div).append(comment);
+	        $('#comments-section').prepend(comment_div);
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	      	$('#comment-loader').hide();
+	        alert('failed');
+	      }
+	  });
+})
+</script>

@@ -168,11 +168,6 @@ class TasksController < ApplicationController
 		end
 		board_id = params[:board_id]
 		doing_list = trello_list_hash.values.select{|x| x.name.include?("Doing") and x.board_id == board_id}[0]
-		
-		
-
-
-
 		card = Trello::Card.create(name: task_name, desc: task_description, member_ids: member_ids.join(','),list_id: doing_list.list_id)
 		# save the due date
 		due_date = params[:due_date]
@@ -200,6 +195,41 @@ class TasksController < ApplicationController
 		# render nothing: true, :status=>200
 		render 'task_created', :layout=>false
 
+	end
+
+	def add_comment
+		card_id = params[:card_id]
+		comment = params[:comment]
+
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+
+		card = Trello::Card.find(card_id)
+		card.add_comment(comment)
+
+		render nothing: true, :status=>200 
+	end
+
+	def update_description
+		card_id = params[:card_id]
+		description = params[:description]
+
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+
+		card = Trello::Card.find(card_id)
+		card.desc = description
+		card.save
+
+		render nothing: true, :status=>200 
 	end
 
 	def update

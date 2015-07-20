@@ -55,6 +55,8 @@ Dockernotes::Application.routes.draw do
   get '/tasks/card/:id', to: 'tasks#card'
   get '/tasks/register_board', to: 'tasks#register_board'
   get '/tasks/board_cards/:board_id', to: 'tasks#board_cards'
+  post '/tasks/add_comment/:card_id', to: 'tasks#add_comment'
+  post '/tasks/update_description/:card_id', to:'tasks#update_description'
 
   """me routes"""
   get '/member/:email', to: 'members#member'
