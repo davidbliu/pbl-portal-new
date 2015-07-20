@@ -6,6 +6,26 @@
 	font-size:13px;
 	margin-left:25px;
 }
+.section-div{
+	border:1px solid rgba(0,0,0,0.1);
+	margin:5px;
+	padding:10px;
+	background-color: rgba(215, 215, 215, 0.1);
+}
+.comment-div{
+	margin:5px;
+	padding:10px;
+	border:1px solid rgba(0,0,0,0.1);
+}
+#comment-input-div{
+	margin:5px;
+	padding:10px;
+	border:1px solid rgba(0,0,0,0.1);
+}
+#comment-input{
+	width:100%;
+	border:1px solid rgba(0,0,0,0.1);
+}
 </style>
 <h4><a href ='<%= @card.url %>'><%= @card.name %></a></h4>
 <p>
@@ -14,42 +34,31 @@
 <% end %>
 </p>
 
-<h5>Due <%= ParseTrelloList.due_string(@card.due) %></h5>
+<h4><div class = 'label label-default'>Due <%= ParseTrelloList.due_string(@card.due) %></div></h4>
 
 <h5>Members</h5>
-<p class = 'inner-p'>
+<div class = 'inner-p section-div'>
 	Created By: 
 	<% @assigned_by.each do |email| %>
 	<img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;
 	<% end %>
-</p>
-<p class = 'inner-p'>
+</div>
+<div class = 'inner-p section-div'>
 	Collaborators: 
 	<% @assigned.each do |email| %>
 	<img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;
 	<% end %>
-</p>
+</div>
 
 
 <h5>Description</h5>
-<p class = 'inner-p'><%= @card.desc %></p>
+<div class = 'inner-p section-div'><%= @card.desc %></div>
 
-<% if @comments and @comments.length>0 %>
-<h5>Comments</h5>
-<p class = 'inner-p'>
-	<%@comments.each do |comment| %>
-	<% if @trello_member_hash and @trello_member_hash.keys.include?(comment.member_creator_id) %>
-	<p><img src = '<%= @trello_member_hash[comment.member_creator_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= comment.data['text'] %></p>
-	<% else %>
-	<p><%= comment.data['text'] %></p>
-	<% end %>
-	<% end %>
-</p>
-<% end %>
 
-<% if @card.checklists.length >0 %>
 <h5>Checklists</h5>
-<p class = 'inner-p'>
+<div class = 'inner-p section-div'>
+
+	<% if @card.checklists.length >0 %>
 	<% @card.checklists.each do |checklist| %>
 			<ul class = 'list-group'><%= checklist.name %>
 				<% checklist.check_items.each do |check_item| %>
@@ -61,8 +70,41 @@
 				<% end %>
 			</ul>
 	<% end %>
-</p>
-<% end %>
+	<% else %>
+	<span class = 'text-muted'>There are no checklists for this card</span>
+	<% end %>
+</div>
+
+
+
+
+<h5>Comments</h5>
+<div class = 'inner-p section-div'>
+
+	<% if @comments and @comments.length>0 %>
+	<%@comments.each do |comment| %>
+	<% if @trello_member_hash and @trello_member_hash.keys.include?(comment.member_creator_id) %>
+	<div class = 'comment-div'><img src = '<%= @trello_member_hash[comment.member_creator_id].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= comment.data['text'] %></div>
+	<% else %>
+	<div class = 'comment-div'><%= comment.data['text'] %></div>
+	<% end %>
+	<% end %>
+
+	
+	<% else %>
+	<span class = 'text-muted'>There are no comments on this card</span>
+	<% end %>
+
+	<div id = 'comment-input-div'>
+		<input id = 'comment-input' type = 'text' class = 'input-sm' placeholder = 'Have a commment?'></input>
+		<button class = 'btn btn-material-purple-500'>Add A Comment</button>
+	</div>
+</div>
+
+
+
+
+
 
 
 <div><a href = '<%= @card.url %>' target = '_blank'>See full task details or edit this card on Trello</a></div>
