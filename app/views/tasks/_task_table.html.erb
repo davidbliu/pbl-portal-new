@@ -39,6 +39,8 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 		<div class = 'task-list-card shadow-z-1'>
 			
 			<h4><a class="anchor" id = '<%= board_id %>-card-anchor'></a><a href = 'http://trello.com/b/<%= board_id %>' target = '_blank'><%= board_hash[board_id].name %></a></h4>
+			<a href = '/tasks/create?board_id=<%= board_id %>'>Add a task to <%= board_hash[board_id].name %></a>
+			<h6>Tasks</h6>
 				<ul class = 'list-group'>
 				<div id = '<%= board_id %>-doing-cards' class = 'doing-cards'>
 						<%= render partial: "board_cards", locals: {card_hash: card_hash, board_id: board_id, cards: cards.select{|x| x.board_id == board_id},trello_member_hash: trello_member_hash, member_email_hash: member_email_hash, type: "Incomplete"} %>
@@ -47,7 +49,8 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 				</div>
 				</ul>
 				
-				<a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Completed Tasks</a>
+				<div><a class = 'toggle-done' id = '<%= board_id %>-toggle-done' href = 'javascript:void(0);'>Show Completed Tasks</a></div>
+				<div><a class = 'toggle-pulled' id = '<%= board_id %>-toggle-pulled' href = 'javascript:void(0);' style = 'display:none'>Hide Completed Tasks</a></div>
 		</div>
 	<% end %>
 	<!-- </tbody> -->
@@ -98,6 +101,13 @@ function activateTaskCheckbox(){
 	});
 }
 function activateToggleDone(){
+	$('.toggle-pulled').click(function(){
+		board_id = $(this).attr('id').split('-')[0];
+		$('#'+board_id+'-pulled-cards').html('');
+
+		$('#'+board_id+'-toggle-done').text('Show Completed Tasks');
+		$(this).hide();
+	});
 	$('.toggle-done').click(function(){
 		board_id = $(this).attr('id').split('-')[0];
 		// ajax request to get
@@ -113,6 +123,10 @@ function activateToggleDone(){
 	      	$('#'+board_id+'-pulled-cards').html('');
 	      	// $('#'+board_id+'-loading-image').remove();
 	        $('#'+board_id+'-pulled-cards').append(data);
+
+	        // rename the links
+	        $('#'+board_id+'-toggle-done').text('Refresh Completed Tasks');
+	        $('#'+board_id+'-toggle-pulled').show();
 	        activateTaskCheckbox();
 	        pullModalContentActions(); // from tasks_modal included javascript in assets
 	        // $(that).hide();

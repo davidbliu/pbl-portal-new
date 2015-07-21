@@ -232,6 +232,10 @@ class TasksController < ApplicationController
 		render nothing: true, :status=>200 
 	end
 
+	def upload_attachment
+		card_id = params[:card_id]
+	end
+
 	def update
 		@list_hash = trello_list_hash
 		@board_hash = registered_boards
@@ -301,6 +305,10 @@ class TasksController < ApplicationController
 		end
 		me  = Trello::Member.find(current_member.trello_id)
 		@boards = me.boards
+	end
+
+	def label_selector
+		board_id = params[:board_id]
 	end
 end
 

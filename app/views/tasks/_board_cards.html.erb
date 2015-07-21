@@ -1,5 +1,5 @@
 <% if cards.length == 0 %>
-<p>nothing to show</p>
+<h6>nothing to show</h6>
 <% end %>
 <% cards.sort{|a,b| a.due && b.due ? a.due <=> b.due : a.due ? -1 : 1 }.each do |card| %>
 	<% if type == "Complete" %>

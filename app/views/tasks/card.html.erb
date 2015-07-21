@@ -35,6 +35,9 @@
 	min-height:100px;
 
 }
+.smalltext{
+	font-size:10px;
+}
 </style>
 <h4><a href ='<%= @card.url %>'><%= @card.name %></a></h4>
 
@@ -109,6 +112,25 @@
 </div>
 
 
+<h5>Attachments</h5>
+<div class = 'inner-p section-div' id = 'comments-section'>
+<% if @card.attachments.length == 0 %>
+	<span class = 'text-muted'>There are no attachments on this task</span>
+<% else %>
+<% @card.attachments.each do |attachment| %>
+	<div class = 'attachment-div comment-div'>
+		<img src = '<%= attachment.url %>' height=50></img>
+		<a href = '<%= attachment.url %>' target = '_blank'><%= attachment.name %></a>
+	</div>
+<% end %>
+<% end %>
+
+<div style = 'border-top:1px solid rgba(0,0,0,0.1);margin-top:10px'>
+	<div class = 'text-muted smalltext'>Since we cannot handle file attachments currently, we'll send you to Trello to create a new attachment. The task will open in a new tab.</div>
+	<a href = '<%= @card.url %>' target = '_blank'>Create a new attachment</a>
+</div>
+
+</div><!-- end of attachments div -->
 
 
 <h5>Comments</h5>
@@ -134,6 +156,10 @@
 		<img id = 'comment-loader' src = '<%= loading_image %>' height=25 style = 'display:none'></img>
 	</div>
 </div>
+
+
+
+
 
 
 <div><a href = '<%= @card.url %>' target = '_blank'>View the card in Trello</a></div>
