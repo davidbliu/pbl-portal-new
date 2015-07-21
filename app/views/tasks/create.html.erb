@@ -1,15 +1,13 @@
 <style type = 'text/css'>
 #task-name-input{
 	width:100%;
-	border:none;
 }
 #task-description-input{
 	width:100%;
-	border:none;
 }
 .input-sm{
 	width:100%;
-	border:none;
+	border:1px solid rgba(0,0,0,0.1);
 }
 .member-div{
 	padding:5px;
@@ -77,19 +75,20 @@
 	<h5>Set a due date?<h5>
 		<div>
 	  <div id="datetimepicker1" class="input-append date">
+	  	<p class = 'text-muted smalltext'>Format for due dates is dd/MM/yyyy hh:mm:ss</p>
 	  	<input id = 'due-date-input' data-format="dd/MM/yyyy hh:mm:ss" type="text" placeholder = 'dd/MM/yyyy hh:mm:ss' class = 'input-sm'><span class = 'add-on'><i id = 'due-date-icon' data-time-icon="icon-time" data-date-icon="icon-calendar" class = 'mdi-action-alarm-add'></i></span></input>
 	    
 	  </div>
 	</div>
 	
 
-	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Optional: Select a Custom Board to send it to</h5>
-	<p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/fa15-trello' target='_blank'>pbl.link/fa15-trello</a>) but you can create tasks on custom Trello Boards</p>
-	<p class = 'smalltext text-muted'>Read more about <a href = '#'>setting up custom boards</a></p>
+	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Select a Board to send it to</h5>
+	<p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/trello' target='_blank'>pbl.link/trello</a>) but you can create tasks on custom Trello Boards</p>
+	<!-- <p class = 'smalltext text-muted'>Read more about <a href = '#'>setting up custom boards</a></p> -->
 	<select id = 'board-select' class = 'input-sm'>
 		<% @board_hash.keys.each do |board_id| %>
-			<% if board_id == @main_board.board_id %>
-			<option id = '<%= board_id %>' selected>Default: <%= @board_hash[board_id].name %></option>
+			<% if (@board_id and board_id == @board_id) or (not @board_id and board_id == @main_board.board_id) %>
+			<option id = '<%= board_id %>' selected><%= @board_hash[board_id].name %></option>
 			<% else %>
 				<% if current_member and current_member.trello_member_id and @board_members_hash[board_id].include?(current_member.email) %>
 				<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>

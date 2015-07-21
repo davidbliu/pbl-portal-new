@@ -56,16 +56,20 @@
 <div class = 'col-md-4'>
 
 	<% if current_member %>
-	<div class = 'main-content-div shadow-z-1'>
-		<h3>Your Account Settings</h3>
-		<p>
-			<div><b>Trello User ID</b> <input type = 'text' class = 'input-sm unwritable-input' value = '<%= current_member.trello_id %>'readonly></input></div>
-			<div style = 'height:5px'></div>
-			<div><b>Trello Account Token</b> <input type = 'text' class = 'input-sm unwritable-input' value='<%= current_member.trello_token %>' readonly></input></div>
-			<div style = 'height:5px'></div>
-			<p class = 'text-muted smalltext'>See something wrong? <a href = '/tasks/update_trello_info'>Reset Trello Settings</a></p>
-		</p>
-	</div>
+		<% if current_member.has_trello %>
+			<div class = 'main-content-div shadow-z-1'>
+				<h3>Your Account Settings</h3>
+				<p>
+					<div><b>Trello User ID</b> <input type = 'text' class = 'input-sm unwritable-input' value = '<%= current_member.trello_id %>'readonly></input></div>
+					<div style = 'height:5px'></div>
+					<div><b>Trello Account Token</b> <input type = 'text' class = 'input-sm unwritable-input' value='<%= current_member.trello_token %>' readonly></input></div>
+					<div style = 'height:5px'></div>
+					<p class = 'text-muted smalltext'>See something wrong? <a href = '/tasks/update_trello_info'>Reset Trello Settings</a></p>
+				</p>
+			</div>
+		<% else %>
+			<%= render partial: 'no_trello' %>
+		<% end %>
 	<% end %>
 
 	<div class = 'trello-helper-div shadow-z-1 main-content-div'>
