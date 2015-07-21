@@ -151,6 +151,11 @@ class ChromeExtensionController < ApplicationController
 		# end
 		key_hash = go_link_key_hash
 		keys = ParseGoLink.search(search_term)
+
+		# log this search event
+		search_email = params[:email] ? params[:email] : nil
+		search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: search_term, results: keys, type: 'chrome', time: Time.now)
+
 		results = Array.new
 		keys.each do |key|
 			results << key_hash[key]

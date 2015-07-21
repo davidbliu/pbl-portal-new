@@ -10,6 +10,10 @@ class GoController < ApplicationController
 		puts 'searching for : '+params[:search_term]
 		key_hash = go_link_key_hash
 		keys = ParseGoLink.search(@search_term)
+		# log this search event
+		search_email = current_member ? current_member.email : nil
+		search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: @search_term, results: keys, type: 'portal', time: Time.now)
+		# get search results
 		results = Array.new
 		keys.each do |key|
 			results << key_hash[key]
