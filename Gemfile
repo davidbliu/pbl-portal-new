@@ -77,6 +77,10 @@ gem 'link_thumbnailer'
 # tasks
 gem 'ruby-trello'
 
+
+# time out timeout when take too long controller
+gem "rack-timeout"
+
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
 #
