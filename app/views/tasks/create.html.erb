@@ -99,7 +99,7 @@
 	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Give it Labels</h5>
 	<p class = 'text-muted smalltext'>We recommend adding one or two labels. Labels make it easier for you to organize your tasks!</p>
 	<div id = 'labels-container'>
-		<% @trello_label_hash[@main_board.board_id].each do |label| %>
+		<% @trello_label_hash[@board_id].each do |label| %>
 		<div id = '<%= label['id'] %>' class = 'label label-primary' style = 'background-color:<%= label['color'] %>;'><%= label['name'] %></div>
 		<% end %>
 	</div>

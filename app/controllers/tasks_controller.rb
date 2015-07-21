@@ -21,7 +21,7 @@ class TasksController < ApplicationController
 			@main_board = @boards.select{|x| x.id == main_board.id}[0]
 			@boards.delete(@main_board)
 			@boards.unshift(@main_board)
-			
+
 			@cards = me.cards(:filter => :all)
 			@trello_card_hash = trello_card_hash
 			render 'home', :layout => false
@@ -109,11 +109,14 @@ class TasksController < ApplicationController
 
 	def create
 		@board_id = params[:board_id]
+		@main_board = main_board
+		if not @board_id or @board_id == ''
+			@board_id = @main_board.id
+		end
 		@trello_members = current_members.select{|x| x.has_trello and x.email}
 		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
 		# see cache helper for how these are computed
 		@board_hash = registered_boards
-		@main_board = main_board
 		@trello_label_hash = trello_label_hash
 		@board_members_hash = trello_board_members_hash
 		# sorting members by committee

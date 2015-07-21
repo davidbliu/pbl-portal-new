@@ -123,8 +123,13 @@
 <% else %>
 <% @card.attachments.each do |attachment| %>
 	<div class = 'attachment-div comment-div'>
-		<img src = '<%= attachment.url %>' height=50></img>
-		<a href = '<%= attachment.url %>' target = '_blank'><%= attachment.name %></a>
+		<% if attachment.url.include?('.png') or attachment.url.include?('.jpg') or attachment.url.include?('.jpeg') or attachment.url.include?('.gif') %>
+		<img src='<%= attachment.url %>' height = "150px"></img>
+		<% else %>
+		<iframe src='<%= attachment.url %>' height = "200px" width = '200px'></iframe>
+		<% end %>
+<!-- 		<img src = '<%= attachment.url %>' height=50></img>
+ -->		<a href = '<%= attachment.url %>' target = '_blank'><%= attachment.name %></a>
 	</div>
 <% end %>
 <% end %>
