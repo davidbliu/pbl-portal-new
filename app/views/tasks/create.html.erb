@@ -114,7 +114,11 @@
 	<div style = 'border-bottom:1px solid rgba(0,0,0,0.1)'>
 		<h4><%= committee %></h4>
 		<% @cm_trello_hash[committee].each do |member| %>
+			<% if @board_members_hash[@board_id].include?(member.email) %>
 			<div class = 'member-div' id = '<%= member.email %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
+			<% else %>
+			<div class = 'member-div' id = '<%= member.email %>' style = 'display:none'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
+			<% end %>
 		<% end %>
 	</div>
 	<% end %>
