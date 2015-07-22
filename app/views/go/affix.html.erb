@@ -149,6 +149,9 @@
 
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
+<%= javascript_include_tag "golink_catalogue" %>
+
+
 <body data-spy="scroll" data-target=".scrollspy" data-offset="115" style = 'position:relative' id = 'scroll-spy-container'>
 
 <!-- Modal -->
@@ -262,7 +265,7 @@
         </ul>
   </div>
 </body>
-<%= javascript_include_tag "golink_catalogue" %>
+
 <script type = 'text/javascript'>
 function activateSearchButton(){
   $('#search-btn').click(function(){

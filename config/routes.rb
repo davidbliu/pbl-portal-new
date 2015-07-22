@@ -58,6 +58,8 @@ Dockernotes::Application.routes.draw do
   post '/tasks/add_comment/:card_id', to: 'tasks#add_comment'
   post '/tasks/update_description/:card_id', to:'tasks#update_description'
   post '/tasks/upload_attachment/:card_id', to:'tasks#upload_attachment'
+  get '/tasks/pull_labels/:board_id', to: 'tasks#pull_labels'
+  post '/tasks/update_labels', to: 'tasks#update_labels'
 
   """me routes"""
   get '/member/:email', to: 'members#member'

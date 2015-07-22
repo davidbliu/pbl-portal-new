@@ -1,0 +1,79 @@
+<style type = 'text/css'>
+.label.label-primary{
+  clear: both;
+  margin: 3px;
+  display: block;
+  width: 30%;
+  padding:5px;
+  border-radius:3px;
+}
+.label.label-primary.selected-label{
+	width:75%;
+}
+.label.label-primary:hover{
+	cursor:pointer;
+}
+</style>
+
+<div id = 'pull-label-container'>
+	<div>
+		<% @labels.each do |label| %>
+		<% if @card_label_ids.include?(label.id) %>
+		<div><div class = 'label-div label label-primary selected-label' style = 'background-color:<%= label.color %>;' id = '<%= label.id %>'><%= label.name %></div></div>
+		<% else %>
+		<div><div class = 'label-div label label-primary' style = 'background-color:<%= label.color %>;' id = '<%= label.id %>'><%= label.name %></div></div>
+		<% end %>
+		<% end %>
+
+	</div>
+	<img src = '<%= loading_image %>' height=50 style = 'display:none' id = 'pull-label-loader'></img>
+	<div><a href = 'javascript:void(0);' id = 'cancel-labels-link'>Cancel</a></div>
+	<div><a href = 'javascript:void(0);' id = 'save-labels-link'>Save</a></div>
+</div>
+
+<div id = 'hidden-label-updates'></div>
+
+<script type = 'text/javascript'>
+$('.label-div').click(function(){
+	if($(this).hasClass("selected-label")){
+		$(this).removeClass('selected-label');
+	}
+	else{
+		$(this).addClass('selected-label');
+	}
+});
+$('#save-labels-link').click(function(){
+	label_ids = [];
+	$('#labels-container').html('');
+	$('.selected-label').each(function(){
+		label_ids.push($(this).attr('id'));
+		lbl = document.createElement('div');
+		$(lbl).addClass('label label-default');
+		$(lbl).attr('style', $(this).attr('style'));
+		$(lbl).text($(this).text());
+
+		$('#labels-container').prepend(lbl);
+	});
+
+
+	console.log(label_ids);
+	$('#pull-label-loader').show();
+	$.ajax({
+      url: '/tasks/update_labels',
+      type: 'POST',
+      data: {'card_id': '<%= @card_id %>', 'label_ids':label_ids },
+      success:function(data){
+        $('#pull-label-container').remove();
+        $('#edit-labels-link').show();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+        $('#edit-labels-link').show();
+      }
+  	});
+});
+$('#cancel-labels-link').click(function(){
+	$('#pull-label-container').remove();
+	$('#edit-labels-link').show();
+});
+</script>

@@ -9,8 +9,8 @@
       type="image/png" 
       href="/assets/pbl-logo-circle.png">
   <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= stylesheet_link_tag    "application" %>
+  <%= javascript_include_tag "application" %>
 <!--   
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
@@ -52,7 +52,7 @@ p, div {
     box-shadow: none;
 }
 body {
-  padding-top: 50px;
+  /*padding-top: 50px;*/
 }
 a {
     color: #428bca;
@@ -94,13 +94,19 @@ a:active {
   height:15px;
   width:15px;
 }
+@media (max-width: 480px) {
+  body{
+    padding-top:335px;
+  }
+}
+
 </style>
 
 </head>
 <body  data-no-turbolink>
 
 <!-- add a header -->
-<%= render "/layouts/navbar" %>
+<%= render "/layouts/navbar_responsive" %>
 <div class="container" id = "sb-site">
 
 <%= yield %>
@@ -119,10 +125,10 @@ a:active {
       </div>
     </footer>
 
+    
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
-<!-- <script src = 'https://cdnjs.cloudflare.com/ajax/libs/slidebars/0.10.2/slidebars.min.js'></script> -->
-<!-- <script src = 'https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js'></script> -->
 </body>
 
 </html>

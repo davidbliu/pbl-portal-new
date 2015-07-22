@@ -51,15 +51,25 @@
 
 
 <h5>Labels</h5>
-<div class = 'inner-p section-div'>
-<% if @card.card_labels.length > 0 %>
-<% @card.card_labels.each do |label| %>
-<div class = 'label label-default' style = 'background-color:<%= label['color'] %>' target = '_blank'><%= label['name'] %></div>
-<% end %>
-<% else %>
-<span class = 'text-muted'>There are no labels for this card</span>
-<% end %>
+<div class = 'inner-p section-div' id = 'card-labels-container'>
+	<div id = 'labels-container'>
+		<% if @card.card_labels.length > 0 %>
+		<% @card.card_labels.each do |label| %>
+		<div class = 'label label-default' style = 'background-color:<%= label['color'] %>' target = '_blank'><%= label['name'] %></div>
+		<% end %>
+		<% else %>
+		<span class = 'text-muted'>There are no labels for this card</span>
+		<% end %>
+	</div>
+	<div>
+		<a href = 'javascript:void(0);' id = 'edit-labels-link'>Edit Labels</a>
+		<div id = 'edit-labels-container'>
+			<img src = '<%= loading_image %>' height=50 style = 'display:none' id = 'label-loading-image'></img>
+			<div id = 'label-edit-area'></div>
+		</div>
+	</div>
 </div>
+
 
 
 <h5>Members</h5>
@@ -176,6 +186,26 @@
 
 
 <script type = 'text/javascript'>
+$('#edit-labels-link').click(function(){
+	$('#label-loading-image').show();
+	$.ajax({
+      url: '/tasks/pull_labels/'+ '<%= @card.board_id %>',
+      data: {'card_id': '<%= @card.id %>'},
+      type: 'GET',
+      success:function(data){
+        $('#label-loading-image').hide();
+        $('#label-loading-image').hide();
+        $('#label-edit-area').html(data);
+        $('#edit-labels-link').hide();
+      },
+      error:function (xhr, textStatus, thrownError){
+      	alert('error pulling labels')
+        $('#label-loading-image').hide();
+      }
+  });
+
+
+});
 $('#edit-description-link').click(function(){
 	$('#edit-description-link').hide();
 	$('#card-description').hide();

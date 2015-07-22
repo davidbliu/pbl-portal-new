@@ -103,7 +103,6 @@ class TasksController < ApplicationController
 			@assigned_by = Array.new
 			@assigned = Array.new
 		end
-		# [{"id":"55a93dd70a2bcdd7a3f94cd1","type":"commentCard","data":{"dateLastEdited":"2015-07-17T18:01:31.640Z","textData":{"emoji":{}},"text":"see checklists toohttps://trello.com/c/RW6bqRrF/33-pay-rent ","card":{"id":"55a931a128036166e7556463","name":"see cards you created","idShort":84,"shortLink":"hfDZb5Vc"},"board":{"id":"55a743ed1ac5db0f968e41fd","name":"PBL Fall 2015","shortLink":"H1gYqoQP"},"list":{"id":"55a743ef2281324196e553f8","name":"Doing"}},"date":"2015-07-17T17:39:35Z","member_creator_id":"541f7c0ad818e679cccd2c07","member_participant":null},{"id":"55a93dd3c1921ec5afd33f3a","type":"commentCard","data":{"list":{"name":"Doing","id":"55a743ef2281324196e553f8"},"board":{"shortLink":"H1gYqoQP","name":"PBL Fall 2015","id":"55a743ed1ac5db0f968e41fd"},"card":{"shortLink":"hfDZb5Vc","idShort":84,"name":"see cards you created","id":"55a931a128036166e7556463"},"text":"also be able to see comments"},"date":"2015-07-17T17:39:31Z","member_creator_id":"541f7c0ad818e679cccd2c07","member_participant":null}]
 		render 'card', :layout=>false
 	end
 
@@ -111,7 +110,7 @@ class TasksController < ApplicationController
 		@board_id = params[:board_id]
 		@main_board = main_board
 		if not @board_id or @board_id == ''
-			@board_id = @main_board.id
+			@board_id = @main_board.board_id
 		end
 		@trello_members = current_members.select{|x| x.has_trello and x.email}
 		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
@@ -221,6 +220,50 @@ class TasksController < ApplicationController
 
 		render nothing: true, :status=>200 
 	end
+
+	# for editing
+	def pull_labels
+		board_id = params[:board_id]
+		card_id = params[:card_id]
+		@card_id = card_id
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		card = Trello::Card.find(card_id)
+		@card_label_ids = card.card_labels.map{|x| x['id']}
+		board = Trello::Board.find(board_id)
+		@labels = board.labels(name = false).select{|x| x.name != ""}
+		# @labels =  JSON.parse(@labels.to_json)
+		render 'pull_labels', :layout=>false
+	end
+
+	def update_labels
+		card_id = params[:card_id]
+		label_ids = params[:label_ids]
+		""" configure Trello for this user """
+		trello_member_token = current_member.trello_token # david
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		card = Trello::Card.find(card_id)
+		original_label_ids = card.card_labels.map{|x| x['id']}
+		for label_id in label_ids.select{|x| not original_label_ids.include?(x)}
+			label = Trello::Label.find(label_id)
+			card.add_label(label)
+		end
+		for label_id in original_label_ids.select{|x| not label_ids.include?(x)}
+			label = Trello::Label.find(label_id)
+			card.remove_label(label)
+		end
+
+		card.save
+		render nothing: true, :status=>200 
+	end
+
 
 	def update_description
 		card_id = params[:card_id]

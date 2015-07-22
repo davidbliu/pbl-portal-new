@@ -90,6 +90,8 @@ class GoController < ApplicationController
 		@one_ply = ParseGoLink.one_ply(@directories)
 		@directory_tree = ParseGoLink.n_ply_tree(@directories)
 		@all_directories = ParseGoLink.all_directories(@golinks)
+
+		# move /PBL to the back
 		# @subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
 		# puts 'these are the subdirectories '+@subdirectories.to_s
 		# # @directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
@@ -283,7 +285,8 @@ class GoController < ApplicationController
 			puts 'current member 2'
 		end
 		link.save
-		clear_go_cache
+		clear_go_cachewav
+
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
 
@@ -296,9 +299,7 @@ class GoController < ApplicationController
 		else
 			@directory = '/'
 		end
-		# @directories = @directory.split('/')
 		@subdirectories = dir_back_paths(@directory)
-		#.split("/")
 		@dir_hash = ParseGoLink.dir_hash
 		@directories = get_subdirs(@directory, @dir_hash.keys).sort
 		if @dir_hash.include?(@directory)
@@ -306,14 +307,11 @@ class GoController < ApplicationController
 		else
 			@links = Array.new
 		end
-
-		# @directories = @dir_hash.keys.sort
 	end
 
 	""" helper methods for the directories route """
 	def dir_array(directory)
 		a = directory.split('/').select{|x| x!= ""}
-		# a.insert(0, '/')
 		return a
 	end
 
@@ -348,11 +346,6 @@ class GoController < ApplicationController
 		@one_ply = ParseGoLink.one_ply(@directories)
 		@directory_tree = ParseGoLink.n_ply_tree(@directories)
 		@all_directories = ParseGoLink.all_directories(@golinks)
-		# if current_member
-		# 	@my_links = ParseGoLink.limit(10000).where(member_email: current_member.email)
-		# else
-		# 	@my_links = Array.new
-		# end
 		@resource_hub = true
 	end
 

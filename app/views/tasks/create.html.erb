@@ -124,12 +124,16 @@
 	<% end %>
 </div>
 
+<div id = 'someone-missing-div' style = 'display:inline-block;clear:both'>
 <h5>Someone missing from this list?</h5>
-<p class = 'smalltext text-muted'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</p>
-<p><% @unregistered_members.each do |member| %>
+<div class = 'smalltext text-muted' style = 'margin-bottom:10px'>Some of your peers may not have registered their Trello accounts on the Portal yet! To start using PBL Tasks with them, encourage everyone to register their Trello Accounts!</div>
+<div>
+	<% @unregistered_members.each do |member| %>
 	<div class = 'member-unregistered-div smalltext text-muted'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= member.name %></div>
-<% end %>
-</p>
+	<% end %>
+</div>
+</div>
+
 </div>
 
 <div class = 'col-md-4'>

@@ -37,11 +37,22 @@
 .navbar-sm .navbar-primary .navbar .navbar-brand{ padding: 0px 12px;font-size: 16px;line-height: 40px; }
 .navbar-sm .navbar-primary .navbar .navbar-nav > li > a {  padding-top: 0px; padding-bottom: 0px; line-height: 40px;   color: white; font-size:13px;}
 
+@media (max-width: 480px) {
+  #main-navbar-div{
+    background-color:black;
+  }
+  div.navbar-header{
+      background-color: black;
+  height: 300px;
+  position: relative;
+  top: -335px;
+  }
+}
 
 input:focus     { outline:none; }
 
 </style>
-<div class="navbar-sm">
+<div class="navbar-sm" id = 'main-navbar-div'>
    <div class="navbar-primary">
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="navbar-header">
@@ -55,7 +66,7 @@ input:focus     { outline:none; }
     <!-- <a class="navbar-brand" title="Customers v{{getAppVersion}}" href="/"><span style = 'font-size:20px' class = 'mdi-action-home'></span> [PBL][MP]</a> -->
     <a class = 'navbar-brand' href = '/'><img src = '/assets/pbl-long-logo.png' style = 'height:27px;margin-top:-7px'></img></a>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" id = 'drop'>
 
         <li class = 'inactive-li'>
           <a href="/go">
