@@ -285,7 +285,7 @@ class GoController < ApplicationController
 			puts 'current member 2'
 		end
 		link.save
-		clear_go_cachewav
+		clear_go_cache
 
 		render :nothing => true, :status => 200, :content_type => 'text/html'
 	end
