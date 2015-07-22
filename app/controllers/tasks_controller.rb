@@ -25,6 +25,7 @@ class TasksController < ApplicationController
 			@cards = me.cards(:filter => :all)
 			@trello_card_hash = trello_card_hash
 			@notifications = me.notifications.map{|x| JSON.parse(x.to_json)}.select{|x| x['unread']}
+			puts @notifications
 			render 'home', :layout => false
 		else
 			render "no_trello", :layout=>false
@@ -330,7 +331,7 @@ class TasksController < ApplicationController
 				trello_member_token = current_member.trello_token # david
 				Trello.configure do |config|
 				  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
-				  config.member_token = trello_member_token # The token from step 3.
+				  config.member_token = 'e2e124a11645e9fe2b5d86c568ac78443e0566e5ba78fff2a96eb37b2591cf87' # The token from step 3.
 				end
 				me  = Trello::Member.find(current_member.trello_id)
 				current_member.trello_member_id = me.id

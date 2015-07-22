@@ -13,9 +13,10 @@
 <% @notifications.each do |notification| %>
 <!-- {"id"=>"55aeb3a3edad20558e1a0cb2", "unread"=>false, "type"=>"cardDueSoon", "date"=>"2015-07-21T21:03:30.992Z", "data"=>{"board"=>{"name"=>"[PBL] Portal & Website", "id"=>"541ea26a366ff5647b0e6904"}, "card"=>{"due"=>"2015-07-22T21:02:52.000Z", "shortLink"=>"EDj3rTQd", "idShort"=>32, "name"=>"Figure out parents day details", "id"=>"55ad6232d4c5251eb60ace2a"}}, "member_creator_id"=>nil} -->
 
-<% if notification['unread'] %>
+<% if notification['unread'] and notification['data'].keys.include?('card') %>
 
 <div class = 'notification-card shadow-z-1'>
+	
 	<div><a href = 'http://trello.com/c/<%= notification["data"]["card"]["id"] %>' target = '_blank'><%= notification['data']['card']['name'] %></a></div>
 	<div><b>Type:</b> <%= notification['type'] %></div>
 	<% if notification['data'].keys.include?('text') %>
