@@ -24,7 +24,7 @@
 <%= stylesheet_link_tag "golink_catalogue" %>
 <%= render 'go/catalogue_modal' %>
 <div class = 'row'>
-	<div class = 'col-md-6'>
+	<div class = 'col-md-7'>
 		<% if current_member %>
 		<div id = 'me-div'>
 			<a href = '/members/<%= current_member.id %>'><img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img></a>
@@ -36,19 +36,7 @@
 		<% end %>
 
 
-
-
-
-		<div class="home-card-small">
-		    <h3><img src = '/assets/trello-logo-long.png' height=45 style = 'margin-bottom:20px'></img>&nbsp;Tasks</h3>
-		    <p>PBL Tasks is a handy integration between the Portal and Trello! Click the "Tasks" icon or visit <a href = '/tasks/guide'>pbl.link/tasks</a> to read more!</p>
-		    
-		    <p><div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div></p>
-		</div>	
-	</div>
-
-<div class = 'col-md-6'>
-	<div class="home-card">
+		<div class="home-card">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
 		    <div class = 'right-card shadow-z-1'>
 			    <ul class = 'list-group'>
@@ -68,23 +56,37 @@
 
 
 
-<div class = 'home-card'>
-		<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
-		<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
+		<div class = 'home-card'>
+				<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
+				<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
+		</div>
+		<div class = 'home-card'>
+				<% if @favorites %>
+				<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
+				<%= render partial: "go/catalogue", locals: { go_links: @favorite_links, favorite_links: @favorites} %>
+				<% end %>
+		</div>
+
+
+
+
+		
+	</div>
+	<!-- end of col md 6 -->
+
+<div class = 'col-md-5'>
+	<div class="home-card-small">
+		    <h3><img src = '/assets/trello-logo-long.png' height=45 style = 'margin-bottom:20px'></img>&nbsp;Tasks</h3>
+		    <p>PBL Tasks is a handy integration between the Portal and Trello! Click the "Tasks" icon or visit <a href = '/tasks/guide'>pbl.link/tasks</a> to read more!</p>
+		    
+		    <p><div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div></p>
+		</div>	
+
+
 </div>
-<div class = 'home-card'>
-		<% if @favorites %>
-		<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
-		<%= render partial: "go/catalogue", locals: { go_links: @favorite_links, favorite_links: @favorites} %>
-		<% end %>
+<!-- end of col 2 -->
 </div>
-
-
-
-
-
-</div>
-</div>
+<!--  end of row -->
 
 <script type = 'text/javascript'>
 <% if @current_member %>
