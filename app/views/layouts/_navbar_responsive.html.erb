@@ -34,7 +34,7 @@ input:focus     { outline:none; }
   }
   div.navbar-primary{
       background-color: black;
-  height: 270px;
+  height: 315px;
   position: relative;
   top: -335px;
   }
@@ -54,25 +54,7 @@ input:focus     { outline:none; }
     </div>
     <div class = 'navbar-body'>
 
-    	<ul class = 'nav navbar-nav pull-right'>
-        <% if current_member %>
-
-        <li class = 'pull-right'>
-          <a href="/sign_out">
-            <i class="glyphicon glyphicon-log-out"></i> 
-            Sign Out of <%= current_member.email %>
-          </a>
-        </li>
-        <% else %>
-
-        <li class = 'pull-right'>
-          <a  class = 'pull-right' href="/auth/google_oauth2">
-            <i class="glyphicon glyphicon-log-in"></i> 
-            Sign In
-          </a>
-        </li>
-        <% end %>
-      </ul>
+    	
 
 
       <ul class="nav navbar-nav">
@@ -110,6 +92,26 @@ input:focus     { outline:none; }
             Tasks
           </a>
         </li>
+      </ul>
+
+      <ul class = 'nav navbar-nav pull-right'>
+        <% if current_member %>
+
+        <li class = 'pull-right'>
+          <a href="/sign_out">
+            <i class="glyphicon glyphicon-log-out"></i> 
+            Sign Out of <%= current_member.email %>
+          </a>
+        </li>
+        <% else %>
+
+        <li class = 'pull-right'>
+          <a  class = 'pull-right' href="/auth/google_oauth2">
+            <i class="glyphicon glyphicon-log-in"></i> 
+            Sign In
+          </a>
+        </li>
+        <% end %>
       </ul>
 
 
