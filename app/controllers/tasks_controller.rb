@@ -120,23 +120,42 @@ class TasksController < ApplicationController
 		@board_hash = registered_boards
 		@trello_label_hash = trello_label_hash
 		@board_members_hash = trello_board_members_hash
+		@member_email_hash = member_email_hash
+		# @committee_member_hash = committee_member_hash
+		# @cm_trello_hash = Hash.new
+		# @committee_member_hash.keys.each do |c|
+		# 	emails = @committee_member_hash[c]
+		# 	trello_members = Array.new
+		# 	emails.each do |email|
+		# 		member= @member_email_hash[email]
+		# 		if member.has_trello
+		# 			trello_members << member
+		# 		end
+		# 	end
+		# 	if trello_members.length >0
+		# 		@cm_trello_hash[c] = trello_members
+		# 	end
+		# end
+
+		# get only this board
+		trello_member_token = current_member.trello_token
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		@board = Trello::Board.find(@board_id)
+		@board_member_ids = @board.members.map{|x| x.id} 
+		@board_member_emails = @trello_members.select{|x| @board_member_ids.include?(x.trello_member_id)}
+
 		# sorting members by committee
 		@member_email_hash = member_email_hash
 		@committee_member_hash = committee_member_hash
 		@cm_trello_hash = Hash.new
 		@committee_member_hash.keys.each do |c|
-			emails = @committee_member_hash[c]
-			trello_members = Array.new
-			emails.each do |email|
-				member= @member_email_hash[email]
-				if member.has_trello
-					trello_members << member
-				end
-			end
-			if trello_members.length >0
-				@cm_trello_hash[c] = trello_members
-			end
+			member_emails_in_committee = @committee_member_hash[c]#.map{|x| x.email}
+			@cm_trello_hash[c] = @board_member_emails.select{|x| member_emails_in_committee.include?(x.email)}
 		end
+
 	end
 
 

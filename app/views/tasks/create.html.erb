@@ -67,6 +67,7 @@
 <div class = 'col-md-4'>
 <div class = 'create-card shadow-z-1'>
 	<h4>Step 1: What is the Task?</h4>
+	<p class = 'text-muted smalltext'>Your task will be added to the board <a href = '<%= @board.url %>' target = '_blank'><%= @board.name %></a></p>
 	<input id = 'task-name-input' class = 'input-sm' placeholder = 'Name of Task (example: Fill out Concessions form)'></input>
 
 	<h5>Describe it</h5>
@@ -82,20 +83,7 @@
 	</div>
 	
 
-	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Select a Board to send it to</h5>
-	<p class = 'smalltext text-muted'>Tasks are by default sent to the main PBL Fall 2015 Trello (<a href = 'http://pbl.link/trello' target='_blank'>pbl.link/trello</a>) but you can create tasks on custom Trello Boards</p>
-	<!-- <p class = 'smalltext text-muted'>Read more about <a href = '#'>setting up custom boards</a></p> -->
-	<select id = 'board-select' class = 'input-sm'>
-		<% @board_hash.keys.each do |board_id| %>
-			<% if (@board_id and board_id == @board_id) or (not @board_id and board_id == @main_board.board_id) %>
-			<option id = '<%= board_id %>' selected><%= @board_hash[board_id].name %></option>
-			<% else %>
-				<% if current_member and current_member.trello_member_id and @board_members_hash[board_id].include?(current_member.email) %>
-				<option id = '<%= board_id %>'><%= @board_hash[board_id].name %></option>
-				<% end %>
-			<% end %>
-		<% end %>
-	</select>
+	
 	<h5 style = 'border-top:1px solid rgba(0,0,0,0.1);padding-top:15px'>Give it Labels</h5>
 	<p class = 'text-muted smalltext'>We recommend adding one or two labels. Labels make it easier for you to organize your tasks!</p>
 	<div id = 'labels-container'>
@@ -186,39 +174,39 @@ function activateLabelClicks(){
 	});
 }
 activateLabelClicks();
-$('#board-select').change(function(){
-	board_id = $('#board-select :selected').attr('id');
-	// change members
-	$('.member-div').each(function(){
-		$(this).show();
-		if($(this).hasClass('card')){
-			$(this).removeClass('card');
-		}
-		id = $(this).attr('id');
-		if(board_members_hash[board_id].indexOf(id) == -1){
-			$(this).hide();
-		}
-		else{
-			$(this).show();
-		}
-	});
-	// change labels
-	$('#labels-container').html("");
-	labels = board_labels_hash[board_id];
-	for(var i=0;i<labels.length;i++){
-		label = labels[i];
-		if (label['name']!='')
-		{
-			label_div = document.createElement('div');
-			$(label_div).text(label['name']);
-			$(label_div).attr('style', 'background-color:'+label['color']);
-			$(label_div).attr('class', 'label label-primary');
-			$(label_div).attr('id', label['id']);
-			$('#labels-container').prepend(label_div);
-		}
-	}
-	activateLabelClicks();
-});
+// $('#board-select').change(function(){
+// 	board_id = $('#board-select :selected').attr('id');
+// 	// change members
+// 	$('.member-div').each(function(){
+// 		$(this).show();
+// 		if($(this).hasClass('card')){
+// 			$(this).removeClass('card');
+// 		}
+// 		id = $(this).attr('id');
+// 		if(board_members_hash[board_id].indexOf(id) == -1){
+// 			$(this).hide();
+// 		}
+// 		else{
+// 			$(this).show();
+// 		}
+// 	});
+// 	// change labels
+// 	$('#labels-container').html("");
+// 	labels = board_labels_hash[board_id];
+// 	for(var i=0;i<labels.length;i++){
+// 		label = labels[i];
+// 		if (label['name']!='')
+// 		{
+// 			label_div = document.createElement('div');
+// 			$(label_div).text(label['name']);
+// 			$(label_div).attr('style', 'background-color:'+label['color']);
+// 			$(label_div).attr('class', 'label label-primary');
+// 			$(label_div).attr('id', label['id']);
+// 			$('#labels-container').prepend(label_div);
+// 		}
+// 	}
+// 	activateLabelClicks();
+// });
 $('.member-div').click(function(){
 	if($(this).hasClass('card')){
 		$(this).removeClass('card');
@@ -242,7 +230,8 @@ $('#create-btn').click(function(){
 	$('.label.label-primary.selected-label').each(function(){
 		label_ids.push($(this).attr('id'));
 	});
-	board_id = $('#board-select :selected').attr('id');
+	// board_id = $('#board-select :selected').attr('id');
+	board_id = '<%= @board.id %>';
 	//get due date
 	due_date = $('#due-date-input').val();
 	console.log(due_date);
