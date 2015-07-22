@@ -60,6 +60,7 @@
 
 <!-- <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/css/bootstrap-datepicker.min.css'/> -->
 <!-- <script type = 'text/javascript' src = 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.0/js/bootstrap-datepicker.min.js'></script> -->
+
 <h1 style = 'text-align:center'><img src = '/assets/trello-logo.png' height=50></img> Create a Task</h1>
 
 
@@ -102,11 +103,9 @@
 	<div style = 'border-bottom:1px solid rgba(0,0,0,0.1)'>
 		<h4><%= committee %></h4>
 		<% @cm_trello_hash[committee].each do |member| %>
-			<% if @board_members_hash[@board_id].include?(member.email) %>
+
 			<div class = 'member-div' id = '<%= member.email %>'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
-			<% else %>
-			<div class = 'member-div' id = '<%= member.email %>' style = 'display:none'><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img> &nbsp;<%= member.name %></div>
-			<% end %>
+	
 		<% end %>
 	</div>
 	<% end %>
