@@ -117,10 +117,11 @@ class TasksController < ApplicationController
 		@trello_members = current_members.select{|x| x.has_trello and x.email}
 		@unregistered_members = current_members.select{|x| not (x.has_trello and x.email)}
 		# see cache helper for how these are computed
-		@board_hash = registered_boards
-		@trello_label_hash = trello_label_hash
-		@board_members_hash = trello_board_members_hash
+		# @board_hash = registered_boards
 		@member_email_hash = member_email_hash
+		# @trello_label_hash = trello_label_hash
+		# @board_members_hash = trello_board_members_hash
+		
 		# @committee_member_hash = committee_member_hash
 		# @cm_trello_hash = Hash.new
 		# @committee_member_hash.keys.each do |c|
@@ -155,6 +156,9 @@ class TasksController < ApplicationController
 			member_emails_in_committee = @committee_member_hash[c]#.map{|x| x.email}
 			@cm_trello_hash[c] = @board_member_emails.select{|x| member_emails_in_committee.include?(x.email)}
 		end
+
+		# get labels for this board
+		@labels = @board.labels(name = false).select{|x| x.name != ""}
 
 	end
 

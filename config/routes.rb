@@ -61,6 +61,9 @@ Dockernotes::Application.routes.draw do
   get '/tasks/pull_labels/:board_id', to: 'tasks#pull_labels'
   post '/tasks/update_labels', to: 'tasks#update_labels'
 
+  """ push notifications """
+  get '/push', to:'push#index'
+
   """me routes"""
   get '/member/:email', to: 'members#member'
 
