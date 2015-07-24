@@ -63,6 +63,7 @@ Dockernotes::Application.routes.draw do
 
   """ push notifications """
   get '/push', to:'push#index'
+  get '/pull_notifications', to: 'members#notifications'
 
   """me routes"""
   get '/member/:email', to: 'members#member'

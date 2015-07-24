@@ -146,7 +146,9 @@
   /*color: rgba(255,255,255,.84);*/
   background-color: black;
 }
-
+#directory-container{
+  margin-top:-15px;
+}
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
 <%= javascript_include_tag "golink_catalogue" %>
@@ -222,7 +224,7 @@
 <div id = 'directory-container' class="col-md-3 scrollspy">
 
 	
-
+  <div id = 'directory-draggable'>
         <ul id="affix-nav" class="nav hidden-xs hidden-sm affix" data-spy="affix">
         	<div style = 'clear:both;display:inline-block'>
 	        	<div>
@@ -263,8 +265,10 @@
         	</li>
         	<% end %>
         </ul>
+      </div><!-- end of directory draggable -->
   </div>
 </body>
+
 
 <script type = 'text/javascript'>
 function activateSearchButton(){

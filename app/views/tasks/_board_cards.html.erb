@@ -9,9 +9,11 @@
 	<% end %>
 		<div class = 'main-content'>
 		<% if type == "Complete" %>
-		<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked>
+		<!-- <input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>' checked> -->
+		<span class = 'mdi-toggle-check-box task-checkbox checked' id = '<%= card.id %>'></span>
 		<% else %>
-		<input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'>
+		<span class = 'mdi-toggle-check-box-outline-blank task-checkbox' id = '<%= card.id %>'></span>
+		<!-- <input type="checkbox" class = 'task-checkbox' id = '<%= card.id %>'> -->
 		<% end %>
 		<!-- <a class = 'card-modal-link' id = '<%= card.id %>' data-toggle="modal" data-target="#taskCardModal" href = '#'> -->
 		<a href = '<%= card.url %>' target = '_blank'>

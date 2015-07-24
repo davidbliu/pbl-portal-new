@@ -57,10 +57,28 @@ a.anchor{display: block; position: relative; top: -100px; visibility: hidden;}
 <!-- </table> -->
 
 <%= javascript_include_tag "tasks_modal" %>
+
 <script type = 'text/javascript'>
+function toggleBox(box){
+	if ($(box).hasClass('mdi-toggle-check-box')){
+		$(box).removeClass('mdi-toggle-check-box');
+		$(box).addClass('mdi-toggle-check-box-outline-blank');
+	}
+	else{
+		$(box).removeClass('mdi-toggle-check-box-outline-blank');
+		$(box).addClass('mdi-toggle-check-box');
+	}
+	if($(box).hasClass("checked")){
+		$(box).removeClass('checked');
+	}
+	else{
+		$(box).addClass('checked');
+	}
+}
 function activateTaskCheckbox(){
 	$('.task-checkbox').unbind('click').click(function(){
 
+		toggleBox(this);
 		id = $(this).attr('id');
 		row = $('#' + id + '-row');
 		//show loading 
@@ -71,7 +89,7 @@ function activateTaskCheckbox(){
 		board_id = card_data.board_id
 		list_id = card_data.list_id
 		checked = false;
-		if ($(this).is(':checked')){
+		if ($(this).hasClass('checked')){
 			checked = true;
 		}
 		that = $(this);
@@ -96,6 +114,7 @@ function activateTaskCheckbox(){
 	      	console.log("errror");
 	      	console.log(xhr);
 	        $(that).attr('checked', false);
+	        toggleBox(this);
 	      }
 	  	});
 	});

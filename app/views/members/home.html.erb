@@ -35,10 +35,10 @@
 		</div>
 		<% end %>
 
-
 		<div class="home-card">
-		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Announcements</h3>
+		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Notifications</h3>
 		    <div class = 'right-card shadow-z-1'>
+		    	<h4>Announcements</h4>
 			    <ul class = 'list-group'>
 			    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
 			    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
@@ -46,6 +46,22 @@
 			    </ul>
 			</div>
 		</div>	
+
+		<!-- pull notifications from the server -->
+		<div class = 'home-card' id = 'notifications-container'>
+			<img id = 'notifications-loading-image' src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=50></img>
+		</div>
+
+		<!-- <div class="home-card">
+		    
+		    <div class = 'right-card shadow-z-1'>
+			    <ul class = 'list-group'>
+			    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
+			    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
+			    	<li class = 'list-group-item'>Dont forget to check out professional photos at <a href = 'http://pbl.link/of-photos'>pbl.link/of-photos</a></li>
+			    </ul>
+			</div>
+		</div>	 -->
 
 		<div class = 'home-card'>
 			<h3><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
@@ -98,3 +114,4 @@ var email = "asdf";
 <%= javascript_include_tag "golink_catalogue" %>
 <%= javascript_include_tag "trello_tasks" %>
 <%= javascript_include_tag "calendar_pull" %>
+<%= javascript_include_tag "pull_notifications" %>

@@ -24,8 +24,7 @@ class TasksController < ApplicationController
 
 			@cards = me.cards(:filter => :all)
 			@trello_card_hash = trello_card_hash
-			@notifications = me.notifications.map{|x| JSON.parse(x.to_json)}.select{|x| x['unread']}
-			puts @notifications
+			
 			render 'home', :layout => false
 		else
 			render "no_trello", :layout=>false

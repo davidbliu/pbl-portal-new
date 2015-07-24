@@ -19,6 +19,26 @@ class MembersController < ApplicationController
 		end
 	end
 
+	def notifications
+
+		# get trello notifications
+		trello_member_token = current_member.trello_token
+		Trello.configure do |config|
+		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
+		  config.member_token = trello_member_token # The token from step 3.
+		end
+		begin
+			me = Trello::Member.find(current_member.trello_member_id)
+			@trello_notifications = me.notifications.map{|x| JSON.parse(x.to_json)}.select{|x| x['unread']}
+			puts @notifications
+		rescue
+			@trello_notifications = Array.new
+		end
+
+		render 'notifications', :layout=>false
+		
+	end
+
 	def me
 		if not current_member
 			render json: 'Please sign in to view this page', :status=>200
