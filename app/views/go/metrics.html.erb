@@ -4,11 +4,18 @@
   /*color: rgba(255,255,255,.84);*/
   background-color: black;
 }
+.member-seen{
+	color:green;
+}
+.member-unseen{
+	color:red;
+}
 </style>
 
-<h1><span class = 'mdi-action-trending-up' style = 'font-size:50px'></span>&nbsp;<%= @golink.key %></h1>
+<h1 style = 'text-align:center'><span class = 'mdi-action-trending-up' style = 'font-size:50px'></span>&nbsp;<%= @golink.key %></h1>
 <div class = 'row'>
-	<div class = 'col-md-6'>
+	<div class = 'col-md-8'>
+	<h4>Click Table</h4>
 	<table class = 'table table-condensed'>
 		<thead>
 			<th>Member</th>
@@ -18,7 +25,7 @@
 			<% @clicks.each do |click| %>
 			<tr>
 				<td><% if click.member_email %>
-					<%= click.member_email %>
+					<img src = '<%= @member_email_hash[click.member_email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;<%= @member_email_hash[click.member_email].name %>
 					<% else %>
 					Not Signed In
 					<% end %>
@@ -28,5 +35,20 @@
 			<% end %>
 		</tbody>
 	</table>
-</div>
+	</div><!-- end of col 6 -->
+
+	<div class = 'col-md-4'>
+	<h4>Seen Unseen</h4>
+	<% @committee_member_hash.keys.select{|x| x!= "GM"}.each do |committee| %>
+		<h5><%= committee %></h5>
+		<% @committee_member_hash[committee].each do |email| %>
+			<% if @clicks.select{|x| x.member_email == email}.length != 0 %>
+				<div class = 'member-div member-seen'><img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;<%= @member_email_hash[email].name %>: <%= @clicks.select{|x| x.member_email == email}.length %></div>
+			<% else %>
+			<div class = 'member-div member-unseen'><img src = '<%= @member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img>&nbsp;<%= @member_email_hash[email].name %>: <%= @clicks.select{|x| x.member_email == email}.length %></div>
+			<% end %>
+		<% end %>
+	<% end %>
+	</div>
+	<!-- end of col 6 -->
 </div>

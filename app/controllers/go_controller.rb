@@ -5,6 +5,18 @@ class GoController < ApplicationController
 		# TODO support mobile browsing
 	end
 
+	def admin
+		# @my_links = go_link_key_hash.values.select{|x| x.member_email == current_member.email}
+		# @my_uncategorized = @my_links.select{|x| x.dir == '/PBL'}
+		# if current_member
+		# 	@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
+		# end
+
+		@click_hash = ParseGoLinkClick.click_hash
+		@recent_links = go_link_key_hash.values.sort_by{|x| x.updated_at}.reverse
+
+	end
+
 	def search
 		@search_term = params[:search_term]
 		puts 'searching for : '+params[:search_term]
@@ -413,8 +425,12 @@ class GoController < ApplicationController
 		key = params[:key]
 		@golink = go_link_key_hash[key]
 		@clicks = ParseGoLinkClick.where(key: key).sort_by{|x| x.time}.reverse
-		# @member_hash = ParseMember.hash
+
+		@member_email_hash = member_email_hash
+		# @current_members = current_members
+		@committee_member_hash = committee_member_hash
 		@resource_hub = true
+		render 'metrics', :layout =>false
 	end
 
 

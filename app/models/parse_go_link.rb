@@ -1,6 +1,11 @@
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email
 
+	def updated_at_string
+		t = self.updated_at + Time.zone_offset("PDT")
+		t.strftime("%b %e, %Y at %l:%M %p")
+	end
+
 	def click_count
 		if self.num_clicks != nil
 			return self.num_clicks

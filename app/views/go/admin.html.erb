@@ -1,0 +1,73 @@
+<style type = 'text/css'>
+.recent-row>.recent-key-td{
+	width:30%;
+	overflow:hidden;
+}
+.recent-row>.recent-member-td{
+	width:20%;
+	overflow:hidden;
+}
+.recent-row>.recent-time-td{
+	width:20%;
+	overflow:hidden;
+}
+.recent-row>.directory-td{
+	width:20%;
+}
+</style>
+<%= stylesheet_link_tag "golink_catalogue" %>
+
+<!-- Modal -->
+<%= render 'catalogue_modal' %>
+<%= render 'link_metrics_modal' %>
+
+<h1>PBL Links Admin Panel</h1>
+
+
+<!-- end of row -->
+
+<div class = 'row'>
+
+	<div class = 'col-md-12'>
+		<table class = 'table-condensed table table-hover'>
+			<thead>
+				<th>Key</th>
+				<th>Owner</th>
+				<th>Updated At</th>
+				<th>Directory</th>
+				<th>Clicks</th>
+			</thead>
+		<tbody>
+			<% @recent_links.each do |golink| %>
+			<tr class = 'recent-row'>
+				<td class = 'recent-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target = '_blank'><%= golink.key %></a></td>
+				<td class = 'recent-member-td'><%= golink.member_email %></td>
+				<td class = 'recent-time-td'><%= golink.updated_at_string %></td>
+				<td class = 'directory-td'><%= golink.dir %></td>
+				<td><a data-toggle="modal" data-target="#myMetricsModal" href = '#' class  = 'metrics-modal-link' id = '<%= golink.key %>'>
+					<% if @click_hash.keys.include?(golink.key) %>
+					<%= @click_hash[golink.key].length %>
+					<% else %>
+					0
+					<% end %>
+				 </a></td>
+			</tr>
+			<% end %>
+		</tbody>
+		</table>
+	</div>
+
+
+</div>
+
+
+
+<%= javascript_include_tag "golink_catalogue" %>
+<%= javascript_include_tag "link_metrics_modal" %>
+<script type = 'text/javascript'>
+<% if @current_member %>
+var email = "<%= @current_member.email %>";
+<% else %>
+var email = "asdf";
+<% end %>
+</script>

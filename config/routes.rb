@@ -33,6 +33,7 @@ Dockernotes::Application.routes.draw do
   get '/go/lookup', to: 'go#lookup'
   get 'go/favorite', to: 'go#favorite'
   get 'go/search', to: 'go#search'
+  get 'go/admin', to: 'go#admin' #personalization main homepage
 
   """ chrome extension routes """
   post '/chrome/create_go_link', to: 'chrome_extension#create_go_link'

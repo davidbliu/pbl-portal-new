@@ -9,10 +9,23 @@ class ParseGoLinkClick < ParseResource::Base
 	def time_string
 		self.get_time.strftime("%b %e, %Y at %l:%M %p")
 	end
+
+	def self.click_hash 
+		chash = Hash.new
+		ParseGoLinkClick.limit(10000000).all.each do |click|
+			key = click.key
+			if not chash.keys.include?(key)
+				chash[key] = Array.new
+			end
+			chash[key] << click
+		end
+		return chash
+	end
+
 	def self.num_click_hash
 		""" keys are alias and num clicks is the number of times clicked """
 		chash = Hash.new
-		ParseGoLinkClick.all.each do |click|
+		ParseGoLinkClick.limit(10000000).all.each do |click|
 			key = click.key
 			if not chash.keys.include?(key)
 				chash[key] = 0
