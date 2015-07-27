@@ -177,4 +177,9 @@ class ChromeExtensionController < ApplicationController
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		render 'favorite_links', layout: false
 	end
+
+	def chrome_sync
+		@current_member = current_member
+	end
+
 end

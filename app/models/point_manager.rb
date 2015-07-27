@@ -1,4 +1,4 @@
-class PointManager < ActiveRecord::Base
+ class PointManager < ActiveRecord::Base
 	attr_accessible :semester_id
 	belongs_to :semester, foreign_key: :semester_id
 

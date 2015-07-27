@@ -1,0 +1,7 @@
+<h1>Sync Your Chrome Account with your Portal Account</h1>
+<% if not @current_member %>
+	<h3 style = 'color:red'>Please sign in to the portal before you do this</h3>
+<% else %>
+<input type = 'text' class = 'input input-sm' style = 'width:500px;border:none;padding:5px' placeholder = 'what is your chrome email? (it should say on the chrome extension)'>
+<button type = 'button' class = 'btn btn-material-blue-500'>Submit</button>
+<% end %>

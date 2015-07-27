@@ -17,7 +17,11 @@ class PointsController < ApplicationController
 			@semester_point_hash[semester.id].sort! { |a,b| a['points'] <=> b['points'] }.reverse!
 		end
 		@semester_point_json = @semester_point_hash.to_json
+	end
 
+	def pull_google_events
+		ParsePointsManager.pull_google_events
+		render nothing: true, status: 200
 	end
 
 

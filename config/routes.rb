@@ -33,7 +33,8 @@ Dockernotes::Application.routes.draw do
   get '/go/lookup', to: 'go#lookup'
   get 'go/favorite', to: 'go#favorite'
   get 'go/search', to: 'go#search'
-  get 'go/admin', to: 'go#admin' #personalization main homepage
+  get 'go/admin', to: 'go#admin' #admin main dashboard
+
 
   """ chrome extension routes """
   post '/chrome/create_go_link', to: 'chrome_extension#create_go_link'
@@ -43,6 +44,7 @@ Dockernotes::Application.routes.draw do
   get '/chrome/search', to: 'chrome_extension#search'
   post '/chrome/undo_create_go_link', to: 'chrome_extension#undo_create'
   get '/chrome/favorite_links', to: 'chrome_extension#favorite_links'
+  get 'chrome/chrome_sync', to:'chrome_extension#chrome_sync' #sync chrome with the portal
 
   """tasks routes """
   get '/tasks', to:'tasks#home'
@@ -65,6 +67,9 @@ Dockernotes::Application.routes.draw do
   """ push notifications """
   get '/push', to:'push#index'
   get '/pull_notifications', to: 'members#notifications'
+
+  """ points routes """
+  get '/pull_google_events', to: 'points#pull_google_events'
 
   """me routes"""
   get '/member/:email', to: 'members#member'

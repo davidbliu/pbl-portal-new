@@ -30,7 +30,7 @@ class ParseEvent < ParseResource::Base
                            :calendar      => GoogleEvent.pbl_events_calendar_id,
                            :redirect_url  => "urn:ietf:wg:oauth:2.0:oob" # this is what Google uses for 'applications'
                            )
-	cal.login_with_refresh_token(ENV['REFRESH_TOKEN'])
+  cal.login_with_refresh_token(ENV['REFRESH_TOKEN'])
 	now = Time.now.utc
     start_min = Time.now-2.years
     start_max = Time.now+1.year
