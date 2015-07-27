@@ -86,21 +86,24 @@ class ChromeExtensionController < ApplicationController
 
 	def lookup_url
 		url = params[:url]
-		matches = go_link_hash.values.select{|x| x.is_url_match(url)}
-		match_string = "<ul class = 'list-group'>"
-		matches.each do |match|
-			match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
-		end
-		match_string += "</ul>"
+		@matches = go_link_hash.values.select{|x| x.is_url_match(url)}
+		puts 'this is matches'
+		puts @matches
+		# match_string = "<ul class = 'list-group'>"
+		# matches.each do |match|
+		# 	match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
+		# end
+		# match_string += "</ul>"
 
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-		if matches.length == 0 
-			render json: "<h4>This URL is not in PBL Links yet</h4>"+match_string, :status=>200, :content_type=>'text/html'
+		if @matches.length == 0 
+			render json: "<h4>This URL is not in PBL Links yet</h4>", :status=>200, :content_type=>'text/html'
 		else
-			render json: match_string, :status=>200, :content_type=>'text/html'
+			# render json: match_string, :status=>200, :content_type=>'text/html'
+			render 'lookup_url.html.erb', :layout=>false
 		end
 	end
 
