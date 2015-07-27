@@ -95,11 +95,6 @@ a:active {
   height:15px;
   width:15px;
 }
-@media (max-width: 480px) {
-  body{
-    padding-top:335px;
-  }
-}
 
 </style>
 
@@ -107,7 +102,7 @@ a:active {
 <body  data-no-turbolink>
 
 <!-- add a header -->
-<%= render "/layouts/navbar_responsive" %>
+<%= render "/layouts/navbar_new" %>
 <div class="container" id = "sb-site">
 
 <%= yield %>
@@ -115,7 +110,7 @@ a:active {
 </div>
 
 <footer class="footer" style = 'margin-top:25px'>
-      <div class="container col-md-6">
+      <div class="container">
             <p class="text-muted">Created by PBL WD Fall 2015</p>
             <p class = "text-muted">
               See <%= link_to 'PBL Links', '/go' %> for more resources

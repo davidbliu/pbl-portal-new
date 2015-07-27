@@ -1,0 +1,115 @@
+
+<style type = 'text/css'>
+
+#search-glyphicon{
+  color:white;
+}
+#pbl-round-logo{
+    position: absolute;
+  top: 13px;
+  left: -29px;
+}
+.navbar-icon{
+  font-size:15px;
+}
+.navbar.navbar, .navbar-default.navbar {
+  background-color: #212121;
+}
+
+.icon-bar{
+  color: white;
+}
+
+.navbar-nav > li > a {
+    padding-top:10px !important; 
+    padding-bottom: 0 !important;
+    height: 28px;
+}
+
+.navbar .navbar-brand { 
+  height: 40px !important;
+}
+.navbar {min-height:28px !important;}
+
+.navbar-toggle {
+  padding: 5px !important;
+}
+
+</style>  
+  <!-- Navigation start -->
+  <nav class="navbar" role="navigation">
+
+    <div class="container">
+  
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#custom-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+              <a class = 'navbar-brand' href = '/'><img src = '/assets/pbl-long-logo.png' style = 'height:27px;margin-top:-20px'></img></a>      </div>
+  
+      <div class="collapse navbar-collapse" id="custom-collapse">
+        <ul class="nav navbar-nav">
+  
+              <li>
+               <a href="/go">
+                <span class = 'navbar-icon'><img src = '/assets/pbl-links-logo-2.png' style = 'height:15px;position:relative;top:-2px'></img></span> 
+                PBL Links</a>
+              </li>
+
+              <li>
+                <a href="/members">
+                  <span class = 'navbar-icon'><img src = '/assets/members-icon.png' style = 'height:15px;position:relative;top:-2px'></img></span>
+                  Members
+                </a>
+              </li>
+              <li class = 'inactive-li'>
+                <a href="/tabling">
+                  <!-- <i class="navbar-icon mdi-image-wb-sunny"></i>  -->
+                  <span class = 'navbar-icon'><img src = '/assets/tabling-icon-2.png' style = 'height:15px;position:relative;top:-2px'></img></span>
+                  Tabling
+                </a>
+              </li>
+              <li class = 'inactive-li'>
+                <a href="/points">
+                  <!-- <i class="navbar-icon mdi-action-assessment"></i>  -->
+                  <span class = 'navbar-icon'><img src = '/assets/points-icon.png' style = 'height:15px;position:relative;top:-2px'></img></span>
+                  Points
+                </a>
+              </li>
+
+              <li class = 'inactive-li'>
+                <a href="/tasks/guide">
+                  <!-- <i class="navbar-icon mdi-action-assessment"></i>  -->
+                  <span class = 'navbar-icon'><img src = '/assets/trello-logo.png' style = 'height:15px;position:relative;top:-2px'></img></span>
+                  Tasks
+                </a>
+              </li>
+        </ul>
+
+            <ul class = 'nav navbar-nav pull-right'>
+              <% if current_member %>
+
+              <li class = 'pull-right'>
+                <a href="/sign_out">
+                  <i class="mdi-action-account-circle"></i> 
+                  Sign Out of <%= current_member.email %>
+                </a>
+              </li>
+              <% else %>
+
+              <li class = 'pull-right'>
+                <a  class = 'pull-right' href="/auth/google_oauth2">
+                  <span class="mdi-action-account-circle" style = 'height:15px;position:relative;top:-2px'></span> 
+                  Sign In
+                </a>
+              </li>
+              <% end %>
+            </ul>
+      </div>
+  
+    </div>
+
+  </nav>
