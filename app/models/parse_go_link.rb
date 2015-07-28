@@ -297,12 +297,12 @@ class ParseGoLink < ParseResource::Base
 	def self.import
 		# create GoLink Objects
 		GoLink.destroy_all
-		puts 'requesting text hash...'
+		# puts 'requesting text hash...'
 		parse_text_hash = ParseElasticsearchData.limit(100000).all.index_by(&:go_link_id)
 		parse_text_hash_keys = parse_text_hash.keys
-		puts 'received text hash!'
+		# puts 'received text hash!'
 		ParseGoLink.limit(10000).all.each do |pgl|
-			puts pgl.key
+			# puts pgl.key
 			gl = GoLink.new
 			gl.key = pgl.key
 			gl.url = pgl.url
@@ -317,7 +317,7 @@ class ParseGoLink < ParseResource::Base
 			gl.save
 		end
 		GoLink.import
-		puts 'imported into elasticsearch index'
+		# puts 'imported into elasticsearch index'
 	end
 
 	def self.search(search_term)

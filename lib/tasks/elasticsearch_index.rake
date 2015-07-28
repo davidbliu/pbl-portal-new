@@ -9,14 +9,13 @@ require 'open-uri'
 
 namespace :elasticsearch do
 	task :reindex => :environment do 
-		puts 'reindexing go links'
 		ParseGoLink.import
 		ParseGoLink.clearcache
-		puts 'finished reindexing go links'
+		puts 'Reindexed ' + GoLink.all.length.to_s + ' go links at '+Time.now.to_s
 	end
 	task :scrape  => :environment do
 		
-		ParseElasticsearchData.destroy_all
+		
 		
 		# create google client and array of data objects
 		google_client = get_google_client
@@ -29,7 +28,7 @@ namespace :elasticsearch do
 			begin
 				if go_link.url.include?('docs.google.com/document/d')
 					doc_id = go_link.url.split('/')[5]
-					puts 'scraping: '+go_link.key
+					# puts 'scraping: '+go_link.key
 					# get fulltext
 					fulltext = get_doc_text(google_client, doc_id)
 					# puts fulltext
@@ -39,7 +38,7 @@ namespace :elasticsearch do
 					search_data_objects << search_data
 				elsif go_link.url.include?('docs.google.com/spreadsheets')
 					doc_id = go_link.url.split('/')[5]
-					puts 'scraping: '+go_link.key
+					# puts 'scraping: '+go_link.key
 					# get fulltext
 					fulltext = get_spreadsheet_text(google_client, doc_id)
 					# puts fulltext
@@ -47,8 +46,6 @@ namespace :elasticsearch do
 					search_data.go_link_id = go_link.id
 					search_data.text = fulltext
 					search_data_objects << search_data
-				else
-					puts "\t" + ' not supported: '+ go_link.key
 				end
 			rescue
 				puts 'problem: '+go_link.url
@@ -64,8 +61,10 @@ namespace :elasticsearch do
 		# 	search_data.text = doc_text
 		# 	search_data_objects << search_data
 		# end
-		puts 'saving all records!'
+		# puts 'saving all records created from scraping!'
+		ParseElasticsearchData.destroy_all
 		ParseElasticsearchData.save_all(search_data_objects)
+		puts 'Scraped and saved ' + ParseElasticsearchData.limit(100000).all.length.to_s + ' elasticsearch records at '+Time.now.to_s
 	end
 
 	task :scrape_spreadsheets => :environment do 
