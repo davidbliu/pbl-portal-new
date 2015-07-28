@@ -6,4 +6,10 @@ class LinkNotifier < ActionMailer::Base
     mail( :to => 'davidbliu@gmail.com',
     :subject => 'Thanks for signing up for our amazing app' ).deliver
   end
+
+  def send_reindex_email
+  	@golinks  = GoLink.all
+  	mail(:to => 'davidbliu@gmail.com',
+    :subject => 'PBL Links has been re-indexed' ).deliver
+  end
 end

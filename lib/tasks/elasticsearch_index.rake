@@ -5,13 +5,19 @@ require 'archieml'
 
 require 'nokogiri'
 require 'open-uri'
-
+require 'timeout'
 
 namespace :elasticsearch do
 	task :reindex => :environment do 
 		ParseGoLink.import
 		ParseGoLink.clearcache
 		puts 'Reindexed ' + GoLink.all.length.to_s + ' go links at '+Time.now.to_s
+		# send an email
+		require 'timeout'
+		status = Timeout::timeout(10) {
+		  # Something that should be interrupted if it takes more than 5 seconds...
+		  LinkNotifier.send_reindex_email
+		}
 	end
 	task :scrape  => :environment do
 		
@@ -65,6 +71,9 @@ namespace :elasticsearch do
 		ParseElasticsearchData.destroy_all
 		ParseElasticsearchData.save_all(search_data_objects)
 		puts 'Scraped and saved ' + ParseElasticsearchData.limit(100000).all.length.to_s + ' elasticsearch records at '+Time.now.to_s
+
+
+		# send email that links were scraped
 	end
 
 	task :scrape_spreadsheets => :environment do 
