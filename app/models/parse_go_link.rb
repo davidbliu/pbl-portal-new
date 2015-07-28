@@ -31,6 +31,13 @@ class ParseGoLink < ParseResource::Base
 			end
 		end
 	end
+
+	""" cache clearing method """
+	def self.clearcache
+		Rails.cache.write("go_link_hash", nil)
+		Rails.cache.write("go_link_key_hash", nil)
+		Rails.cache.write("go_link_favorite_hash", nil)
+	end
 	""" check valid key, url, directory """
 	def self.valid_key(key)
 		if key == '' #or self.key_hash.keys.include?(key)

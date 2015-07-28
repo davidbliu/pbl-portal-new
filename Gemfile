@@ -77,6 +77,9 @@ gem 'link_thumbnailer'
 # tasks
 gem 'ruby-trello'
 
+#background jobs
+gem 'whenever', :require => false
+
 
 # time out timeout when take too long controller
 gem "rack-timeout"

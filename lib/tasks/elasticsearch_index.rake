@@ -8,6 +8,12 @@ require 'open-uri'
 
 
 namespace :elasticsearch do
+	task :reindex => :environment do 
+		puts 'reindexing go links'
+		ParseGoLink.import
+		ParseGoLink.clearcache
+		puts 'finished reindexing go links'
+	end
 	task :scrape  => :environment do
 		
 		ParseElasticsearchData.destroy_all
