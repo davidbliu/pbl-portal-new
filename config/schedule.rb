@@ -20,7 +20,7 @@ end
 
 every 7.hours do
   command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:scrape"
-  command "echo 'hi there scraping golink documents'"
+  command "echo 'hi there scraping golink documents!'"
 end
 #
 # every 4.days do
