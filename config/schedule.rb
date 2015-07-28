@@ -8,12 +8,12 @@
 # set :output, "/path/to/my/cron_log.log"
 #
 
-set :output, {:standard => 'cron.log'}
+set :output, {:error => 'error.log', :standard => 'cron.log'}
 
 RAILS_ROOT = ENV['RAILS_ROOT']
 every 2.minutes do
   # command "/usr/bin/some_great_command"
-  command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:reindex"
+  command "cd #{RAILS_ROOT} && source setenv.sh && bundle exec rake elasticsearch:reindex"
   # rake "some:great:rake:task"
 end
 #
