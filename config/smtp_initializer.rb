@@ -1,5 +1,4 @@
-# Load the Rails application.
-require File.expand_path('../application', __FILE__)
+
 
 gmail_username = ENV['GMAIL_USERNAME']
 gmail_password = ENV['GMAIL_PASSWORD']
@@ -13,7 +12,3 @@ ActionMailer::Base.smtp_settings = {
     :user_name      => gmail_username,
     :password       => gmail_password
   }
-
-# Initialize the Rails application.
-Dockernotes::Application.initialize!
-

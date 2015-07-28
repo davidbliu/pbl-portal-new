@@ -78,6 +78,12 @@ Dockernotes::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # email settings
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+
   config.assets.compile = true
   config.assets.precompile =  ['*.js', '*.css', '*.css.erb'] 
+
+  
 end

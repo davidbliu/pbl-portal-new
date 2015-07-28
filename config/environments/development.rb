@@ -29,6 +29,11 @@ Dockernotes::Application.configure do
 
   config.allow_concurrency = true
 
+  #mailer stuff
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+
   config.after_initialize do
     ActiveRecord::Base.logger = Rails.logger.clone
     ActiveRecord::Base.logger.level = Logger::INFO

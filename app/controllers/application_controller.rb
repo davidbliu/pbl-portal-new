@@ -12,6 +12,12 @@ class ApplicationController < ActionController::Base
   before_filter :current_member 
   
 
+  def send_email
+    puts ENV['GMAIL_USERNAME']
+    puts ENV['GMAIL_PASSWORD']
+    LinkNotifier.send_signup_email
+    render nothing: true, status: 200
+  end
 
   def calendar_pull
     cal = Google::Calendar.new(:client_id     => ENV['GOOGLE_INSTALLED_CLIENT_ID'], 

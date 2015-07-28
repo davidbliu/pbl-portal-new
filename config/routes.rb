@@ -76,6 +76,9 @@ Dockernotes::Application.routes.draw do
 
   get 'calendar_pull', to: 'application#calendar_pull'
 
+  # email routes
+  get 'send_email', to:'application#send_email'
+
   resources :google_events do 
     collection do 
       get 'google_calendar_redirect'
