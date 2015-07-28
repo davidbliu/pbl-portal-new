@@ -11,9 +11,13 @@
 }
 #tag-cloud>.tag-cloud-tag{
   margin:2px;
+  opacity:0.5;
 }
-#tag-cloud>.tag-cloud-tag.clicked{
-  padding:5px;
+#tag-cloud>.tag-cloud-tag:hover{
+  cursor:pointer;
+}
+#tag-cloud>.tag-cloud-tag.selected-tag{
+  opacity:1.0;
 }
 .smalltext{
   font-size:10px;
@@ -121,7 +125,9 @@
    Read More about PBL Links
   </a>
 
+<div id = 'catalogue-container' style = 'margin-top:25px'>
   <%= render partial: "catalogue_tags", locals: {golinks: @golinks} %>
+</div>
 
 </div><!-- end of col md 9 -->
   
@@ -143,7 +149,7 @@
   <div id = 'tag-cloud'>
     <p class = 'smalltext text-muted'>Click tags to filter by them</p>
     <% @tags.each do |tag| %>
-      <div class = 'label label-default tag-cloud-tag'>
+      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>'>
         <%= tag %>
       </div>
     <% end %>
@@ -152,6 +158,9 @@
 
   </p>
 </div>
+
+
+<%= javascript_include_tag "tag_catalogue" %>
 
 <script type = 'text/javascript'>
 function activateSearchButton(){
@@ -174,6 +183,8 @@ var email = "<%= @current_member.email %>";
 <% else %>
 var email = "asdf";
 <% end %>
+var tag_hash = '<%= @tag_hash.to_json.html_safe %>';
+tag_hash = JSON.parse(tag_hash);
 </script>
 <!-- catalogue scripts -->
 

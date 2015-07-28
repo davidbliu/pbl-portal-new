@@ -10,7 +10,7 @@
 	</thead> -->
 	<tbody>
 	<% golinks.each do |golink| %>
-	<tr class = 'link-row' id = '<%= golink.key %>-separator-row'>
+	<tr class = 'link-row' id = '<%= golink.key %>-row'>
 		<td><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
 		<td class = 'golink-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><%= golink.key %></a>
 		</td> 
