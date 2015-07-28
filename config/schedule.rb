@@ -14,8 +14,13 @@ RAILS_ROOT = ENV['RAILS_ROOT']
 every 10.minutes do
   # command "/usr/bin/some_great_command"
   command "cd #{RAILS_ROOT} && source setenv.sh && bundle exec rake elasticsearch:reindex"
-  command "echo 'hi there'"
+  command "echo 'hi there reindexing golinks'"
   # rake "some:great:rake:task"
+end
+
+every 7.hours do
+  command "cd #{RAILS_ROOT} && source setenv.sh && bundle exec rake elasticsearch:scrape"
+  command "echo 'hi there scraping golink documents'"
 end
 #
 # every 4.days do
