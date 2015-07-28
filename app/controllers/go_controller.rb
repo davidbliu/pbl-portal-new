@@ -38,6 +38,44 @@ class GoController < ApplicationController
 				@tag_hash[golink.key] = Array.new
 			end
 		end
+		if current_member
+			@ratings = ParseGoLinkRating.limit(1000000).where(member_email:current_member.email).index_by(&:key)
+		else
+			@ratings = Hash.new
+		end
+
+		def rating_index(key)
+			if @ratings.keys.include?(key)
+				return @ratings[key].rating
+			else
+				return 1000
+			end
+		end
+
+		# sort golinks by ratings
+		@golinks = @golinks.sort_by{|x| rating_index(x.key)}
+	end
+
+	def update_rank
+		key = params[:key]
+		email = params[:email]
+		rating = params[:rank].to_i
+		if member_email_hash.keys.include?(email) and rating <= 100
+			ratings = ParseGoLinkRating.where(key:key).where(member_email: email)
+			if ratings.length > 0
+				puts 'editing old rating'
+				r = ratings[0]
+				r.rating = rating
+				r.save
+			else
+				puts 'creating a new rating'
+				ParseGoLinkRating.create(key: key, member_email: email, rating: rating)
+			end
+			render nothing: true, status: 200
+		else
+			render nothing:true, status:500
+		end
+		
 	end
 	def mobile
 		# TODO support mobile browsing

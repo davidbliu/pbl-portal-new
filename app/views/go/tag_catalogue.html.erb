@@ -92,11 +92,21 @@
   /*color: rgba(255,255,255,.84);*/
   background-color: black;
 }
+
+#spinner-div{
+  z-index: 5000;
+    position: fixed;
+    top:100px;
+    left:500px;
+    margin: auto;
+    display:none;
+}
 /*#directory-container{
   margin-top:-15px;
 }*/
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
+
 
 <!-- Modal -->
 <div class="modal fade" id="guide-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -115,7 +125,9 @@
     </div>
   </div>
 </div>
-      
+
+<!-- spinner gif -->
+<div id = 'spinner-div'><img src = 'http://www.canyonsresort.com/Content/component-themes/lessons/images/ajax_loader_vector.gif' height=100></img></div>    
 
 <div class="col-md-9 catalogue-div">
 
@@ -126,7 +138,7 @@
   </a>
 
 <div id = 'catalogue-container' style = 'margin-top:25px'>
-  <%= render partial: "catalogue_tags", locals: {golinks: @golinks} %>
+  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, ratings: @ratings} %>
 </div>
 
 </div><!-- end of col md 9 -->
@@ -140,7 +152,7 @@
           <input id = 'search-input' type="text" class="input-sm" placeholder="Search for a PBL link" />
           <span class="input-group-btn">
               <button id = 'search-btn' class="btn btn-info btn-sm btn-material-blue-500" type="button">
-                  <span id = 'search-icon' class="glyphicon glyphicon-search"></span>
+                  <span id = 'search-icon' class="mdi-action-search"></span>
               </button>
           </span>
       </div>
