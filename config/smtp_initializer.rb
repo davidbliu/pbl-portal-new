@@ -1,5 +1,3 @@
-
-
 gmail_username = ENV['GMAIL_USERNAME']
 gmail_password = ENV['GMAIL_PASSWORD']
 

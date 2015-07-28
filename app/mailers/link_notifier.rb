@@ -9,13 +9,13 @@ class LinkNotifier < ActionMailer::Base
 
   def send_reindex_email
   	@golinks  = GoLink.all
-  	mail(:to => 'davidbliu@gmail.com,nathalie.nguyen@berkeley.edu,eric.quach@berkeley.edu,kvyinn@gmail.com',
+  	mail(:to => 'davidbliu@gmail.com,eric.quach@berkeley.edu,kvyinn@gmail.com',
     :subject => 'PBL Links has been re-indexed' ).deliver
   end
 
   def send_scrape_email
   	@scraped = ParseElasticsearchData.limit(100000).all
-  	mail(:to => 'davidbliu@gmail.com,nathalie.nguyen@berkeley.edu,eric.quach@berkeley.edu,kvyinn@gmail.com',
+  	mail(:to => 'davidbliu@gmail.com,eric.quach@berkeley.edu,kvyinn@gmail.com',
     :subject => 'PBL Links has been re-scraped' ).deliver
   end
 end
