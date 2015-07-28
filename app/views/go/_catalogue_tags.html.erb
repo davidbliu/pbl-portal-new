@@ -1,0 +1,62 @@
+
+<table class = 'directory-table table table-hover table-condensed'>
+<!-- 	<thead>
+		<tr>
+			<th></th>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Actions</th>
+		</tr>
+	</thead> -->
+	<tbody>
+	<% golinks.each do |golink| %>
+	<tr class = 'link-row' id = '<%= golink.key %>-separator-row'>
+		<td><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
+		<td class = 'golink-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><%= golink.key %></a>
+		</td> 
+		<td class = 'golink-description-td'>
+			<%= golink.description %>
+			<% if golink.tags %>
+				<% golink.tags.each do |tag| %>
+				<div class = 'label label-default'><%= tag %></div>
+				<% end %>
+			<% end %>
+		</td>
+		<td style='text-align:right'>
+			&nbsp;<a href = '#' class = 'link-modal' id = '<%= golink.id %>-modal' data-toggle="modal" data-target="#myModal" href = '#'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
+
+				<div class = 'hidden-edit-info' id = '<%= golink.key %>,edit'>
+					<div class="input-group" style = 'display:none'>
+					  <b class="input-group-addon" id="basic-addon1">ID</b>
+					  <input id = 'go-id-input' type="text" class="go-input input-sm" value="<%= golink.id %>" placeholder = "Link ID: (example: lklsd80lksm)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group" style = 'display:none'>
+					  <b class="input-group-addon" id="basic-addon1">ID</b>
+					  <input id = 'go-key-input' type="text" class="go-input input-sm" value="<%= golink.key %>" placeholder = "Link Key: (example: mission)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon1">URL</b>
+					  <input id = 'go-url-input' type="text" class="go-input input-sm" value="<%= golink.url %>" placeholder = "Link URL: (example: http://linkedin.com)" aria-describedby="basic-addon1">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon2">Description</b>
+					  <input id = 'go-description-input' type="text" class="go-input input-sm" value="<%= golink.description %>" placeholder = "Link Description: (example: planning document for project neon links)" aria-describedby="basic-addon2">
+					</div>
+
+					<div class="input-group">
+					  <b class="input-group-addon" id="basic-addon3">Directory</b>
+					  <input id = 'go-directory-input' type="text" class="go-input input-sm" value="<%= golink.directory %>" placeholder = "Link Directory: (example: ht/fall-2014/long-movie)" aria-describedby="basic-addon3">
+					</div>
+				</div>
+				<!-- end of hidden -->
+			</a>
+			<!-- &nbsp;<a href = '/go/<%= golink.id %>/metrics' target="_blank"><i class = 'mdi-action-trending-up' style = 'font-size:15px'></i></a> -->
+			&nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a>
+		</td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>

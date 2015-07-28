@@ -34,6 +34,7 @@ Dockernotes::Application.routes.draw do
   get 'go/favorite', to: 'go#favorite'
   get 'go/search', to: 'go#search'
   get 'go/admin', to: 'go#admin' #admin main dashboard
+  get 'go/tags', to: 'go#tag_catalogue'
 
 
   """ chrome extension routes """

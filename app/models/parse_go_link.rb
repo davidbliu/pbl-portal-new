@@ -1,5 +1,5 @@
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags
 
 	def updated_at_string
 		t = self.updated_at + Time.zone_offset("PDT")
@@ -30,6 +30,22 @@ class ParseGoLink < ParseResource::Base
 				return true
 			end
 		end
+	end
+
+	def self.tag_hash
+		golinks = ParseGoLink.hash.values
+		thash = Hash.new
+		golinks.each do |golink|
+			if golink.tags
+				golink.tags.each do |tag|
+					if not thash.keys.include?(tag)
+						thash[tag] = Array.new
+					end
+					thash[tag] << golink.key
+				end
+			end
+		end
+		return thash
 	end
 
 	""" cache clearing method """
@@ -485,5 +501,21 @@ class ParseGoLink < ParseResource::Base
 				golink.save
 			end
 		end 
+	end
+
+	def self.migrate_tags
+		golinks = Array.new
+		ParseGoLink.limit(100000).all.each do |golink|
+			tags = golink.dir.split('/').select{|x| x != ""}
+			
+			
+			if golink.tags == nil
+				puts golink.key
+				golink.tags = tags
+				golinks << golink
+			end
+		end
+		ParseGoLink.save_all(golinks)
+		return true
 	end
 end

@@ -1,6 +1,37 @@
 require 'set'
 class GoController < ApplicationController
 
+	def tag_catalogue
+		""" deal with key redirects if needed """
+		go_key = params.keys[0]
+		go_hash = go_link_key_hash
+		@current_member = current_member
+		
+		if params.length >= 3 and go_hash.keys.include?(go_key)
+			# correctly used alias
+			golink = go_hash[go_key]
+			""" log tracking data for link click """
+			if @current_member	
+				click = ParseGoLinkClick.new
+				click.member_email = @current_member.email
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			else
+				click = ParseGoLinkClick.new
+				click.key = golink.key
+				click.time = Time.now
+				click.save
+			end
+			# send to link url
+			redirect_to golink.url
+		end
+
+		""" render the catalogue if no redirects """
+		@golinks = go_hash.values
+		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+		@tag_hash = go_link_tag_hash
+	end
 	def mobile
 		# TODO support mobile browsing
 	end

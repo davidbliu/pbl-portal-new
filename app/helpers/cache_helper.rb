@@ -48,6 +48,17 @@ module CacheHelper
 		Rails.cache.write("go_link_hash", nil)
 		Rails.cache.write("go_link_key_hash", nil)
 		Rails.cache.write("go_link_favorite_hash", nil)
+		Rails.cache.write("go_link_tag_hash", nil)
+	end
+
+	def go_link_tag_hash
+		a = Rails.cache.read('go_link_tag_hash')
+		if a != nil
+			return a
+		end
+		a = ParseGoLink.tag_hash 
+		Rails.cache.write('go_link_tag_hash', a)
+		return a
 	end
 
 	def go_link_favorite_hash

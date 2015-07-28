@@ -1,0 +1,185 @@
+
+<style type = 'text/css'>
+#directory-container{
+  right:45px;
+}
+#tag-cloud{
+  margin-top:10px;
+  padding:10px;
+  /*border:1px solid rgba(0,0,0,0.1);*/
+  /*background-color:rgba(250, 250, 250, 0.3);*/
+}
+#tag-cloud>.tag-cloud-tag{
+  margin:2px;
+}
+#tag-cloud>.tag-cloud-tag.clicked{
+  padding:5px;
+}
+.smalltext{
+  font-size:10px;
+}
+#custom-search-input{
+    /*padding: 3px;*/
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+    padding-bottom:0px;
+}
+
+#custom-search-input button{
+    margin: 0px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: white;
+    background-color:#1976d2;
+    /*border-radius: 0px 0px 0px 0px;*/
+    padding:0px;
+}
+#search-icon.glyphicon.glyphicon-search{
+	  /*font-size: 20px;*/
+  border-radius: 0px;
+  /*padding: 0px 10px 0px 10px;*/
+    font-size: 10px;
+  padding: 10px 10px 10px 10px;
+  margin-left: 0px;
+}
+#search-btn.btn.btn-info.btn-sm.btn-material-blue-500{
+
+  border-radius: 2px;
+  left: 2px;
+
+}
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search {
+  font-size: 23px;
+  /*padding: 5px 20px 5px 20px;*/
+}
+
+#search-btn:hover{
+  color:white;
+  background-color:black;
+}
+#search-btn{
+  color:white;
+  /*padding:3px;*/
+}
+.directory-section-div{
+	clear:both;
+	margin-bottom:15px;
+	overflow:auto;
+}
+.mdi-hardware-keyboard-tab{
+	color:rgba(0,0,0,0.1);
+}
+
+.navbar-material-blue-900.navbar {
+  /*background-color: #0d47a1;*/
+  /*color: rgba(255,255,255,.84);*/
+  background-color: black;
+}
+/*#directory-container{
+  margin-top:-15px;
+}*/
+</style>
+<%= stylesheet_link_tag "golink_catalogue" %>
+
+<!-- Modal -->
+<div class="modal fade" id="guide-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">PBL Link Guide</h4>
+      </div>
+      <div class="modal-body">
+        <%= render 'guide' %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+      
+
+<div class="col-md-9 catalogue-div">
+
+<h1 class = 'middle-title'>PBL Links</h1>
+    <p>PBL Links is a custom URL shortener for PBL. PBL Links has two main goals: simplifying the way we <b>access and discover resources</b> in PBL. </p>
+  <a href = 'javascript:void(0);' data-toggle="modal" data-target="#guide-modal">
+   Read More about PBL Links
+  </a>
+
+  <%= render partial: "catalogue_tags", locals: {golinks: @golinks} %>
+
+</div><!-- end of col md 9 -->
+  
+
+<div id = 'directory-container' class="col-md-3 affix">
+
+	
+  <div id="custom-search-input">
+      <div class="input-group">
+          <input id = 'search-input' type="text" class="input-sm" placeholder="Search for a PBL link" />
+          <span class="input-group-btn">
+              <button id = 'search-btn' class="btn btn-info btn-sm btn-material-blue-500" type="button">
+                  <span id = 'search-icon' class="glyphicon glyphicon-search"></span>
+              </button>
+          </span>
+      </div>
+  </div>
+  <!-- end of search input -->
+  <div id = 'tag-cloud'>
+    <p class = 'smalltext text-muted'>Click tags to filter by them</p>
+    <% @tags.each do |tag| %>
+      <div class = 'label label-default tag-cloud-tag'>
+        <%= tag %>
+      </div>
+    <% end %>
+  </div>
+  <p class = 'text-muted smalltext'>
+
+  </p>
+</div>
+
+<script type = 'text/javascript'>
+function activateSearchButton(){
+  $('#search-btn').click(function(){
+    search_term = $('#search-input').val();
+    window.location.assign('/go/search?search_term='+search_term);
+  });
+
+  $('#search-input').keypress(function(e) {
+    if(e.which == 13) {
+       search_term = $('#search-input').val();
+       console.log(window.location);
+       window.location.assign('/go/search?search_term='+search_term);
+    }
+});
+}
+activateSearchButton();
+<% if @current_member %>
+var email = "<%= @current_member.email %>";
+<% else %>
+var email = "asdf";
+<% end %>
+</script>
+<!-- catalogue scripts -->
+
+    
+  
+
+ 
+
+
