@@ -10,7 +10,7 @@ Dockernotes::Application.routes.draw do
 
   get '/clearcache', to: 'application#clearcache'
 
-  get '/go', to: 'go#affix'
+  get '/go', to: 'go#tag_catalogue'
   get '/go/manage', to: 'go#manage'
   get '/go/add', to:'go#add'
   post '/go/create', to: 'go#create'

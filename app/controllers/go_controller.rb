@@ -39,7 +39,8 @@ class GoController < ApplicationController
 			end
 		end
 		if current_member
-			@ratings = ParseGoLinkRating.limit(1000000).where(member_email:current_member.email).index_by(&:key)
+			# @ratings = ParseGoLinkRating.limit(1000000).where(member_email:current_member.email).index_by(&:key)
+			@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
 		else
 			@ratings = Hash.new
 		end
@@ -71,6 +72,7 @@ class GoController < ApplicationController
 				puts 'creating a new rating'
 				ParseGoLinkRating.create(key: key, member_email: email, rating: rating)
 			end
+			Rails.cache.write('go_link_ratings', nil)
 			render nothing: true, status: 200
 		else
 			render nothing:true, status:500
@@ -79,7 +81,7 @@ class GoController < ApplicationController
 	end
 
 	def add
-		
+
 	end
 	def mobile
 		# TODO support mobile browsing

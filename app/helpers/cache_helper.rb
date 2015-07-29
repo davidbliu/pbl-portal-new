@@ -49,6 +49,17 @@ module CacheHelper
 		Rails.cache.write("go_link_key_hash", nil)
 		Rails.cache.write("go_link_favorite_hash", nil)
 		Rails.cache.write("go_link_tag_hash", nil)
+		Rails.cache.write("go_link_ratings", nil)
+	end
+
+	def go_link_ratings
+		a = Rails.cache.read('go_link_ratings')
+		if a != nil
+			return a
+		end
+		a = ParseGoLinkRating.limit(100000).all.to_a 
+		Rails.cache.write('go_link_ratings', a)
+		return a
 	end
 
 	def go_link_tag_hash
