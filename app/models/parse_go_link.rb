@@ -24,10 +24,14 @@ class ParseGoLink < ParseResource::Base
 		if self.url == url
 			return true
 		end
-		if self.url.include?('docs.google.com')
-			doc_id = self.url.split('/d/')[1].split('/')[0]
-			if url.include?(doc_id)
-				return true
+		if self.url.include?('docs.google.com') and self.url.include?("/d/")
+			begin
+				doc_id = self.url.split('/d/')[1].split('/')[0]
+				if url.include?(doc_id)
+					return true
+				end
+			rescue
+				return false
 			end
 		end
 	end

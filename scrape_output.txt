@@ -1,0 +1,1236 @@
+scraping google drive
+fetched access token
+finished scraping 459 files
+saving [#<GoogleDrive::File id="1P6dT4oRt32fYUX5jvy6fx0wPzKxKtaTEhjMzy54uTnQ" title="Copy of [PBL][FI] Semester Checklist [test]">, #<GoogleDrive::File id="1o7kBbiU8F8YbKZy3eEA8Ls6pIrkigc-8b3bLwV2UvfQ" title="Copy of [PBL] Apparel Order Form">, #<GoogleDrive::Collection id="0BwLZUlGsG71OfmQtNndNbWRLaFpsN0NOeVJ1UkZ4dmtqYkJJaXNfVm0wNGZvLTNCZnU5b2M" title="PBL Links">, #<GoogleDrive::Spreadsheet id="17ZVrmrSN52o4A44Zu4e2heNWtrY6CKo2XiYpy_KkR_w" title="[PBL] Apparel Order Form (Responses)">, #<GoogleDrive::Collection id="0B1klLFZ3hKQ5flQyeFFwM0VTQUVLX2FmaXhIS0QyQkttUGt2NUZPd1UzSElHVFhMcmJHSk0" title="[PBL][OF] Fall 2015 Officer Management">, #<GoogleDrive::Collection id="0B1klLFZ3hKQ5flhDeWFqSm9LS3AxVGpYQmdlRXdHYkVhNnpEVnhpekdpRWdNajZCMnVWOVE" title="[PBL][OF] Fall 2015 Officer Emails">, #<GoogleDrive::Collection id="0Bxpapk4L0mbkfkd5TklHdW45cmhocUc1R2ZacXFlN0wzR0pneEJIVDhCekRjVGdpUTVzMDQ" title="[PBL][WD] Semester Folders">, #<GoogleDrive::Collection id="0Bxpapk4L0mbkfi1xX25MWE9DZ3Vzc1hPRzBrT3dLZ2dtYWIzVlBhOXNRd3pYMThxQzlqclE" title="[PBL][HT] Semester Folders">, #<GoogleDrive::File id="1uIX7TagfNZ1T0sVbMTt7jx8mP0jPa5CpzS6MlIpZsmA" title="[PBL][WD] Semester Checklist">, #<GoogleDrive::File id="1qXQBfkFpmbKswELDYAfUTUKV9LnrxjV5fMqFaeFWPCs" title="[PBL][HT] Semester Checklist">, #<GoogleDrive::Collection id="0Bxpapk4L0mbkfl9QcGZESVU4OWh1ZkE3LW9sZDNDWGpobkJLVXNGazRPVG5VMlRhUE1iSTg" title="[PBL][WD] Admin Folder">, #<GoogleDrive::Collection id="0Bxpapk4L0mbkfm5nOGNIaDg1MjhWWmotQ0JyQnlYOVdaNmROLVA5LUJqYjRnSE90alNfZEk" title="[PBL][HT] Admin Folder">, #<GoogleDrive::File id="1CntbnahsZ1qY0rgayR5QGojAMDIcthZgZq5PHQ1dPw8" title="PBL Links Description">, #<GoogleDrive::Spreadsheet id="1holf59ojBzotc2ip_nxsx0k3KDrjkXIwPCDIZHMNsgE" title="[PBL][OF] Fall 2014 Officer & Member Contact Sheet">, #<GoogleDrive::File id="0B0wPj-baQX_9VjhMWUdIVFp2RVk" title="[PBL][HT]Fall2015 Editing Workshop Notes.pptx">, #<GoogleDrive::File id="0B0wPj-baQX_9WWFSQ2s3dTN5X2JIVzdkbXdZemRqWGVhSEY0" title="[PBL][HT] Fall 2015 Officer Video Storyboard.pptm">, #<GoogleDrive::Spreadsheet id="1X2Tq706QTRchyr3h47wnYajkMByHKgnKvDPz3U7A6ZQ" title="[PBL][HT] Fall 2015 Officer Video Schedule.xlsx">, #<GoogleDrive::File id="0B0wPj-baQX_9dldCbE52dHR2Rkk" title="[PBL][HT]Fall2015 Lightroom Workshop Notes.pptx">, #<GoogleDrive::Collection id="0B0wPj-baQX_9flNuMmJsUllhYll6MGp5clZwaU1vSHlFS2NNUDB5c1lIRnJGODFJdVpPUFk" title="[PBL][HT] Fall 2015 Workshops">, #<GoogleDrive::Spreadsheet id="1b10sBT4m-UmFG_pkKsAYpTbamuB-WOrABfSUHk5lyXw" title="[PBL] Executive Workshop Sign-Ups (Responses)">, #<GoogleDrive::File id="1kR1fFP2ZRA5o6gGBGxq-BKZelvmS5mJVSibsZGMaO1A" title="[PBL] Executive Workshop Sign-Ups">, #<GoogleDrive::File id="1G-IxGG8JexZxLI2c5Tr0BL5ap3Zr9OrNCMXpB1T3GWg" title="[PBL][WD] Guide To Web Development">, #<GoogleDrive::File id="1Tfr2-s_RfFLGyInfkfoaOwnRPnaItDFkqWdCP1RU_kg" title="[PBL][WD] Fall 2015 Summer Check-In #1">, #<GoogleDrive::File id="1gU2-Etxy-dPoG3ZNjJpyUF9k94gvjmP0d-Ax-Bv2u3Y" title="[PBL][HT] Fall 2015 Summer Check-In #1 Agenda">, #<GoogleDrive::File id="1nNDoZfLcNDtMi9sCVB53pyRgJN69gdcSt0_WRrNFxHw" title="[PBL][WD] Fall 2015 Summer Check-In #1 Agenda">, #<GoogleDrive::Collection id="0B-dkHP27-VYCfkFpQzJHQTNMNVpFbGgzY3ZjU193RzczbEcxWkRHdmphYjJLQzNaYmhuNjA" title="[PBL][HT] Fall 2015 Summer Check-In Agendas">, #<GoogleDrive::Collection id="0B-dkHP27-VYCfml1M3c1bElRc1luQVJobkhiRE9rRVBvNkNSaXo0LTFsYzRRMU1DUFJENUk" title="[PBL][WD] Fall 2015 Summer Check-In Agendas">, #<GoogleDrive::Spreadsheet id="1CVUJxaPV3-PoxFhsxUMh9BObNgXpToVe60yqphyXW0I" title="[PBL] Spring 2015 Membership Application (Responses)">, #<GoogleDrive::File id="1p7v3isjAy0ndPjyHb1MzPUOR5y4ltvkwaKv3oy7a_wM" title="[PBL][OF] Fall 2015 Email Management Workshop">, #<GoogleDrive::File id="1-3bNSJc0CHdZPBrZKh7qkRCNvxXnoHWohfqdQO1uxeE" title="[PBL] [HT] Fall 2015 Tasks">, #<GoogleDrive::Collection id="0B1klLFZ3hKQ5fnpUelBaQWlCSC1LYU0talczOWVIS3VmR3d1ZnBvZld1ZVpWYXFXZzJZa2s" title="[PBL][OF] Fall 2015 Officer Initiation Documents">, #<GoogleDrive::File id="1ha9CwDcNscd9AowqBipfmxhGiuchAD69dlnXZBi2SsU" title="[PBL][OF] Fall 2015 Piazza Features">, #<GoogleDrive::File id="1RzF_tYDHJU0RZKzC_KuLl59lqCX8C2PO2zPlsUpS6fQ" title="[PBL][OF] Fall 2015 Summer Overview">, #<GoogleDrive::File id="1gixIADakwqnlVbpA-Cq90htqwqMXrBFEY5kwIzR9JWU" title="[PBL][OF] Fall 2015 How to Sign Up for Piazza">, #<GoogleDrive::File id="1h5TR3aqQglJ-meBuo8IobeUf0FJq8bj7t-Lyy95EsUQ" title="[PBL][OF] Fall 2015 Chair Mentality Workshop">, #<GoogleDrive::File id="1n4lU8nK0Ji9VRr2srTIY6Ea0lFfn9wrPe-tot3b-R18" title="[PBL][OF] Fall 2015 Effective Communication and Documentation">, #<GoogleDrive::File id="0B1klLFZ3hKQ5QVYzanRlb0JLSzQ" title="[PBL][OF] Fall 2015 Initiation Overview.pdf">, #<GoogleDrive::File id="1uuu9FXl-bfj9TzCCvk1SBVKzgrp7GLKy-WUNlvA3jQg" title="[PBL][EX] Fall 2015 Effective Communication and Documentation (To Print)">, #<GoogleDrive::Collection id="0B4yNDn6RiaObc2VEU0lxemxjUFE" title="[PBL][HT] Historians">, #<GoogleDrive::File id="1lCw-05xBmQA2oYY0vOQ7pA9M_Sr4xk1IeRSU_aIRXNw" title="Berkeley FBLA–PBL Mission & Values">, #<GoogleDrive::Collection id="0B14CRmofly3TfkZyQ2lwdHNiNGJoaDJHNXh2V2NCV0l0OWdUSnVyb3ZEckd4VDVPcjhhcnM" title="[PBL][HT] Fall 2015 Officer Photos (raw)">, #<GoogleDrive::File id="1yTGOg72un4ROmuKaSXhdAs-D4qu6yG3lQUEaJ19LHyQ" title="[PBL][EX] Fall 2015 Piazza Features">, #<GoogleDrive::File id="1Sin6cna_50I00zwEaA5AJNCMALe3QwnOlUoarF1a_oQ" title="[PBL][EX] Fall 2015 Summer Overview">, #<GoogleDrive::File id="1YaO0utKHcolHO3s98n6nuEB4CsHu88Jn1hmZJWeiqE8" title="NOVUM [EX][MK][HI][PB]">, #<GoogleDrive::Collection id="0ByL1R1bTTP9QfkstR0Z0akRiUmhWRVRnNm1ZWG93SGlJd1lxTE9QeUdzdkhlV2kwenlpcTA" title="[PBL][WD] Spring 2015">, #<GoogleDrive::Collection id="0ByL1R1bTTP9QfmhhUkd2aE9mX2RBNURQSUhiT3loNTFYdk5IdDZWZGp0NzB5NDNTWVFBV1k" title="[PBL][WD] Admin">, #<GoogleDrive::Collection id="0ByL1R1bTTP9Qfmt2cExaUm1GS3VaVXFoalNTd3NaalRtaHpyNmNNMDYtU1d2RDNodmhuZGc" title="[PBL][WD] Committee">, #<GoogleDrive::Collection id="0ByL1R1bTTP9QfjdScE9MNkloU21USjdDZ0xobHF3cjRSdlRTM0FBdTM3S1dJNmo3bU54djA" title="[PBL][WD] Fall 2015">, #<GoogleDrive::Spreadsheet id="1vTLwwE_chgL9pWrvurR74Jm0jcmY0OHhmqWdyep9HR8" title="[PBL] Spring 2014 Officer & Member Contact Sheet">, #<GoogleDrive::Collection id="0B0wPj-baQX_9flVRQkJWb1BmbzVmSnlGUmh0WHZESEdlZDRWck1hN3dtMlcwNThneExIa1U" title="[PBL][HT] Fall 2015">, #<GoogleDrive::File id="1AQesAJDnzXE4Ye4b_5g4iE39DCRE3XLkldZvGCZyQS0" title="[PBL][MK] Fall 2014 Committee Review">, #<GoogleDrive::File id="1JTk-MIo1cnZqi1ZburCV2UnH0KmT2d4aulpDtSS_7ko" title="[OF] Fall 2014 Officer Initiation Agenda">, #<GoogleDrive::Spreadsheet id="1vatC5at7frmLJTB1dTWM2XVqPWEWnV6eezQpnDRoVns" title="[PBL] Senior Photoshoot Sign-Ups">, #<GoogleDrive::Spreadsheet id="1zTu_a8H80HuoZrRy8Jp0QLcK_AXGzZ0IKDHCEL4YjQI" title="[IN][EX] End of the Year PBL Picnic">, #<GoogleDrive::File id="1Xxe_OILC4cWI6K377-M787vX1CE6PWJtKbT2uP-i6qo" title="[PBL] Fall 2015 Chair Application Questions">, #<GoogleDrive::File id="1jwKZkZyH7Rnc_9Sz9ev6VJe_rEB_yus1kYck4YkGmWk" title="[HT] Meeting Agenda - 4.28.15">, #<GoogleDrive::File id="1-n7-fF6THLxYXw2SxlcAN594WxHHUNa6e3NoG5t1lhA" title="[PBL] Spring 2015 Chair Application Questions">, #<GoogleDrive::File id="1j9sLOAuVtdnHJ0nZzEFOoHAuEA5wkAJ0mukprc-1l8k" title="[PBL] Fall 2014 Chair Application Questions">, #<GoogleDrive::Collection id="0Bw5tKX5a-BBzV1h1SDdJa3RkcjA" title="[PBL][OF] Fall 2014 Officer Management">, #<GoogleDrive::File id="1R6JvkV8My073XI9ohiKfGaCmryqCN7rAIKvjTBLJvpQ" title="PBL Portal Fall 2015">, #<GoogleDrive::File id="1u-s6r1qqW94rdKWtQP7cSjahBxwJYSIOkNGUDaClCRg" title="\"PBL Course Website\"">, #<GoogleDrive::File id="1g4eVn3vDkOOwAQ7C-N8bgQATKgHZw9UZqwUz9PBGFVI" title="[HT] Meeting Agenda - 4.21.15">, #<GoogleDrive::File id="1bMzIqOwcqRCqD0ZfVrsJZgX42mZkeAxp4y1x_Iroz8Q" title="[HT] Meeting Agenda - 4.21.15">, #<GoogleDrive::File id="1pLB-6O53lgfnHYanRLsjIZNmvoFBYB3osAtHOvihv6M" title="[HT] Meeting Agenda - 4.14.15">, #<GoogleDrive::File id="1pwmCwPJUt45jg5azwomLHdvywv8r-yTulqOZgl-pPFc" title="[OF] Meeting #11 Updates">, #<GoogleDrive::File id="0B8tvdg_3IeCNMzliX1ZXc2xPYkU" title="[OF] Meeting #11 Agenda.pdf">, #<GoogleDrive::Spreadsheet id="1M1d1x6iDECWeQKSR4PUIEI_sAtDy9S9RwWO32aBYqxQ" title="[PBL] Spring 2015 Cal Day Tabling">, #<GoogleDrive::File id="1FWDCYc6BY5Q_JWs8EX_4hsOVN1ndJLRqY0Unz1mPVAQ" title="[OF] Meeting #10 Updates">, #<GoogleDrive::File id="1j2WPKILfL6JXBf7rimYG0NTwIM0JeTDDVO-2dCVa0jM" title="[HT] Meeting Agenda - 4.7.15">, #<GoogleDrive::File id="1DUjkiuUzryVjaBSwA1UiFOzOfsgF6lXOUNu1Ffs5TbE" title="[OF] Meeting #9 Updates">, #<GoogleDrive::Spreadsheet id="1fkcDzJ_DMl4GOEVlME9LOeKxJeaeeafhKJWyJQnrOK4" title="PBL Cliques">, #<GoogleDrive::File id="1USM2moPIXjAoBQxbRaxPttodGsJdKaMd5RgolBl13n4" title="[HT] Meeting Agenda - 3.31.15">, #<GoogleDrive::Collection id="0Bz04MGieY3pefjhkUWRmT2p2eHFQcVhvYjZkU3o1cm1nbWRObDdCRXRGU21DQnpNVWU0a28" title="[HT] Meeting Agendas">, #<GoogleDrive::File id="1ZHj6blTIV6RkL0-rQANfbe3Cw4Ez-2uRR6GL96cGCWE" title="PBL Improvements 3.31.2015">, #<GoogleDrive::File id="1RNtUEOGjijs0qgNzoEkLLQILlwDpr5tW5KpwlKxd15s" title="[WIND] 3rd Gen Script">, #<GoogleDrive::Spreadsheet id="1sGmpN55iE4-a8fZXkgW8oaXD67x8eNIFUCpxmRzW1t4" title="[PB] Filming Availability">, #<GoogleDrive::Spreadsheet id="14tjwoHbSb6Ftn0yDD_pK1x6E3sZg7arYnjdMCBUQVrg" title="[PBL] Concessions Sign-Ups (Responses)">, #<GoogleDrive::File id="1VkR1D_lx6KueaiWthmiXkH--8uuSE0JaEKAjbCGBs-c" title="[HT] Meeting Agenda - 3.10.15">, #<GoogleDrive::File id="1eQm11DCdo-2GlSXqN5fjuon5w9i2QnuqV_bs1upGh9g" title="[HT] Third Gen Video">, #<GoogleDrive::Spreadsheet id="16D7UW7qtbtBZUFIEVeIz1nkxZDo8dHNdOJmxGBazvFY" title="[PBL] Reimbursement Form Fall 2014 (Responses)">, #<GoogleDrive::Spreadsheet id="1TSYHAPbIPjfrtxRrXy4GVUrSBgyvxQ9_b5FP7-3P91E" title="[HT] Filming Times: PBLtv Spring 2015">, #<GoogleDrive::File id="16heiUu5gg548sIl7RbVjQa9TgFlwG42PXFk-CJ96gRE" title="[HT] Meeting Agenda - 3.3.15">, #<GoogleDrive::File id="1ZG5i7KoNBpx5cOhRyOxNEemrUu8zIFtycNKEgX-3y5M" title="[HT] Interactive Filming Workshop">, #<GoogleDrive::Spreadsheet id="1dhw4AqV6qX-NcKTDOvsSPxqtLal_DrODdU3N2Sqakus" title="[PBL][OF] Spring 2015 Membership Dues">, #<GoogleDrive::File id="1yG1sbsangYRZ5c32xXuVTrUVPnzIAvXOy-4hc06wt9c" title="[PBL] Concessions Sign-Ups">, #<GoogleDrive::File id="1h1UyNzupCkUmLP8mtVVpQxzrUEG_7cMow_T29FuyeBY" title="[PBL] Apparel Order Form">, #<GoogleDrive::File id="1pE35EfBswZggFGRXcxjRss9AKjzRpJ2U9jNTeT0DSM4" title="[HT] Photography Workshop 2: Post-processing with Lightroom">, #<GoogleDrive::File id="1GfL2QIltMpIIZJlZdfpmYTMVfivDtgiWHWuxbaYwsG0" title="[HT] Photography Workshop 2: Post-processing with Lightroom">, #<GoogleDrive::File id="1_q2l9gp2iULnk-vhwpB_fUCjDxE68HeOcu7skUvUzmM" title="[HT] Photography Workshop 1 Deck: Camera Basics">, #<GoogleDrive::File id="1azUKyJwgVdpibeFWYofYUqMCKsPjAb_ofOhrSY1FMUo" title="[HT] Cinematography/Videography Workshop 1: Basics of Filming/ Adobe Premiere">, #<GoogleDrive::Collection id="0Bz04MGieY3peYVlZaHBKQlQxWm8" title="[HT] Workshops">, #<GoogleDrive::File id="1LmIbtFrfwleddcsTY4Q9rqvDWTuE049MvhbMsyhAwZU" title="[HT] Cinematography/Videography Workshop 1: Basics of Filming/ Adobe Premiere">, #<GoogleDrive::File id="1jKjwiU7i7Z5y48qMl1-T22mXQc8RUCaUNv47Z0PQ_gI" title="[HT] Meeting Agenda - 2.24.15">, #<GoogleDrive::File id="1NtCNQ603nNWjXh7MU3alewb06ykndXfI-n8UdUJHFRs" title="[HT] Photography Workshop 1 Deck: Camera Basics">, #<GoogleDrive::Spreadsheet id="19tiSwbi4zu2zhyzZPFFp6Iu4vrCouR1bjXgKGPjyRwU" title="[HT] Filming Times Template">, #<GoogleDrive::File id="1X3DHaOPIrHeTVELGWLar-EDlHNTN6jwbOEkzulalIQ8" title="[HT] Scripting Template">, #<GoogleDrive::File id="1Tl9dr6p1YRLf29e2OcKnMWUmd83XUgZrKRm-1FALP2U" title="[HT] Contacting Actors Template">, #<GoogleDrive::File id="1rNwJVvAEitMtyC7K87F-BjY7MMvbYnGnKVPXWhGRYbk" title="[PBL] Off-Cycle General Membership Application">, #<GoogleDrive::File id="14AGxZ1xkKj3K_60UdgdbefMkdZzlZOx-SZBrq5O9B0k" title="[HT] Meeting Agenda - 2.17.15">, #<GoogleDrive::File id="1l_HZRfWWn7Emk9L42ioZuYiSvVHU9A6iklopKosw6Ok" title="[OF] Meeting #3 Updates">, #<GoogleDrive::File id="17NwJ0CY908Z8PVhv6I_1QoaH6b6CPS_YJXp6-rsp7rM" title="[IN] PhotoScavenger Hunt Spec">, #<GoogleDrive::File id="0B8tvdg_3IeCNUHhiemdONDg5NFE" title="[OF] Meeting #3 Agenda.pdf">, #<GoogleDrive::Spreadsheet id="18zQOwb3EuqURmc5KekHxZn2X4v1reE9dC_KcpADZBoQ" title="[PBL] Matchmaker (Responses)">, #<GoogleDrive::File id="1bhQJ1Wsu4cQbrfaNYIuvS31Ib9pajzUwAFJ9XhK4Q9M" title="[HT] Meeting Agenda - 2.11.15">, #<GoogleDrive::Collection id="0Bz04MGieY3peQTF1Wm1SaHF0YXc" title="[PBL][HT] Spring 2015">, #<GoogleDrive::File id="1U__n_wfgFKv9ipVQzvAuHxRnR1ApR9t-PB_r87aAXq0" title="[OF] Meeting #2 Updates">, #<GoogleDrive::Collection id="0B23FqAUKvQFKVFBEZGRkdGVNNWc" title="[PBL][WD] Web Development">, #<GoogleDrive::File id="18u6nBmcVC4yeJ8wWLdHmEKkcBuEts3Y_2lsbmz6nmGk" title="[PBL] PBL Resources">, #<GoogleDrive::File id="1HPRM4bouzXYLPj26OMCyAXTmSWf-XKuLRP_Fc_g7lss" title="[HT] Spring 2015 Syllabus (Formatted)">, #<GoogleDrive::Spreadsheet id="1yeKIlmp9EzCGSlnOqw5l830xlQJ4ZLyPVAp7QoFwhxU" title="[AFX][PBL] Spring 15 Teams">, #<GoogleDrive::File id="1rRGCjDywcObIjyqU2NU13sEYxRS23LZ70aJYVP2XLNk" title="[OF] Meeting #1 Updates">, #<GoogleDrive::File id="1IROYryPO1cKR5LPxadfuVDtfMZmri38CiUH9-UPjm7M" title="[HT] Application Questions and Interview Questions: Spring 2015">, #<GoogleDrive::Spreadsheet id="1sDfzOPVvEq4_ijCFfB-TckC9ezCJJaaxGih10ttSzEg" title="[PBL] Fall 2014 Membership Application (Responses)">, #<GoogleDrive::File id="1zEYDg-EduX23j42Jn33Hna4vZ8EZ3wvOfiPqGlgHYqo" title="[PBL] Spring 2015 Committee Member Application Questions">, #<GoogleDrive::Spreadsheet id="1FvmZndrvg1Nm8uJPpEZZVcH29Xk2g0Sm31dhY9B0Bv0" title="[PBL][OF] Food Form (Responses)">, #<GoogleDrive::Spreadsheet id="1PcyIH5NDwTOahmbZBRF27DRk7U_TJmqz3a_fbiFbTLc" title="[PBL][MK] Spring 2015 R-Week Chalking Sign-Up / Attendance Sheet">, #<GoogleDrive::Spreadsheet id="1GpAB-C1CliXCH9cDLPsZc_SB7JfeziRFRoB0s4H5EsQ" title="[PBL][OF] Spring 2015 R-Week Tabling Schedule & Checker">, #<GoogleDrive::File id="1XPKqjT3h9FIpHsWCKMXYKEtjhD39GHDsUgGpagywDP0" title="[PBL][OF] Food Form">, #<GoogleDrive::Spreadsheet id="1hPjOvhzCx0qPSZ5KNgrvN2io0NQDVqHIrYF_Gj7bE3o" title="[PBL][MK] Spring 2015 Handbilling Sign Up Sheet">, #<GoogleDrive::Spreadsheet id="1lMv8nPpr_XueT_CNwmOoZhRezRvntumx0r2MkcsoFL8" title="[PBL][XX] Spring 2015 Interview Signups TEMPLATE">, #<GoogleDrive::File id="1YSksxWZZRXP0iyA_mukEswVAvqledsFr1UWikASfgKI" title="[HT] First Gen Speech: Spring 2015">, #<GoogleDrive::File id="1VwiPb2WZV3HMzA0vfLKe4nCHHWCrAwg0701sz_Bfzmk" title="[HT] Winter Check-in #1 Agenda">, #<GoogleDrive::Spreadsheet id="11j7czpXC8dXPS41dpWKujVzqFYhlbkSzOyFzzzrwk1c" title="[PBL] Off-Cycle General Membership Application (Responses)">, #<GoogleDrive::File id="1mXOHGEBknRIgbapH4m-8mnqoc026VjTwhLveFIzfUEM" title="[PBL][MK] Profile Descriptions">, #<GoogleDrive::File id="19NvvqpAsHF_rp9EMlZrk5c9wPm_2KMdhHwhrcc7Hn7g" title="[IN] Scavenger Hunt (Webpage features)">, #<GoogleDrive::File id="15P27DTXMWUByck9ZDN1imCSaLJv06LbEOamg2z8Dc1o" title="[PBL][HT] Officer Video Detailed Script ">, #<GoogleDrive::Spreadsheet id="16vXKb1W_i0qATKP6WFNAHQ3h9oF1prODbzVMg6n1avk" title="[OF] Officer Video Filming Times">, #<GoogleDrive::File id="1V3d4N0byOtDBM6_Cd-IcVBWBd9OUbE7GPvh-Fqc0d90" title="[PBL] Fall 2014 Recruitment Week Mailing List">, #<GoogleDrive::File id="1_c4dlNI43145D3MDu6nLlkwGIWG6iyZ1MpmqPb1FnHI" title="[PBL][IN] Spring 2014 Committee Syllabus">, #<GoogleDrive::Spreadsheet id="182hDQAUE0EJyUs9MY40-230gznutOaCntVegeyjc9lA" title="[OF] Officer Video Filming Times All">, #<GoogleDrive::File id="1bGoIcrIdd5qJcVQh1rAAjsPMc2m2mdAW2JzshVwQSBQ" title="[HT] Spring 2015 Internal and External Statements">, #<GoogleDrive::File id="1creHtUiCSSnoK5kY4Ca7j9fZ1cgFHTG7HwnmtYccg24" title="[PBL][OF] CM Interviews + CM Dues">, #<GoogleDrive::File id="1CknD4E3twuP8gy6760z0b75YH2Xlyrlms03DuoR05gU" title="[HT] Cinematography/Videography: After Effects">, #<GoogleDrive::File id="1X4C2D-rs97dlgB1B_zIr6T8Dgt-M9EHnFPWXre37ks4" title="[HT] First Gen Blurb">, #<GoogleDrive::File id="1ocQk2prYyHrkej-q7lZR1Al2M565FsSVKidXLqTl-aw" title="[HT] Winter Check-in #3 Agenda">, #<GoogleDrive::File id="1QzE-NFz_G-Sf6vwKMrYRCCmhvTWmGcwSakDS_EeqyFY" title="[PBL][HT] Marketing Video Ideas">, #<GoogleDrive::File id="1xQ-kK8XX05WOTeUgdH1IJdmPiA9vOCs-m8SHXTzau_8" title="[HT][IN] Apprentice Challenge">, #<GoogleDrive::Collection id="0Bz04MGieY3peRlkteUdYdEplaU0" title="[HT] First Gen Preparation">, #<GoogleDrive::Collection id="0Bz04MGieY3peRlIyMTFfalFMUW8" title="[HT] Filming Times & Sign-Up Sheets">, #<GoogleDrive::Collection id="0Bz04MGieY3peVGh6Y2FFMnpPaUU" title="[PBL][HT] Winter Obligations">, #<GoogleDrive::File id="1uQ-1kP7QwkAImXowQpLoHYWri-krq6c6Xxd7FSL6ksI" title="Copy of [HT] Workshop Draft">, #<GoogleDrive::File id="1JlCN2zTT9p91_j0UXRyL4EyfnU8gA9647MfpvF5ywW8" title="[HT] Spring 2015 Syllabus Detailed">, #<GoogleDrive::File id="1c_vejDxl9ZzRNA7-IMe1N12hYjI6YuVrNa5kN32m5ZM" title="[PBL][HT] Officer Video Ideas">, #<GoogleDrive::File id="1FPD7V_qFFEtWwLq0hM6U6O8up9H6GwrlungNcWehdjk" title="[HT] Winter Check-in #2 Agenda">, #<GoogleDrive::File id="1rAu4Ogq_LweiKe2kCpsIWoUqDXvHi4OWh5GekZuwHZg" title="[HT] Spring 2015 Syllabus ">, #<GoogleDrive::Collection id="0B23FqAUKvQFKTzYtRUJYSVk1S28" title="[PBL][HT] CM Folder">, #<GoogleDrive::File id="1-7EGulhXVmVXzdtFoo2ja-nigv82PBPidKFStS0h4yw" title="[HT] Photography Workshop 1: Camera Basics">, #<GoogleDrive::File id="1sOQctocjevHJUbRMr0gKfSPiiQ8NOXXUpsDlV5xHHvk" title="[HT] Videography Workshop 1: Basics of Filming + Premiere">, #<GoogleDrive::File id="1fp9XK3z7MIPb-G_T9X0qkJO3bctZ3hsOTv6FxeuHVp0" title="[HT] Videography Workshop 2: After Effects">, #<GoogleDrive::File id="1EDNhvf1QTvmdUsE7_SYakWbHM6RUgq1qXpHV89qm_0I" title="[HT] Photography Workshop 3: Post-Processing with Lightroom 5">, #<GoogleDrive::File id="1sZ_gGNtfUccfsAHs0ccHaZDC6RvNTFxUPBwuQl66h6s" title="[HT] Photography Workshop 2: Portraits/Landscape/Still Life">, #<GoogleDrive::File id="1PTHSE0RixJkC-XGYHI5aK1EV_z112dCkkBbhpRs2b7w" title="OLD [PBL] BerkeleyPBL V2">, #<GoogleDrive::File id="1cgq5bv0FEORDm4gB26lDNUmkKMyvE9ZUtAOWp7OopaY" title="Copy of Copy of [PBL] BerkeleyPBL V2">, #<GoogleDrive::Spreadsheet id="12xt5_FEjLLgFGu6EyCZBzef-YVDf5e_DXj4Lzk6_LPk" title="[Unoffish PBL] SoCal Trip - LA, Bonfire, Disneyland">, #<GoogleDrive::File id="1EMqaCxy07DHJqlHhPvXk69oYpYjfMuyuTyyJwRuKLZw" title="[OF] Meeting #10 Notes">, #<GoogleDrive::File id="17LDXTK5C9d7wZNCejhN57PUoLkzeX2ruuTqaGJybbvw" title="[OF] Meeting #10 Updates">, #<GoogleDrive::File id="1zQbBwsJ5L3kQaiG7lrA_rKenBkzE2Wj1PGgx6Yqcm-0" title="[OF] Meeting #7 Notes">, #<GoogleDrive::File id="19cfyyar4UyV5RVEgUBbLvxq6tOtuvDDOWsWYGSsPgU4" title="[OF] Meeting #7 Updates">, #<GoogleDrive::File id="1OyXzpw5XUmI9QWgg-P8xVWIvwBLqDv4ajsSy9BvD-qM" title="[OF] Meeting #5 Updates">, #<GoogleDrive::File id="142eFHQnYXeKvz3rmU-FoSRWHhn_M3HgMci3ADq5URXI" title="[OF] Meeting #5 Notes">, #<GoogleDrive::File id="1dOCShqdH77Pu2nqGwfnB6YbwPzRcZwMvkEiv4Qx48J4" title="[OF] Meeting #3 Updates">, #<GoogleDrive::File id="1WAluao-BMNe8pnBHIgm4Z-NbmhXNoFfHinnkJo_pXsQ" title="[OF] Meeting #3 Notes">, #<GoogleDrive::Spreadsheet id="1KWbsOnChblSZ87AUH90PY5oJSIk7gHGqnIhdeH2yPtM" title="[PBL][OF] Fall 2014 Membership Dues">, #<GoogleDrive::Spreadsheet id="1I9rrtSPCHDa8frctGURxTAMSlYYHHhyM1WOBh0VRphE" title="[PBL] Spring 2015 Officer Photo Sign-up">, #<GoogleDrive::File id="1lhjmZv3MfISgDgOOoCmVfNPstqjIqamZXwldKMCcGCQ" title="[HT]Spring 2015 Committee Review">, #<GoogleDrive::Spreadsheet id="1UCrj0geV8oREQqxN91q6ql9ZZDjwmTv3dA_SF9I-Phw" title="[OF] Officer Photoshoot Sign-Up">, #<GoogleDrive::File id="1QJp4jrlgUp6aUIi77Pe6JDXwxPVdTT7JZ77YMtfoZHY" title="[PBL][HT] Event/Project Report Template">, #<GoogleDrive::Spreadsheet id="16NsXBoVmFMR9849BLfrf2jX9ghgfrhAoyDZneaGciV0" title="[PBL][OF] Event Recap Form (Responses)">, #<GoogleDrive::File id="1Lg_yEtbeKYnbtpl67CbW0x1nYRCfblPQW2hg4OAqknk" title="[PBL][OF] Event Recap Form">, #<GoogleDrive::File id="1FSKjN_E6Pn1nXQfl5b3nZnkphztU11yUNMUaGXIGWCw" title="[PBL][OF] Fall 2014 Summer Obligations">, #<GoogleDrive::File id="10VFYqK-ZSB1aStjjCgSqDrEwX7WsdlYKs3nSge_iNGA" title="[PBL] Reimbursement Form Fall 2014">, #<GoogleDrive::File id="17ow2qIUBikP0HHKymnYCga9dn7yDX7O6gbg8vxqEL94" title="[PBL] Fall 2014 Membership Application">, #<GoogleDrive::File id="1YRo-gGIxuZqK7Q1RrUBLzO4F1nXW3faLPaM5NZie9bY" title="[WD] Pitch">, #<GoogleDrive::File id="0Bw5tKX5a-BBzWVRWUHJZQVpUVmc" title="[OF] Meeting #12 Agenda.pdf">, #<GoogleDrive::File id="1ezD6AL14uAnXXl7Slx4X2Jtdb0qqJcagIiGxWOTNuLQ" title="[OF] Meeting #12 Notes">, #<GoogleDrive::File id="1ExJjqTPuxzem663zXXh5XNX9S_N6EDkgp2D4n7mMNt4" title="[OF] Meeting #12 Updates">, #<GoogleDrive::File id="1QOaO25FuCT3Ip_YZlfjTZoA4Cfe1suE3uduanwewp7M" title="[OF] Meeting #11 Updates">, #<GoogleDrive::File id="0Bw5tKX5a-BBzZXJia3lFbGlZcWs" title="[OF] Meeting #11 Agenda.pdf">, #<GoogleDrive::Spreadsheet id="1CuubfKzdIZd4O4OyJhrlSn-KrXcKmhyVJN0175xIOYQ" title="[PBL] Recruitment Week Survey (Responses)">, #<GoogleDrive::Spreadsheet id="1qUhvD0Zf6-JZ67ByIfLNbFUcrhaFpNHRcI2KyRk2vjM" title="[PBL][MK] Fall 2014 Forte Chalking Sign-Up / Attendance Sheet">, #<GoogleDrive::Spreadsheet id="1TO4L_F51qRMrZQ1XfBOkJj6O3ueG1N1yZmGq-7criXE" title="[PBL] Fall 2014 Recruitment Week Mailing List (Responses)">, #<GoogleDrive::File id="0Bw5tKX5a-BBzYjNGWjlOZzkweG8" title="[OF] Meeting #10 Agenda.pdf">, #<GoogleDrive::Spreadsheet id="1Gr5fdlRlHkttGr9u0qfupCD3h3_KvZEGcix1af03rgc" title="[PBL][MK] Fall 2014 Nexus Chalking Sign-Up / Attendance Sheet">, #<GoogleDrive::Spreadsheet id="1cBC5z4sVVS4nNCM0EZ7LkAvfIVWEbbYuKMGLNAT0AJM" title="[PBL] Fall 2014 Canvassing">, #<GoogleDrive::File id="0Bw5tKX5a-BBzcGhqUDJfY3lKSEE" title="[OF] Meeting #9 Agenda.pdf">, #<GoogleDrive::File id="0Bw5tKX5a-BBzVzZyN3ZJTTJRTlk" title="[OF] Meeting #8 Agenda.pdf">, #<GoogleDrive::File id="1xeyssiv85xYEK-kIrhncppNVS5fmjNpI2ro0t4qteIU" title="[OF] Meeting #8 Notes">, #<GoogleDrive::File id="1eVGuBazZhO7BepBxOuAeBvzArpF-VYVihJtkb0_kzeQ" title="[OF] Meeting #9 Notes">, #<GoogleDrive::Collection id="0BwLZUlGsG71ON09TZFFwMU15ak0" title="[PBL][HT] Fall 2014 Committee Folder">, #<GoogleDrive::File id="1R71yWXB5zGHLSK8UnzjldJzmq9hyTHZoL4Fht7xrbq4" title="PBL Long Movie Ideas">, #<GoogleDrive::File id="1ROBwPjULbirzIya1YqNvUS7GpTo3BlIsTuBpBwXcL18" title="[OF] Meeting #9 Updates">, #<GoogleDrive::File id="1TcMyautSOa1mD1iJok8zuMahpbOWrebePT_fzFBMg3s" title="[OF] Chair–CM Check-In Questions">, #<GoogleDrive::File id="1Ud5GxNkWwWY415P50YBhVkAANh1o-DOrfMDtS0OPR6U" title="[OF] Meeting #8 Updates">, #<GoogleDrive::File id="0Bw5tKX5a-BBzWEliaDg1RjRBdVU" title="[OF] Meeting #7 Agenda.pdf">, #<GoogleDrive::File id="1U5aJWWzLR_R2xEbeiWBLi8IONC2ubMT-4sk4x9d3LuU" title="[OF] Meeting #6 Updates">, #<GoogleDrive::File id="1P6sqYMRiGENDMqL0KK_Y-ZEaMdRyyXWPpqDZRm3pfH0" title="[HT][CO] Alice's Third Gen Video Script + Shots">, #<GoogleDrive::File id="18cI2KoinCaE48Fr2XhUcM8pfdEIBab924kPlI8pqOoE" title="[OF] Meeting #6 Notes">, #<GoogleDrive::File id="0Bw5tKX5a-BBzV2VIOG1NOWlraVE" title="[OF] Meeting #6 Agenda.pdf">, #<GoogleDrive::File id="1LdIwdZfJf6uaVAX_OO6gC74pJFeKfcXAw0JwCe6sG3U" title="[HT] 3rd gen">, #<GoogleDrive::File id="1wcx4gVbNJyzlxREp19ZxzGgu_xDXuuM8UtMXkMkca5Q" title="[HT] Fall 2014 1st Gen Speech">, #<GoogleDrive::Spreadsheet id="1z3ZWjP5CHzyjTfpWuh8MXXWto0dFMRg4kR3vkiMFGMc" title="[HT][CO] Filming Spreadsheet">, #<GoogleDrive::File id="1mSJdA1XojP1qHifqb5itkelpKYMkSoXeIptt6IXq01A" title="[HT] TSM Trio Case Comp">, #<GoogleDrive::File id="1iWsD0GAzyEdx7puTFTjTA7EQU7ULEvBVRlpDt_0LcKI" title="[PBL][EX] THIRD GEN - GOSSIP GIRL">, #<GoogleDrive::File id="1z2rXI6WkGhbeJ7XLgOBjjbxu-I1Q5f8rcvGleJzUOXg" title="Frances Jackie Tina PBLtv Script">, #<GoogleDrive::File id="1GJ9Tjl3FF0XPHgJow_TiRC6_KqFy5WtLZqAH1UkREbQ" title="[PBL] Canvassing Script Sample">, #<GoogleDrive::File id="1YCG4BqZo2Wy_mtSWVT4xy5ckFtpZNEoN0iRsyRszGy8" title="Keien and Aaron PBLTV script">, #<GoogleDrive::File id="1m1KtTf0yfGNIbmBfz-ywVOaE4SDIt3m6G6RE1z_2hsE" title="PBL TV - \"The Curse of Daily Inconveniences\"">, #<GoogleDrive::File id="1erMmCHkIVy1MWK5Dx0NAs3iG3Zr0yf9gPQzMQJBKLT8" title="[PBL][IN] Apprentice Video Scripts Example">, #<GoogleDrive::File id="0Bw5tKX5a-BBzNHNuMmdhUjAxUUE" title="[OF] Meeting #5 Agenda.pdf">, #<GoogleDrive::Spreadsheet id="1k2nNIP0JyF5yt5SpSBKvcA8Nv_4J2qDdtYfRXtKyZao" title="Fall 2014 [SO] Retreat Drivers List">, #<GoogleDrive::File id="1VKpjtxGr24VopWJjP2wbbShqPJFW8M6sTlhLoV3tCqc" title="[OF] Meeting #4 Notes">, #<GoogleDrive::File id="0Bw5tKX5a-BBzWW1pOGRjWEYzR2s" title="[OF] Meeting #4 Agenda.pdf">, #<GoogleDrive::File id="1vedOk5GxHcOoeGAibMm15ncAsDvMWhqs7hCCeGbz4sA" title="PBLTV">, #<GoogleDrive::File id="1aWQQCAdDjIAPqGEsu0OX69yxajHXGHVVw0VPbpD3RCg" title="[OF] Meeting #4 Updates">, #<GoogleDrive::File id="19_6VE41TwcUxK31mOpfCtTeFSfPihjyPo4ntZ8GnVn0" title="chumming [9.18.14]">, #<GoogleDrive::File id="0Bw5tKX5a-BBzM1FEbDVvUy1QMlU" title="[OF] Meeting #3 Agenda.pdf">, #<GoogleDrive::File id="19q3qxoL4RbeWWWXDKm_SWTH1xcfxGG9sR3Zvty5Gb80" title="[IN] PBL Apprentice General Rulebook">, #<GoogleDrive::File id="1iQyk7HMT1E7xUGW_bAvkRTAEuBMyRzSsD3mYw51ffJs" title="[[9.18.14]] Meeting 1">, #<GoogleDrive::File id="1vJzTQIb-f9sWo9ZwVLt25apfyVK0R4of56PQGh5pg1c" title="[[9.13.14]] PBL Portal Backlog">, #<GoogleDrive::File id="1iBIFsykZMvpatnz8ASexXc5MH4BZBGK5AzSPa_KxOSM" title="[PBL] Mandatory / Semi-Mandatory Events">, #<GoogleDrive::File id="0Bw5tKX5a-BBzSXR1UEpWZndONWc" title="[PBL] Fall 2014 Administrative Handbook">, #<GoogleDrive::File id="1YPeJGtFz-GIkqZjsMGkpSEhEk5gca-aPIXaPcpyheCw" title="[OF] Meeting #2 Notes">, #<GoogleDrive::File id="0Bw5tKX5a-BBzRzNqUjFJa183MkU" title="[OF] Meeting #2 Agenda.pdf">, #<GoogleDrive::Collection id="0B23FqAUKvQFKalRja0tmVldxZVk" title="[PBL][HT] Fall 2014">, #<GoogleDrive::File id="1mMwdhuHIGW5-O8Qjewmjdloku6MDAGQULk60-JAFzak" title="[9.10.2014] PBL Orientation Deadline">, #<GoogleDrive::Spreadsheet id="1J8jeNIVbY-SjfGa2LOkE82F5zlqxnRXnHs3F9ArQgzc" title="[HT] Interview Signups">, #<GoogleDrive::Spreadsheet id="0AuAl63iIVtEZdFZCUE1RNGlwR29McXVRNGxkc0lJRXc" title="[PBL][OF] Fall 2013 Officer Team Attendance">, #<GoogleDrive::Spreadsheet id="1j2EDwkUDYNQMNw4F6NTL_SICUVOqrPBxbjELeFMHaD4" title="[PBL][CS] Fall 2014 Interview Signups">, #<GoogleDrive::Collection id="0BwLZUlGsG71OaDNiUVZVLTlWaTQ" title="PBL Tech Team Materials">, #<GoogleDrive::Spreadsheet id="1fnL-76Y2CrURL8zvdth2Ej55pBITBj-5XoGeUQi93Lw" title="[IN] Member's Kickoff Sign-In (Responses)">, #<GoogleDrive::File id="1-cl_x8IAQkuu-e2ESQpwX3rVWEnpBU25XTx9JQPz_2I" title="[PBL][IN] Fall 2014 Kickoff Timeline and Games">, #<GoogleDrive::File id="1z1VG-MAO91nY1zI7ZtZTcDcZyeeZMV5jxo71XpGG0Ew" title="[PBL][OF] Fall 2014 Mission Statements">, #<GoogleDrive::Spreadsheet id="1_ruWnsqaqBS8B2oFfxhsYby7ype5FwN4jXCfGEV-cnk" title="[PBL][OF] Week of 9/8 Tabling Schedule & Checker">, #<GoogleDrive::File id="16u5rfmKAglUaYzWXDPNmX6MLzoVYdt_o5UhhQIYwAxk" title="[IN] Member's Kickoff Sign-In">, #<GoogleDrive::Spreadsheet id="1fbH6GSk1AFWH5D0Gp-3QrlplVYqXYjG-3e2tJTcNKEs" title="[SO] Social Mixer Sign-In Responses">, #<GoogleDrive::Collection id="0Bw5tKX5a-BBzYnpFQVlVT3V6b3M" title="[IN] Member's Kickoff">, #<GoogleDrive::Collection id="0Bw5tKX5a-BBzS2V3NFVtMVF6ZFE" title="[SO] Social Mixer">, #<GoogleDrive::Collection id="0B4yNDn6RiaObQUtfMkdfcEEwbnM" title="[PBL][HT] Fall 2013">, #<GoogleDrive::File id="1bUA8z6Y59K8rv98XV6rvlgfx4MlV470NM-MFczJSjt0" title="[PBL][OF] Mandatory Interview Questions">, #<GoogleDrive::Spreadsheet id="1DpEjIGLfesv4Q1SzspvEqyRfkoNhaPw-ER4QgJuuqFc" title="[PBL][OF] Fall 2014 R-Week Tabling Schedule & Checker">, #<GoogleDrive::Spreadsheet id="12tZF7gI8_hrHonwfZ-0L4tkdkzUFy_LD-82bzfairH8" title="[PD] Alumni Speaker Panel Sign-In Sheet (Responses)">, #<GoogleDrive::Spreadsheet id="1y3dRDMIBFQbo1q1pcDDymYeC7RJwOQz8hSTt8UjDiKo" title="[PBL] Fall 2014 Mailing List (MailMerge)">, #<GoogleDrive::File id="1lFYQSyVvibyTuwTVV35q2x-1XTQDfuCJs_A6RODeuCY" title="[PD] Alumni Speaker Panel Sign-In Sheet">, #<GoogleDrive::Collection id="0Bw5tKX5a-BBzX0lZWVlGWDd2aEU" title="[PD] Alumni Speaker Panel">, #<GoogleDrive::File id="1O2fRlYnxPC9tt0yidi2-wV6ZHqS1GBQXWueUTXCiqhc" title="[PBL] Fall 2014 Committee Member Application Questions">, #<GoogleDrive::Spreadsheet id="1sPNsiDo-iKa39g97q7hPgq1Kc5zflw6C8HCNjPLpARg" title="[PBL][XX] Fall 2014 Interview Signups TEMPLATE">, #<GoogleDrive::File id="1I6nBg4lvV5iIwo5VBgJVHOEEMs--5XmBR-NVvfG35Sk" title="[PBL][EX] External Site Requirements">, #<GoogleDrive::File id="0Bw5tKX5a-BBzTi1xMDhUSmN4bEk" title="[PBL] Fall 2014 Canvassing Letterhead.doc">, #<GoogleDrive::File id="1a0Hi14LTXnXraqcoffJk4kBu7Q-KwniGBYC9eg0PbKI" title="[PBL][HT][MK] Recruitment Week Video">, #<GoogleDrive::File id="10QsZj6HsGnyQ43s2j2XSgvgw1IoPNOFoxbW8WYgvIRk" title="[PBL][HT][MK] Recruitment Video Script">, #<GoogleDrive::File id="1Dkz-6g1mpaifAXWdb90R_EL0WMdchYdtS8uhhV9ogMA" title="PBL tech">, #<GoogleDrive::File id="1zkX-bIh2Qk4ufPBfDfIrX2VS2BFO_7QQHcxaW21n1Sw" title="[PBL][HT] Summer Check-in #3">, #<GoogleDrive::File id="1x4QQeJ3-EnQFX3rYMec7AabzqOebT8IOY5LrKKv_Lvw" title="[PBL][HT] Spring 2014 Syllabus ">, #<GoogleDrive::Collection id="0B9uRhImDOnMTbGs1OEhCSmVudnM" title="[PBL][HT] CM Folder">, #<GoogleDrive::File id="167ze9Z2Jec8ic0kvjLrcGDInHcMBc_eSBfr3zV9xaec" title="[PBL][FI] Finance Career Speaker Panel Report ">, #<GoogleDrive::File id="1vCEvlI8hkcZkFu1BcgZfmkWfptQTzlsa1Vx-r9suhlI" title="[PBL][HT] Summer Check-in #2">, #<GoogleDrive::File id="1o6uZzGZv6JY3AmIQpJ3Lx_IksyMET8xEcU2opLAcLRU" title="[PBL][HT] Summer Check-in #1">, #<GoogleDrive::File id="1qpNBBHqz-etaS-rJXTFxpbtcZxECKnRn0TTpJ37Ypn8" title="[PBL][EX] Fall 2013 Summer Obligations">, #<GoogleDrive::File id="13MoVPkRUS1nrIKX6hvu_bTHMKkpchlXq2C63g0bBWVE" title="[PBL][OF] Committee Review Project/Event Report Template">, #<GoogleDrive::Collection id="0B64mvWynvj_dUS1Vc1FOMUhRcWc" title="[PBL] Marketing 101 Raw Footage">, #<GoogleDrive::Spreadsheet id="1RthyBCIR-3ZovA5HHh7yefWAI9CcuVsQBrh0dfLhQZQ" title="[PBL][HT] Deliberations Strategizing">, #<GoogleDrive::File id="1QiQ9fLHv3vk2n-txNcIoTehs48qHboGI11WPljrQtDA" title="[PBL][HT] Social Event! Let's hang out :)">, #<GoogleDrive::File id="1MWJRJYMVedt2rSr6pPQb-_87GgaxqlWBJOUjA72q_UM" title="[PBL][FI] Spring 2014 Committee Syllabus">, #<GoogleDrive::Spreadsheet id="1xDm5WrORIAwgH7DTpVkEp0ij9SrKnKd6qcbmqhaG8wo" title="[PBL][SBLC] Event Sign-Ups">, #<GoogleDrive::File id="0B0_H1twhtNswejZVNHNtU3hGSEk" title="Finance CM Event PBL Fa13 Instruction sheet Template 1.docx">, #<GoogleDrive::File id="0B0_H1twhtNsweW9SQjVzXzVqSjg" title="Finance CM Event PBL Fa13 Instruction sheet Template.docx">, #<GoogleDrive::File id="1WXI6fWQniw3KSSD1QU9G0Vrr7TKISLdSE-2OrBVRqgU" title="[PBL][EX] Fall 2013 Chair Application Questions">, #<GoogleDrive::File id="19KzqikBeBqCmzio4fAIXMlOkVvedNv71Yiw0ph0lHRU" title="[PBL] Fall 2014 Chair Application Questions">, #<GoogleDrive::File id="15HbtV2eugS7Rk6QfzIi-tBFoMX2CMXE1vyxXns6-a3w" title="PBLTV: KPop Music Video">, #<GoogleDrive::File id="0B4_MwH7dRDBjSTlBbzhWeDNqRDA" title="[HT][SO] JaeHoon Banquet Video.mp4">, #<GoogleDrive::File id="11DQBNSJmeUooaS6NgeVC1M-NkAy8MHJHIhc6D0Oee50" title="[PBL][EX] New Executive Election Procedure">, #<GoogleDrive::Spreadsheet id="1bEho_4_wVvD8XPlWK--N-o9KRCJXwqQdW8aC1GOAMPk" title="[PBL][OF] Spring 2014 Officer Team Attendance">, #<GoogleDrive::Spreadsheet id="1xoR0eDl4dQ3jZ8w6uilzkqQVwl2d1JbCRTRROXSNanM" title="[PBL][CO][IN] SF Scavenger Hunt Google Form (Responses)">, #<GoogleDrive::File id="0B0_H1twhtNswZ2twc1JzQlpCUUE" title="PBL Finance Fa13 CM Project.pptx">, #<GoogleDrive::File id="0B0_H1twhtNswTnZ1SzFlVHpQY1U" title="Finance CM Event PBL Fa13 Instruction sheet Template 2 and 3.docx">, #<GoogleDrive::File id="16KSsZQ5X9GA5dZhW_EIveZWHR56fIt2MuJiVc_bMHTI" title="[HT][MK] VIDEO IDEAS">, #<GoogleDrive::File id="1g8fJE0GUvGEi7OeLv932xbrZRJUjFb9ZtFqoAAcE2Lw" title="[PBL][HT] Meeting #9">, #<GoogleDrive::File id="16zNK3AFGXwjNg6wuL7UTaNSmLEsnlqJxe6s5clU8np4" title="[FI] 3rd Gen Video Finance spr14">, #<GoogleDrive::File id="1XmPLOCX98WUkb-jHco-AzUGVbtG47bsxLfwfmowAVHw" title="[SO] Third Gen Meeting">, #<GoogleDrive::File id="1hDnt7MGCNLtEXqqfe-N_OSz7E6WlucgmkzhZPiiphNo" title="[PBL][EX] Video Script">, #<GoogleDrive::File id="1PAh4qtmenfU2XHIQafwqKkU1TwFaL1mbaeqODIGEqP4" title="[PBL][HT] Meeting #6">, #<GoogleDrive::File id="0B9uRhImDOnMTZXh0YnVvbVlUa18yZUxyc1NXMUN2eXIxaXZn" title="[MK] HOW TO ESCAPE THE FRIENDZONE.docx">, #<GoogleDrive::File id="1POaFuqhYCVRwsv6UVjGmv4TxRpB316DxHf7N9BvN-1U" title="[CO] Third Gen Script">, #<GoogleDrive::File id="0Bxh-fezg7YcRNEtpd2VackZIWS0xdkFSZUVidlVjWl9YQktn" title="PBL Pubs script.docx">, #<GoogleDrive::File id="1MeFFewr7x8q_HZUKRnrdBe81UR7IrdHiU_kL7ZAEeOo" title="[PBL][HT] Third Gen Script Ideas">, #<GoogleDrive::File id="0B9uRhImDOnMTYmNadkgxRHZOOWFCc3RRUFhwdk1DcnBKVHBr" title="[MK] HOW TO ESCAPE THE FRIENDZONE.docx">, #<GoogleDrive::File id="0Bxh-fezg7YcRR0lGd1RtNGphVU9oRVF1VTBkcEZCX0o0dzhV" title="[CS] THIRD GEN VIDEO SCRIPT EDITED.docx">, #<GoogleDrive::File id="1ek-UdWW4Xa2DYOtiOPZ1ctbt54ghuFVv6GA3htFhokQ" title="[IN] Third Gen Movie Script">, #<GoogleDrive::File id="1wwQaRNqZfOkIz2ZaDz2r5LAHExKROCakqoRy1vQjCZA" title="[PBL][HT] Meeting #4">, #<GoogleDrive::File id="103N6ey7o8spxg8N7GPbw-f6ht_oWGPkfPuwB_gfaFhI" title="[PBL][HT] PBLTV Critiques">, #<GoogleDrive::File id="14brI_ePiE6GasSjx0V2wlKgtlStQcGjMvBrIiWHT_aA" title="[PBL][HT] Meeting #3">, #<GoogleDrive::File id="1W6SBKX56e7Rm6ogGMZ1ucooq5G72_TvCyF3Q0A_d9vs" title="[PBL][HT] Meeting #1">, #<GoogleDrive::Collection id="0B14CRmofly3TVHNSZk5Ebk92NkU" title="[PBL][HT] Officer Photos">, #<GoogleDrive::Collection id="0B9uRhImDOnMTQzBEOUlrUUd2cms" title="[PBL][HT] CM Folder">, #<GoogleDrive::Spreadsheet id="1qg6vw2Ot8dkrlwCFwKgMGs8fosjHD30TnCkd8CD0Q7g" title="[PBL][SO] Spring 2014 Member's Retreat DRIVER'S LIST">, #<GoogleDrive::Spreadsheet id="1AjJu2JJ_re9TgCXLKnmd4gRhPx0C7CPlM_Tbh2UCIcw" title="[PBL][FI] CM Check-in">, #<GoogleDrive::Spreadsheet id="1_FaXIjVvRzkLARjjCYGp2fuV6KQZONR_cXUs5hxmcUU" title="PBL TV 1">, #<GoogleDrive::Collection id="0B9uRhImDOnMTTlNCbmFrWXI3T1E" title="[HT] Officer 3rd Gen Workshop">, #<GoogleDrive::File id="16_ARytX6BB75OzHdx8336rSzQt8QNXBHA1_cupONziY" title="[PBL][HT] Meeting #2">, #<GoogleDrive::Spreadsheet id="1RmepLfdsL75xlyxXJX81-UiBVYvhCK19pMflorfPlQI" title="[PBL][OF] Tabling 2/18-2/21">, #<GoogleDrive::File id="15FfHWGyaTNzrDpLKXvz8GZJ9aDPFvLg1zItu0BkEhRE" title="[PBL][HT] Winter 2013 Check In #3">, #<GoogleDrive::Collection id="0B9uRhImDOnMTTzlWdGZGdjJiS3c" title="[PBL][HT] Meeting Agendas">, #<GoogleDrive::File id="11rgLnRNlsdgCRpKoCf7mDJcknGIM3oQhXNuNZd3kDSw" title="[PBL][IN] PBL Apprentice General Rulebook (COPY)">, #<GoogleDrive::Spreadsheet id="131hcm-Kxpsq0AecczyjDwCI_MjfLQf4ZpUBltWPvJL0" title="[PBL][HT] Interview Signups Final">, #<GoogleDrive::File id="1nDllPLLPY50K0zcMi0DuLpve1NdhsrwvF0iuNAwvPDA" title="[PBL][TT] UI Research">, #<GoogleDrive::File id="1SPzecFQfwZYr7T69msKRrsY1YK9xSbIWQURWsVH6IJE" title="[PBL][IN] Kickoff">, #<GoogleDrive::File id="1Uuah17tEkswuKtmO5Rlp7vIwB9AgmEcJE269PbzxZJA" title="[PBL][HT] First Gen Speech">, #<GoogleDrive::File id="0B9uRhImDOnMTb3QxZGprbGZxLXc" title="[PBL][OF] SO Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTQjNTRklBNFViUTA" title="[PBL][OF] PD Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTWnRERkpCSmIzRms" title="[PBL][OF] PB Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTTldoc1BMb2NPR1k" title="[PBL][OF] MK Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTYnZJSl9QdktnQXc" title="[PBL][OF] HT Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTWG1lRjdkRVpDYTg" title="[PBL][OF] FI Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTV216XzlLWklMTlU" title="[PBL][OF] CS Visions.MOV">, #<GoogleDrive::File id="0B9uRhImDOnMTX003RDcxR1pNbjQ" title="[PBL][OF] CO Visions.MOV">, #<GoogleDrive::Collection id="0B9uRhImDOnMTeF9PTGszX3NUUXM" title="[PBL][OF] Committee Visions">, #<GoogleDrive::File id="1pv4g_AgiCye18saqR3KMjeYkSb2waGg7vKRsY1gnqzU" title="[PBL][HT] Officer Video Script (DRAFT)">, #<GoogleDrive::Collection id="0Bxh-fezg7YcRLXVxNVpDaTg5M2c" title="[PBL][HT] Spring 2014">, #<GoogleDrive::File id="1dSREY3cnKkgijunoSlke4umQzrQlDcAgO6tegRm79gw" title="[PBL][HT] Officer Video">, #<GoogleDrive::File id="0B9uRhImDOnMTaWlKSjZpSG5icDQ" title="[PBL][OF] photo sample - jaehoon">, #<GoogleDrive::File id="169NLuo5OSKgcZUF4JyVrjYPZdLfi-gbRpubteZd0a6s" title="[PBL] Tabling Policies">, #<GoogleDrive::File id="1x8oTSCfRq_m_toUcBKl3vJ47hRjkTTk5yd0sb3fUJ-s" title="[PBL] Fall 2013 Committee Application Questions">, #<GoogleDrive::File id="1zwvJEvcLLmHv-znlM5DHoMz54uB66K20YueI9HDCoC0" title="[PBL][HT] Winter 2013 Check In #2">, #<GoogleDrive::File id="1Jv2tOv4nezg0p5WaU-r7sHr3Lq678fSHfDFIxQgM0S8" title="[PBL][IN] Winter 2013 Check In #2">, #<GoogleDrive::File id="18_PNWAgWSHBG1Mx5aR3Sv0b5AzGCbJM7jr4F01dVxzI" title="[PBL] BerkeleyPBL V2">, #<GoogleDrive::File id="0B4_MwH7dRDBjdk5zUG43OWJpSGM" title="[PBL][HT][MK] Collaboration Project Agenda.docx">, #<GoogleDrive::File id="0B4_MwH7dRDBjMVJiZjFxdTh2Q1U" title="[PBL][HT][MK] Collaboration Project.docx">, #<GoogleDrive::File id="1jmuTQxozcOyy_7Oj9L0PaBuhiZL9vk32qJzrkLlnTRo" title="[PBL][IN] PBL Apprentice Intro Email Drafts">, #<GoogleDrive::File id="1b4pke783vSvqEwSn8bzdTXKc_MXNemB94BKy9Ag5z2I" title="[PBL][FI] Speaker Panel Speech ">, #<GoogleDrive::File id="13fthh0VioAWC78fjNltVIdu7LUCKK4lKwX6-0rpR6ZY" title="[PBL][HT] Winter 2013 Check In #1">, #<GoogleDrive::File id="0B4_MwH7dRDBjaDU4LWRTN1k2LVk" title="[HT][SO] JaeHoon Banquet Video.pptx">, #<GoogleDrive::File id="1NXz80vBDpiI6heH2CU7PBcgpF8yCyIY2ndbT8GP6gwE" title="[PBL][FI] Fundamental Analysis (Fall 2013)">, #<GoogleDrive::File id="1MKZNz9jdBdYrWLwdJtxcy-dHLYX2O667bqL_je3P_84" title="[PBL][HT] Blurb">, #<GoogleDrive::File id="1iJH2yw8bgvyoTBZbcxDLvwRgBI3pIBWVTBT8i0Og2Os" title="[PBL][IN] Kickoff">, #<GoogleDrive::File id="1arl5wywqkzTBS_l64pvMHWDFgLouv2A3i9IfIUywskw" title="[PBL][HT] Spring 2014 Committee Syllabus">, #<GoogleDrive::File id="1Pn8KPctU2utdMl8Ec1QBbsiolGS5ebOubBE-BLGswzw" title="[PBL][IN] Winter 2013 Check In #1">, #<GoogleDrive::File id="1JuSTNdjt0puHX53Ajo1JyfX5UQAgoXonsc4I2g7dW28" title="[PBL][HT] Checkin Plan">, #<GoogleDrive::File id="1qtmLjQfwI7TuFXFQ56E7C8a2BmwaOLyW7Hz80kDruuA" title="[PBL][FI] Spring 2014 Check in #1">, #<GoogleDrive::File id="1rh9EFsO9LT_IZ63CQBbT7eZOb8VBxPRQPPGqTmcezF8" title="[PBL] [FI] Spring 2013 Order and Description of Workshops (Copy)">, #<GoogleDrive::File id="1Um4pgeQyWjdhYKtLma4HQLOO5HzHP14tF0p2LGKKYAY" title="[PBL][HT]  Fall 2013 CM Interview Questions & Charts">, #<GoogleDrive::Spreadsheet id="1Zm9KSSsmSR60mT2GA0YDhurNIcKNIGB2iMuPfDeOuXk" title="Fall 2013 PBL Yearbook">, #<GoogleDrive::File id="1a41O-ziu99AzII9sZhw1rYjplNhjml4v9rKMs_9lv5o" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #6">, #<GoogleDrive::Spreadsheet id="1WUoZMDa-7OLptXzHbyBgj4yJz9H-VsRCsmGLQ8YPMsA" title="[PBL][HT] Banquet Member Focus Designations">, #<GoogleDrive::File id="1mJpG5_BVqzyWpYrunMQu242rfTHtbZk0x1_M_fxvH3Y" title="[PBL][IN] Zombie Tag">, #<GoogleDrive::File id="1rQWleFKNcZVfsvkq0FIfIUzg37Ydfjx6nEPo-J_W_x0" title="[PBL][IN] Outdoor Game *Canceled for Fall 2013*">, #<GoogleDrive::File id="1_t0H1fF_7UPGGfGaCSL2ZD9RpUUi_dmONfAyft9nXss" title="[PBL][IN] Bowling Night *Canceled for Fall 2013*">, #<GoogleDrive::File id="1SwJbxdoLJcWwFeWhK-Gm-R04QSf7at0CVw6WNkqNHwA" title="[PBL][IN] Karaoke Night">, #<GoogleDrive::File id="1iBe-mGExwYoQvLdAqP-pa5zKFr2kDWN2hg_BwpodrXE" title="[PBL][IN] CM Initiation">, #<GoogleDrive::File id="1R51raciKmnEKhpXSZeeo1Ir2vEoTzx4QPEaZ6rbKta0" title="[PBL][IN] Fall 2013 Big C Hike">, #<GoogleDrive::File id="14CCAJtn1pMQTDeTRPGoh_ChdZPklkQlcnyVI84kAVhg" title="[PBL][IN] Cheeseboard">, #<GoogleDrive::Collection id="0Bz-6HDerhjKFYzdVcVdGbnc5emc" title="[PBL][PB] General Committee Folder ">, #<GoogleDrive::File id="1FqX77qsg2d9KOKiKqMW96D8rRAxrXm9pL1IhRG8Tzv8" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #11">, #<GoogleDrive::File id="1efGskhAaf9YynM7kce1xzqOk4BdZj2MBkb2om46HOoI" title="[PBL][PB] Yearbook Page Discussion/Assignments">, #<GoogleDrive::File id="1CbiVmfYg-M1yYV_lDqPvdIJiQncgymBEGj4ainhv2_0" title="[PBL][FI] Finance Career Speaker Panel Agenda">, #<GoogleDrive::File id="1JAKPA413EhoKOa8Cjq-2CvKh-cwkRAhcxvGxD0_L_Ag" title="[PBL][FI] Speaker Panel Facilitated Questions ">, #<GoogleDrive::File id="16NPsnWS5FlM5QuNmBYG68FQ_V7B1nshT5amYcYJi4h0" title="[PD] Who Wants to be a Billionaire?">, #<GoogleDrive::File id="1TyVBFVsbpl8UsLeE9-q12dknZLQN8Dp9J4mZrFsS9Jo" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #10">, #<GoogleDrive::Collection id="0B-RlR6NezqlEQUctYlQ3b0RxZzA" title="[PBL][EX] Spring 2014 Executive Platforms">, #<GoogleDrive::File id="1eC_BofPKhLI1dKB9p4EaVGDfx669vVWXrXvNGrxe3r8" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #9">, #<GoogleDrive::File id="1gQK7DnaxlBozmQUvzj_UJiEfeiobt16-9ZxTHtJgKhI" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #7">, #<GoogleDrive::File id="1ykPrxFIqch7UwU5Yb88FPGXGG1gaACdN-W7BNXxx5GM" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #8">, #<GoogleDrive::File id="0B1LNkqahgS5uRUZFN181YkxqdjA" title="PBL Photoship Workshop Final.pptx">, #<GoogleDrive::File id="0B1LNkqahgS5uVzMtQTRmOEpOVW8" title="PBL Photoship Workshop Final.pptx">, #<GoogleDrive::File id="0B1LNkqahgS5udVU1SEl6d3kwR3c" title="PBL Photoship Workshop Final.pptx">, #<GoogleDrive::Spreadsheet id="1xca92HyFmWK_-C8ORtNEf1w4t5AEl4z9XuiH-pHOw9M" title="[PBL][FI] Fall 2013 Concessions Checker">, #<GoogleDrive::File id="1a_mxVKbFzNLkJrMKNMiMJPxlg3JXEqGukwJLu1EytYU" title="[Fall 2013] Comparable Company Analysis ">, #<GoogleDrive::Spreadsheet id="1qmApyuIXGqaFKG7n8Aun-hm-u62srt02AtZAGkFy9Yk" title="[HT] Spring 2013 Interview Signups">, #<GoogleDrive::File id="1Mx6j-5G-DjlzpWOSLhVDmJ6xilu_CJfI24rxqkl0hHU" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #5">, #<GoogleDrive::File id="1B5SmH9qvl3YWPb5ApK4qP2EOtkPrmYsy9iEsKCJhcCE" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #4">, #<GoogleDrive::File id="1szl2ttPwGE7ZfH-4ZYlewTMHi9Aa1KP0rLOND-Ptefs" title="[PBL][HT] Committee Video Ideas">, #<GoogleDrive::Spreadsheet id="1EpXOFmA64hF7Bf_DgpDbgbsda2XZBHp6B1a3cRnLl_U" title="[SO] Retreat Drivers List">, #<GoogleDrive::File id="1yZrIWd9Tx1wGFBT-K-57nk8V08AraSsh_U-9yHu3rWw" title="[PBL][PB] Marketing Apprentice Ideas">, #<GoogleDrive::File id="1VrFmNxPLBd94WTDb2d_Iw7JoRav7MumXZOrdsQ8loZg" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #3">, #<GoogleDrive::File id="16FCG3Hc8uIVFfB-d2Lwncqv6JGEQgYzPGjtaO4M1vvk" title="CS70 Fa13 MT1 Review [READ ONLY]">, #<GoogleDrive::File id="1Woo_pAYRx22TwniokPLQx3FxXlAMZ95l52_Zze7bEig" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #2">, #<GoogleDrive::File id="1lF-J-DK6I3QZnH89ov2dBhkc8D7KG3lhFIBXWTnB0-A" title="[PBL][HT] Fall 2013 Committee Meeting Agenda #1">, #<GoogleDrive::Spreadsheet id="1dU1Y7KuV6BC5xc0aPtB2AiAzj1D30Div2mt107fpoaY" title="[PBL][HT] Fall 2013 Committee Attendance">, #<GoogleDrive::File id="12DidzvAn-nZEltzzzutV_PW0SmiCWXT3pmJGsw54xUg" title="[PBL][HT] Fall 2013 Mini Projects">, #<GoogleDrive::File id="17mERJ4Bkd-VpLxU0klaqa4FySfzQrcKJ5dXYS5wqXzA" title="[PBL][HT] Fall 2013 Committee Syllabus">, #<GoogleDrive::File id="1Ntxrk6lLGI-4R8vp24kJME3UGqN6ml-fhv8zG9BIclk" title="[PBL][IN] Meeting #4">, #<GoogleDrive::File id="1yg_LfKEXwhSADJXhQ0xaLv583ofatG1OupNEGZ9FQJA" title="[PBL][HT] Fall 2013 First Gen. Video Script">, #<GoogleDrive::File id="12IxdlXSghIo453WZ8QO5C8U-VkT77vqIZ68uLI_pA38" title="[PBL][HT] Fall 2013 First Gen Speech Draft">, #<GoogleDrive::Collection id="0B14CRmofly3TS2lYU25KRll6Mjg" title="[PBL][HT] Officer Photos 2">, #<GoogleDrive::File id="1onNCz5hFux_o9FswmXsoWpyssy8aOLwMUvTxLtD5Dwc" title="[PBL][HT] Check-In #3 & Notes">, #<GoogleDrive::File id="1aMsB3vu562BU61PFxB1UPrM8naS5WqRzkXSKTYu8TBQ" title="[PBL][HT] Interview Notes">, #<GoogleDrive::Collection id="0B4yNDn6RiaObUG5HNldXQ3RzZ00" title="[PBL][HT] Spring 2013">, #<GoogleDrive::Collection id="0B4yNDn6RiaObSUlHM2ZVaVpjUjQ" title="PBLtv">, #<GoogleDrive::File id="1det2oEHgaxgvQ7s5V4vyBYp6wV_xC_11e86REwI7xrI" title="[IN] Bonding/Team Building Activities">, #<GoogleDrive::File id="1b1F5HJmO89yRjOCcydxV25SB1d-pXs2ZMr---bP1bSA" title="[IN] Event Ideas/Descriptions">, #<GoogleDrive::File id="14LGHvPIq-cajnvsMm6WQkpktTkhGWJMqcBcBa0DNnFM" title="[PBL][IN] Event/Project Report Template">, #<GoogleDrive::File id="1awvMSJnehWHrmHAFAeKHCUIC6z-ihsEkyrvBC9Ag4Hs" title="[PBL][IN] Fall 2013 Committee Syllabus">, #<GoogleDrive::File id="1Zcem7yM2nncdXK5lZAwYny7Hz0W4rq1Rthxg1tRoVv8" title="[PBL][HT] Check-In #2 & Notes">, #<GoogleDrive::File id="1mOswANtgxvCypwdF3wE_xEGeIPGNmJhYcC8AU8UJtLU" title="[PBL][HT] Check-In #1 & Notes">, #<GoogleDrive::File id="1BqbNCh1EyePnmYY8azTbLKBs-55S_h39CtkeJBT9K5I" title="[PBL][HT] Workshop/Meeting Planning TIMELINE SPRING 2013">, #<GoogleDrive::File id="0B4yNDn6RiaObWU1raDMxMTRmTEE" title="[PBL][HT] NOVUM Trailer Presentation.pptx">, #<GoogleDrive::File id="0B4yNDn6RiaObVjAzV0dCSk5xSzA" title="[PBL][HT] Photography Workshop Fall 2013.pptx">, #<GoogleDrive::File id="19BRWlEPFQxT87phQ1s7Pho_Kxq9jGGecgXdyovmPS5A" title="[PBL][HT] Spring 2013 Committee Review">, #<GoogleDrive::File id="1CqSbTxd-NKeaPC_MbJTxudq2D6Z_tFsgRTZc8-seqAE" title="[PBL][HT] Meeting #7">, #<GoogleDrive::File id="1gWMRV_bxzcSH5EGCaU7DRsU9e6gMuvV098wRrBwCD0o" title="[PBL][HT] Meeting #10">, #<GoogleDrive::File id="1pzD5iGtRdT7eIHnDEJaDMzrwU4vVyTwue0yIYcvz8bA" title="[PBL][HT] Meeting #9">, #<GoogleDrive::File id="1nzmVpwLZ28KKDstmWSz11SHFk_KrwzNDiJ6kqX_ZgZQ" title="[PBL][HT] Meeting #8">, #<GoogleDrive::File id="191iZ_z7DKpJxIqRB99El2gFbOfHwPokSuSTNhoP1ch4" title="[PBL][HT] PBLtv Season Finale Idea">, #<GoogleDrive::File id="0B4yNDn6RiaObUERaeHFEdGoxRG8" title="[PBL][HT] Photography Workshop Fall 2013.pptx">, #<GoogleDrive::File id="185aJqlK74Ag4b2PI01cTxJadIbRNlTwBJeK6BjeHgrA" title="[PBL][HT] Meeting #6">, #<GoogleDrive::File id="1AyMxZEHDRvJBWMOpRKvULmkPJ9RqcfNGyEgYaOpfQwI" title="[PBL][HT] Meeting #5">, #<GoogleDrive::Spreadsheet id="1dz0x4bK6EQ7ZbkxMFe5myuyLX4TN_ovRZB4rHC7hPg0" title="[PBL][HT] Social Event! Let's hang out :) (Responses)">, #<GoogleDrive::File id="1Wp-Q_rZgvsjsALE_apSpi-lZgpVLE18LEeWQcw30g94" title="[PBL][HT] Meeting #4">, #<GoogleDrive::Spreadsheet id="15sIYnQQkR1IvGKwBNE0S0p118pibpYKA4ESpBfkR72c" title="[HT] Event Attendance Sign-Up">, #<GoogleDrive::File id="1c0WDG4hci-_Ic8IrlL6uJ08SptmeuQ-46bfKD_pxwWQ" title="[PBL][HT] Meeting #3">, #<GoogleDrive::Spreadsheet id="1ZHeX_NJ8Dw8fqEaD92s7O_vUy8sxcf4wkm4UBZc12ao" title="[PBL][HT] Camera Basics Workshop Feedback (Responses)">, #<GoogleDrive::File id="1hLPD9CupF_JczwwNz2y0aoLr3RZY4DtLwHGePSvBHeQ" title="[HT] Meeting #2 Agenda">, #<GoogleDrive::File id="1oj-gR98mjBYvgA5wwtxEixJwjvQjTtQOn7lkj0P0Rbg" title="[PBL][HT] Meeting #1">, #<GoogleDrive::Spreadsheet id="1VmOA6VWLcGWfdMU2mA99ml-CgcfyOyvuUYl2dT_6wXc" title="[HT] CM Contact Sheet SPRING 2013">, #<GoogleDrive::File id="1HG9lsiN9iyOXKqnFxozD3jom_yFRaSIsA0ZiAJRBik8" title="[PBL][HT] Camera Basics Workshop Feedback">, #<GoogleDrive::File id="1jJcAxVkq-p-aWcuLtpmyeovtpypVwBWkif6Tc2HiU4c" title="[PBL][FI] CM Interview Questions Spring 2013">, #<GoogleDrive::File id="16g5x9P9uQrxCGcmZKkNugNN1fR9VJslTmitdgJwUDSA" title="[HT] PBLtv Spring 2013">, #<GoogleDrive::File id="1GKxVKmkPwlw-ba8-27EuwD578YJsaC4a4tQu77vUI08" title="[HT] Photography Project Spring 2013">, #<GoogleDrive::File id="1UN1i_4v03Fh4v3UQDeDVFggKVHD8QjZi9ys4nSxEcS4" title="[PBL][HT] Spring 2013 Curriculum">, #<GoogleDrive::File id="1f1su2Eddzh8RJwyF7Gl_8md6QM7KZ3q7TZLDVwGutss" title="[PBL][FI] Workshops Guideline">] new links
+copy-of-pbl-fi-semester-checklist-test
+	Copy of [PBL][FI] Semester Checklist [test]
+	["auto", "copy of ", "pbl", "fi", "test"]
+copy-of-pbl-apparel-order-form
+	Copy of [PBL] Apparel Order Form
+	["auto", "copy of ", "pbl"]
+pbl-links
+	PBL Links
+	["auto"]
+pbl-apparel-order-form-responses
+	[PBL] Apparel Order Form (Responses)
+	["auto", "pbl"]
+pbl-of-fall-2015-officer-management
+	[PBL][OF] Fall 2015 Officer Management
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-officer-emails
+	[PBL][OF] Fall 2015 Officer Emails
+	["auto", "fall-15", "pbl", "of"]
+pbl-wd-semester-folders
+	[PBL][WD] Semester Folders
+	["auto", "pbl", "wd"]
+pbl-ht-semester-folders
+	[PBL][HT] Semester Folders
+	["auto", "pbl", "ht"]
+pbl-wd-semester-checklist
+	[PBL][WD] Semester Checklist
+	["auto", "pbl", "wd"]
+pbl-ht-semester-checklist
+	[PBL][HT] Semester Checklist
+	["auto", "pbl", "ht"]
+pbl-wd-admin-folder
+	[PBL][WD] Admin Folder
+	["auto", "pbl", "wd"]
+pbl-ht-admin-folder
+	[PBL][HT] Admin Folder
+	["auto", "pbl", "ht"]
+pbl-links-description
+	PBL Links Description
+	["auto"]
+pbl-of-fall-2014-officer-member-contact-sheet
+	[PBL][OF] Fall 2014 Officer & Member Contact Sheet
+	["auto", "fall-14", "pbl", "of"]
+pbl-ht-fall2015-editing-workshop-notespptx
+	[PBL][HT]Fall2015 Editing Workshop Notes.pptx
+	["auto", "pbl", "ht"]
+pbl-ht-fall-2015-officer-video-storyboardpptm
+	[PBL][HT] Fall 2015 Officer Video Storyboard.pptm
+	["auto", "fall-15", "pbl", "ht"]
+pbl-ht-fall-2015-officer-video-schedulexlsx
+	[PBL][HT] Fall 2015 Officer Video Schedule.xlsx
+	["auto", "fall-15", "pbl", "ht"]
+pbl-ht-fall2015-lightroom-workshop-notespptx
+	[PBL][HT]Fall2015 Lightroom Workshop Notes.pptx
+	["auto", "pbl", "ht"]
+pbl-ht-fall-2015-workshops
+	[PBL][HT] Fall 2015 Workshops
+	["auto", "fall-15", "pbl", "ht"]
+pbl-executive-workshop-sign-ups-responses
+	[PBL] Executive Workshop Sign-Ups (Responses)
+	["auto", "pbl"]
+pbl-executive-workshop-sign-ups
+	[PBL] Executive Workshop Sign-Ups
+	["auto", "pbl"]
+pbl-wd-guide-to-web-development
+	[PBL][WD] Guide To Web Development
+	["auto", "pbl", "wd"]
+pbl-wd-fall-2015-summer-check-in-1
+	[PBL][WD] Fall 2015 Summer Check-In #1
+	["auto", "fall-15", "pbl", "wd"]
+pbl-ht-fall-2015-summer-check-in-1-agenda
+	[PBL][HT] Fall 2015 Summer Check-In #1 Agenda
+	["auto", "fall-15", "pbl", "ht"]
+pbl-wd-fall-2015-summer-check-in-1-agenda
+	[PBL][WD] Fall 2015 Summer Check-In #1 Agenda
+	["auto", "fall-15", "pbl", "wd"]
+pbl-ht-fall-2015-summer-check-in-agendas
+	[PBL][HT] Fall 2015 Summer Check-In Agendas
+	["auto", "fall-15", "pbl", "ht"]
+pbl-wd-fall-2015-summer-check-in-agendas
+	[PBL][WD] Fall 2015 Summer Check-In Agendas
+	["auto", "fall-15", "pbl", "wd"]
+pbl-spring-2015-membership-application-responses
+	[PBL] Spring 2015 Membership Application (Responses)
+	["auto", "spring-15", "pbl"]
+pbl-of-fall-2015-email-management-workshop
+	[PBL][OF] Fall 2015 Email Management Workshop
+	["auto", "fall-15", "pbl", "of"]
+pbl-ht-fall-2015-tasks
+	[PBL] [HT] Fall 2015 Tasks
+	["auto", "fall-15", "pbl", "ht"]
+pbl-of-fall-2015-officer-initiation-documents
+	[PBL][OF] Fall 2015 Officer Initiation Documents
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-piazza-features
+	[PBL][OF] Fall 2015 Piazza Features
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-summer-overview
+	[PBL][OF] Fall 2015 Summer Overview
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-how-to-sign-up-for-piazza
+	[PBL][OF] Fall 2015 How to Sign Up for Piazza
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-chair-mentality-workshop
+	[PBL][OF] Fall 2015 Chair Mentality Workshop
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-effective-communication-and-documentation
+	[PBL][OF] Fall 2015 Effective Communication and Documentation
+	["auto", "fall-15", "pbl", "of"]
+pbl-of-fall-2015-initiation-overviewpdf
+	[PBL][OF] Fall 2015 Initiation Overview.pdf
+	["auto", "fall-15", "pbl", "of"]
+pbl-ex-fall-2015-effective-communication-and-documentation-to-print
+	[PBL][EX] Fall 2015 Effective Communication and Documentation (To Print)
+	["auto", "fall-15", "pbl", "ex"]
+pbl-ht-historians
+	[PBL][HT] Historians
+	["auto", "pbl", "ht"]
+berkeley-fblapbl-mission-values
+	Berkeley FBLA–PBL Mission & Values
+	["auto"]
+pbl-ht-fall-2015-officer-photos-raw
+	[PBL][HT] Fall 2015 Officer Photos (raw)
+	["auto", "fall-15", "pbl", "ht"]
+pbl-ex-fall-2015-piazza-features
+	[PBL][EX] Fall 2015 Piazza Features
+	["auto", "fall-15", "pbl", "ex"]
+pbl-ex-fall-2015-summer-overview
+	[PBL][EX] Fall 2015 Summer Overview
+	["auto", "fall-15", "pbl", "ex"]
+novum-ex-mk-hi-pb
+	NOVUM [EX][MK][HI][PB]
+	["auto", "novum ", "ex", "mk", "hi", "pb"]
+pbl-wd-spring-2015
+	[PBL][WD] Spring 2015
+	["auto", "spring-15", "pbl", "wd"]
+pbl-wd-admin
+	[PBL][WD] Admin
+	["auto", "pbl", "wd"]
+pbl-wd-committee
+	[PBL][WD] Committee
+	["auto", "pbl", "wd"]
+pbl-wd-fall-2015
+	[PBL][WD] Fall 2015
+	["auto", "fall-15", "pbl", "wd"]
+pbl-spring-2014-officer-member-contact-sheet
+	[PBL] Spring 2014 Officer & Member Contact Sheet
+	["auto", "spring-14", "pbl"]
+pbl-ht-fall-2015
+	[PBL][HT] Fall 2015
+	["auto", "fall-15", "pbl", "ht"]
+pbl-mk-fall-2014-committee-review
+	[PBL][MK] Fall 2014 Committee Review
+	["auto", "fall-14", "pbl", "mk"]
+of-fall-2014-officer-initiation-agenda
+	[OF] Fall 2014 Officer Initiation Agenda
+	["auto", "fall-14", "of"]
+pbl-senior-photoshoot-sign-ups
+	[PBL] Senior Photoshoot Sign-Ups
+	["auto", "pbl"]
+in-ex-end-of-the-year-pbl-picnic
+	[IN][EX] End of the Year PBL Picnic
+	["auto", "in", "ex"]
+pbl-fall-2015-chair-application-questions
+	[PBL] Fall 2015 Chair Application Questions
+	["auto", "fall-15", "pbl"]
+ht-meeting-agenda-42815
+	[HT] Meeting Agenda - 4.28.15
+	["auto", "ht"]
+pbl-spring-2015-chair-application-questions
+	[PBL] Spring 2015 Chair Application Questions
+	["auto", "spring-15", "pbl"]
+pbl-fall-2014-chair-application-questions
+	[PBL] Fall 2014 Chair Application Questions
+	["auto", "fall-14", "pbl"]
+pbl-of-fall-2014-officer-management
+	[PBL][OF] Fall 2014 Officer Management
+	["auto", "fall-14", "pbl", "of"]
+pbl-portal-fall-2015
+	PBL Portal Fall 2015
+	["auto", "fall-15"]
+pbl-course-website
+	"PBL Course Website"
+	["auto"]
+ht-meeting-agenda-42115
+	[HT] Meeting Agenda - 4.21.15
+	["auto", "ht"]
+***this key already exists
+	ht-meeting-agenda-42115
+ht-meeting-agenda-41415
+	[HT] Meeting Agenda - 4.14.15
+	["auto", "ht"]
+of-meeting-11-updates
+	[OF] Meeting #11 Updates
+	["auto", "of"]
+of-meeting-11-agendapdf
+	[OF] Meeting #11 Agenda.pdf
+	["auto", "of"]
+pbl-spring-2015-cal-day-tabling
+	[PBL] Spring 2015 Cal Day Tabling
+	["auto", "spring-15", "pbl"]
+of-meeting-10-updates
+	[OF] Meeting #10 Updates
+	["auto", "of"]
+ht-meeting-agenda-4715
+	[HT] Meeting Agenda - 4.7.15
+	["auto", "ht"]
+of-meeting-9-updates
+	[OF] Meeting #9 Updates
+	["auto", "of"]
+pbl-cliques
+	PBL Cliques
+	["auto"]
+ht-meeting-agenda-33115
+	[HT] Meeting Agenda - 3.31.15
+	["auto", "ht"]
+ht-meeting-agendas
+	[HT] Meeting Agendas
+	["auto", "ht"]
+pbl-improvements-3312015
+	PBL Improvements 3.31.2015
+	["auto"]
+wind-3rd-gen-script
+	[WIND] 3rd Gen Script
+	["auto", "wind"]
+pb-filming-availability
+	[PB] Filming Availability
+	["auto", "pb"]
+pbl-concessions-sign-ups-responses
+	[PBL] Concessions Sign-Ups (Responses)
+	["auto", "pbl"]
+ht-meeting-agenda-31015
+	[HT] Meeting Agenda - 3.10.15
+	["auto", "ht"]
+ht-third-gen-video
+	[HT] Third Gen Video
+	["auto", "ht"]
+pbl-reimbursement-form-fall-2014-responses
+	[PBL] Reimbursement Form Fall 2014 (Responses)
+	["auto", "fall-14", "pbl"]
+ht-filming-times-pbltv-spring-2015
+	[HT] Filming Times: PBLtv Spring 2015
+	["auto", "spring-15", "ht"]
+ht-meeting-agenda-3315
+	[HT] Meeting Agenda - 3.3.15
+	["auto", "ht"]
+ht-interactive-filming-workshop
+	[HT] Interactive Filming Workshop
+	["auto", "ht"]
+pbl-of-spring-2015-membership-dues
+	[PBL][OF] Spring 2015 Membership Dues
+	["auto", "spring-15", "pbl", "of"]
+pbl-concessions-sign-ups
+	[PBL] Concessions Sign-Ups
+	["auto", "pbl"]
+pbl-apparel-order-form
+	[PBL] Apparel Order Form
+	["auto", "pbl"]
+ht-photography-workshop-2-post-processing-with-lightroom
+	[HT] Photography Workshop 2: Post-processing with Lightroom
+	["auto", "ht"]
+***this key already exists
+	ht-photography-workshop-2-post-processing-with-lightroom
+ht-photography-workshop-1-deck-camera-basics
+	[HT] Photography Workshop 1 Deck: Camera Basics
+	["auto", "ht"]
+ht-cinematographyvideography-workshop-1-basics-of-filming-adobe-premiere
+	[HT] Cinematography/Videography Workshop 1: Basics of Filming/ Adobe Premiere
+	["auto", "ht"]
+***this key already exists
+	ht-workshops
+***this key already exists
+	ht-cinematographyvideography-workshop-1-basics-of-filming-adobe-premiere
+ht-meeting-agenda-22415
+	[HT] Meeting Agenda - 2.24.15
+	["auto", "ht"]
+***this key already exists
+	ht-photography-workshop-1-deck-camera-basics
+ht-filming-times-template
+	[HT] Filming Times Template
+	["auto", "ht"]
+ht-scripting-template
+	[HT] Scripting Template
+	["auto", "ht"]
+ht-contacting-actors-template
+	[HT] Contacting Actors Template
+	["auto", "ht"]
+pbl-off-cycle-general-membership-application
+	[PBL] Off-Cycle General Membership Application
+	["auto", "pbl"]
+ht-meeting-agenda-21715
+	[HT] Meeting Agenda - 2.17.15
+	["auto", "ht"]
+of-meeting-3-updates
+	[OF] Meeting #3 Updates
+	["auto", "of"]
+in-photoscavenger-hunt-spec
+	[IN] PhotoScavenger Hunt Spec
+	["auto", "in"]
+of-meeting-3-agendapdf
+	[OF] Meeting #3 Agenda.pdf
+	["auto", "of"]
+pbl-matchmaker-responses
+	[PBL] Matchmaker (Responses)
+	["auto", "pbl"]
+ht-meeting-agenda-21115
+	[HT] Meeting Agenda - 2.11.15
+	["auto", "ht"]
+pbl-ht-spring-2015
+	[PBL][HT] Spring 2015
+	["auto", "spring-15", "pbl", "ht"]
+of-meeting-2-updates
+	[OF] Meeting #2 Updates
+	["auto", "of"]
+pbl-wd-web-development
+	[PBL][WD] Web Development
+	["auto", "pbl", "wd"]
+pbl-pbl-resources
+	[PBL] PBL Resources
+	["auto", "pbl"]
+ht-spring-2015-syllabus-formatted
+	[HT] Spring 2015 Syllabus (Formatted)
+	["auto", "spring-15", "ht"]
+afx-pbl-spring-15-teams
+	[AFX][PBL] Spring 15 Teams
+	["auto", "afx", "pbl"]
+of-meeting-1-updates
+	[OF] Meeting #1 Updates
+	["auto", "of"]
+ht-application-questions-and-interview-questions-spring-2015
+	[HT] Application Questions and Interview Questions: Spring 2015
+	["auto", "spring-15", "ht"]
+pbl-fall-2014-membership-application-responses
+	[PBL] Fall 2014 Membership Application (Responses)
+	["auto", "fall-14", "pbl"]
+pbl-spring-2015-committee-member-application-questions
+	[PBL] Spring 2015 Committee Member Application Questions
+	["auto", "spring-15", "pbl"]
+pbl-of-food-form-responses
+	[PBL][OF] Food Form (Responses)
+	["auto", "pbl", "of"]
+pbl-mk-spring-2015-r-week-chalking-sign-up-attendance-sheet
+	[PBL][MK] Spring 2015 R-Week Chalking Sign-Up / Attendance Sheet
+	["auto", "spring-15", "pbl", "mk"]
+pbl-of-spring-2015-r-week-tabling-schedule-checker
+	[PBL][OF] Spring 2015 R-Week Tabling Schedule & Checker
+	["auto", "spring-15", "pbl", "of"]
+pbl-of-food-form
+	[PBL][OF] Food Form
+	["auto", "pbl", "of"]
+pbl-mk-spring-2015-handbilling-sign-up-sheet
+	[PBL][MK] Spring 2015 Handbilling Sign Up Sheet
+	["auto", "spring-15", "pbl", "mk"]
+pbl-xx-spring-2015-interview-signups-template
+	[PBL][XX] Spring 2015 Interview Signups TEMPLATE
+	["auto", "spring-15", "pbl", "xx"]
+ht-first-gen-speech-spring-2015
+	[HT] First Gen Speech: Spring 2015
+	["auto", "spring-15", "ht"]
+ht-winter-check-in-1-agenda
+	[HT] Winter Check-in #1 Agenda
+	["auto", "ht"]
+pbl-off-cycle-general-membership-application-responses
+	[PBL] Off-Cycle General Membership Application (Responses)
+	["auto", "pbl"]
+pbl-mk-profile-descriptions
+	[PBL][MK] Profile Descriptions
+	["auto", "pbl", "mk"]
+in-scavenger-hunt-webpage-features
+	[IN] Scavenger Hunt (Webpage features)
+	["auto", "in"]
+pbl-ht-officer-video-detailed-script
+	[PBL][HT] Officer Video Detailed Script 
+	["auto", "pbl", "ht"]
+of-officer-video-filming-times
+	[OF] Officer Video Filming Times
+	["auto", "of"]
+pbl-fall-2014-recruitment-week-mailing-list
+	[PBL] Fall 2014 Recruitment Week Mailing List
+	["auto", "fall-14", "pbl"]
+pbl-in-spring-2014-committee-syllabus
+	[PBL][IN] Spring 2014 Committee Syllabus
+	["auto", "spring-14", "pbl", "in"]
+of-officer-video-filming-times-all
+	[OF] Officer Video Filming Times All
+	["auto", "of"]
+ht-spring-2015-internal-and-external-statements
+	[HT] Spring 2015 Internal and External Statements
+	["auto", "spring-15", "ht"]
+pbl-of-cm-interviews-cm-dues
+	[PBL][OF] CM Interviews + CM Dues
+	["auto", "pbl", "of"]
+ht-cinematographyvideography-after-effects
+	[HT] Cinematography/Videography: After Effects
+	["auto", "ht"]
+ht-first-gen-blurb
+	[HT] First Gen Blurb
+	["auto", "ht"]
+ht-winter-check-in-3-agenda
+	[HT] Winter Check-in #3 Agenda
+	["auto", "ht"]
+pbl-ht-marketing-video-ideas
+	[PBL][HT] Marketing Video Ideas
+	["auto", "pbl", "ht"]
+ht-in-apprentice-challenge
+	[HT][IN] Apprentice Challenge
+	["auto", "ht", "in"]
+ht-first-gen-preparation
+	[HT] First Gen Preparation
+	["auto", "ht"]
+ht-filming-times-sign-up-sheets
+	[HT] Filming Times & Sign-Up Sheets
+	["auto", "ht"]
+pbl-ht-winter-obligations
+	[PBL][HT] Winter Obligations
+	["auto", "pbl", "ht"]
+copy-of-ht-workshop-draft
+	Copy of [HT] Workshop Draft
+	["auto", "copy of ", "ht"]
+ht-spring-2015-syllabus-detailed
+	[HT] Spring 2015 Syllabus Detailed
+	["auto", "spring-15", "ht"]
+pbl-ht-officer-video-ideas
+	[PBL][HT] Officer Video Ideas
+	["auto", "pbl", "ht"]
+ht-winter-check-in-2-agenda
+	[HT] Winter Check-in #2 Agenda
+	["auto", "ht"]
+ht-spring-2015-syllabus
+	[HT] Spring 2015 Syllabus 
+	["auto", "spring-15", "ht"]
+pbl-ht-cm-folder
+	[PBL][HT] CM Folder
+	["auto", "pbl", "ht"]
+ht-photography-workshop-1-camera-basics
+	[HT] Photography Workshop 1: Camera Basics
+	["auto", "ht"]
+ht-videography-workshop-1-basics-of-filming-premiere
+	[HT] Videography Workshop 1: Basics of Filming + Premiere
+	["auto", "ht"]
+ht-videography-workshop-2-after-effects
+	[HT] Videography Workshop 2: After Effects
+	["auto", "ht"]
+ht-photography-workshop-3-post-processing-with-lightroom-5
+	[HT] Photography Workshop 3: Post-Processing with Lightroom 5
+	["auto", "ht"]
+ht-photography-workshop-2-portraitslandscapestill-life
+	[HT] Photography Workshop 2: Portraits/Landscape/Still Life
+	["auto", "ht"]
+old-pbl-berkeleypbl-v2
+	OLD [PBL] BerkeleyPBL V2
+	["auto", "old ", "pbl"]
+copy-of-copy-of-pbl-berkeleypbl-v2
+	Copy of Copy of [PBL] BerkeleyPBL V2
+	["auto", "copy of copy of ", "pbl"]
+unoffish-pbl-socal-trip-la-bonfire-disneyland
+	[Unoffish PBL] SoCal Trip - LA, Bonfire, Disneyland
+	["auto", "unoffish pbl"]
+of-meeting-10-notes
+	[OF] Meeting #10 Notes
+	["auto", "of"]
+***this key already exists
+	of-meeting-10-updates
+of-meeting-7-notes
+	[OF] Meeting #7 Notes
+	["auto", "of"]
+of-meeting-7-updates
+	[OF] Meeting #7 Updates
+	["auto", "of"]
+of-meeting-5-updates
+	[OF] Meeting #5 Updates
+	["auto", "of"]
+of-meeting-5-notes
+	[OF] Meeting #5 Notes
+	["auto", "of"]
+***this key already exists
+	of-meeting-3-updates
+of-meeting-3-notes
+	[OF] Meeting #3 Notes
+	["auto", "of"]
+pbl-of-fall-2014-membership-dues
+	[PBL][OF] Fall 2014 Membership Dues
+	["auto", "fall-14", "pbl", "of"]
+pbl-spring-2015-officer-photo-sign-up
+	[PBL] Spring 2015 Officer Photo Sign-up
+	["auto", "spring-15", "pbl"]
+ht-spring-2015-committee-review
+	[HT]Spring 2015 Committee Review
+	["auto", "spring-15", "ht"]
+of-officer-photoshoot-sign-up
+	[OF] Officer Photoshoot Sign-Up
+	["auto", "of"]
+pbl-ht-eventproject-report-template
+	[PBL][HT] Event/Project Report Template
+	["auto", "pbl", "ht"]
+pbl-of-event-recap-form-responses
+	[PBL][OF] Event Recap Form (Responses)
+	["auto", "pbl", "of"]
+pbl-of-event-recap-form
+	[PBL][OF] Event Recap Form
+	["auto", "pbl", "of"]
+pbl-of-fall-2014-summer-obligations
+	[PBL][OF] Fall 2014 Summer Obligations
+	["auto", "fall-14", "pbl", "of"]
+pbl-reimbursement-form-fall-2014
+	[PBL] Reimbursement Form Fall 2014
+	["auto", "fall-14", "pbl"]
+pbl-fall-2014-membership-application
+	[PBL] Fall 2014 Membership Application
+	["auto", "fall-14", "pbl"]
+wd-pitch
+	[WD] Pitch
+	["auto", "wd"]
+of-meeting-12-agendapdf
+	[OF] Meeting #12 Agenda.pdf
+	["auto", "of"]
+of-meeting-12-notes
+	[OF] Meeting #12 Notes
+	["auto", "of"]
+of-meeting-12-updates
+	[OF] Meeting #12 Updates
+	["auto", "of"]
+***this key already exists
+	of-meeting-11-updates
+***this key already exists
+	of-meeting-11-agendapdf
+pbl-recruitment-week-survey-responses
+	[PBL] Recruitment Week Survey (Responses)
+	["auto", "pbl"]
+pbl-mk-fall-2014-forte-chalking-sign-up-attendance-sheet
+	[PBL][MK] Fall 2014 Forte Chalking Sign-Up / Attendance Sheet
+	["auto", "fall-14", "pbl", "mk"]
+pbl-fall-2014-recruitment-week-mailing-list-responses
+	[PBL] Fall 2014 Recruitment Week Mailing List (Responses)
+	["auto", "fall-14", "pbl"]
+of-meeting-10-agendapdf
+	[OF] Meeting #10 Agenda.pdf
+	["auto", "of"]
+pbl-mk-fall-2014-nexus-chalking-sign-up-attendance-sheet
+	[PBL][MK] Fall 2014 Nexus Chalking Sign-Up / Attendance Sheet
+	["auto", "fall-14", "pbl", "mk"]
+pbl-fall-2014-canvassing
+	[PBL] Fall 2014 Canvassing
+	["auto", "fall-14", "pbl"]
+of-meeting-9-agendapdf
+	[OF] Meeting #9 Agenda.pdf
+	["auto", "of"]
+of-meeting-8-agendapdf
+	[OF] Meeting #8 Agenda.pdf
+	["auto", "of"]
+of-meeting-8-notes
+	[OF] Meeting #8 Notes
+	["auto", "of"]
+of-meeting-9-notes
+	[OF] Meeting #9 Notes
+	["auto", "of"]
+pbl-ht-fall-2014-committee-folder
+	[PBL][HT] Fall 2014 Committee Folder
+	["auto", "fall-14", "pbl", "ht"]
+pbl-long-movie-ideas
+	PBL Long Movie Ideas
+	["auto"]
+***this key already exists
+	of-meeting-9-updates
+of-chaircm-check-in-questions
+	[OF] Chair–CM Check-In Questions
+	["auto", "of"]
+of-meeting-8-updates
+	[OF] Meeting #8 Updates
+	["auto", "of"]
+of-meeting-7-agendapdf
+	[OF] Meeting #7 Agenda.pdf
+	["auto", "of"]
+of-meeting-6-updates
+	[OF] Meeting #6 Updates
+	["auto", "of"]
+ht-co-alices-third-gen-video-script-shots
+	[HT][CO] Alice's Third Gen Video Script + Shots
+	["auto", "ht", "co"]
+of-meeting-6-notes
+	[OF] Meeting #6 Notes
+	["auto", "of"]
+of-meeting-6-agendapdf
+	[OF] Meeting #6 Agenda.pdf
+	["auto", "of"]
+ht-3rd-gen
+	[HT] 3rd gen
+	["auto", "ht"]
+ht-fall-2014-1st-gen-speech
+	[HT] Fall 2014 1st Gen Speech
+	["auto", "fall-14", "ht"]
+ht-co-filming-spreadsheet
+	[HT][CO] Filming Spreadsheet
+	["auto", "ht", "co"]
+ht-tsm-trio-case-comp
+	[HT] TSM Trio Case Comp
+	["auto", "ht"]
+pbl-ex-third-gen-gossip-girl
+	[PBL][EX] THIRD GEN - GOSSIP GIRL
+	["auto", "pbl", "ex"]
+frances-jackie-tina-pbltv-script
+	Frances Jackie Tina PBLtv Script
+	["auto"]
+pbl-canvassing-script-sample
+	[PBL] Canvassing Script Sample
+	["auto", "pbl"]
+keien-and-aaron-pbltv-script
+	Keien and Aaron PBLTV script
+	["auto"]
+pbl-tv-the-curse-of-daily-inconveniences
+	PBL TV - "The Curse of Daily Inconveniences"
+	["auto"]
+pbl-in-apprentice-video-scripts-example
+	[PBL][IN] Apprentice Video Scripts Example
+	["auto", "pbl", "in"]
+of-meeting-5-agendapdf
+	[OF] Meeting #5 Agenda.pdf
+	["auto", "of"]
+fall-2014-so-retreat-drivers-list
+	Fall 2014 [SO] Retreat Drivers List
+	["auto", "fall-14", "fall 2014 ", "so"]
+of-meeting-4-notes
+	[OF] Meeting #4 Notes
+	["auto", "of"]
+of-meeting-4-agendapdf
+	[OF] Meeting #4 Agenda.pdf
+	["auto", "of"]
+pbltv
+	PBLTV
+	["auto"]
+of-meeting-4-updates
+	[OF] Meeting #4 Updates
+	["auto", "of"]
+chumming-91814
+	chumming [9.18.14]
+	["auto", "chumming ", "9.18.14"]
+***this key already exists
+	of-meeting-3-agendapdf
+in-pbl-apprentice-general-rulebook
+	[IN] PBL Apprentice General Rulebook
+	["auto", "in"]
+91814-meeting-1
+	[[9.18.14]] Meeting 1
+	["auto", "9.18.14"]
+91314-pbl-portal-backlog
+	[[9.13.14]] PBL Portal Backlog
+	["auto", "9.13.14"]
+pbl-mandatory-semi-mandatory-events
+	[PBL] Mandatory / Semi-Mandatory Events
+	["auto", "pbl"]
+pbl-fall-2014-administrative-handbook
+	[PBL] Fall 2014 Administrative Handbook
+	["auto", "fall-14", "pbl"]
+of-meeting-2-notes
+	[OF] Meeting #2 Notes
+	["auto", "of"]
+of-meeting-2-agendapdf
+	[OF] Meeting #2 Agenda.pdf
+	["auto", "of"]
+pbl-ht-fall-2014
+	[PBL][HT] Fall 2014
+	["auto", "fall-14", "pbl", "ht"]
+9102014-pbl-orientation-deadline
+	[9.10.2014] PBL Orientation Deadline
+	["auto", "9.10.2014"]
+ht-interview-signups
+	[HT] Interview Signups
+	["auto", "ht"]
+pbl-of-fall-2013-officer-team-attendance
+	[PBL][OF] Fall 2013 Officer Team Attendance
+	["auto", "fall-13", "pbl", "of"]
+pbl-cs-fall-2014-interview-signups
+	[PBL][CS] Fall 2014 Interview Signups
+	["auto", "fall-14", "pbl", "cs"]
+pbl-tech-team-materials
+	PBL Tech Team Materials
+	["auto"]
+in-members-kickoff-sign-in-responses
+	[IN] Member's Kickoff Sign-In (Responses)
+	["auto", "in"]
+pbl-in-fall-2014-kickoff-timeline-and-games
+	[PBL][IN] Fall 2014 Kickoff Timeline and Games
+	["auto", "fall-14", "pbl", "in"]
+pbl-of-fall-2014-mission-statements
+	[PBL][OF] Fall 2014 Mission Statements
+	["auto", "fall-14", "pbl", "of"]
+pbl-of-week-of-98-tabling-schedule-checker
+	[PBL][OF] Week of 9/8 Tabling Schedule & Checker
+	["auto", "pbl", "of"]
+in-members-kickoff-sign-in
+	[IN] Member's Kickoff Sign-In
+	["auto", "in"]
+so-social-mixer-sign-in-responses
+	[SO] Social Mixer Sign-In Responses
+	["auto", "so"]
+in-members-kickoff
+	[IN] Member's Kickoff
+	["auto", "in"]
+so-social-mixer
+	[SO] Social Mixer
+	["auto", "so"]
+pbl-ht-fall-2013
+	[PBL][HT] Fall 2013
+	["auto", "fall-13", "pbl", "ht"]
+pbl-of-mandatory-interview-questions
+	[PBL][OF] Mandatory Interview Questions
+	["auto", "pbl", "of"]
+pbl-of-fall-2014-r-week-tabling-schedule-checker
+	[PBL][OF] Fall 2014 R-Week Tabling Schedule & Checker
+	["auto", "fall-14", "pbl", "of"]
+pd-alumni-speaker-panel-sign-in-sheet-responses
+	[PD] Alumni Speaker Panel Sign-In Sheet (Responses)
+	["auto", "pd"]
+pbl-fall-2014-mailing-list-mailmerge
+	[PBL] Fall 2014 Mailing List (MailMerge)
+	["auto", "fall-14", "pbl"]
+pd-alumni-speaker-panel-sign-in-sheet
+	[PD] Alumni Speaker Panel Sign-In Sheet
+	["auto", "pd"]
+pd-alumni-speaker-panel
+	[PD] Alumni Speaker Panel
+	["auto", "pd"]
+pbl-fall-2014-committee-member-application-questions
+	[PBL] Fall 2014 Committee Member Application Questions
+	["auto", "fall-14", "pbl"]
+pbl-xx-fall-2014-interview-signups-template
+	[PBL][XX] Fall 2014 Interview Signups TEMPLATE
+	["auto", "fall-14", "pbl", "xx"]
+pbl-ex-external-site-requirements
+	[PBL][EX] External Site Requirements
+	["auto", "pbl", "ex"]
+pbl-fall-2014-canvassing-letterheaddoc
+	[PBL] Fall 2014 Canvassing Letterhead.doc
+	["auto", "fall-14", "pbl"]
+pbl-ht-mk-recruitment-week-video
+	[PBL][HT][MK] Recruitment Week Video
+	["auto", "pbl", "ht", "mk"]
+pbl-ht-mk-recruitment-video-script
+	[PBL][HT][MK] Recruitment Video Script
+	["auto", "pbl", "ht", "mk"]
+pbl-tech
+	PBL tech
+	["auto"]
+pbl-ht-summer-check-in-3
+	[PBL][HT] Summer Check-in #3
+	["auto", "pbl", "ht"]
+pbl-ht-spring-2014-syllabus
+	[PBL][HT] Spring 2014 Syllabus 
+	["auto", "spring-14", "pbl", "ht"]
+***this key already exists
+	pbl-ht-cm-folder
+pbl-fi-finance-career-speaker-panel-report
+	[PBL][FI] Finance Career Speaker Panel Report 
+	["auto", "pbl", "fi"]
+pbl-ht-summer-check-in-2
+	[PBL][HT] Summer Check-in #2
+	["auto", "pbl", "ht"]
+pbl-ht-summer-check-in-1
+	[PBL][HT] Summer Check-in #1
+	["auto", "pbl", "ht"]
+pbl-ex-fall-2013-summer-obligations
+	[PBL][EX] Fall 2013 Summer Obligations
+	["auto", "fall-13", "pbl", "ex"]
+pbl-of-committee-review-projectevent-report-template
+	[PBL][OF] Committee Review Project/Event Report Template
+	["auto", "pbl", "of"]
+pbl-marketing-101-raw-footage
+	[PBL] Marketing 101 Raw Footage
+	["auto", "pbl"]
+pbl-ht-deliberations-strategizing
+	[PBL][HT] Deliberations Strategizing
+	["auto", "pbl", "ht"]
+pbl-ht-social-event-lets-hang-out
+	[PBL][HT] Social Event! Let's hang out :)
+	["auto", "pbl", "ht"]
+pbl-fi-spring-2014-committee-syllabus
+	[PBL][FI] Spring 2014 Committee Syllabus
+	["auto", "spring-14", "pbl", "fi"]
+pbl-sblc-event-sign-ups
+	[PBL][SBLC] Event Sign-Ups
+	["auto", "pbl", "sblc"]
+finance-cm-event-pbl-fa13-instruction-sheet-template-1docx
+	Finance CM Event PBL Fa13 Instruction sheet Template 1.docx
+	["auto"]
+finance-cm-event-pbl-fa13-instruction-sheet-templatedocx
+	Finance CM Event PBL Fa13 Instruction sheet Template.docx
+	["auto"]
+pbl-ex-fall-2013-chair-application-questions
+	[PBL][EX] Fall 2013 Chair Application Questions
+	["auto", "fall-13", "pbl", "ex"]
+***this key already exists
+	pbl-fall-2014-chair-application-questions
+pbltv-kpop-music-video
+	PBLTV: KPop Music Video
+	["auto"]
+ht-so-jaehoon-banquet-videomp4
+	[HT][SO] JaeHoon Banquet Video.mp4
+	["auto", "ht", "so"]
+pbl-ex-new-executive-election-procedure
+	[PBL][EX] New Executive Election Procedure
+	["auto", "pbl", "ex"]
+pbl-of-spring-2014-officer-team-attendance
+	[PBL][OF] Spring 2014 Officer Team Attendance
+	["auto", "spring-14", "pbl", "of"]
+pbl-co-in-sf-scavenger-hunt-google-form-responses
+	[PBL][CO][IN] SF Scavenger Hunt Google Form (Responses)
+	["auto", "pbl", "co", "in"]
+pbl-finance-fa13-cm-projectpptx
+	PBL Finance Fa13 CM Project.pptx
+	["auto"]
+finance-cm-event-pbl-fa13-instruction-sheet-template-2-and-3docx
+	Finance CM Event PBL Fa13 Instruction sheet Template 2 and 3.docx
+	["auto"]
+ht-mk-video-ideas
+	[HT][MK] VIDEO IDEAS
+	["auto", "ht", "mk"]
+pbl-ht-meeting-9
+	[PBL][HT] Meeting #9
+	["auto", "pbl", "ht"]
+fi-3rd-gen-video-finance-spr14
+	[FI] 3rd Gen Video Finance spr14
+	["auto", "fi"]
+so-third-gen-meeting
+	[SO] Third Gen Meeting
+	["auto", "so"]
+pbl-ex-video-script
+	[PBL][EX] Video Script
+	["auto", "pbl", "ex"]
+pbl-ht-meeting-6
+	[PBL][HT] Meeting #6
+	["auto", "pbl", "ht"]
+mk-how-to-escape-the-friendzonedocx
+	[MK] HOW TO ESCAPE THE FRIENDZONE.docx
+	["auto", "mk"]
+co-third-gen-script
+	[CO] Third Gen Script
+	["auto", "co"]
+pbl-pubs-scriptdocx
+	PBL Pubs script.docx
+	["auto"]
+pbl-ht-third-gen-script-ideas
+	[PBL][HT] Third Gen Script Ideas
+	["auto", "pbl", "ht"]
+***this key already exists
+	mk-how-to-escape-the-friendzonedocx
+cs-third-gen-video-script-editeddocx
+	[CS] THIRD GEN VIDEO SCRIPT EDITED.docx
+	["auto", "cs"]
+in-third-gen-movie-script
+	[IN] Third Gen Movie Script
+	["auto", "in"]
+pbl-ht-meeting-4
+	[PBL][HT] Meeting #4
+	["auto", "pbl", "ht"]
+pbl-ht-pbltv-critiques
+	[PBL][HT] PBLTV Critiques
+	["auto", "pbl", "ht"]
+pbl-ht-meeting-3
+	[PBL][HT] Meeting #3
+	["auto", "pbl", "ht"]
+pbl-ht-meeting-1
+	[PBL][HT] Meeting #1
+	["auto", "pbl", "ht"]
+pbl-ht-officer-photos
+	[PBL][HT] Officer Photos
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbl-ht-cm-folder
+pbl-so-spring-2014-members-retreat-drivers-list
+	[PBL][SO] Spring 2014 Member's Retreat DRIVER'S LIST
+	["auto", "spring-14", "pbl", "so"]
+pbl-fi-cm-check-in
+	[PBL][FI] CM Check-in
+	["auto", "pbl", "fi"]
+pbl-tv-1
+	PBL TV 1
+	["auto"]
+ht-officer-3rd-gen-workshop
+	[HT] Officer 3rd Gen Workshop
+	["auto", "ht"]
+pbl-ht-meeting-2
+	[PBL][HT] Meeting #2
+	["auto", "pbl", "ht"]
+pbl-of-tabling-218-221
+	[PBL][OF] Tabling 2/18-2/21
+	["auto", "pbl", "of"]
+pbl-ht-winter-2013-check-in-3
+	[PBL][HT] Winter 2013 Check In #3
+	["auto", "winter-13", "pbl", "ht"]
+pbl-ht-meeting-agendas
+	[PBL][HT] Meeting Agendas
+	["auto", "pbl", "ht"]
+pbl-in-pbl-apprentice-general-rulebook-copy
+	[PBL][IN] PBL Apprentice General Rulebook (COPY)
+	["auto", "pbl", "in"]
+pbl-ht-interview-signups-final
+	[PBL][HT] Interview Signups Final
+	["auto", "pbl", "ht"]
+pbl-tt-ui-research
+	[PBL][TT] UI Research
+	["auto", "pbl", "tt"]
+pbl-in-kickoff
+	[PBL][IN] Kickoff
+	["auto", "pbl", "in"]
+pbl-ht-first-gen-speech
+	[PBL][HT] First Gen Speech
+	["auto", "pbl", "ht"]
+pbl-of-so-visionsmov
+	[PBL][OF] SO Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-pd-visionsmov
+	[PBL][OF] PD Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-pb-visionsmov
+	[PBL][OF] PB Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-mk-visionsmov
+	[PBL][OF] MK Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-ht-visionsmov
+	[PBL][OF] HT Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-fi-visionsmov
+	[PBL][OF] FI Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-cs-visionsmov
+	[PBL][OF] CS Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-co-visionsmov
+	[PBL][OF] CO Visions.MOV
+	["auto", "pbl", "of"]
+pbl-of-committee-visions
+	[PBL][OF] Committee Visions
+	["auto", "pbl", "of"]
+pbl-ht-officer-video-script-draft
+	[PBL][HT] Officer Video Script (DRAFT)
+	["auto", "pbl", "ht"]
+pbl-ht-spring-2014
+	[PBL][HT] Spring 2014
+	["auto", "spring-14", "pbl", "ht"]
+pbl-ht-officer-video
+	[PBL][HT] Officer Video
+	["auto", "pbl", "ht"]
+pbl-of-photo-sample-jaehoon
+	[PBL][OF] photo sample - jaehoon
+	["auto", "pbl", "of"]
+pbl-tabling-policies
+	[PBL] Tabling Policies
+	["auto", "pbl"]
+pbl-fall-2013-committee-application-questions
+	[PBL] Fall 2013 Committee Application Questions
+	["auto", "fall-13", "pbl"]
+pbl-ht-winter-2013-check-in-2
+	[PBL][HT] Winter 2013 Check In #2
+	["auto", "winter-13", "pbl", "ht"]
+pbl-in-winter-2013-check-in-2
+	[PBL][IN] Winter 2013 Check In #2
+	["auto", "winter-13", "pbl", "in"]
+pbl-berkeleypbl-v2
+	[PBL] BerkeleyPBL V2
+	["auto", "pbl"]
+pbl-ht-mk-collaboration-project-agendadocx
+	[PBL][HT][MK] Collaboration Project Agenda.docx
+	["auto", "pbl", "ht", "mk"]
+pbl-ht-mk-collaboration-projectdocx
+	[PBL][HT][MK] Collaboration Project.docx
+	["auto", "pbl", "ht", "mk"]
+pbl-in-pbl-apprentice-intro-email-drafts
+	[PBL][IN] PBL Apprentice Intro Email Drafts
+	["auto", "pbl", "in"]
+pbl-fi-speaker-panel-speech
+	[PBL][FI] Speaker Panel Speech 
+	["auto", "pbl", "fi"]
+pbl-ht-winter-2013-check-in-1
+	[PBL][HT] Winter 2013 Check In #1
+	["auto", "winter-13", "pbl", "ht"]
+ht-so-jaehoon-banquet-videopptx
+	[HT][SO] JaeHoon Banquet Video.pptx
+	["auto", "ht", "so"]
+pbl-fi-fundamental-analysis-fall-2013
+	[PBL][FI] Fundamental Analysis (Fall 2013)
+	["auto", "fall-13", "pbl", "fi"]
+pbl-ht-blurb
+	[PBL][HT] Blurb
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbl-in-kickoff
+pbl-ht-spring-2014-committee-syllabus
+	[PBL][HT] Spring 2014 Committee Syllabus
+	["auto", "spring-14", "pbl", "ht"]
+pbl-in-winter-2013-check-in-1
+	[PBL][IN] Winter 2013 Check In #1
+	["auto", "winter-13", "pbl", "in"]
+pbl-ht-checkin-plan
+	[PBL][HT] Checkin Plan
+	["auto", "pbl", "ht"]
+pbl-fi-spring-2014-check-in-1
+	[PBL][FI] Spring 2014 Check in #1
+	["auto", "spring-14", "pbl", "fi"]
+pbl-fi-spring-2013-order-and-description-of-workshops-copy
+	[PBL] [FI] Spring 2013 Order and Description of Workshops (Copy)
+	["auto", "pbl", "fi"]
+pbl-ht-fall-2013-cm-interview-questions-charts
+	[PBL][HT]  Fall 2013 CM Interview Questions & Charts
+	["auto", "fall-13", "pbl", "ht"]
+fall-2013-pbl-yearbook
+	Fall 2013 PBL Yearbook
+	["auto", "fall-13"]
+pbl-ht-fall-2013-committee-meeting-agenda-6
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #6
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-banquet-member-focus-designations
+	[PBL][HT] Banquet Member Focus Designations
+	["auto", "pbl", "ht"]
+pbl-in-zombie-tag
+	[PBL][IN] Zombie Tag
+	["auto", "pbl", "in"]
+pbl-in-outdoor-game-canceled-for-fall-2013
+	[PBL][IN] Outdoor Game *Canceled for Fall 2013*
+	["auto", "fall-13", "pbl", "in"]
+pbl-in-bowling-night-canceled-for-fall-2013
+	[PBL][IN] Bowling Night *Canceled for Fall 2013*
+	["auto", "fall-13", "pbl", "in"]
+pbl-in-karaoke-night
+	[PBL][IN] Karaoke Night
+	["auto", "pbl", "in"]
+pbl-in-cm-initiation
+	[PBL][IN] CM Initiation
+	["auto", "pbl", "in"]
+pbl-in-fall-2013-big-c-hike
+	[PBL][IN] Fall 2013 Big C Hike
+	["auto", "fall-13", "pbl", "in"]
+pbl-in-cheeseboard
+	[PBL][IN] Cheeseboard
+	["auto", "pbl", "in"]
+pbl-pb-general-committee-folder
+	[PBL][PB] General Committee Folder 
+	["auto", "pbl", "pb"]
+pbl-ht-fall-2013-committee-meeting-agenda-11
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #11
+	["auto", "fall-13", "pbl", "ht"]
+pbl-pb-yearbook-page-discussionassignments
+	[PBL][PB] Yearbook Page Discussion/Assignments
+	["auto", "pbl", "pb"]
+pbl-fi-finance-career-speaker-panel-agenda
+	[PBL][FI] Finance Career Speaker Panel Agenda
+	["auto", "pbl", "fi"]
+pbl-fi-speaker-panel-facilitated-questions
+	[PBL][FI] Speaker Panel Facilitated Questions 
+	["auto", "pbl", "fi"]
+pd-who-wants-to-be-a-billionaire
+	[PD] Who Wants to be a Billionaire?
+	["auto", "pd"]
+pbl-ht-fall-2013-committee-meeting-agenda-10
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #10
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ex-spring-2014-executive-platforms
+	[PBL][EX] Spring 2014 Executive Platforms
+	["auto", "spring-14", "pbl", "ex"]
+pbl-ht-fall-2013-committee-meeting-agenda-9
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #9
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-meeting-agenda-7
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #7
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-meeting-agenda-8
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #8
+	["auto", "fall-13", "pbl", "ht"]
+pbl-photoship-workshop-finalpptx
+	PBL Photoship Workshop Final.pptx
+	["auto"]
+***this key already exists
+	pbl-photoship-workshop-finalpptx
+***this key already exists
+	pbl-photoship-workshop-finalpptx
+pbl-fi-fall-2013-concessions-checker
+	[PBL][FI] Fall 2013 Concessions Checker
+	["auto", "fall-13", "pbl", "fi"]
+fall-2013-comparable-company-analysis
+	[Fall 2013] Comparable Company Analysis 
+	["auto", "fall-13", "fall 2013"]
+ht-spring-2013-interview-signups
+	[HT] Spring 2013 Interview Signups
+	["auto", "ht"]
+pbl-ht-fall-2013-committee-meeting-agenda-5
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #5
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-meeting-agenda-4
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #4
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-committee-video-ideas
+	[PBL][HT] Committee Video Ideas
+	["auto", "pbl", "ht"]
+so-retreat-drivers-list
+	[SO] Retreat Drivers List
+	["auto", "so"]
+pbl-pb-marketing-apprentice-ideas
+	[PBL][PB] Marketing Apprentice Ideas
+	["auto", "pbl", "pb"]
+pbl-ht-fall-2013-committee-meeting-agenda-3
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #3
+	["auto", "fall-13", "pbl", "ht"]
+cs70-fa13-mt1-review-read-only
+	CS70 Fa13 MT1 Review [READ ONLY]
+	["auto", "cs70 fa13 mt1 review ", "read only"]
+pbl-ht-fall-2013-committee-meeting-agenda-2
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #2
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-meeting-agenda-1
+	[PBL][HT] Fall 2013 Committee Meeting Agenda #1
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-attendance
+	[PBL][HT] Fall 2013 Committee Attendance
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-mini-projects
+	[PBL][HT] Fall 2013 Mini Projects
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-committee-syllabus
+	[PBL][HT] Fall 2013 Committee Syllabus
+	["auto", "fall-13", "pbl", "ht"]
+pbl-in-meeting-4
+	[PBL][IN] Meeting #4
+	["auto", "pbl", "in"]
+pbl-ht-fall-2013-first-gen-video-script
+	[PBL][HT] Fall 2013 First Gen. Video Script
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-fall-2013-first-gen-speech-draft
+	[PBL][HT] Fall 2013 First Gen Speech Draft
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-officer-photos-2
+	[PBL][HT] Officer Photos 2
+	["auto", "pbl", "ht"]
+pbl-ht-check-in-3-notes
+	[PBL][HT] Check-In #3 & Notes
+	["auto", "pbl", "ht"]
+pbl-ht-interview-notes
+	[PBL][HT] Interview Notes
+	["auto", "pbl", "ht"]
+pbl-ht-spring-2013
+	[PBL][HT] Spring 2013
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbltv
+in-bondingteam-building-activities
+	[IN] Bonding/Team Building Activities
+	["auto", "in"]
+in-event-ideasdescriptions
+	[IN] Event Ideas/Descriptions
+	["auto", "in"]
+pbl-in-eventproject-report-template
+	[PBL][IN] Event/Project Report Template
+	["auto", "pbl", "in"]
+pbl-in-fall-2013-committee-syllabus
+	[PBL][IN] Fall 2013 Committee Syllabus
+	["auto", "fall-13", "pbl", "in"]
+pbl-ht-check-in-2-notes
+	[PBL][HT] Check-In #2 & Notes
+	["auto", "pbl", "ht"]
+pbl-ht-check-in-1-notes
+	[PBL][HT] Check-In #1 & Notes
+	["auto", "pbl", "ht"]
+pbl-ht-workshopmeeting-planning-timeline-spring-2013
+	[PBL][HT] Workshop/Meeting Planning TIMELINE SPRING 2013
+	["auto", "pbl", "ht"]
+pbl-ht-novum-trailer-presentationpptx
+	[PBL][HT] NOVUM Trailer Presentation.pptx
+	["auto", "pbl", "ht"]
+pbl-ht-photography-workshop-fall-2013pptx
+	[PBL][HT] Photography Workshop Fall 2013.pptx
+	["auto", "fall-13", "pbl", "ht"]
+pbl-ht-spring-2013-committee-review
+	[PBL][HT] Spring 2013 Committee Review
+	["auto", "pbl", "ht"]
+pbl-ht-meeting-7
+	[PBL][HT] Meeting #7
+	["auto", "pbl", "ht"]
+pbl-ht-meeting-10
+	[PBL][HT] Meeting #10
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbl-ht-meeting-9
+pbl-ht-meeting-8
+	[PBL][HT] Meeting #8
+	["auto", "pbl", "ht"]
+pbl-ht-pbltv-season-finale-idea
+	[PBL][HT] PBLtv Season Finale Idea
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbl-ht-photography-workshop-fall-2013pptx
+***this key already exists
+	pbl-ht-meeting-6
+pbl-ht-meeting-5
+	[PBL][HT] Meeting #5
+	["auto", "pbl", "ht"]
+pbl-ht-social-event-lets-hang-out-responses
+	[PBL][HT] Social Event! Let's hang out :) (Responses)
+	["auto", "pbl", "ht"]
+***this key already exists
+	pbl-ht-meeting-4
+ht-event-attendance-sign-up
+	[HT] Event Attendance Sign-Up
+	["auto", "ht"]
+***this key already exists
+	pbl-ht-meeting-3
+pbl-ht-camera-basics-workshop-feedback-responses
+	[PBL][HT] Camera Basics Workshop Feedback (Responses)
+	["auto", "pbl", "ht"]
+ht-meeting-2-agenda
+	[HT] Meeting #2 Agenda
+	["auto", "ht"]
+***this key already exists
+	pbl-ht-meeting-1
+ht-cm-contact-sheet-spring-2013
+	[HT] CM Contact Sheet SPRING 2013
+	["auto", "ht"]
+pbl-ht-camera-basics-workshop-feedback
+	[PBL][HT] Camera Basics Workshop Feedback
+	["auto", "pbl", "ht"]
+pbl-fi-cm-interview-questions-spring-2013
+	[PBL][FI] CM Interview Questions Spring 2013
+	["auto", "pbl", "fi"]
+ht-pbltv-spring-2013
+	[HT] PBLtv Spring 2013
+	["auto", "ht"]
+ht-photography-project-spring-2013
+	[HT] Photography Project Spring 2013
+	["auto", "ht"]
+pbl-ht-spring-2013-curriculum
+	[PBL][HT] Spring 2013 Curriculum
+	["auto", "pbl", "ht"]
+pbl-fi-workshops-guideline
+	[PBL][FI] Workshops Guideline
+	["auto", "pbl", "fi"]

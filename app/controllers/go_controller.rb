@@ -343,8 +343,8 @@ class GoController < ApplicationController
 	def lookup
 		url = params[:url]
 		@keys = go_link_hash.values.select{|x| x.url == url}
-
 	end
+	
 	def cwd
 		@cwd = params[:cwd]
 		@subdirectories = ParseGoLink.subdirectories(@cwd)
