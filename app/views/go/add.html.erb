@@ -1,0 +1,108 @@
+<style type = 'text/css'>
+.main-container{
+	padding:15px;
+}
+.smalltext{
+	font-size:10px;
+}
+.input-sm{
+	border:none;
+	width:100%;
+	margin-top:5px;
+}
+.label.label-default{
+	margin:5px;
+}
+</style>
+<div class = 'col-md-4'>
+<div id = 'message'></div>
+<h4>Add a link</h4>
+ <div id = 'add-container' class = 'main-container'>
+    	<p class = 'smalltext text-muted'>Please refer to the PBL Links guide for naming conventions. Keys should be alphanumeric-hyphen-separated-words. If the namespace you want is common, consider attaching your committee and appending the semester (ex: ht-drive-fa14). We recommend using lowercase because PBL Links is case sensitive.</p>
+	    <input class = 'input-sm' id = 'url-input' type = 'text' placeholder = 'url'></input>
+	    <input class = 'input-sm' id = 'key-input' type = 'text' placeholder = 'key'></input>
+	    <input class = 'input-sm' id = 'description-input' type = 'text' placeholder = 'description'></input>
+	    <input class = 'input-sm' id = 'tags-input' type = 'text' placeholder = 'tags: start typing and click enter'></input>
+	    <div id = 'tags-container'></div>
+	    <div class = 'btn-container'>
+	    	<button class = 'btn btn-material-blue-500' id = "save">Add New Link</button>
+		</div>
+    </div>
+</div>
+
+
+<script type = 'text/javascript'>
+function stripText(text){
+	return text.toLowerCase().replace(/[^a-zA-Z0-9 -]/g, '').replace(/ /g,'-');
+}
+function labelAddActions(){
+	$('#tags-input').keypress(function(e) {
+	    if(e.which == 13) {
+	       tag = $('#tags-input').val();
+	       tag = stripText(tag);
+	       $(this).val("");
+	       htmlTag = document.createElement('div');
+	       $(htmlTag).addClass('label');
+	       $(htmlTag).addClass('label-default');
+	       $(htmlTag).addClass('tag-label');
+	       $(htmlTag).text(tag);
+	       $(htmlTag).append('&nbsp;<a class = "label-remove-link" href = "javascript:void(0);">x</a>');
+	       $('#tags-container').append(htmlTag);
+	       removeLabelActions();
+	    }
+	});
+}
+function removeLabelActions(){
+	$('.label-remove-link').click(function(){
+		$(this).parent().remove();
+	});
+}
+function activateSaveButton(email){
+	$("#save").click(function(){
+		key = $('#key-input').val();
+		url = $('#url-input').val();
+		description = $('#description-input').val();
+		tags = [];
+		$('.tag-label').each(function(){
+			tags.push($(this).text().substring(0, $(this).text().length-2));
+		});
+		console.log(tags);
+		$('#message').html('saving link...');
+		$.ajax({
+	      url: '/chrome/create_go_link',
+	      type: 'POST',
+	      data: {'key':key, 'url':url, 'description':description, 'tags': tags.join(',')},
+	      success:function(data){
+	        $('#message').html(data);
+	        activateUndoButton();
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed to save link');
+	        $("#message").html("");
+	      }
+	  });
+		
+	});
+}
+function activateUndoButton(){
+	$('#undo-btn').click(function(){
+		console.log('undo button has been clicked');
+		$('#message').html('<h3>Undoing...</h3>');
+		key = $('#key-input').val();
+		$.ajax({
+	      url: '/chrome/undo_create_go_link',
+	      type: 'POST',
+	      data: {'key':key},
+	      success:function(data){
+	        $('#message').html(data);
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed');
+	        $('#message').html("");
+	      }
+	  });
+	});
+}
+activateSaveButton();
+labelAddActions();
+</script>

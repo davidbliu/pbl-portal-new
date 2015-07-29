@@ -9,7 +9,8 @@ class ChromeExtensionController < ApplicationController
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
-		directory = params[:directory] != "" ? params[:directory] : '/PBL'
+		# directory = params[:directory] != "" ? params[:directory] : '/PBL'
+		tags = params[:tags].split(',')
 		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
 		if override
 			key = key.split(':')[0]
@@ -25,9 +26,9 @@ class ChromeExtensionController < ApplicationController
 		if not ParseGoLink.valid_url(url)
 			errors << "url"
 		end
-		if not ParseGoLink.valid_directory(directory)
-			errors << "directory"
-		end
+		# if not ParseGoLink.valid_directory(directory)
+		# 	errors << "directory"
+		# end
 		""" if there are errors, return with errors """
 		if go_link_key_hash.keys.include?(key)
 			if not override
@@ -41,7 +42,8 @@ class ChromeExtensionController < ApplicationController
 			elsif errors.length == 0
 				golink = go_link_key_hash[key]
 				golink.url = url 
-				golink.directory = directory
+				golink.directory = '/PBL'
+				golink.tags = tags
 				golink.description = description
 				if params[:email] and params[:email] != ""
 					golink.member_email = params[:email]
@@ -56,11 +58,12 @@ class ChromeExtensionController < ApplicationController
 			render json: "<h3>Errors creating link: "+errors.to_s+" </h3>", :status=>500, :content_type=>'text/html'
 		else
 			""" save the new link """
-			golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
+			golink = ParseGoLink.new(key: key, url: url, description: description, tags: tags, directory: '/PBL')
 			if params[:email] and params[:email] != ""
 				golink.member_email = params[:email]
 			end
 			golink.save
+			puts 'saved go link sldkfjlskfdjlskdjflkjfslkdfjldfjlksj'
 			clear_go_cache
 			render json: "<h3>Successfully created link</h3><ul class = 'list-group'><li class = 'list-group-item'>pbl.link/"+golink.key+"</li></ul><button class = 'btn btn-danger' id = 'undo-btn'>Undo</button>", :status=>200, :content_type=>'text/html'
 		end

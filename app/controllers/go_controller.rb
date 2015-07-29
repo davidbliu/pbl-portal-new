@@ -48,7 +48,7 @@ class GoController < ApplicationController
 			if @ratings.keys.include?(key)
 				return @ratings[key].rating
 			else
-				return 1000
+				return 50
 			end
 		end
 
@@ -75,6 +75,10 @@ class GoController < ApplicationController
 		else
 			render nothing:true, status:500
 		end
+		
+	end
+
+	def add
 		
 	end
 	def mobile
