@@ -23,7 +23,7 @@ function filterGolinks(){
 			for(var j=0;j<selected_tags.length;j++){
 				if(tags.indexOf(selected_tags[j]) == -1){
 					$(this).hide();
-					break;
+					// break;
 				}
 			}
 		});
@@ -105,4 +105,3 @@ $('.golink-tag').click(function(){
 	toggleTagSelected($('#'+tag+'-tag'));
 	filterGolinks();
 });
-

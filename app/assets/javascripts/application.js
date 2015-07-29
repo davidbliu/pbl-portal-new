@@ -13,20 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap.min
-
-
-function makeAjaxRequest(requestPath, requestType, requestData, successFunction, errorFunction){
-	console.log(requestData);
-	console.log('that was request data');
-	$.ajax({
-      url: requestPath,
-      type: requestType,
-      data: requestData,
-      success:function(data){
-        successFunction(data);
-      },
-      error:function (xhr, textStatus, thrownError){
-        errorFunction();
-      }
-  });
-}

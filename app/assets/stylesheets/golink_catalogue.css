@@ -9,9 +9,11 @@
 }
 .link-row>.golink-key-td{
 	width:25%;
+	max-width: 200px;
 	overflow:hidden;
 }
 .link-row>.golink-description-td{
 	width:50%;
+	max-width:300px;
 	overflow:hidden;
 }
