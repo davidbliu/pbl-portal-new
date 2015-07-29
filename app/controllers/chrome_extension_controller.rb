@@ -65,7 +65,7 @@ class ChromeExtensionController < ApplicationController
 			golink.save
 			puts 'saved go link sldkfjlskfdjlskdjflkjfslkdfjldfjlksj'
 			clear_go_cache
-			render json: "<h3>Successfully created link</h3><ul class = 'list-group'><li class = 'list-group-item'>pbl.link/"+golink.key+"</li></ul><button class = 'btn btn-danger' id = 'undo-btn'>Undo</button>", :status=>200, :content_type=>'text/html'
+			render json: "<h3>Successfully created link</h3><ul class = 'list-group'><li class = 'list-group-item lookup-match'>pbl.link/"+golink.key+"</li></ul><button class = 'btn btn-danger' id = 'undo-btn'>Undo</button>", :status=>200, :content_type=>'text/html'
 		end
 	end
 
