@@ -55,6 +55,8 @@ class GoController < ApplicationController
 
 		# sort golinks by ratings
 		@golinks = @golinks.sort_by{|x| rating_index(x.key)}
+		# get colors
+		@tag_color_hash = ParseGoLinkTag.color_hash
 	end
 
 	def update_rank

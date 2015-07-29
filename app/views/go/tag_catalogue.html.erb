@@ -139,7 +139,7 @@
   </a>
 
 <div id = 'catalogue-container' style = 'margin-top:25px'>
-  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, ratings: @ratings} %>
+  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, ratings: @ratings, tag_color_hash: @tag_color_hash} %>
 </div>
 
 </div><!-- end of col md 9 -->
@@ -162,7 +162,7 @@
   <div id = 'tag-cloud'>
     <p class = 'smalltext text-muted'>Click tags to filter by them</p>
     <% @tags.each do |tag| %>
-      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>-tag'>
+      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>-tag' <% if @tag_color_hash.keys.include?(tag) %>style = "background-color:<%= @tag_color_hash[tag].color %>"<% end %>>
         <%= tag %>
       </div>
     <% end %>

@@ -15,7 +15,7 @@
 			<%= golink.description %>
 			<% if golink.tags %>
 				<% golink.tags.each do |tag| %>
-				<div class = 'label label-default golink-tag'><%= tag %></div>
+				<div class = 'label label-default golink-tag'  <% if tag_color_hash.keys.include?(tag) %>style = "background-color:<%= tag_color_hash[tag].color %>"<% end %>><%= tag %></div>
 				<% end %>
 			<% end %>
 		</td>

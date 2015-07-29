@@ -50,6 +50,7 @@ module CacheHelper
 		Rails.cache.write("go_link_favorite_hash", nil)
 		Rails.cache.write("go_link_tag_hash", nil)
 		Rails.cache.write("go_link_ratings", nil)
+		Rails.cache.write('tag_color_hash', nil)
 	end
 
 	def go_link_ratings
