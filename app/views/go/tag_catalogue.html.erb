@@ -19,6 +19,15 @@
 #tag-cloud>.tag-cloud-tag.selected-tag{
   opacity:1.0;
 }
+.golink-tag{
+  opacity:0.5;
+}
+.golink-tag.selected-tag{
+  opacity:1;
+}
+.golink-tag:hover{
+  cursor:pointer;
+}
 .smalltext{
   font-size:10px;
 }
@@ -161,7 +170,7 @@
   <div id = 'tag-cloud'>
     <p class = 'smalltext text-muted'>Click tags to filter by them</p>
     <% @tags.each do |tag| %>
-      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>'>
+      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>-tag'>
         <%= tag %>
       </div>
     <% end %>

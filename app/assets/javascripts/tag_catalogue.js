@@ -2,10 +2,16 @@ function filterGolinks(){
 	$('.link-row').each(function(){
 		$(this).show();
 	});
+	//unhighlight all tags
+	$('.golink-tag').each(function(){
+		if($(this).hasClass('selected-tag')){
+			$(this).removeClass('selected-tag');
+		}
+	});
 	selected_tags = [];
 	$('.tag-cloud-tag').each(function(){
 		if($(this).hasClass('selected-tag')){
-			selected_tags.push($(this).attr('id'));
+			selected_tags.push($(this).attr('id').split('-tag')[0]);
 		}
 	});
 	console.log('these tags are selected');
@@ -22,6 +28,13 @@ function filterGolinks(){
 			}
 		});
 	}
+	//highlight all tags
+	$('.golink-tag').each(function(){
+		tag = $(this).text();
+		if(selected_tags.indexOf(tag) != -1){
+			$(this).addClass('selected-tag');
+		}
+	});
 }
 
 function rankLinkActions(){
@@ -73,13 +86,23 @@ function reinsertLink(link_row){
 }
 
 rankLinkActions();
-$(".tag-cloud-tag").click(function(){
-	if($(this).hasClass('selected-tag')){
-		$(this).removeClass('selected-tag');
+
+function toggleTagSelected(tag){
+	if($(tag).hasClass('selected-tag')){
+		$(tag).removeClass('selected-tag');
 	}
 	else{
-		$(this).addClass('selected-tag');
+		$(tag).addClass('selected-tag');
 	}
+}
+$(".tag-cloud-tag").click(function(){
+	toggleTagSelected($(this));
+	filterGolinks();
+});
+
+$('.golink-tag').click(function(){
+	tag = $(this).text();
+	toggleTagSelected($('#'+tag+'-tag'));
 	filterGolinks();
 });
 
