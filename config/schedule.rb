@@ -11,14 +11,19 @@
 set :output, {:error => 'error.log', :standard => 'cron.log'}
 
 RAILS_ROOT = ENV['RAILS_ROOT']
-every 10.minutes do
+every 15.minutes do
   # command "/usr/bin/some_great_command"
   command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:reindex"
   command "echo 'hi there reindexing golinks'"
   # rake "some:great:rake:task"
 end
 
-every 7.hours do
+every 5.minutes do 
+	command "cd #{RAILS_ROOT} && source setenv.sh && rake memcached:cache_golinks"
+  command "echo 'hi there memcaching golinks'"
+end
+
+every 12.hours do
   command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:scrape"
   command "echo 'hi there scraping golink documents!'"
 end

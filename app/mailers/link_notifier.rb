@@ -25,4 +25,15 @@ class LinkNotifier < ActionMailer::Base
     mail(:to => 'davidbliu@gmail.com',
     :subject => 'Google Drive Documents Scraped by PBL Machine' ).deliver
   end
+
+  def send_memcached_email
+    def dalli_client
+      options = { :namespace => "app_v1", :compress => true }
+      dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
+    end
+    @num_keys = dalli_client.get('go_key_hash')
+    mail(:to => 'davidbliu@gmail.com', :subject => 'Go Links Memcached').deliver
+  end
+
+
 end

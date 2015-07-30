@@ -1,6 +1,5 @@
 require 'dalli'
-
-
+require 'timeout'
 namespace :memcached do
 	task :cache_golinks => :environment do 
 		puts 'pulling links from parse'
@@ -24,6 +23,13 @@ namespace :memcached do
 		dc.set('go_tag_hash', tag_hash)
 		dc.set('go_tags', tags)
 		puts 'finished writing to memcached'
+
+
+		# send memcached email
+		status = Timeout::timeout(10) {
+		  # Something that should be interrupted if it takes more than 5 seconds...
+		  LinkNotifier.send_memcached_email
+		}
 	end
 
 	task :get_golinks => :environment do
