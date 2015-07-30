@@ -22,14 +22,14 @@ namespace :memcached do
 		end
 		dc.set('go_tag_hash', tag_hash)
 		dc.set('go_tags', tags)
-		puts 'finished writing to memcached'
+		puts 'finished writing to memcached '+Time.now.to_s
 
 
-		# send memcached email
-		status = Timeout::timeout(10) {
-		  # Something that should be interrupted if it takes more than 5 seconds...
-		  LinkNotifier.send_memcached_email
-		}
+		# # send memcached email
+		# status = Timeout::timeout(10) {
+		#   # Something that should be interrupted if it takes more than 5 seconds...
+		#   LinkNotifier.send_memcached_email
+		# }
 	end
 
 	task :get_golinks => :environment do
