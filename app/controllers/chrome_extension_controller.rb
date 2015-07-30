@@ -82,7 +82,7 @@ class ChromeExtensionController < ApplicationController
 			key = key.split(':')[0]
 		end
 
-		ParseGoLink.where(key: key).destroy_all
+		ParseGoLink.destroy_all(ParseGoLink.where(key: key).to_a)
 		# clear_go_cache
 		render json: "<h3>"+key+" has been removed</h3>", :status => 200
 	end
