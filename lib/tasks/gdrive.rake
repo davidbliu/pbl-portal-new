@@ -8,11 +8,9 @@ require 'timeout'
 
 require 'set'
 
+tab = "---->"
 namespace :gdrive do
 	task :scrape  => :environment do
-		puts 'scraping google drive'
-		puts SecureRandom.hex
-
 		client = Google::APIClient.new
 		auth = client.authorization
 		auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
@@ -27,33 +25,33 @@ namespace :gdrive do
 		auth.fetch_access_token!
 		access_token = auth.access_token
 
-		puts 'fetched access token'
 		# Creates a session.
 		session = GoogleDrive.login_with_oauth(access_token)
 		files = Array.new
-
-		# existing_urls = ParseGoLink.limit(10000000).all.map{|x| google_base_url(x.url)}
-		# puts existing_urls
-
-
 		linked_ids =  linked_resource_ids
-		existing_keys = ParseGoLink.limit(100000000).map{|x| x.key}
+		existing_golinks = ParseGoLink.limit(100000000).all.to_a
+		existing_keys = existing_golinks.map{|x| x.key}
+		existing_urls = existing_golinks.map{|x| x.url}
 
+		i = 0
 		linked_files = Array.new
 		unlinked_files = Array.new
 		session.files do |file|
-			if is_pbl_file(file)
-				files << file
-				if linked_ids.include?(file.resource_id.split(':')[1])
-					linked_files << file
-				else
-					unlinked_files << file
-				end
+			files << file
+			if existing_urls.include?(file.human_url)
+				linked_files << file
+			else
+				unlinked_files << file
 			end
+			puts i 
+			i+=1
 		end
 		puts 'finished scraping '+files.length.to_s+' files'
+		puts 'saving '+unlinked_files.length.to_s + ' new links'
 
-		puts 'saving '+unlinked_files.to_s + ' new links'
+		# create message to send about links you are saving
+		messages = Array.new
+		saved_urls = Array.new
 		golinks = Array.new
 		unlinked_files.each do |file|
 			key =  get_key(file, existing_keys).to_s
@@ -61,25 +59,41 @@ namespace :gdrive do
 			tags = get_tags(file)
 			url = file.human_url
 
-			if existing_keys.include?(key)
-				puts '***this key already exists'
-				puts "\t" + key
-				key = key + '-' + SecureRandom.hex.to_s
-				tags << 'duplicate'
+			if existing_keys.include?(key) 
+				if not existing_urls.include?(url) # if it is already a url, then dont save it
+					key = key + '-' + SecureRandom.hex.to_s
+					tags << 'duplicate'
+					puts '***this key already exists, creating a duplicate with random hash name'
+					puts "\t" + key
+					puts "\t" + url
+					messages <<  '***this key already exists, creating a duplicate with random hash name'
+					messages <<  (tab  + key)
+					messages <<  (tab + url)
+				end
 			else
 				puts key
 				puts "\t" + description
 				puts "\t" + tags.to_s
+				messages <<  key
+				messages <<  (tab + description)
+				messages <<  (tab + tags.to_s)
 			end
 
 			if not existing_keys.include?(key)
-				golinks << ParseGoLink.new(member_email:'berkeleypbl.webdev@gmail.com', tags: tags, key: key, description: description, url: url, type:'scraped')
+				golinks << ParseGoLink.new(member_email:'berkeleypbl.machine@gmail.com', tags: tags, key: key, description: description, url: url, type:'scraped')
+				saved_urls << url
 			end
 			existing_keys << key
+			existing_urls << url
 		end
-		# puts 'saving ' + golinks.length.to_s + ' go links'
-		# ParseGoLink.save_all(golinks)
-		# 	golinks << ParseGoLink.new(member_email: 'berkeleypbl.webdev@gmail.com', tags: get_tags(file), key:)
+		puts 'saving ' + golinks.length.to_s + ' go links'
+		ParseGoLink.save_all(golinks)
+
+		# send email notifying of scrape
+		status = Timeout::timeout(10) {
+		  # Something that should be interrupted if it takes more than 10 seconds...
+		  LinkNotifier.send_gdrive_scraped_email(messages, Array.new)
+		}
 	end
 end
 
@@ -143,6 +157,25 @@ def get_tags(file)
 	end
 	if title.include?("Summer 2014")
 		tags << 'summer-14'
+	end
+
+	# add tags for document types
+	document_types = ['ai', 'pdf', 'ppt', 'pptx', 'ppx', 'doc', 'img', 'png', 'jpg', 'jpeg']
+	
+	for docType in document_types
+		if title.downcase.include?("." + docType)
+			tags << docType
+		end
+	end
+
+	# add tags for key terms
+	terms = ["meeting", "budget", "event", "request", "resource", "interview", "workshop", "agenda", "newsletter", "yearbook", "page", 
+		"responses", "checkin", "chum", "check-in", "blog"]
+
+	for term in terms
+		if title.downcase.include?(term)
+			tags << term
+		end
 	end
 
 	if title.include?('[')

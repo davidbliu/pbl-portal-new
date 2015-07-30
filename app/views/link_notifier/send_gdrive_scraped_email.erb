@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+  	<h1>Scraper Messages</h1>
+  	<% @messages.each do |message| %>
+  		<div><%= message.html_safe %></div>
+	<% end %>
+
+	<h1>Saved URLs</h1>
+	<% @saved_urls.each do |url| %>
+	<div><%= url %></div>
+	<% end %>
+  </body>
+</html>

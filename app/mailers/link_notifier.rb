@@ -18,4 +18,11 @@ class LinkNotifier < ActionMailer::Base
   	mail(:to => 'davidbliu@gmail.com,eric.quach@berkeley.edu,kvyinn@gmail.com',
     :subject => 'PBL Links has been re-scraped' ).deliver
   end
+
+  def send_gdrive_scraped_email(messages, saved_urls)
+    @saved_urls = saved_urls
+    @messages = messages
+    mail(:to => 'davidbliu@gmail.com',
+    :subject => 'Google Drive Documents Scraped by PBL Machine' ).deliver
+  end
 end
