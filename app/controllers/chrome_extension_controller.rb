@@ -89,7 +89,7 @@ class ChromeExtensionController < ApplicationController
 
 	def lookup_url
 		url = params[:url]
-		@matches = go_link_hash.values.select{|x| x.is_url_match(url)}
+		@matches = go_link_key_hash.values.select{|x| x.is_url_match(url)}
 		puts 'this is matches'
 		puts @matches
 
@@ -121,7 +121,7 @@ class ChromeExtensionController < ApplicationController
 	end
 
 	def directories_dropdown
-		@golinks = go_link_hash.values
+		@golinks = go_link_key_hash.values
 		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
 		@directories = @directory_hash.keys.sort
 		@one_ply = ParseGoLink.one_ply(@directories)
