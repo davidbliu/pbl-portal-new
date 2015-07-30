@@ -1,7 +1,14 @@
 
 <style type = 'text/css'>
 #directory-container{
+   position: fixed;
+  top: 50px;
+  bottom: 0px;
+  /*width: 100px;*/
   right:45px;
+  /*background: #eee;*/
+  margin: 10px;
+  overflow: scroll;
 }
 #tag-cloud{
   margin-top:10px;
@@ -148,7 +155,7 @@
 </div><!-- end of col md 9 -->
   
 
-<div id = 'directory-container' class="col-md-3 affix">
+<div id = 'directory-container' class="col-md-3">
 
 	<h5 style = 'margin: 0px 0px 3px 0px;'><%= @golinks.length %> Links</h5>
   <div id="custom-search-input">
