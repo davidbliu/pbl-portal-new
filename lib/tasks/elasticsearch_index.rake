@@ -13,10 +13,10 @@ namespace :elasticsearch do
 		ParseGoLink.clearcache
 		puts 'Reindexed ' + GoLink.all.length.to_s + ' go links at '+Time.now.to_s
 		# send an email
-		status = Timeout::timeout(10) {
-		  # Something that should be interrupted if it takes more than 5 seconds...
-		  LinkNotifier.send_reindex_email
-		}
+		# status = Timeout::timeout(10) {
+		#   # Something that should be interrupted if it takes more than 5 seconds...
+		#   LinkNotifier.send_reindex_email
+		# }
 	end
 	task :scrape  => :environment do
 		
