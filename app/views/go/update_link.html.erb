@@ -1,0 +1,43 @@
+
+
+<% if @ratings.keys.include?(@golink.key) %>
+<td class = 'golink-rating-td'><input class = 'rank-input input input-sm' type = 'text' style = 'width:45px;border:none;height:2em' value = '<%= @ratings[@golink.key].rating %>' id = '<%= @golink.key %>-rank-input' /></td>
+<% else %>
+<td class = 'golink-rating-td'><input class = 'rank-input input input-sm' type = 'text' style = 'width:45px;border:none;height:2em' value = '50' id = '<%= @golink.key %>-rank-input' /></td>
+<% end %>
+<td class = 'golink-type-td'><img class = '' src = '<%= @golink.get_type_image %>' height=17/></td>
+<td class = '@golink-key-td'><a href = 'http://pbl.link/<%= @golink.key %>' target="_blank"><%= @golink.key %></a>
+</td> 
+<td class = '@golink-description-td'>
+	<input type = 'text' class = 'input-sm key-edit-input' value = '<%= @golink.key %>' placeholder = 'change the key here'></input>
+	<input type = 'text' class = 'input-sm description-edit-input' value = '<%= @golink.description %>' placeholder = 'add a description here'></textarea>
+	<span class = 'edit-tags-container' id = '<%= @golink.key %>-tags-container'>
+		<% if @golink.tags %>
+			<% @golink.tags.each do |tag| %>
+			<div class = 'label label-default edit-tag'><%= tag %> <a href = 'javascript:void(0)' class = 'tag-delete-link' id = '<%= @golink.key %>,<%= tag %>'>x</a></div>
+			<% end %>
+		<% end %>
+		<input type = 'text' class = 'input-sm tags-edit-input' id = '<%= @golink.key %>-tags-edit-input' placeholder = 'add tags here. click enter to add your tag'></input>
+	</span>
+	
+	<div class = 'edit-buttons'>
+		<button class = 'btn btn-material-blue-500 save-link-btn' id = '<%= @golink.key %>'>Save</button> <button class = 'btn btn-material-red-500 delete-link-btn' id = '<%= @golink.key %>'>Delete</button>
+	</div>
+
+	<span class = 'description-container' id = '<%= @golink.key %>-description-container'><%= @golink.description %></span>
+	<span class = 'tags-container' id = '<%= @golink.key %>-tags-container'>
+		<% if @golink.tags %>
+			<% @golink.tags.each do |tag| %>
+			<div class = 'label label-default golink-tag'  <% if @tag_color_hash.keys.include?(tag) %>style = "background-color:<%= @tag_color_hash[tag].color %>"<% end %>><%= tag %></div>
+			<% end %>
+		<% end %>
+	</span>
+</td>
+<td style='text-align:right'>
+	&nbsp;<a href = 'javascript:void(0);' class = 'link-edit-link' id = '<%= @golink.key %>-edit-link'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
+	</a>
+	<!-- &nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= @golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a> -->
+</td>
+
+
+<%= javascript_include_tag 'tag_catalogue' %>

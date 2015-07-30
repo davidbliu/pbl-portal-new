@@ -17,3 +17,11 @@
 	max-width:300px;
 	overflow:hidden;
 }
+.link-row>.golink-rating-td{
+	width:5%;
+	overflow:hidden;
+}
+.link-row>.golink-type-td{
+	width: 5%;
+	overflow:hidden;
+}

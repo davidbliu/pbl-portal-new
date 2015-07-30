@@ -500,6 +500,47 @@ class GoController < ApplicationController
 		redirect_to '/go'
 	end
 
+	def delete_link
+
+		key = params[:key]
+
+		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
+		if override
+			key = key.split(':')[0]
+		end
+
+		go_link_key_hash[key].destroy
+		clear_go_cache
+		render nothing: true, status: 200
+	end
+
+	def update_link
+		key = params[:key]
+		tags = params[:tags].split(',')
+		description = params[:description]
+		newkey = params[:newkey]
+
+		golink = go_link_key_hash[key]
+		golink.tags = tags
+		golink.description = description
+
+		if newkey and newkey != ""
+			if ParseGoLink.valid_key(newkey) and not go_link_key_hash.keys.include?(newkey)
+				golink.key = newkey
+			end
+		end
+		
+		golink.save
+		clear_go_cache
+
+		@golink = golink 
+		# get colors
+		@tag_color_hash = ParseGoLinkTag.color_hash
+		@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
+		render 'update_link',:layout =>false
+		# render nothing: true, status:200
+	end
+
 	def json
 		render json: GoLink.all
 	end

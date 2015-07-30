@@ -37,6 +37,8 @@ Dockernotes::Application.routes.draw do
   get 'go/admin', to: 'go#admin' #admin main dashboard
   get 'go/tags', to: 'go#tag_catalogue'
   post 'go/update_rank', to:'go#update_rank'
+  post 'go/delete_link', to: 'go#delete_link'
+  post 'go/update_link', to: 'go#update_link'
 
 
   """ chrome extension routes """

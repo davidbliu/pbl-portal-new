@@ -145,15 +145,6 @@ def get_tags(file)
 		tags << 'summer-14'
 	end
 
-	# # get tags for committees
-	# committees = ['co', 'cs', 'fi', 'ht', 'mk', 'pb', 'pd', 'so', 'wd', 'ex', 'in', 'of']
-	# downcased_title = title.downcase
-	# for committee in committees
-	# 	if downcased_title.include?(committee)
-	# 		tags << committee
-	# 	end
-	# end
-
 	if title.include?('[')
 		tags.concat title.split('[').select{|x| x!=''}.map{|x| x.split(']')[0]}
 	end
