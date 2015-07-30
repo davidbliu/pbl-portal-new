@@ -9,7 +9,7 @@ class MembersController < ApplicationController
 
 	def home
 		@current_member = current_member
-		@golinks = go_link_hash.values #ParseGoLink.limit(10000).all.to_a
+		@golinks = go_link_key_hash.values #ParseGoLink.limit(10000).all.to_a
 		@trending_links = @golinks.select{|x| x.type == 'trending'}
 		if current_member and current_member.email
 			# @favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})

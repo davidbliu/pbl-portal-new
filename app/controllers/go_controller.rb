@@ -19,21 +19,6 @@ class GoController < ApplicationController
 			end
 		end
 
-		if current_member
-			# @ratings = ParseGoLinkRating.limit(1000000).where(member_email:current_member.email).index_by(&:key)
-			@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
-		else
-			@ratings = Hash.new
-		end
-
-		def rating_index(key)
-			if @ratings.keys.include?(key)
-				return @ratings[key].rating
-			else
-				return 50
-			end
-		end
-
 		# sort golinks by ratings
 
 		def contains_all_tags(golink, tags)
@@ -269,7 +254,7 @@ class GoController < ApplicationController
 
 	def lookup
 		url = params[:url]
-		@keys = go_link_hash.values.select{|x| x.url == url}
+		@keys = go_link_key_hash.values.select{|x| x.url == url}
 	end
 	
 	def cwd
@@ -363,7 +348,7 @@ class GoController < ApplicationController
 		@keys = go_link_key_hash.keys
 
 		""" directories """
-		@golinks = go_link_hash.values
+		@golinks = go_link_key_hash.values
 		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
 		@directories = @directory_hash.keys.sort
 		@one_ply = ParseGoLink.one_ply(@directories)

@@ -45,7 +45,7 @@ module CacheHelper
 
 	""" go key caching methods """
 	def clear_go_cache
-		Rails.cache.write("go_link_hash", nil)
+		# Rails.cache.write("go_link_hash", nil)
 		Rails.cache.write("go_link_key_hash", nil)
 		Rails.cache.write("go_link_favorite_hash", nil)
 		Rails.cache.write("go_link_tag_hash", nil)
@@ -92,20 +92,25 @@ module CacheHelper
 		if a != nil
 			return a
 		end
-		a = ParseGoLink.limit(10000).all.index_by(&:key)
+		puts 'calculated key hash'
+		start = Time.now
+		a = ParseGoLink.limit(100000).all.index_by(&:key)
+		stop = Time.now
+		diff = (stop-start) * 1000
+		puts 'calculated hash in ' + diff.to_s + ' milliseconds'
 		Rails.cache.write('go_link_key_hash', a)
 		return a
 	end
 
-	def go_link_hash
-		a = Rails.cache.read('go_link_hash')
-		if a != nil
-			return a
-		end
-		a = ParseGoLink.limit(10000).all.index_by(&:id)
-		Rails.cache.write('go_link_hash', a)
-		return a
-	end
+	# def go_link_hash
+	# 	a = Rails.cache.read('go_link_hash')
+	# 	if a != nil
+	# 		return a
+	# 	end
+	# 	a = ParseGoLink.limit(10000).all.index_by(&:id)
+	# 	Rails.cache.write('go_link_hash', a)
+	# 	return a
+	# end
 
 	""" tasks cache """
 
