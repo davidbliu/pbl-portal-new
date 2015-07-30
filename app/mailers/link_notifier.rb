@@ -31,7 +31,7 @@ class LinkNotifier < ActionMailer::Base
       options = { :namespace => "app_v1", :compress => true }
       dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
     end
-    @num_keys = dalli_client.get('go_key_hash')
+    @num_keys = dalli_client.get('go_key_hash').keys.length
     mail(:to => 'davidbliu@gmail.com', :subject => 'Go Links Memcached').deliver
   end
 
