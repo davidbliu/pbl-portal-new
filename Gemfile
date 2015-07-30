@@ -62,6 +62,9 @@ gem 'google_drive'
 gem "kaminari" # optional for pagination support
 gem 'parse_resource', github: 'adelevie/parse_resource'
 gem "parse-ruby-client"
+
+# memcached
+gem 'dalli'
 #, "~> 1.8.0"
 
 # scraping pbl links

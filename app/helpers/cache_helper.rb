@@ -1,5 +1,10 @@
 module CacheHelper
 
+	def dalli_client
+		options = { :namespace => "app_v1", :compress => true }
+		dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
+	end
+
 	""" semester caching methods """
 
 	""" member caching methods """
@@ -88,19 +93,21 @@ module CacheHelper
 	end
 
 	def go_link_key_hash
-		a = Rails.cache.read('go_link_key_hash')
-		if a != nil
-			return a
-		end
-		puts 'calculated key hash'
-		start = Time.now
-		a = ParseGoLink.limit(100000).all.index_by(&:key)
-		stop = Time.now
-		diff = (stop-start) * 1000
-		puts 'calculated hash in ' + diff.to_s + ' milliseconds'
-		Rails.cache.write('go_link_key_hash', a)
-		return a
+		dc = dalli_client
+		return dc.get('go_key_hash')
 	end
+
+	def go_tag_hash
+		a = dalli_client.get('go_tag_hash')
+		return a ? a : Hash.new
+	end
+
+	def go_tags
+		a =  dalli_client.get('go_tags')
+		return a ? a : Array.new
+	end
+
+
 
 	# def go_link_hash
 	# 	a = Rails.cache.read('go_link_hash')
