@@ -87,7 +87,7 @@ function reinsertLink(link_row){
 	}
 }
 
-rankLinkActions();
+// rankLinkActions();
 
 function editLinkActions(){
 	$('.link-edit-link').unbind('click').click(function(){
@@ -104,7 +104,7 @@ function editLinkActions(){
 		$(link_row).find('.edit-buttons').toggle();
 	});
 }
-editLinkActions();
+// editLinkActions();
 
 function deleteLinkActions(){
 	$('.delete-link-btn').unbind('click').click(function(){
@@ -127,13 +127,13 @@ function deleteLinkActions(){
 
 	});
 }
-deleteLinkActions();
+// deleteLinkActions();
 function deleteTagActions(){
 	$('.tag-delete-link').unbind('click').click(function(){
 		$(this).parent().remove();
 	});
 }
-deleteTagActions();
+// deleteTagActions();
 
 function stripText(text){
 	return text.toLowerCase().replace(/[^a-zA-Z0-9 -]/g, '').replace(/ /g,'-');
@@ -157,7 +157,7 @@ function addTagActions(){
 		}
 	});
 }
-addTagActions();
+// addTagActions();
 
 function saveLinkActions(){
 	$('.save-link-btn').unbind('click').click(function(){
@@ -193,7 +193,7 @@ function saveLinkActions(){
 		  });
 	});
 }
-saveLinkActions();
+// saveLinkActions();
 function toggleTagSelected(tag){
 	if($(tag).hasClass('selected-tag')){
 		$(tag).removeClass('selected-tag');
@@ -207,9 +207,9 @@ $(".tag-cloud-tag").unbind('click').click(function(){
 	filterGolinks();
 });
 
-$('.golink-tag').unbind('click').click(function(){
-	tag = $(this).text();
-	// tag = tag.substring(0, tag.length-2);
-	toggleTagSelected($('#'+tag+'-tag'));
-	filterGolinks();
-});
+// $('.golink-tag').unbind('click').click(function(){
+// 	tag = $(this).text();
+// 	// tag = tag.substring(0, tag.length-2);
+// 	toggleTagSelected($('#'+tag+'-tag'));
+// 	filterGolinks();
+// });

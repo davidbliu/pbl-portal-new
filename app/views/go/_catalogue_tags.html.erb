@@ -1,78 +1,41 @@
 <style type = 'text/css'>
-.tags-edit-input{
-	border:1px solid rgba(0,0,0,0.1);
-	width:100%;
-	display:none;
+.link-row>.golink-key-td{
+	width:25%;
+	max-width: 200px;
+	overflow:hidden;
 }
-.key-edit-input{
-	border:1px solid rgba(0,0,0,0.1);
-	width:100%;
-	display:none;
-	color:gray;
+.link-row>.golink-description-td{
+	width:50%;
+	max-width:300px;
+	overflow:hidden;
 }
-.description-edit-input{
-	border:1px solid rgba(0,0,0,0.1);
-	width:100%;
-	display:none;
-}
-.tag-delete-link{
-	color:white;
-}
-.edit-tags-container{
-	display:none;
-}
-.edit-buttons{
-	display:none;
-}
-.rank-input{
-	width:39px;
-	text-align:center;
-	border:none;
-	height:2em;
+.link-row>.golink-type-td{
+	width: 5%;
+	overflow:hidden;
 }
 </style>
 <table class = 'directory-table table table-hover table-condensed'>
 	<tbody class = 'directory-tbody'>
 	<% golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.key %>-row'>
-		<% if @ratings.keys.include?(golink.key) %>
-		<td class = 'golink-rating-td'><input class = 'rank-input input input-sm' type = 'text'  value = '<%= @ratings[golink.key].rating %>' id = '<%= golink.key %>-rank-input' /></td>
-		<% else %>
-		<td class = 'golink-rating-td'><input class = 'rank-input input input-sm' type = 'text' value = '50' id = '<%= golink.key %>-rank-input' /></td>
-		<% end %>
 		<td class = 'golink-type-td'><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
 		<td class = 'golink-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'>
-			<input type = 'text' class = 'input-sm key-edit-input' value = '<%= golink.key %>' placeholder = 'change the key here'></input>
-			<input type = 'text' class = 'input-sm description-edit-input' value = '<%= golink.description %>' placeholder = 'add a description here'></input>
-			<span class = 'edit-tags-container' id = '<%= golink.key %>-tags-container'>
-				<% if golink.tags %>
-					<% golink.tags.each do |tag| %>
-					<div class = 'label label-default edit-tag'><%= tag %> <a href = 'javascript:void(0)' class = 'tag-delete-link' id = '<%= golink.key %>,<%= tag %>'>x</a></div>
-					<% end %>
+			<%= golink.description %>
+			<% if golink.tags %>
+				<% golink.tags.each do |tag| %>
+				<% if @selected_tags.include?(tag) %>
+					<div class = 'label label-default selected-tag' id = '<%= tag %>'><%= tag %></div>
+				<% else %>
+					<div class = 'label label-default' id = '<%= tag %>' ><%= tag %></div>
 				<% end %>
-				<input type = 'text' class = 'input-sm tags-edit-input' id = '<%= golink.key %>-tags-edit-input' placeholder = 'add tags here. click enter to add your tag'></input>
-			</span>
-			
-			<div class = 'edit-buttons'>
-				<button class = 'btn btn-material-blue-500 save-link-btn' id = '<%= golink.key %>'>Save</button> <button class = 'btn btn-material-red-500 delete-link-btn' id = '<%= golink.key %>'>Delete</button>
-			</div>
-
-			<span class = 'description-container' id = '<%= golink.key %>-description-container'><%= golink.description %></span>
-			<span class = 'tags-container' id = '<%= golink.key %>-tags-container'>
-				<% if golink.tags %>
-					<% golink.tags.each do |tag| %>
-					<div class = 'label label-default golink-tag'  <% if tag_color_hash.keys.include?(tag) %>style = "background-color:<%= tag_color_hash[tag].color %>"<% end %>><%= tag %></div>
-					<% end %>
 				<% end %>
-			</span>
+			<% end %>
 		</td>
 		<td style='text-align:right'>
-			&nbsp;<a href = 'javascript:void(0);' class = 'link-edit-link' id = '<%= golink.key %>-edit-link'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
+			<a href = 'javascript:void(0);' class = 'link-edit-link' id = '<%= golink.key %>-edit-link'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
 			</a>
-			<!-- &nbsp;<a href = '/go/<%= golink.id %>/metrics' target="_blank"><i class = 'mdi-action-trending-up' style = 'font-size:15px'></i></a> -->
-			<!-- &nbsp;<a class = 'clipboard-copy' id = 'http://pbl.link/<%= golink.key %>' href = '#'><i class ='mdi-content-content-paste' style = 'font-size:15px'></i></a> -->
 		</td>
 	</tr>
 	<% end %>

@@ -82,8 +82,8 @@ class ChromeExtensionController < ApplicationController
 			key = key.split(':')[0]
 		end
 
-		go_link_key_hash[key].destroy
-		clear_go_cache
+		ParseGoLink.where(key: key).destroy_all
+		# clear_go_cache
 		render json: "<h3>"+key+" has been removed</h3>", :status => 200
 	end
 
@@ -92,11 +92,6 @@ class ChromeExtensionController < ApplicationController
 		@matches = go_link_hash.values.select{|x| x.is_url_match(url)}
 		puts 'this is matches'
 		puts @matches
-		# match_string = "<ul class = 'list-group'>"
-		# matches.each do |match|
-		# 	match_string += "<li class = 'list-group-item'>pbl.link/" + match.key + "</li>"
-		# end
-		# match_string += "</ul>"
 
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
@@ -141,20 +136,6 @@ class ChromeExtensionController < ApplicationController
 
 	def search
 		search_term = params[:search_term]
-		# @golinks = go_link_hash.values
-		# # filter by search term
-		# results = Array.new
-		# @golinks.each do |golink|
-		# 	if golink.key.include?(search_term) or golink.url.include?(search_term) or golink.description.include?(search_term)
-		# 		results << golink
-		# 	else
-		# 		golink.key.split('-').each do |term|
-		# 			if term.include?(search_term)
-		# 				results << golink
-		# 			end
-		# 		end
-		# 	end
-		# end
 		key_hash = go_link_key_hash
 		keys = ParseGoLink.search(search_term)
 

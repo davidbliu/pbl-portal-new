@@ -14,24 +14,15 @@
   margin-top:10px;
   padding:10px;
 }
-#tag-cloud>.tag-cloud-tag{
-  margin:2px;
-  opacity:0.3;
-}
-#tag-cloud>.tag-cloud-tag:hover{
+.label:hover{
   cursor:pointer;
 }
-#tag-cloud>.tag-cloud-tag.selected-tag{
+.label.selected-tag{
   opacity:1.0;
 }
-.golink-tag{
+.label{
   opacity:0.3;
-}
-.golink-tag.selected-tag{
-  opacity:1;
-}
-.golink-tag:hover{
-  cursor:pointer;
+  margin:2px;
 }
 .smalltext{
   font-size:10px;
@@ -141,7 +132,6 @@
 <div id = 'spinner-div'><img src = 'http://www.canyonsresort.com/Content/component-themes/lessons/images/ajax_loader_vector.gif' height=100></img></div>    
 
 <div class="col-md-9 catalogue-div">
-
 <h1 class = 'middle-title'>PBL Links</h1>
     <p>PBL Links is a custom URL shortener for PBL. PBL Links has two main goals: simplifying the way we <b>access and discover resources</b> in PBL. </p>
   <a href = 'javascript:void(0);' data-toggle="modal" data-target="#guide-modal">
@@ -149,15 +139,17 @@
   </a>
 
 <div id = 'catalogue-container' style = 'margin-top:25px'>
-  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, ratings: @ratings, tag_color_hash: @tag_color_hash} %>
+  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, selected_tags: @selected_tags, tag_color_hash: @tag_color_hash} %>
 </div>
+
+<%= will_paginate @golinks %>
 
 </div><!-- end of col md 9 -->
   
 
 <div id = 'directory-container' class="col-md-3">
 
-	<h5 style = 'margin: 0px 0px 3px 0px;'><%= @golinks.length %> Links</h5>
+	
   <div id="custom-search-input">
       <div class="input-group">
           <input id = 'search-input' type="text" class="input-sm" placeholder="Search for a PBL link" />
@@ -172,9 +164,15 @@
   <div id = 'tag-cloud'>
     <p class = 'smalltext text-muted'>Click tags to filter by them</p>
     <% @tags.each do |tag| %>
-      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>-tag' <% if @tag_color_hash.keys.include?(tag) %>style = "background-color:<%= @tag_color_hash[tag].color %>"<% end %>>
-        <%= tag %>
-      </div>
+      <% if @selected_tags.include?(tag) %>
+        <div class = 'label label-default selected-tag' id = '<%= tag %>' <% if @tag_color_hash.keys.include?(tag) %>style = "background-color:<%= @tag_color_hash[tag].color %>"<% end %>>
+          <%= tag %>
+        </div>
+      <% else %>
+      <div class = 'label label-default tag-cloud-tag' id = '<%= tag %>' <% if @tag_color_hash.keys.include?(tag) %>style = "background-color:<%= @tag_color_hash[tag].color %>"<% end %>>
+          <%= tag %>
+        </div>
+      <% end %>
     <% end %>
   </div>
   <p class = 'text-muted smalltext'>
@@ -183,8 +181,11 @@
 </div>
 
 
-<%= javascript_include_tag "tag_catalogue" %>
 
+<%= javascript_include_tag "tag_catalogue_paged" %>
+<script>
+var selected_tags = JSON.parse('<%= @selected_tags.to_json.html_safe %>');
+</script>
 <script type = 'text/javascript'>
 function activateSearchButton(){
   $('#search-btn').click(function(){

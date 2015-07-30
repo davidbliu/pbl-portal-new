@@ -1,31 +1,11 @@
 require 'set'
+require 'will_paginate/array'
 class GoController < ApplicationController
 
 	def tag_catalogue
 		""" deal with key redirects if needed """
-		go_key = params.keys[0]
+		# go_key = params.keys[0]
 		go_hash = go_link_key_hash
-		@current_member = current_member
-		
-		if params.length >= 3 and go_hash.keys.include?(go_key)
-			# correctly used alias
-			golink = go_hash[go_key]
-			""" log tracking data for link click """
-			if @current_member	
-				click = ParseGoLinkClick.new
-				click.member_email = @current_member.email
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			else
-				click = ParseGoLinkClick.new
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			end
-			# send to link url
-			redirect_to golink.url
-		end
 
 		""" render the catalogue if no redirects """
 		@golinks = go_hash.values
@@ -38,6 +18,7 @@ class GoController < ApplicationController
 				@tag_hash[golink.key] = Array.new
 			end
 		end
+
 		if current_member
 			# @ratings = ParseGoLinkRating.limit(1000000).where(member_email:current_member.email).index_by(&:key)
 			@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
@@ -54,7 +35,29 @@ class GoController < ApplicationController
 		end
 
 		# sort golinks by ratings
-		@golinks = @golinks.sort_by{|x| rating_index(x.key)}
+
+		def contains_all_tags(golink, tags)
+			if not golink.tags
+				return false
+			end
+			tags.each do |tag|
+				if not golink.tags.include?(tag)
+					return false
+				end
+			end
+			return true
+		end
+		@selected_tags = Array.new
+		page =  params[:page] ? params[:page].to_i : 1
+		if params[:tags] and params[:tags] != ""
+			@selected_tags = params[:tags].split(',')
+			@golinks = @golinks.select{|x| contains_all_tags(x, @selected_tags)}
+		end
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		
+		# @golinks = ParseGoLink.page(params[:page]).per(100)
+		puts page
+		puts @golinks
 		# get colors
 		@tag_color_hash = ParseGoLinkTag.color_hash
 	end
@@ -234,13 +237,13 @@ class GoController < ApplicationController
 
 	def index
 		go_key = params[:key]
-		link_hash = go_link_hash #see cache helper for details 
-		go_hash = go_link_key_hash
+		# link_hash = go_link_hash #see cache helper for details 
+		# go_hash = go_link_key_hash
 		# link_hash.values.index_by(&:key) # key is key and value is link 
-
-		if go_hash.keys.include?(go_key)
+		golinks = ParseGoLink.where(key: go_key).to_a
+		if golinks.length > 0
+			golink = golinks[0]
 			# correctly used alias
-			golink = go_hash[go_key]
 			""" log tracking data for link click """
 			if current_member	
 				click = ParseGoLinkClick.new
@@ -262,83 +265,7 @@ class GoController < ApplicationController
 		
 	end
 
-	def go(key = nil)
-		"""put permissions on golinks?"""
-		puts 'here are params '+params.to_s
-		if key != nil
-			go_key = key
-		else
-			go_key = params.keys[0]
-		end
-
-		link_hash = go_link_hash
-		# ParseGoLink.hash
-		go_hash = go_link_key_hash
-		 # link_hash.values.index_by(&:key)
-		
-		if params.length < 3
-			@message = nil
-		# elsif params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
-		# 	puts 'searching for : '+params[:search_term]
-		# 	@search_results = ParseGoLink.search(params[:search_term]).results
-		# 	@search_term = params[:search_term]
-		# 	@link_hash = link_hash
-		elsif go_hash.keys.include?(go_key)
-			# correctly used alias
-			golink = go_hash[go_key]
-			""" log tracking data for link click """
-			if current_member	
-				click = ParseGoLinkClick.new
-				click.member_email = current_member.email
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			else
-				click = ParseGoLinkClick.new
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			end
-			# send to link url
-			redirect_to golink.url
-		else
-			# did not find key
-			@message = 'The key ('+go_key.to_s+') was not recognized, please check the catalogue to make sure your key exists!'
-		end
-		# else display the catalogue
-		@cwd = '/'
-		if params.keys.include?('cwd')
-			@cwd = params[:cwd]
-		end
-
-		""" render the directory component of the page """
-		@backpaths = dir_back_paths(@cwd)
-		@subdirectories = ParseGoLink.subdirectories(@cwd)
-		@cwd_links = ParseGoLink.hash.values.select{|x| x.dir.start_with?(@cwd)}.sort_by{|x| [x.dir, x.key]}
-		@go_key = go_key
-		@key_hash = go_hash
-
-		@filters = Array.new
-		""" filter cwd links if search term exists """
-		if params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
-			puts 'searching for : '+params[:search_term]
-			search_result_keys = ParseGoLink.search(params[:search_term])
-			puts 'search result keys were : '+search_result_keys.to_s
-			@cwd_links = @cwd_links.select{|x| search_result_keys.include?(x.key)}.sort_by{|x| search_result_keys.index(x.key)}
-			filter = "search:" + params[:search_term]
-			@filters << filter
-		end
-
-		if params.keys.include?('link_type')
-			# @link_type = params[:link_type]
-			type = params[:link_type]
-			filter = "type:" + type
-			@filters << filter
-			# @filtered_type_links = ParseGoLink.hash.values.select{|x| x.resolve_type == @link_type}.sort_by{|x| x.key}
-			# @type_image = ParseGoLink.type_to_image(@link_type)
-			@cwd_links = @cwd_links.select{|x| x.resolve_type == type}
-		end
-	end
+	
 
 	def lookup
 		url = params[:url]
@@ -508,9 +435,8 @@ class GoController < ApplicationController
 		if override
 			key = key.split(':')[0]
 		end
-
-		go_link_key_hash[key].destroy
-		clear_go_cache
+		ParseGoLink.where(key: key).destroy_all
+		# clear_go_cache
 		render nothing: true, status: 200
 	end
 
@@ -531,7 +457,7 @@ class GoController < ApplicationController
 		end
 		
 		golink.save
-		clear_go_cache
+		# clear_go_cache
 
 		@golink = golink 
 		# get colors
