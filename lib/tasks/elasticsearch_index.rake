@@ -102,7 +102,7 @@ def get_google_client
 	  'https://www.googleapis.com/auth/calendar'
 	]
 	auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
-	auth.refresh_token = ENV['REFRESH_TOKEN']
+	auth.refresh_token = ENV['GOOGLE_DRIVE_REFRESH']
 	return client
 end
 
