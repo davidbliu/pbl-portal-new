@@ -62,17 +62,26 @@ namespace :gdrive do
 		for lvl in 0..level
 			level_string += '..'
 		end
-		puts level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
+		print level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
 		# dont do anything if you need to skip the file
 		if not $skip.include?(collection.title)
-			scrape_files(collection, previous_titles)
+			# timeout on scraping fiels just in case
+			begin
+				status = Timeout::timeout(60) {
+				  # Something that should be interrupted if it takes more than 5 seconds...
+				  scrape_files(collection, previous_titles)
+				}
+			rescue
+				puts ' timeout'
+			end
+			
 			cumulative_titles = previous_titles.clone
 			cumulative_titles << collection.title
 			collection.subcollections.each do |subcollection|
 				scrape_subcollection(subcollection, cumulative_titles)
 			end
 		else
-			puts 'skipped!'
+			puts ' skipped'
 		end
 	end
 
@@ -107,9 +116,10 @@ namespace :gdrive do
 		if golinks.length > 0
 			ParseGoLink.save_all(golinks)
 			$scraped_links.concat(golinks)
-		else
-			puts 'already scraped'
+			print ' +'+golinks.length.to_s
 		end
+
+		puts ''
 	end
 
 	task :scrape2  => :environment do
