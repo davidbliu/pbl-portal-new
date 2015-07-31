@@ -1,4 +1,5 @@
 $('.label').click(function(){
+	$('#loading-gif').show();
 	tag = $(this).attr('id');
 	index = selected_tags.indexOf(tag);
 	if(index != -1){

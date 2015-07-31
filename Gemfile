@@ -62,6 +62,7 @@ gem 'google_drive'
 gem "kaminari" # optional for pagination support
 gem 'parse_resource', github: 'adelevie/parse_resource'
 gem "parse-ruby-client"
+# gem 'parse-ruby-client', git: 'https://github.com/adelevie/parse-ruby-client.git'
 
 # memcached
 gem 'dalli'

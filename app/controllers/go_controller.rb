@@ -20,6 +20,7 @@ class GoController < ApplicationController
 		# end
 		@tags = go_tags
 		@tag_hash = go_tag_hash
+		@tag_color_hash = ParseGoLinkTag.color_hash
 
 		# sort golinks by ratings
 
@@ -46,7 +47,7 @@ class GoController < ApplicationController
 		puts page
 		puts @golinks
 		# get colors
-		@tag_color_hash = ParseGoLinkTag.color_hash
+		
 	end
 
 	def update_rank

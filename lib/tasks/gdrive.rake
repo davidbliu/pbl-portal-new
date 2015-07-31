@@ -10,7 +10,93 @@ require 'set'
 
 tab = "---->"
 namespace :gdrive do
-	task :scrape  => :environment do
+
+	task :scrape => :environment do 
+		client = Google::APIClient.new
+		auth = client.authorization
+		auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
+		auth.client_secret = ENV['GOOGLE_INSTALLED_CLIENT_SECRET']
+		auth.scope = [
+		  "https://www.googleapis.com/auth/drive",
+		  "https://spreadsheets.google.com/feeds/",
+		  'https://www.googleapis.com/auth/calendar'
+		]
+		auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+		auth.refresh_token = ENV['GOOGLE_DRIVE_REFRESH']
+		auth.fetch_access_token!
+		access_token = auth.access_token
+
+		# Creates a session.
+		session = GoogleDrive.login_with_oauth(access_token)
+
+		# set global variables
+		$files = 0
+		$existing_golinks = ParseGoLink.limit(100000000).all.to_a
+		$existing_keys = $existing_golinks.map{|x| x.key}
+		$existing_urls = $existing_golinks.map{|x| x.url}
+		$scraped_links = Array.new
+
+		# start scraping
+		collections = session.collections
+		collections.each do |collection|
+			scrape_subcollection(collection, Array.new)
+		end
+
+		
+	end
+
+	def scrape_subcollection(collection, previous_titles, tags = Array.new)
+		level = previous_titles.length
+		level_string = ''
+		for lvl in 0..level
+			level_string += '..'
+		end
+		puts level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
+		scrape_files(collection, previous_titles)
+		cumulative_titles = previous_titles.clone
+		cumulative_titles << collection.title
+		collection.subcollections.each do |subcollection|
+			scrape_subcollection(subcollection, cumulative_titles)
+		end
+	end
+
+	def scrape_files(collection, directories)
+		tags = Array.new
+		dirs = directories.clone
+		dirs << collection.title
+		dirs.each do |directory|
+			tags = tags + get_tags2(directory)
+		end
+
+		dir_files = Array.new
+		golinks = Array.new
+		collection.files do |file|
+			# update tags for the file
+			file_tags = tags + get_tags2(file.title)
+			file_tags = Set.new(file_tags).to_a
+			# puts file.title
+			# puts file_tags.join(',')
+			key = get_key(file)
+			url = file.human_url
+			description = file.title
+			if not $existing_urls.include?(url)
+				if $existing_keys.include?(key)
+					key += '-'+SecureRandom.hex.to_s
+					file_tags << "duplicated"
+				end
+				golinks << ParseGoLink.new(member_email:'berkeleypbl.machine@gmail.com', tags: file_tags, key: key, description: description, url: url, type:'scraped')
+			end
+		end
+		# save all golinks 
+		if golinks.length > 0
+			ParseGoLink.save_all(golinks)
+			$scraped_links.concat(golinks)
+		else
+			puts 'already scraped'
+		end
+	end
+
+	task :scrape2  => :environment do
 		client = Google::APIClient.new
 		auth = client.authorization
 		auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
@@ -28,7 +114,6 @@ namespace :gdrive do
 		# Creates a session.
 		session = GoogleDrive.login_with_oauth(access_token)
 		files = Array.new
-		linked_ids =  linked_resource_ids
 		existing_golinks = ParseGoLink.limit(100000000).all.to_a
 		existing_keys = existing_golinks.map{|x| x.key}
 		existing_urls = existing_golinks.map{|x| x.url}
@@ -56,7 +141,7 @@ namespace :gdrive do
 		unlinked_files.each do |file|
 			key =  get_key(file, existing_keys).to_s
 			description = file.title
-			tags = get_tags(file)
+			tags = get_tags(file.title)
 			url = file.human_url
 
 			if existing_keys.include?(key) 
@@ -106,7 +191,7 @@ def is_pbl_file(file)
 	return false
 end
 
-def get_key(file, existing_keys)
+def get_key(file)
 	title = file.title
 	# remove []
 	# title = title.split(']')[-1];
@@ -125,9 +210,107 @@ def get_key(file, existing_keys)
 	return title
 end
 
+def get_semester_tags(title)
+	semesters = Array.new
+	seasons = ["fall", "spring", "winter", "summer"]
+	years = ["2010", "2011", "2012", "2013", "2014", "2015", "2016"]
+	seasons.each do |season|
+		years.each do |year|
+			semesters << season + " "+year
+		end
+	end
+	tags = Array.new
+	for semester in semesters 
+		if title.include?(semester)
+			tags << semester
+		end
+	end
+	return tags
+end
+
+def get_committee_tags(title)
+end
+
+def get_keyword_tags(title)
+	terms = Hash.new
+	terms["cases"] = ["case competition", "case", "cases"]
+	terms["resources"] = ["resource", "resources"]
+	terms["interview"] = ["interview"]
+	terms["workshops"] = ["workshops", "workshop"]
+	terms["books"] = ["books"]
+	terms["studies"] = ["studies"]
+	terms["budget"] = ["budget"]
+	terms["blog"] = ["blog"]
+	terms["agendas"] = ["agenda", "agendas"]
+	terms["newsletters"] = ["newsletter"]
+	terms["yearbook"] = ["yearbook", "yearbook pages"]
+	terms["deliverables"] = ["deliverable", "deliverables"]
+	terms["collaborations"] = ["collaboration", "collaboration"]
+	terms["videos"] = ["video", "videos"]
+	terms["notes"] = ["notes"]
+	terms["nexus"] = ["nexus"]
+	terms["novum"] = ["novum"]
+	terms["recruitment"] = ["recruitment", "recruiting"]
+	terms["feedback"] = ["feedback"]
+	terms["meetings"] = ["meetings"]
+	terms["applications"] = ["application", "applications", "applicants"]
+	terms["presentations"] = ["presentantions", "presentation"]
+	terms["chair"] = ["chair"]
+	terms["admin"] = ["admin"]
+	terms["committee review"] = ["committee review"]
+	terms["committee"] = ["committee", " cm "]
+	terms["interviews"] = ["interview", "interviews"]
+	terms["ex"] = ["[ex]", "exec", "vp "]
+	terms["cs"] = ["[cs]", " cs ", "community service"]
+	terms["co"] = ["[co]", " co ", "consulting"]
+	terms["fi"] = ["[fi]", "finance", " fi "]
+	terms["ht"] = ["[ht]", "historian", " ht "]
+	terms["mk"] = ["[mk]", "marketing", " mk "]
+	terms["so"] = ["[so]", "social", " so "]
+	terms["pb"] = ["[pb]", "publications", " pb ", "pubs"]
+	terms["pd"] = ["[pd]", "professional development", " pd ", "nexus"]
+	terms["wd"] = ["[wd]", "web development", " wd ", "neon"]
+	terms["in"] = ["[in]", "internal networking", " in "]
+	terms["of"] = ["[of]", "officer", " of "]
+	document_types = ['ai', 'pdf', 'ppt', 'pptx', 'ppx', 'doc', 'img', 'png', 'jpg', 'jpeg']
+	for doctype in document_types
+		terms[doctype] = [doctype]
+	end
+	single_words = ['retreat', 'canvassing', 'concessions']
+	for single_word in single_words
+		terms[single_word] = [single_word]
+	end
+
+
+	tags = Array.new
+	for term in terms.keys
+		for termx in terms[term]
+			if title.include?(termx)
+				tags << term
+			end
+		end
+	end
+	return tags
+end
+
+def get_event_tags(title)
+end
+
+def get_doctype_tags(title)
+end
+
+def get_directory_tags(title)
+end
+
+def get_tags2(title)
+	title = title.downcase
+	tags = get_semester_tags(title)
+	tags = tags + get_keyword_tags(title)
+end
+
 """ gets tags """
-def get_tags(file)
-	title = file.title
+def get_tags(title)
+	# title = file.title
 	tags = Array.new
 	tags << 'auto'
 	# add tags for semester
@@ -185,19 +368,4 @@ def get_tags(file)
 	tags = tags.map{|x| x.downcase}
 	tags = Set.new(tags).to_a
 	return tags
-end
-
-def google_base_url(url)
-	if url.include?('drive.google.com') or url.include?('docs.google.com')
-		splits = url.split('/')
-		return splits[0..splits.length-2].join('/')
-	end
-	return url
-end
-
-def get_resource_id(url)
-	url.split("/")[-2]
-end
-def linked_resource_ids
-	urls = ParseGoLink.limit(1000000).map{|x| x.url}.select{|x| x.include?('drive.google.com') or x.include?('docs.google.com')}.map{|x| get_resource_id(x)}
 end
