@@ -9,20 +9,6 @@ class GoController < ApplicationController
 
 		""" render the catalogue if no redirects """
 		@golinks = go_hash.values
-		# @tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
-		# @tag_hash = Hash.new
-		# @golinks.each do |golink|
-		# 	if golink.tags != nil and golink.tags != ''
-		# 		@tag_hash[golink.key] = golink.tags
-		# 	else
-		# 		@tag_hash[golink.key] = Array.new
-		# 	end
-		# end
-		@tags = go_tags
-		@tag_hash = go_tag_hash
-		@tag_color_hash = ParseGoLinkTag.color_hash
-
-		# sort golinks by ratings
 
 		def contains_all_tags(golink, tags)
 			if not golink.tags
@@ -41,12 +27,26 @@ class GoController < ApplicationController
 			@selected_tags = params[:tags].split(',')
 			@golinks = @golinks.select{|x| contains_all_tags(x, @selected_tags)}
 		end
+
+		# get tags
+		@tag_color_hash = ParseGoLinkTag.color_hash
+		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+		@tag_hash = go_tag_hash
+
+		# paginate go links
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		# @tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+		# @tag_hash = Hash.new
+		# @golinks.each do |golink|
+		# 	if golink.tags != nil and golink.tags != ''
+		# 		@tag_hash[golink.key] = golink.tags
+		# 	else
+		# 		@tag_hash[golink.key] = Array.new
+		# 	end
+		# end
+		# @tags = go_tags
+		# @tag_hash = go_tag_hash
 		
-		# @golinks = ParseGoLink.page(params[:page]).per(100)
-		puts page
-		puts @golinks
-		# get colors
 		
 	end
 

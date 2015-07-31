@@ -35,6 +35,17 @@ namespace :gdrive do
 		$existing_keys = $existing_golinks.map{|x| x.key}
 		$existing_urls = $existing_golinks.map{|x| x.url}
 		$scraped_links = Array.new
+		$skip = Array.new # what folders to skip
+
+		$skip << "[PBL][EX] Fall 2015"
+		$skip << "![PBL][EX] Semester Officer Management "
+		$skip << "[PBL][CO] Consulting"
+		$skip << "[PBL][WD] Web Development"
+		$skip << "Committee Collaborations"
+		$skip << "[PBL][FI] Finance"
+		$skip << "[PBL][PD] Professional Development"
+		$skip << ""
+
 
 		# start scraping
 		collections = session.collections
@@ -52,11 +63,16 @@ namespace :gdrive do
 			level_string += '..'
 		end
 		puts level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
-		scrape_files(collection, previous_titles)
-		cumulative_titles = previous_titles.clone
-		cumulative_titles << collection.title
-		collection.subcollections.each do |subcollection|
-			scrape_subcollection(subcollection, cumulative_titles)
+		# dont do anything if you need to skip the file
+		if not $skip.include?(collection.title)
+			scrape_files(collection, previous_titles)
+			cumulative_titles = previous_titles.clone
+			cumulative_titles << collection.title
+			collection.subcollections.each do |subcollection|
+				scrape_subcollection(subcollection, cumulative_titles)
+			end
+		else
+			puts 'skipped!'
 		end
 	end
 
