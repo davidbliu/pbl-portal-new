@@ -24,7 +24,7 @@ namespace :memcached do
 		# puts 'saving tag_links'
 		tag_links = Hash.new
 		tags.each do |tag|
-			puts tag
+			# puts tag
 			tag_links[tag] = golinks.select{|x| x.tags ? x.tags.include?(tag) : false}
 		end
 		dc.set('tag_links', tag_links)
