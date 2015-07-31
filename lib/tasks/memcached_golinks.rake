@@ -20,6 +20,16 @@ namespace :memcached do
 				tag_hash[golink.key] = Array.new
 			end
 		end
+		# save for each tag
+		# puts 'saving tag_links'
+		tag_links = Hash.new
+		tags.each do |tag|
+			puts tag
+			tag_links[tag] = golinks.select{|x| x.tags ? x.tags.include?(tag) : false}
+		end
+		dc.set('tag_links', tag_links)
+
+		# save tag information
 		dc.set('go_tag_hash', tag_hash)
 		dc.set('go_tags', tags)
 		puts 'finished writing to memcached '+Time.now.to_s

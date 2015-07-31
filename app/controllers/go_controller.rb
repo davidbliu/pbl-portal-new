@@ -5,10 +5,10 @@ class GoController < ApplicationController
 	def tag_catalogue
 		""" deal with key redirects if needed """
 		# go_key = params.keys[0]
-		go_hash = go_link_key_hash
+		# go_hash = go_link_key_hash
 
 		""" render the catalogue if no redirects """
-		@golinks = go_hash.values
+		# @golinks = go_hash.values
 
 		def contains_all_tags(golink, tags)
 			if not golink.tags
@@ -25,7 +25,13 @@ class GoController < ApplicationController
 		page =  params[:page] ? params[:page].to_i : 1
 		if params[:tags] and params[:tags] != ""
 			@selected_tags = params[:tags].split(',')
+			# @golinks = go_tag_hash[@selected_tags[0]]
+			# @thash = go_tag_links.values
+			@golinks = go_tag_links[@selected_tags[0]]
 			@golinks = @golinks.select{|x| contains_all_tags(x, @selected_tags)}
+		else
+			# no tags, get all values from the main hash
+			@golinks = go_link_key_hash.values
 		end
 
 		# get tags

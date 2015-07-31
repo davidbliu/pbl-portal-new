@@ -97,6 +97,11 @@ module CacheHelper
 		return dc.get('go_key_hash')
 	end
 
+	def go_tag_links
+		dc = dalli_client
+		return dc.get('tag_links')
+	end
+
 	def go_tag_hash
 		a = dalli_client.get('go_tag_hash')
 		return a ? a : Hash.new
