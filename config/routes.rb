@@ -50,6 +50,7 @@ Dockernotes::Application.routes.draw do
   post '/chrome/undo_create_go_link', to: 'chrome_extension#undo_create'
   get '/chrome/favorite_links', to: 'chrome_extension#favorite_links'
   get 'chrome/chrome_sync', to:'chrome_extension#chrome_sync' #sync chrome with the portal
+  get 'chrome/my_bundles', to:'chrome_extension#my_bundles'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'

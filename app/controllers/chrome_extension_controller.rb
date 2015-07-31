@@ -1,4 +1,24 @@
 class ChromeExtensionController < ApplicationController
+
+	def my_bundles
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+
+
+		email = params[:email]
+		puts email
+
+		render json: ParseGoLinkBundle.all.to_a, status:200
+	end
+
+	def get_bundle_keys
+		name = params[:name]
+		bundle = ParseGoLinkBundle.where(name: name).to_a[0]
+		render json: bundle.keys, status: 200
+	end
+
 	def create_go_link
 
 		response.headers['Access-Control-Allow-Origin'] = '*'

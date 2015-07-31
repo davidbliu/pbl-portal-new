@@ -86,6 +86,8 @@ class GoController < ApplicationController
 		# TODO support mobile browsing
 	end
 
+	
+
 	def admin
 		# @my_links = go_link_key_hash.values.select{|x| x.member_email == current_member.email}
 		# @my_uncategorized = @my_links.select{|x| x.dir == '/PBL'}
