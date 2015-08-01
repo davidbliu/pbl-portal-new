@@ -169,6 +169,7 @@
       </div>
   </div>
   <!-- end of search input -->
+
   <div id = 'tag-cloud'>
     <p class = 'smalltext text-muted'>Click tags to filter by them</p>
     <% @tags.each do |tag| %>
@@ -181,6 +182,12 @@
           <%= tag %>
         </div>
       <% end %>
+    <% end %>
+  </div>
+
+  <div id = 'search-stuff'>
+    <% if @search %>
+    <a href = '/go'>Remove Search Filter</a>
     <% end %>
   </div>
   <p class = 'text-muted smalltext'>
@@ -215,8 +222,6 @@ var email = "<%= @current_member.email %>";
 <% else %>
 var email = "asdf";
 <% end %>
-var tag_hash = '<%= @tag_hash.to_json.html_safe %>';
-tag_hash = JSON.parse(tag_hash);
 </script>
 <!-- catalogue scripts -->
 

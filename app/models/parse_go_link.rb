@@ -345,10 +345,14 @@ class ParseGoLink < ParseResource::Base
 		# GoLink.search(search_term)
 		keys = Array.new
 		results = GoLink.search(search_term, :size=>1000).results.results
+		golinks = Array.new
 		results.each do |result|
-			keys << result._source["key"]
+			# keys << result._source["key"]
+			data =  result._source
+			golinks << ParseGoLink.new(key: data['key'], description: data['description'], url: data['url'], tags: Array.new)
 		end
-		return keys
+		return golinks
+		# return keys
 	end
 	
 	""" catalogue methods DEPRECATED""" 

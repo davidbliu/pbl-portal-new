@@ -8,7 +8,6 @@ class GoController < ApplicationController
 		# go_hash = go_link_key_hash
 
 		""" render the catalogue if no redirects """
-		# @golinks = go_hash.values
 
 		def contains_all_tags(golink, tags)
 			if not golink.tags
@@ -31,27 +30,15 @@ class GoController < ApplicationController
 			@golinks = @golinks.select{|x| contains_all_tags(x, @selected_tags)}
 		else
 			# no tags, get all values from the main hash
-			@golinks = go_link_key_hash.values
+			@golinks = cached_golinks
 		end
 
 		# get tags
 		@tag_color_hash = ParseGoLinkTag.color_hash
-		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
-		@tag_hash = go_tag_hash
+		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort  #filter through all golinks for their tags
 
 		# paginate go links
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
-		# @tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
-		# @tag_hash = Hash.new
-		# @golinks.each do |golink|
-		# 	if golink.tags != nil and golink.tags != ''
-		# 		@tag_hash[golink.key] = golink.tags
-		# 	else
-		# 		@tag_hash[golink.key] = Array.new
-		# 	end
-		# end
-		# @tags = go_tags
-		# @tag_hash = go_tag_hash
 		
 		
 	end
@@ -96,29 +83,33 @@ class GoController < ApplicationController
 		# end
 
 		@click_hash = ParseGoLinkClick.click_hash
-		@recent_links = go_link_key_hash.values.sort_by{|x| x.updated_at}.reverse
+		@recent_links = cached_golinks.sort_by{|x| x.updated_at}.reverse
 
 	end
 
 	def search
 		@search_term = params[:search_term]
 		puts 'searching for : '+params[:search_term]
-		key_hash = go_link_key_hash
-		keys = ParseGoLink.search(@search_term)
+		golinks = ParseGoLink.search(@search_term)
 		# log this search event
+		keys = golinks.select{|x| x.key}
 		search_email = current_member ? current_member.email : nil
 		search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: @search_term, results: keys, type: 'portal', time: Time.now)
 		# get search results
-		results = Array.new
-		keys.each do |key|
-			results << key_hash[key]
-		end
-		@golinks = results
-		@num_links = @golinks.length
-		""" get favorites """
-		if current_member
-			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
-		end
+		# results = Array.new
+		# keys.each do |key|
+		# 	results << key_hash[key]
+		# end
+
+		@golinks = golinks
+		@tag_color_hash = ParseGoLinkTag.color_hash
+		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+
+		# paginate go links
+		page = params[:page] ? params[:page].to_i : 1
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		@search = true
+		render 'tag_catalogue'
 	end
 
 	def affix
@@ -233,30 +224,42 @@ class GoController < ApplicationController
 
 	def index
 		go_key = params[:key]
-		# link_hash = go_link_hash #see cache helper for details 
-		# go_hash = go_link_key_hash
-		# link_hash.values.index_by(&:key) # key is key and value is link 
 		golinks = ParseGoLink.where(key: go_key).to_a
 		if golinks.length > 0
-			golink = golinks[0]
 			# correctly used alias
 			""" log tracking data for link click """
 			if current_member	
 				click = ParseGoLinkClick.new
 				click.member_email = current_member.email
-				click.key = golink.key
+				click.key = go_key
 				click.time = Time.now
 				click.save
 			else
 				click = ParseGoLinkClick.new
-				click.key = golink.key
+				click.key = go_key
 				click.time = Time.now
 				click.save
 			end
-			# send to link url
-			redirect_to golink.url
+			if golinks.length > 1
+				@golinks = golinks
+				# get tags
+				@tag_color_hash = ParseGoLinkTag.color_hash
+				@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort  #filter through all golinks for their tags
+				@selected_tags = Array.new
+				page = 1
+				# paginate go links
+				@golinks = @golinks.paginate(:page => page, :per_page => 200)
+
+				render 'tag_catalogue'
+
+			else
+				# send to link url
+				redirect_to golinks[0].url
+			end
 		else
-			redirect_to '/go'
+			search_term = go_key
+			URI.escape(search_term, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+			redirect_to '/go/search?search_term='+search_term
 		end
 		
 	end
@@ -265,7 +268,7 @@ class GoController < ApplicationController
 
 	def lookup
 		url = params[:url]
-		@keys = go_link_key_hash.values.select{|x| x.url == url}
+		@keys = cached_golinks.select{|x| x.url == url}
 	end
 	
 	def cwd
@@ -467,10 +470,11 @@ class GoController < ApplicationController
 		render json: GoLink.all
 	end
 
+	""" TODO move metrics to ID"""
 	def metrics
 		# @golink = ParseGoLink.find(params[:id])
 		key = params[:key]
-		@golink = go_link_key_hash[key]
+		@golink = ParseGoLink.where(key: key).to_a[0]
 		@clicks = ParseGoLinkClick.where(key: key).sort_by{|x| x.time}.reverse
 
 		@member_email_hash = member_email_hash

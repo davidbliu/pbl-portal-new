@@ -92,6 +92,10 @@ module CacheHelper
 		Rails.cache.write("go_link_favorite_hash", nil)
 	end
 
+	def cached_golinks
+		dc = dalli_client
+		return dc.get('golinks')
+	end
 	def go_link_key_hash
 		dc = dalli_client
 		return dc.get('go_key_hash')

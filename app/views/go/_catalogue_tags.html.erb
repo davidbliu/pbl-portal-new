@@ -17,9 +17,9 @@
 <table class = 'directory-table table table-hover table-condensed'>
 	<tbody class = 'directory-tbody'>
 	<% golinks.each do |golink| %>
-	<tr class = 'link-row' id = '<%= golink.key %>-row'>
+	<tr class = 'link-row' id = '<%= golink.id %>-row'>
 		<td class = 'golink-type-td'><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
-		<td class = 'golink-key-td'><a href = 'http://pbl.link/<%= golink.key %>' target="_blank"><%= golink.key %></a>
+		<td class = 'golink-key-td'><a href = '<%= golink.url %>' target="_blank"><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'>
 			<%= golink.description %>
@@ -34,7 +34,7 @@
 			<% end %>
 		</td>
 		<td style='text-align:right'>
-			<a href = 'javascript:void(0);' class = 'link-edit-link' id = '<%= golink.key %>-edit-link'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
+			<a href = 'javascript:void(0);' class = 'link-edit-link' id = '<%= golink.id %>-edit-link'><i class = 'mdi-editor-mode-edit' style = 'font-size:15px'></i>
 			</a>
 		</td>
 	</tr>
