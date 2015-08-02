@@ -1,12 +1,28 @@
 class ChromeExtensionController < ApplicationController
 
-	def my_bundles
+
+	def resolve_chrome_email
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 
+		chrome_email = params[:chrome_email]
+		chrome_members = ChromeMember.where(chrome_email: chrome_email)
+		if member_email_hash.keys.include?(chrome_email)
+			render json: chrome_email, status:200 
+		elsif chrome_members.length > 0
+			render json: chrome_members[0].member_email, status:200
+		else
+			render json: chrome_email, status: 200
+		end
+	end
 
+	def my_bundles
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		email = params[:email]
 		puts email
 		puts ParseGoLinkBundle.all.to_a
@@ -90,48 +106,6 @@ class ChromeExtensionController < ApplicationController
 		if override
 			key = key.split(':')[0]
 		end
-
-		# puts 'override is '+override.to_s
-		# """ do some error checking """
-		# errors = Array.new
-
-		# if not ParseGoLink.valid_key(key)
-		# 	errors << "key"
-		# end
-		# if not ParseGoLink.valid_url(url)
-		# 	errors << "url"
-		# end
-		# if not ParseGoLink.valid_directory(directory)
-		# 	errors << "directory"
-		# end
-		""" if there are errors, return with errors """
-		# if go_link_key_hash.keys.include?(key)
-		# 	if not override
-		# 		old_link = go_link_key_hash[key]
-		# 		msg = "<h3>Key "+key+" already exists</h3>"
-		# 		msg += "<ul class = 'list-group'><li class = 'list-group-item'><b>Description: </b>"+old_link.description + "</li>"
-		# 		msg += "<li class = 'list-group-item'><b>URL: </b>"+old_link.url + "</li>"
-		# 		msg += "<li class = 'list-group-item'><b>Directory: </b>"+old_link.dir + "</li></ul>"
-		# 		msg += "<h4 style = 'color:blue'>To override a key, submit as key as \"key:override\"</h4>"
-		# 		render json: msg, :status=>200, :content_type=>'text/html'
-		# 	elsif errors.length == 0
-		# 		golink = go_link_key_hash[key]
-		# 		golink.url = url 
-		# 		golink.directory = '/PBL'
-		# 		golink.tags = tags
-		# 		golink.description = description
-		# 		if params[:email] and params[:email] != ""
-		# 			golink.member_email = params[:email]
-		# 		end
-		# 		golink.save
-		# 		clear_go_cache
-		# 		render json: "<h3>"+key+" was successfully overridden</h3><button class = 'btn btn-danger' id = 'undo-btn'>Remove</button>", :status=> 200
-		# 	else
-		# 		render json: "<h3>Errors: " + errors.to_s + "</h3>", :status => 200
-		# 	end
-		# elsif errors.length > 0
-		# 	render json: "<h3>Errors creating link: "+errors.to_s+" </h3>", :status=>500, :content_type=>'text/html'
-		# else
 		""" save the new link dont check for errors"""
 		golink = ParseGoLink.new(key: key, url: url, description: description, tags: tags, directory: '/tags')
 		if params[:email] and params[:email] != ""
@@ -140,7 +114,6 @@ class ChromeExtensionController < ApplicationController
 		golink.save
 		clear_go_cache
 		render json: "<h3>Successfully created link</h3><ul class = 'list-group'><li class = 'list-group-item lookup-match'>pbl.link/"+golink.key+"</li></ul><button class = 'btn btn-danger undo-btn' id = "+golink.id+">Undo</button>", :status=>200, :content_type=>'text/html'
-		# end
 	end
 
 	def undo_create

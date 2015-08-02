@@ -227,19 +227,19 @@ class GoController < ApplicationController
 		golinks = ParseGoLink.where(key: go_key).to_a
 		if golinks.length > 0
 			# correctly used alias
-			""" log tracking data for link click """
-			if current_member	
-				click = ParseGoLinkClick.new
-				click.member_email = current_member.email
-				click.key = go_key
-				click.time = Time.now
-				click.save
-			else
-				click = ParseGoLinkClick.new
-				click.key = go_key
-				click.time = Time.now
-				click.save
-			end
+			""" log tracking data for link click TODO emit tracking event from chrome extension """
+			# if current_member	
+			# 	click = ParseGoLinkClick.new
+			# 	click.member_email = current_member.email
+			# 	click.key = go_key
+			# 	click.time = Time.now
+			# 	click.save
+			# else
+			# 	click = ParseGoLinkClick.new
+			# 	click.key = go_key
+			# 	click.time = Time.now
+			# 	click.save
+			# end
 			if golinks.length > 1
 				@golinks = golinks
 				# get tags

@@ -53,6 +53,7 @@ Dockernotes::Application.routes.draw do
   get 'chrome/my_bundles', to:'chrome_extension#my_bundles'
   post 'chrome/create_bundle', to: 'chrome_extension#create_bundle'
   get 'chrome/most_used_links', to: 'chrome_extension#most_used_links'
+  get 'chrome/resolve_chrome_email', to: 'chrome_extension#resolve_chrome_email'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'
