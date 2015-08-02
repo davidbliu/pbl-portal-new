@@ -52,6 +52,7 @@ Dockernotes::Application.routes.draw do
   get 'chrome/chrome_sync', to:'chrome_extension#chrome_sync' #sync chrome with the portal
   get 'chrome/my_bundles', to:'chrome_extension#my_bundles'
   post 'chrome/create_bundle', to: 'chrome_extension#create_bundle'
+  get 'chrome/most_used_links', to: 'chrome_extension#most_used_links'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'
