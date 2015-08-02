@@ -1,0 +1,8 @@
+
+<h3 style = 'text-align:center'><%= @name %></h3>
+<div><a href = '/go/collections/<%= @name %>/edit'>Edit this collection</a></div>
+<% @directory_hash.keys.each do |directory| %>
+	<h4><%= directory %> (<%= @directory_hash[directory].length %>)</h4>
+	<%= render partial: "catalogue_tags", locals: {golinks: @directory_hash[directory], selected_tags: @selected_tags, tag_color_hash: @tag_color_hash} %>
+<% end %>
+

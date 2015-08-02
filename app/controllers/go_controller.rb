@@ -2,6 +2,65 @@ require 'set'
 require 'will_paginate/array'
 class GoController < ApplicationController
 
+
+	def show_collection
+		name = params[:name]
+		@name = name		
+
+		@selected_tags = Array.new
+		@tag_color_hash = ParseGoLinkTag.color_hash
+
+		@collection = ParseGoLinkCollection.where(name: name).to_a[0]
+		@data = JSON.parse(@collection.data)
+
+		@golinks = cached_golinks
+		@directory_hash = Hash.new
+		@data['links'].each do |directory|
+			directory.keys.each do |dir|
+				@directory_hash[dir] = Array.new
+				directory[dir].each do |link|
+					key = link.split('pbl.link/')[1]
+					@directory_hash[dir].concat(@golinks.select{|x| x.key == key})
+					puts key 
+					puts 'that was the key'
+				end
+			end
+		end
+
+		render 'show_collections'
+	end
+
+	def edit_collection
+		@name = params[:name]
+		@collection = ParseGoLinkCollection.where(name:@name).to_a[0]
+		@data  = JSON.parse(@collection.data).to_yaml.strip()
+	end
+
+	def update_collection
+		name = params[:name]
+		yaml_data = params[:data]
+		puts yaml_data
+
+		data =  YAML.load(yaml_data)
+		name = data['name']
+		puts name
+		existing_collections = ParseGoLinkCollection.where(name: name).to_a
+		puts existing_collections
+		puts 'those were existing collections'
+		if existing_collections.length > 0
+			existing = existing_collections[0]
+			existing.data = data.to_json
+			existing.save
+		else
+			ParseGoLinkCollection.create(data: data.to_json, name: name)
+		end
+		render nothing:true, status:200
+		
+	end
+
+	def collections
+		@collections = ParseGoLinkCollection.limit(100000).all.to_a
+	end
 	def tag_catalogue
 		""" deal with key redirects if needed """
 		# go_key = params.keys[0]
@@ -39,9 +98,13 @@ class GoController < ApplicationController
 
 		# paginate go links
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+
+		# include collections
+		@collections = ParseGoLinkCollection.limit(100000).all.to_a
 		
 		
 	end
+
 
 	def update_rank
 		key = params[:key]

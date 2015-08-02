@@ -18,6 +18,14 @@ class ChromeExtensionController < ApplicationController
 		end
 	end
 
+	def get_tracking_event
+		# member email, link id, key, time
+	end
+
+	def tracker
+		render 'tracker', layout: false
+	end
+
 	def my_bundles
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'

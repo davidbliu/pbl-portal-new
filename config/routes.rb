@@ -39,6 +39,11 @@ Dockernotes::Application.routes.draw do
   post 'go/update_rank', to:'go#update_rank'
   post 'go/delete_link', to: 'go#delete_link'
   post 'go/update_link', to: 'go#update_link'
+  get 'go/collections/:name', to: 'go#show_collection'
+  get 'go/collections', to: 'go#collections'
+  get 'go/load_tag_catalogue', to:'go#load_tag_catalogue'
+  get 'go/collections/:name/edit', to: 'go#edit_collection'
+  post 'go/collections/:name/update', to: 'go#update_collection'
 
 
   """ chrome extension routes """
@@ -54,6 +59,7 @@ Dockernotes::Application.routes.draw do
   post 'chrome/create_bundle', to: 'chrome_extension#create_bundle'
   get 'chrome/most_used_links', to: 'chrome_extension#most_used_links'
   get 'chrome/resolve_chrome_email', to: 'chrome_extension#resolve_chrome_email'
+  get 'chrome/tracker', to: 'chrome_extension#tracker'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'

@@ -1,0 +1,59 @@
+<style type = 'text/css'>
+#data-input{
+	min-height:500px;
+	min-width:400px;
+	border:none;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+<h3>Editing <%= @name %></h3>
+<div class = 'col-md-6'>
+<div>
+	<textarea id = 'data-input' class = 'input-sm'>
+	<%= @data %>
+	</textarea>
+</div>
+<div>
+	<button id = 'save-btn' class = 'btn btn-material-blue-500'>Update Collection</button>
+</div>
+</div>
+
+
+<div class = 'col-md-6'>
+	Use YAML format to update your collections. enter in a name and the links that belong in this collection. Links must be placed into directories. Specifying a name different from the current collection's name will result in creating a new collection. Below is an example: (jk no example yet)
+</div>
+
+
+<script type = 'text/javascript'>
+function showSpinner(){
+	$('#loading-gif').show();
+}
+function hideSpinner(){
+	$('#loading-gif').hide();
+}
+$('#save-btn').click(function(){
+	new_text = $('#data-input').val().trim();
+	showSpinner();
+	$.ajax({
+      url: '/go/collections/<%= @name %>/update',
+      type: 'POST',
+      data: {'data': new_text},
+      success:function(data){
+        window.location.reload();
+      },
+      error:function (xhr, textStatus, thrownError){
+      	hideSpinner();
+        alert('Failed to update; your input data may not match our formatting guidelines');
+      }
+  });
+});
+</script>

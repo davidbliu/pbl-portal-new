@@ -1,5 +1,11 @@
-$('.label').click(function(){
+function showSpinner(){
 	$('#loading-gif').show();
+}
+function hideSpinner(){
+	$('#loading-gif').hide();
+}
+$('.label').click(function(){
+	showSpinner()
 	tag = $(this).attr('id');
 	index = selected_tags.indexOf(tag);
 	if(index != -1){
