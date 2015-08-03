@@ -6,38 +6,35 @@ namespace :memcached do
 		golinks = ParseGoLink.limit(1000000).all.to_a
 
 		go_key_hash = golinks.index_by(&:key)
-		# puts 'saving links into memcached'
+
+		golink_key_hash = Hash.new # key to list of golinks
+		keyset = Set.new
+		golinks.each do |golink|
+			if not keyset.include?(golink.key)
+				golink_key_hash[golink.key] = Array.new
+				keyset << golink.key
+			end
+			golink_key_hash[golink.key] << golink 
+		end
 		dc = dalli_client
+		dc.set('golink_key_hash', golink_key_hash)
 		dc.set('go_key_hash', go_key_hash)
 		dc.set('golinks', golinks)
 		key_hash = dc.get('go_key_hash')
 		
-		# puts 'saving tags and tag hash'
 		golinks = go_key_hash.values
 		tags = Set.new(golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
-		# tag_hash = Hash.new
-		# golinks.each do |golink|
-		# 	if golink.tags != nil and golink.tags != ''
-		# 		tag_hash[golink.key] = golink.tags
-		# 	else
-		# 		tag_hash[golink.key] = Array.new
-		# 	end
-		# end
-		# save for each tag
-		# puts 'saving tag_links'
 		tag_links = Hash.new
 		tags.each do |tag|
-			# puts tag
 			tag_links[tag] = golinks.select{|x| x.tags ? x.tags.include?(tag) : false}
 		end
 		dc.set('tag_links', tag_links)
 
 		# save tag information
-		# dc.set('go_tag_hash', tag_hash)
 		dc.set('go_tags', tags)
 		puts 'finished writing to memcached '+Time.now.to_s
 
-
+		
 		# # send memcached email
 		# status = Timeout::timeout(10) {
 		#   # Something that should be interrupted if it takes more than 5 seconds...

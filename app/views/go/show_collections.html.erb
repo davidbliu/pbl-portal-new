@@ -20,6 +20,7 @@
 </style>
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <h3 style = 'text-align:center'><%= @name %></h3>
+<p style = 'text-align:center'><%= @description %></p>
 <div><a href = '/go/collections/<%= @name %>/edit'>Edit this collection</a></div>
 <% @directory_hash.keys.each do |directory| %>
 	<h4><%= directory %> (<%= @directory_hash[directory].length %>)</h4>

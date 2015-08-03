@@ -10,19 +10,22 @@ class GoController < ApplicationController
 		@selected_tags = Array.new
 		@tag_color_hash = ParseGoLinkTag.color_hash
 
-		@collection = ParseGoLinkCollection.where(name: name).to_a[0]
+		@collection = cached_golink_collections.select{|x| x.name == name}[0] #ParseGoLinkCollection.where(name: name).to_a[0]
 		@data = JSON.parse(@collection.data)
+		@description = @data.keys.include?('description') ? @data['description'] : 'no description'
 
-		@golinks = cached_golinks
+		# @golinks = cached_golinks
+		key_hash = golink_key_hash
+		valid_keys = Set.new(key_hash.keys)
 		@directory_hash = Hash.new
 		@data['links'].each do |directory|
 			directory.keys.each do |dir|
 				@directory_hash[dir] = Array.new
 				directory[dir].each do |link|
 					key = link.split('pbl.link/')[1]
-					@directory_hash[dir].concat(@golinks.select{|x| x.key == key})
-					puts key 
-					puts 'that was the key'
+					if valid_keys.include?(key)
+						@directory_hash[dir].concat(key_hash[key])
+					end
 				end
 			end
 		end
@@ -32,7 +35,7 @@ class GoController < ApplicationController
 
 	def edit_collection
 		@name = params[:name]
-		@collection = ParseGoLinkCollection.where(name:@name).to_a[0]
+		@collection = cached_golink_collections.select{|x| x.name == @name}[0] #ParseGoLinkCollection.where(name:@name).to_a[0]
 		@data  = JSON.parse(@collection.data).to_yaml.strip()
 	end
 
@@ -54,12 +57,14 @@ class GoController < ApplicationController
 		else
 			ParseGoLinkCollection.create(data: data.to_json, name: name)
 		end
+
+		invalidate_cached_collections
 		render nothing:true, status:200
 		
 	end
 
 	def collections
-		@collections = ParseGoLinkCollection.limit(100000).all.to_a
+		@collections = cached_golink_collections #ParseGoLinkCollection.limit(100000).all.to_a
 	end
 	def tag_catalogue
 		""" deal with key redirects if needed """
@@ -100,7 +105,7 @@ class GoController < ApplicationController
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 
 		# include collections
-		@collections = ParseGoLinkCollection.limit(100000).all.to_a
+		@collections = cached_golink_collections #ParseGoLinkCollection.limit(100000).all.to_a
 		
 		
 	end

@@ -92,6 +92,18 @@ module CacheHelper
 		Rails.cache.write("go_link_favorite_hash", nil)
 	end
 
+	def invalidate_cached_collections
+		Rails.cache.write('cached_golink_collections', nil)
+	end
+	def cached_golink_collections
+		a = Rails.cache.read('cached_golink_collections')
+		if a != nil
+			return a
+		end
+		a = ParseGoLinkCollection.limit(100000).all.to_a 
+		Rails.cache.write('cached_golink_collections', a)
+		return a
+	end
 	def cached_golinks
 		dc = dalli_client
 		return dc.get('golinks')
@@ -99,6 +111,10 @@ module CacheHelper
 	def go_link_key_hash
 		dc = dalli_client
 		return dc.get('go_key_hash')
+	end
+	def golink_key_hash
+		dc = dalli_client
+		return dc.get('golink_key_hash')
 	end
 
 	def go_tag_links
