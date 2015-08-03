@@ -4,6 +4,13 @@
 	min-width:400px;
 	border:none;
 }
+#example-textarea{
+  padding:15px;
+  min-height:500px;
+  min-width:400px;
+  border:none;
+  background-color:inherit;
+}
 #loading-gif{
   height:150px;
   position:fixed;
@@ -29,7 +36,12 @@
 
 
 <div class = 'col-md-6'>
-	Use YAML format to update your collections. enter in a name and the links that belong in this collection. Links must be placed into directories. Specifying a name different from the current collection's name will result in creating a new collection. Below is an example: (jk no example yet)
+	Use YAML format to update your collections. enter in a name and the links that belong in this collection. Links must be placed into directories. Specifying a name different from the current collection's name will result in creating a new collection.
+  <div>
+    <h4>Example Configuration</h4>
+    <textarea id = 'example-textarea' readonly><%= @data %></textarea>
+  </div>
+  <!-- end of example div -->
 </div>
 
 

@@ -1,8 +1,33 @@
-
+<style = 'text/css'>
+.label:hover{
+  cursor:pointer;
+}
+.label.selected-tag{
+  opacity:1.0;
+}
+.label{
+  opacity:0.3;
+  margin:2px;
+}
+#loading-gif{
+	height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <h3 style = 'text-align:center'><%= @name %></h3>
 <div><a href = '/go/collections/<%= @name %>/edit'>Edit this collection</a></div>
 <% @directory_hash.keys.each do |directory| %>
 	<h4><%= directory %> (<%= @directory_hash[directory].length %>)</h4>
 	<%= render partial: "catalogue_tags", locals: {golinks: @directory_hash[directory], selected_tags: @selected_tags, tag_color_hash: @tag_color_hash} %>
 <% end %>
+
+<script>
+var selected_tags = JSON.parse('<%= @selected_tags.to_json.html_safe %>');
+</script>
+<%= javascript_include_tag "tag_catalogue_paged" %>
 
