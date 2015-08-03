@@ -9,14 +9,14 @@ class MembersController < ApplicationController
 
 	def home
 		@current_member = current_member
-		@golinks = go_link_key_hash.values #ParseGoLink.limit(10000).all.to_a
-		@trending_links = @golinks.select{|x| x.type == 'trending'}
-		if current_member and current_member.email
+		# @golinks = go_link_key_hash.values #ParseGoLink.limit(10000).all.to_a
+		# @trending_links = @golinks.select{|x| x.type == 'trending'}
+		# if current_member and current_member.email
 			# @favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
 			# @favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
-			@favorites = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
-			@favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
-		end
+			# @favorites = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
+			# @favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
+		# end
 	end
 
 	def notifications

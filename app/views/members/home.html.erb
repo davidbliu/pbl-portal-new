@@ -73,17 +73,15 @@
 
 
 
-		<div class = 'home-card'>
+		<!-- <div class = 'home-card'>
 				<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
-				<%= render partial: "go/catalogue", locals: { go_links: @trending_links, favorite_links: @favorites} %>
 		</div>
 		<div class = 'home-card'>
 				<% if @favorites %>
 				<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
-				<%= render partial: "go/catalogue", locals: { go_links: @favorite_links, favorite_links: @favorites} %>
 				<% end %>
 		</div>
-
+ -->
 
 
 
@@ -92,12 +90,12 @@
 	<!-- end of col md 6 -->
 
 <div class = 'col-md-5'>
-	<div class="home-card-small">
+	<!-- <div class="home-card-small">
 		    <h3><img src = '/assets/trello-logo-long.png' height=45 style = 'margin-bottom:20px'></img>&nbsp;Tasks</h3>
 		    <p>PBL Tasks is a handy integration between the Portal and Trello! Click the "Tasks" icon or visit <a href = '/tasks/guide'>pbl.link/tasks</a> to read more!</p>
 		    
 		    <p><div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div></p>
-		</div>	
+		</div>	 -->
 
 
 </div>
@@ -113,6 +111,6 @@ var email = "asdf";
 <% end %>
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
-<%= javascript_include_tag "trello_tasks" %>
+<!-- <%= javascript_include_tag "trello_tasks" %> -->
 <%= javascript_include_tag "calendar_pull" %>
 <!-- <%= javascript_include_tag "pull_notifications" %> -->
