@@ -23,10 +23,10 @@ every 5.minutes do
   command "echo 'hi there memcaching golinks'"
 end
 
-every 12.hours do
-  command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:scrape"
-  command "echo 'hi there scraping golink documents!'"
-end
+# every 12.hours do
+#   command "cd #{RAILS_ROOT} && source setenv.sh && rake elasticsearch:scrape"
+#   command "echo 'hi there scraping golink documents!'"
+# end
 #
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"

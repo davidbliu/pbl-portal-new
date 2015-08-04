@@ -46,12 +46,17 @@ namespace :gdrive do
 		$skip << "[PBL][PD] Professional Development"
 		$skip << ""
 
+		$threads = []
+
 
 		# start scraping
 		collections = session.collections
 		collections.each do |collection|
 			scrape_subcollection(collection, Array.new)
 		end
+
+		$threads.each(&:join)
+		puts 'finished scraping drive'
 
 		
 	end
@@ -62,7 +67,8 @@ namespace :gdrive do
 		for lvl in 0..level
 			level_string += '..'
 		end
-		print level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
+		# puts level_string + collection.title + ' ('+collection.files.length.to_s+' files)'
+		print '.'
 		# dont do anything if you need to skip the file
 		if not $skip.include?(collection.title)
 			# timeout on scraping fiels just in case
@@ -78,10 +84,16 @@ namespace :gdrive do
 			cumulative_titles = previous_titles.clone
 			cumulative_titles << collection.title
 			collection.subcollections.each do |subcollection|
-				scrape_subcollection(subcollection, cumulative_titles)
+				until $threads.map {|t| t.alive?}.count(true) < 500 do 
+					sleep 5
+				end
+				t = Thread.new{
+					scrape_subcollection(subcollection, cumulative_titles)
+				}
+				$threads << t
 			end
 		else
-			puts ' skipped'
+			# puts ' skipped'
 		end
 	end
 
@@ -110,16 +122,17 @@ namespace :gdrive do
 					file_tags << "duplicated"
 				end
 				golinks << ParseGoLink.new(member_email:'berkeleypbl.machine@gmail.com', tags: file_tags, key: key, description: description, url: url, type:'scraped')
+				puts golink.name
 			end
 		end
 		# save all golinks 
 		if golinks.length > 0
 			ParseGoLink.save_all(golinks)
 			$scraped_links.concat(golinks)
-			print ' +'+golinks.length.to_s
+			# print ' +'+golinks.length.to_s
 		end
 
-		puts ''
+		# puts ''
 	end
 
 	task :scrape2  => :environment do
@@ -191,7 +204,7 @@ namespace :gdrive do
 			end
 
 			if not existing_keys.include?(key)
-				golinks << ParseGoLink.new(member_email:'berkeleypbl.machine@gmail.com', tags: tags, key: key, description: description, url: url, type:'scraped')
+				golinks << ParseGoLink.new(member_email:'berkeleypbl.machine@gmail.com', tags: tags, key: key, description: description, url: url, type:'thread_scraped')
 				saved_urls << url
 			end
 			existing_keys << key
