@@ -36,10 +36,23 @@
 
 
 <div class = 'col-md-6'>
-	Use YAML format to update your collections. enter in a name and the links that belong in this collection. Links must be placed into directories. Specifying a name different from the current collection's name will result in creating a new collection.
+	Use YAML format to update your collections. Here are guidelines for how to create a collection
+  <ol>
+    <li>Every collection must have a name. type "name: {{your name}}" with no spaces before name</li>
+    <li>Descriptions are highly recommended. type "description: {{your description}}" with no spaces before description and no line breaks or tabs in the description</li>
+    <li>Every collection must have a links section. type "links: " with no spaces before links
+      <ol>
+        <li>The links section is a bit trickier. A collection is a bunch of groups of links</li>
+        <li>under the links section, you need to type "- group_name:" (no spaces before dash, one space after dash)</li>
+        <li>then, you can place links in that group by writing "  - pbl.link/link_name" (two spaces before dash, one space after dash)</li>
+      </ol>
+    </li>
+    <li>Click "Update Collection" button to save your collection. If you change the name of the collection, you will end up creating a different collection</li>
+  </ol>
   <div>
     <h4>Example Configuration</h4>
-    <textarea id = 'example-textarea' readonly><%= @data %></textarea>
+    <p class = 'text-muted' style = 'font-size:10px'>You can copy and paste this into the editing area to get started</p>
+    <textarea id = 'example-textarea' readonly><%= ParseGoLinkCollection.example_data %></textarea>
   </div>
   <!-- end of example div -->
 </div>

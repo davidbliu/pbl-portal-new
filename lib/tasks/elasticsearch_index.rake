@@ -34,7 +34,7 @@ namespace :elasticsearch do
 		puts 'there are '+ ParseElasticsearchData.all.length.to_s+ ' elasticsearch objects'
 		parse_go_links.each do |go_link|
 			# for scraping google docs
-			until threads.map {|t| t.alive?}.count(true) < 500 do 
+			until threads.map {|t| t.alive?}.count(true) < 1000 do 
 				sleep 5
 			end
 			t = Thread.new{
@@ -72,7 +72,7 @@ namespace :elasticsearch do
 			threads << t
 		end
 
-		$threads.each(&:join)
+		threads.each(&:join)
 		puts 'finished threading scraper'
 		# doc_ids.each do |datum|
 		# 	link_id = datum[0]
@@ -85,7 +85,7 @@ namespace :elasticsearch do
 		# 	search_data_objects << search_data
 		# end
 		# puts 'saving all records created from scraping!'
-		puts 'saving '+search_data_objects.length.to_a + ' search data objects'
+		puts 'saving '+search_data_objects.length.to_s + ' search data objects'
 		ParseElasticsearchData.save_all(search_data_objects)
 		# puts 'Scraped and saved ' + ParseElasticsearchData.limit(100000).all.length.to_s + ' elasticsearch records at '+Time.now.to_s
 
