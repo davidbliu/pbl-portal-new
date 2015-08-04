@@ -1,0 +1,8 @@
+<h3>Your bundles</h3>
+<% @my_bundles.each do |bundle| %>
+<p>
+	<h5><%= bundle.name %></h5>
+	<div><%= bundle.groups.join(',') %></div>
+	<div><%= bundle.keys.join(',') %></div>
+</p>
+<% end %>

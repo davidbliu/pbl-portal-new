@@ -119,7 +119,6 @@
 
 
 <%= stylesheet_link_tag "golink_catalogue" %>
-<%= @thash %>
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <!-- Modal -->
 <div class="modal fade" id="guide-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -168,16 +167,18 @@
 
 <% if not @search %>
   <div class = 'row'>
-    <div class = 'right-panel-div col-md-4' id = 'collections-div'>
+    <!-- <div class = 'right-panel-div col-md-4' id = 'collections-div'>
       <h4>My Collections</h4>
+      <div><a href = '/go/my_links' class = 'collections-link'>My Links</a></div>
+      <div><a href = '/go/bundles' class = 'collections-link'>My Bundles</a></div>
       <% if @collections %>
         <% @collections.each do |collection| %>
         <div><a href = '/go/collections/<%= collection.name %>' class = 'collections-link'><%= collection.name %></a></div>
         <% end %>
       <% end %>
-    </div>
+    </div> -->
 
-    <div class = 'right-panel-div col-md-8' id = 'tag-cloud'>
+    <!-- <div class = 'right-panel-div col-md-8' id = 'tag-cloud'> -->
       <h4>Tags</h4>
       <p class = 'smalltext text-muted'>Click tags to filter by them</p>
       <% @tags.each do |tag| %>
@@ -191,7 +192,7 @@
           </div>
         <% end %>
       <% end %>
-    </div>
+    <!-- </div> -->
   </div>
   <!-- end of row with tags and collections -->
   <% end %>

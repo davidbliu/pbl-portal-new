@@ -32,6 +32,7 @@ namespace :memcached do
 
 		# save tag information
 		dc.set('go_tags', tags)
+		dc.set('golinks_already_caching', nil)
 		puts 'finished writing to memcached '+Time.now.to_s
 
 		
@@ -40,6 +41,60 @@ namespace :memcached do
 		#   # Something that should be interrupted if it takes more than 5 seconds...
 		#   LinkNotifier.send_memcached_email
 		# }
+	end
+
+	task :cache_permissions => :environment do 
+		# puts 'pulling golinks'
+		golinks = ParseGoLink.limit(10000000).all.to_a
+		# puts 'getting groups hash'
+		groups_golink_hash = Hash.new
+		group_keys = Set.new
+		groups_golink_hash['all'] = Set.new
+		golinks.each do |golink|
+			if not golink.groups
+				groups_golink_hash['all'].add(golink.id)
+			else
+				golink.groups.each do |group|
+					if not group_keys.include?(group)
+						groups_golink_hash[group] = Set.new
+					end
+					groups_golink_hash[group].add(golink.id)
+				end
+			end
+		end
+		
+		# puts 'pulling groups'
+		golink_groups = ParseGroup.limit(100000).all.to_a
+		# puts 'pulled groups'
+		# puts 'getting permissions hash'
+
+		""" the permissions hash is a hash from member emails to a set of ids that the member can access """
+		# puts 'pulling members'
+		members = ParseMember.limit(1000000).all.to_a
+		# puts 'pullled members'
+		permissions_hash = Hash.new
+		all_set = groups_golink_hash['all']
+		# permissions_hash['all'] = groups_golink_hash['all']
+		included_emails = Set.new
+		golink_groups.each do |group|
+			group_golink_ids = groups_golink_hash[group.name].to_a
+			group.member_emails.each do |email|
+				if not included_emails.include?(email)
+					included_emails << email
+					permissions_hash[email] = all_set
+				end
+				permissions_hash[email].union(group_golink_ids)
+			end
+		end
+
+		dc = dalli_client
+		dc.set('golink_permissions_hash', permissions_hash)
+		puts 'finished writing permissions to memcached at '+Time.now.to_s
+		# puts 'testing permissions'
+		# permissions = dc.get('golink_permissions_hash')
+		# golinks = dc.get('golinks')
+		# puts 'streaming'
+		# puts golinks.select{|x| permissions['davidbliu@gmail.com'].include?(x.id)}.map{|x| x.key}
 	end
 
 	task :get_golinks => :environment do

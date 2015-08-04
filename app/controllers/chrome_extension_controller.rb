@@ -32,9 +32,7 @@ class ChromeExtensionController < ApplicationController
 		response.headers['Access-Control-Request-Method'] = '*'
 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
 		email = params[:email]
-		puts email
-		puts ParseGoLinkBundle.all.to_a
-		render json: ParseGoLinkBundle.all.to_a, status:200
+		render json: ParseGoLinkBundle.my_bundles(email).to_a, status:200
 	end
 
 	def get_bundle_keys
@@ -80,7 +78,12 @@ class ChromeExtensionController < ApplicationController
 		if name == nil or name == ''
 			render json: '<h3>That bundle name was invalid</h3>', status:200
 		else
-			ParseGoLinkBundle.create(name: name, keys: keys, urls: original_urls)
+			ParseGoLinkBundle.create(name: name, keys: keys, urls: original_urls, groups:[member_email_hash[email].name])
+			Thread.new{
+				puts 'caching permissions on bundles'
+				ParseGoLinkBundle.cache_permissions
+				puts 'finished caching bundle permissions'
+			}
 			render json: '<h3>Your bundle '+name+' was created</h3>', status:200
 		end
 	end

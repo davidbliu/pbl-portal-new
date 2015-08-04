@@ -14,5 +14,5 @@ $('.label').click(function(){
 	else{
 		selected_tags.push(tag);
 	}
-	window.location = '/go?tags='+encodeURIComponent(selected_tags.join(','));
+	window.location = '/go/tags?tags='+encodeURIComponent(selected_tags.join(','));
 });

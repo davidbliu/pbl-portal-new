@@ -54,7 +54,7 @@
     padding:0px;
 }
 #search-icon.glyphicon.glyphicon-search{
-    /*font-size: 20px;*/
+	  /*font-size: 20px;*/
   border-radius: 0px;
   /*padding: 0px 10px 0px 10px;*/
     font-size: 10px;
@@ -87,12 +87,12 @@
   /*padding:3px;*/
 }
 .directory-section-div{
-  clear:both;
-  margin-bottom:15px;
-  overflow:auto;
+	clear:both;
+	margin-bottom:15px;
+	overflow:auto;
 }
 .mdi-hardware-keyboard-tab{
-  color:rgba(0,0,0,0.1);
+	color:rgba(0,0,0,0.1);
 }
 
 .navbar-material-blue-900.navbar {
@@ -118,7 +118,6 @@
 </style>
 
 
-<%= stylesheet_link_tag "golink_catalogue" %>
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <!-- Modal -->
 <div class="modal fade" id="guide-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -138,13 +137,9 @@
   </div>
 </div>
 
-<!-- spinner gif -->
-<div id = 'spinner-div'><img src = 'http://www.canyonsresort.com/Content/component-themes/lessons/images/ajax_loader_vector.gif' height=100></img></div>    
-
-<div class="row catalogue-div">
 
 
-<h1 class = 'middle-title'><img src = '/assets/link-circle.png' height=75></img> Searching PBL Links</h1>
+<h1 class = 'middle-title'><img src = '/assets/link-circle.png' height=75></img>  PBL Links</h1>
     <p>PBL Links is a custom URL shortener with two main goals: simplifying the way we <b>access and discover PBL resources</b>. </p>
   <a href = 'javascript:void(0);' data-toggle="modal" data-target="#guide-modal">
    Read More about PBL Links
@@ -159,33 +154,23 @@
       </div>
   </div>
   <!-- end of search input -->
+
+
+  <div class = 'row' style = 'text-align:center'>
+      <h3>My Collections</h3>
+      <h4><a href = '/go/my_links' class = 'collections-link'>My Links</a></h4>
+      <h4><a href = '/go/bundles' class = 'collections-link'>My Bundles</a></h4>
+      <% if @collections %>
+        <% @collections.each do |collection| %>
+        <h4><a href = '/go/collections/<%= collection.name %>' class = 'collections-link'><%= collection.name %></a></h4>
+        <% end %>
+      <% end %>
+      <h4><a href = '/go/tags'>Browse the entire catalogue</a></h4>
 </div>
 
 
-<div id = 'catalogue-container' style = 'margin-top:25px'>
-  <%= render partial: "catalogue_tags", locals: {golinks: @golinks, selected_tags: @selected_tags, tag_color_hash: @tag_color_hash} %>
-</div>
-
-<%= will_paginate @golinks %>
-
-</div><!-- end of col md 9 -->
-  
-
-
-
-
-
-<%= javascript_include_tag "tag_catalogue_paged" %>
-<script>
-var selected_tags = JSON.parse('<%= @selected_tags.to_json.html_safe %>');
-</script>
 <script type = 'text/javascript'>
 function activateSearchButton(){
-  $('#search-btn').click(function(){
-    search_term = $('#search-input').val();
-    window.location.assign('/go/search?search_term='+search_term);
-  });
-
   $('#search-input').keypress(function(e) {
     if(e.which == 13) {
        search_term = $('#search-input').val();
@@ -195,17 +180,8 @@ function activateSearchButton(){
 });
 }
 activateSearchButton();
-<% if @current_member %>
-var email = "<%= @current_member.email %>";
-<% else %>
-var email = "asdf";
-<% end %>
 </script>
-<!-- catalogue scripts -->
 
-<!-- get the modal to work -->
-  
 
- 
 
 

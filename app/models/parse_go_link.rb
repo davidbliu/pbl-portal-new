@@ -1,5 +1,44 @@
+require 'timeout'
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails
+
+
+	""" permissions""" 
+	def self.dalli_client
+		options = { :namespace => "app_v1", :compress => true }
+    	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
+    	return dc
+	end
+	def self.cache_golinks
+		"""caches go links in a separate thread """
+		Thread.new{
+			dc = self.dalli_client
+			status = Timeout::timeout(30) {
+				puts 'thread has spawned'
+				if dc.get('golinks_already_caching') == nil
+					dc.set('golinks_already_caching', true)
+					puts 'caching golinks'
+					golinks = ParseGoLink.limit(1000000).all.to_a
+					dc.set('golinks', golinks)
+					golink_key_hash = Hash.new # key to list of golinks
+					keyset = Set.new
+					golinks.each do |golink|
+						if not keyset.include?(golink.key)
+							golink_key_hash[golink.key] = Array.new
+							keyset << golink.key
+						end
+						golink_key_hash[golink.key] << golink 
+					end
+					dc = dalli_client
+					dc.set('golink_key_hash', golink_key_hash)
+					dc.set('golinks_already_caching', nil)
+					puts 'finished caching golinks'
+				end
+				puts 'thread exiting'
+			}
+
+		}
+	end
 
 	def updated_at_string
 		t = self.updated_at + Time.zone_offset("PDT")

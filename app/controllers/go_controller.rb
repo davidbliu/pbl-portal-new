@@ -2,6 +2,53 @@ require 'set'
 require 'will_paginate/array'
 class GoController < ApplicationController
 
+	def test
+		ParseGoLink.cache_golinks
+		render nothing:true, status:200
+	end
+
+	def save_link
+		golink = ParseGoLink.find(params[:id])
+		golink.key = params[:key]
+		golink.description = params[:description]
+		if params[:groups] and params[:groups] != ""
+			groups = params[:groups].split(',').map{|x| x.strip}
+			puts groups
+			golink.groups = groups
+		end
+		golink.type = 'edited'
+		golink.save
+		ParseGoLink.cache_golinks
+		render nothing: true, status:200
+	end
+
+	def delete_link
+		golink = ParseGoLink.find(params[:id])
+		golink.destroy
+		ParseGoLink.cache_golinks
+		render nothing:true, status: 200
+	end
+
+	def bundles
+		@my_bundles = ParseGoLinkBundle.my_bundles(current_member.email)
+	end
+
+	def my_links
+		@golinks = cached_golinks.select{|x| x.member_email == current_member.email}.sort{|a,b| b.updated_at <=> a.updated_at}
+		# # get tags
+		# @selected_tags = Hash.new
+		# @tag_color_hash = Hash.new
+		# @tags = Set.new
+
+		# paginate go links
+		page = params[:page] ? params[:page] : 1
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+	end
+	def permissions
+		@members = member_email_hash.values
+	end
+
+	
 
 	def show_collection
 		name = params[:name]
@@ -68,9 +115,6 @@ class GoController < ApplicationController
 	end
 	def tag_catalogue
 		""" deal with key redirects if needed """
-		# go_key = params.keys[0]
-		# go_hash = go_link_key_hash
-
 		""" render the catalogue if no redirects """
 
 		def contains_all_tags(golink, tags)
@@ -106,10 +150,11 @@ class GoController < ApplicationController
 
 		# include collections
 		@collections = cached_golink_collections #ParseGoLinkCollection.limit(100000).all.to_a
-		
-		
 	end
 
+	def homepage
+		@collections = cached_golink_collections
+	end
 
 	def update_rank
 		key = params[:key]
@@ -165,114 +210,16 @@ class GoController < ApplicationController
 			search_email = current_member ? current_member.email : nil
 			search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: @search_term, results: keys, type: 'portal', time: Time.now)
 		}
-		
-		# get search results
-		# results = Array.new
-		# keys.each do |key|
-		# 	results << key_hash[key]
-		# end
 
 		@golinks = golinks
-		@tag_color_hash = ParseGoLinkTag.color_hash
-		@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+		@tag_color_hash = Hash.new
+		@tags = Set.new
 
 		# paginate go links
 		page = params[:page] ? params[:page].to_i : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
-		@search = true
-		render 'tag_catalogue'
-	end
-
-	def affix
-		""" deal with key redirects if needed """
-		go_key = params.keys[0]
-		link_hash = go_link_hash
-		go_hash = go_link_key_hash
-		@current_member = current_member
-		
-		if params.length >= 3 and go_hash.keys.include?(go_key)
-			# correctly used alias
-			golink = go_hash[go_key]
-			""" log tracking data for link click """
-			if @current_member	
-				click = ParseGoLinkClick.new
-				click.member_email = @current_member.email
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			else
-				click = ParseGoLinkClick.new
-				click.key = golink.key
-				click.time = Time.now
-				click.save
-			end
-			# send to link url
-			redirect_to golink.url
-		end
-
-		""" render the catalogue if no redirects """
-		@golinks = link_hash.values
-
-		""" apply filters from searching and link types"""
-		@filters = Array.new
-
-		if params.keys.include?("search_term") and params[:search_term] != "" and params[:search_term] != nil
-			if params[:search_term].start_with?('http://') or params[:search_term].start_with?('https://')
-				@golinks = @golinks.select{|x| x.url == params[:search_term]}
-				filter = "reverse lookup:"+params[:search_term]
-				@filters << filter
-			else
-				puts 'searching for : '+params[:search_term]
-				search_result_keys = ParseGoLink.search(params[:search_term])
-				puts 'search result keys were : '+search_result_keys.to_s
-				@golinks = @golinks.select{|x| search_result_keys.include?(x.key)}
-				filter = "search:" + params[:search_term]
-				@filters << filter
-			end
-		end
-
-		""" removed filtering by link type """
-		# if params.keys.include?('link_type')
-		# 	type = params[:link_type]
-		# 	filter = "type:" + type
-		# 	@filters << filter
-		# 	@golinks = @golinks.select{|x| x.resolve_type == type}
-		# end
-
-		""" get directory structure """
-		@num_links = @golinks.length
-
-		@directory_hash = ParseGoLink.directory_hash(@golinks) #.dir_hash
-		@directories = @directory_hash.keys.sort
-		@one_ply = ParseGoLink.one_ply(@directories)
-		@directory_tree = ParseGoLink.n_ply_tree(@directories)
-		@all_directories = ParseGoLink.all_directories(@golinks)
-
-		# move /PBL to the back
-		# @subdirectories = @directory_hash.keys.select{|x| x.scan('/').length > 1}
-		# puts 'these are the subdirectories '+@subdirectories.to_s
-		# # @directories = @directory_hash.keys.select{|x| x.scan('/').length == 1}.sort
-		# # @directories = @directory_hash.keys.map{|x| x[1..len(x)]split('/')[0]}
-		# @directories = ParseGoLink.subdirectories
-		# @directory_tree = get_dir_tree(@directories, @subdirectories)
-		# @directories.delete('/')
-
-
-		""" get favorites """
-		if current_member
-			# @favorite_links = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
-			@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
-		end
-		
-		@resource_hub = true
-	end
-
-	def get_dir_tree(top_level, subdirectories)
-		tree = Hash.new
-		top_level.each do |top|
-			tree[top] = ParseGoLink.subdirectories(top).select{|x| subdirectories.include?(x)}
-		end
-		return tree
+		# @search = true
+		render 'search'
 	end
 
 	def favorite
@@ -498,18 +445,18 @@ class GoController < ApplicationController
 		redirect_to '/go'
 	end
 
-	def delete_link
+	# def delete_link
 
-		key = params[:key]
+	# 	key = params[:key]
 
-		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
-		if override
-			key = key.split(':')[0]
-		end
-		ParseGoLink.where(key: key).destroy_all
-		# clear_go_cache
-		render nothing: true, status: 200
-	end
+	# 	override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
+	# 	if override
+	# 		key = key.split(':')[0]
+	# 	end
+	# 	ParseGoLink.where(key: key).destroy_all
+	# 	# clear_go_cache
+	# 	render nothing: true, status: 200
+	# end
 
 	def update_link
 		key = params[:key]

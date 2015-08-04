@@ -104,6 +104,11 @@ module CacheHelper
 		Rails.cache.write('cached_golink_collections', a)
 		return a
 	end
+
+	def golink_permissions
+		dc = dalli_client
+		return dc.get('golink_permissions_hash')
+	end
 	def cached_golinks
 		dc = dalli_client
 		return dc.get('golinks')

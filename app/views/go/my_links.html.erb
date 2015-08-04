@@ -1,0 +1,119 @@
+<style type = 'text/css'>
+.link-row>.golink-key-td{
+	width:25%;
+	max-width: 200px;
+	overflow:hidden;
+}
+.link-row>.golink-description-td{
+	width:50%;
+	max-width:300px;
+	overflow:hidden;
+}
+.link-row>.golink-type-td{
+	width: 5%;
+	overflow:hidden;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+<h3>My Links</h3>
+
+<p>
+You can help make PBL Links better by 
+<ol>
+	<li>Clean up keys</li>
+	<li>Add a description and tags</li>
+	<li>Add your link to a collection or bundle</li>
+</ol>
+</p>
+<div id = 'spacer' style = 'clear:both;height:25px'></div>
+
+<table class = 'directory-table table table-hover table-condensed'>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Permissions</th>
+		</tr>
+	</thead>
+	<tbody class = 'directory-tbody'>
+	<% @golinks.each do |golink| %>
+	<tr class = 'link-row' id = '<%= golink.id %>-row'>
+		<td class = 'golink-type-td'><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
+		<td class = 'golink-key-td'><input id = '<%= golink.id %>-key-input' type = 'text' class = 'form-control' value = '<%= golink.key %>'></input>
+		</td> 
+		<td class = 'golink-description-td'>
+			<input type = 'text' id = '<%= golink.id %>-description-input' class = 'form-control' value = '<%= golink.description %>'></input>
+		</td>
+		<td>
+			<input id = '<%= golink.id %>-groups-input' type = 'text' class = 'form-control' value = '<%= golink.groups ? golink.groups.join(',') : ""%>'></input>
+		</td>
+		<td style='text-align:right'>
+			<a href = 'javascript:void(0);' class = 'link-save-btn' id = '<%= golink.id %>'><i class = 'mdi-action-done' style = 'font-size:15px'></i>
+			</a>
+			<a href = 'javascript:void(0);' class = 'link-delete-btn' id = '<%= golink.id %>'><i class = 'mdi-action-delete' style = 'font-size:15px'></i>
+			</a>
+		</td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+<%= will_paginate @golinks %>
+
+<script type = 'text/javascript'>
+function showSpinner(){
+	$('#loading-gif').show();
+}
+function hideSpinner(){
+	$('#loading-gif').hide();
+}
+$('.link-save-btn').click(function(){
+	showSpinner();
+	id = $(this).attr('id');
+	key = $("#"+id+'-key-input').val();
+	description = $("#"+id+'-description-input').val();
+	groups = $("#"+id+'-groups-input').val();
+	$.ajax({
+      url: '/go/save_link',
+      type: 'POST',
+      data: {'id':id, 'key':key, 'description': description, 'groups':groups},
+      success:function(data){
+        hideSpinner();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+        hideSpinner();
+      }
+  });
+});	
+
+$('.link-delete-btn').click(function(){
+	showSpinner();
+	id = $(this).attr('id');
+	row = $("#" + id + '-row');
+	$.ajax({
+      url: '/go/delete_link',
+      type: 'POST',
+      data: {'id':id},
+      success:function(data){
+        hideSpinner();
+        $(row).remove();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+        hideSpinner();
+      }
+  });
+
+});
+</script>
+

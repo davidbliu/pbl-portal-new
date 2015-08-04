@@ -10,7 +10,7 @@ Dockernotes::Application.routes.draw do
 
   get '/clearcache', to: 'application#clearcache'
 
-  get '/go', to: 'go#tag_catalogue'
+  get '/go', to: 'go#homepage'
   get '/go/manage', to: 'go#manage'
   get '/go/add', to:'go#add'
   post '/go/create', to: 'go#create'
@@ -44,6 +44,16 @@ Dockernotes::Application.routes.draw do
   get 'go/load_tag_catalogue', to:'go#load_tag_catalogue'
   get 'go/collections/:name/edit', to: 'go#edit_collection'
   post 'go/collections/:name/update', to: 'go#update_collection'
+  post 'go/save_link', to: 'go#save_link'
+  post 'go/delete_link', to:'go#delete_link'
+  get 'go/homepage', to: 'go#homepage'
+  """ me"""
+  get 'go/bundles', to: 'go#bundles'
+  get 'go/my_links', to:'go#my_links'
+  get 'go/test', to:'go#test'
+
+  """ permissions testing routes"""
+  get '/permissions', to:'go#permissions'
 
 
   """ chrome extension routes """
