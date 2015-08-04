@@ -27,49 +27,56 @@ namespace :elasticsearch do
 		# search through docs in parse links
 		doc_ids = Array.new
 		parse_go_links = ParseGoLink.limit(1000000).all.to_a # pulls from parse not from rails cache
-		puts 'destroying previous elasticsearch data'
-		ParseElasticsearchData.destroy_all(ParseElasticsearchData.limit(100000).all.to_a)
+		# puts 'destroying previous elasticsearch data'
+		# ParseElasticsearchData.destroy_all(ParseElasticsearchData.limit(100000).all.to_a)
 		threads = []
 		puts 'beginning link scrape'
 		puts 'there are '+ ParseElasticsearchData.all.length.to_s+ ' elasticsearch objects'
+
+		previously_scraped_keys = Set.new(ParseElasticsearchData.limit(100000).all.map{|x| x.go_link_id})
+		puts 'there are '+previously_scraped_keys.length.to_s + ' previously scraped links'
 		parse_go_links.each do |go_link|
 			# for scraping google docs
 			until threads.map {|t| t.alive?}.count(true) < 1000 do 
 				sleep 5
 			end
-			t = Thread.new{
-				begin
-					if go_link.url.include?('docs.google.com/document/d')
-						doc_id = go_link.url.split('/')[5]
-						# puts 'scraping: '+go_link.key
-						# get fulltext
-						fulltext = get_doc_text(google_client, doc_id)
-						# puts fulltext
-						search_data = ParseElasticsearchData.new
-						search_data.go_link_id = go_link.id
-						search_data.text = fulltext
-						search_data_objects << search_data
-						print '.'
-					elsif go_link.url.include?('docs.google.com/spreadsheets')
-						doc_id = go_link.url.split('/')[5]
-						# puts 'scraping: '+go_link.key
-						# get fulltext
-						fulltext = get_spreadsheet_text(google_client, doc_id)
-						# puts fulltext
-						search_data = ParseElasticsearchData.new
-						search_data.go_link_id = go_link.id
-						search_data.text = fulltext
-						search_data_objects << search_data
-						print '.'
+			if not previously_scraped_keys.include?(go_link.id)
+				t = Thread.new{
+					print 't'
+					begin
+						if go_link.url.include?('docs.google.com/document/d')
+							doc_id = go_link.url.split('/')[5]
+							# puts 'scraping: '+go_link.key
+							# get fulltext
+							fulltext = get_doc_text(google_client, doc_id)
+							# puts fulltext
+							search_data = ParseElasticsearchData.new
+							search_data.go_link_id = go_link.id
+							search_data.text = fulltext
+							search_data_objects << search_data
+							# print '.'
+						elsif go_link.url.include?('docs.google.com/spreadsheets')
+							doc_id = go_link.url.split('/')[5]
+							# puts 'scraping: '+go_link.key
+							# get fulltext
+							fulltext = get_spreadsheet_text(google_client, doc_id)
+							# puts fulltext
+							search_data = ParseElasticsearchData.new
+							search_data.go_link_id = go_link.id
+							search_data.text = fulltext
+							search_data_objects << search_data
+							# print '.'
+						end
+						search_data.type = 'thread_scraped'
+						search_data.key = go_link.key
+						search_data.save
+					rescue
+						# puts '***problem: '+go_link.url
+						# print ''
 					end
-					search_data.type = 'thread_scraped'
-					# search_data.save
-				rescue
-					# puts '***problem: '+go_link.url
-					print ''
-				end
-			}
-			threads << t
+				}
+				threads << t
+			end
 		end
 
 		threads.each(&:join)
@@ -85,8 +92,8 @@ namespace :elasticsearch do
 		# 	search_data_objects << search_data
 		# end
 		# puts 'saving all records created from scraping!'
-		puts 'saving '+search_data_objects.length.to_s + ' search data objects'
-		ParseElasticsearchData.save_all(search_data_objects)
+		# puts 'saving '+search_data_objects.length.to_s + ' search data objects'
+		# ParseElasticsearchData.save_all(search_data_objects)
 		# puts 'Scraped and saved ' + ParseElasticsearchData.limit(100000).all.length.to_s + ' elasticsearch records at '+Time.now.to_s
 
 

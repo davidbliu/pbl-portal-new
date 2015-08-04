@@ -160,9 +160,12 @@ class GoController < ApplicationController
 		puts 'searching for : '+params[:search_term]
 		golinks = ParseGoLink.search(@search_term)
 		# log this search event
-		keys = golinks.select{|x| x.key}
-		search_email = current_member ? current_member.email : nil
-		search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: @search_term, results: keys, type: 'portal', time: Time.now)
+		Thread.new{
+			keys = golinks.select{|x| x.key}
+			search_email = current_member ? current_member.email : nil
+			search_event = ParseGoLinkSearch.create(member_email: search_email, search_term: @search_term, results: keys, type: 'portal', time: Time.now)
+		}
+		
 		# get search results
 		# results = Array.new
 		# keys.each do |key|
@@ -295,19 +298,20 @@ class GoController < ApplicationController
 		golinks = ParseGoLink.where(key: go_key).to_a
 		if golinks.length > 0
 			# correctly used alias
-			""" log tracking data for link click TODO emit tracking event from chrome extension """
-			# if current_member	
-			# 	click = ParseGoLinkClick.new
-			# 	click.member_email = current_member.email
-			# 	click.key = go_key
-			# 	click.time = Time.now
-			# 	click.save
-			# else
-			# 	click = ParseGoLinkClick.new
-			# 	click.key = go_key
-			# 	click.time = Time.now
-			# 	click.save
-			# end
+			""" log tracking data for link click """
+			Thread.new{
+				click = ParseGoLinkClick.new
+				if current_member	
+					click.member_email = current_member.email
+					click.key = go_key
+					click.time = Time.now
+					click.save
+				else
+					click.key = go_key
+					click.time = Time.now
+				end
+				click.save
+			}
 			if golinks.length > 1
 				@golinks = golinks
 				# get tags
