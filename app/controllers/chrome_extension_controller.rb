@@ -111,14 +111,15 @@ class ChromeExtensionController < ApplicationController
 		key = params[:key]
 		url = params[:url]
 		description = params[:description]
+		tags = nil
 		# directory = params[:directory] != "" ? params[:directory] : '/PBL'
-		tags = params[:tags].split(',')
-		override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
-		if override
-			key = key.split(':')[0]
-		end
+		# tags = params[:tags].split(',')
+		# override = (key.include?(':') and key.split(':')[-1] == 'override') ? true : false
+		# if override
+		# 	key = key.split(':')[0]
+		# end
 		""" save the new link dont check for errors"""
-		golink = ParseGoLink.new(key: key, url: url, description: description, tags: tags, directory: '/tags')
+		golink = ParseGoLink.new(key: key, url: url, description: description, tags: ['new_xtension'], directory: '/tags')
 		if params[:email] and params[:email] != ""
 			golink.member_email = params[:email]
 		end

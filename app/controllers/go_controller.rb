@@ -34,7 +34,7 @@ class GoController < ApplicationController
 	end
 
 	def my_links
-		@golinks = cached_golinks.select{|x| x.member_email == current_member.email}.sort{|a,b| b.updated_at <=> a.updated_at}
+		@golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
 		# # get tags
 		# @selected_tags = Hash.new
 		# @tag_color_hash = Hash.new
