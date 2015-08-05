@@ -1,6 +1,6 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections
 
 
 	""" permissions""" 
@@ -9,6 +9,7 @@ class ParseGoLink < ParseResource::Base
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
     	return dc
 	end
+
 	def self.cache_golinks
 		"""caches go links in a separate thread """
 		Thread.new{
@@ -38,6 +39,20 @@ class ParseGoLink < ParseResource::Base
 			}
 
 		}
+	end
+
+	def self.cached_golinks
+		self.dalli_client.get('golinks')
+	end
+
+	def self.cache_permissions
+		status = Timeout::timeout(30){
+			puts 'caching permissions'
+		}
+	end 
+
+	def self.save_permissions_into_memcached
+
 	end
 
 	def updated_at_string

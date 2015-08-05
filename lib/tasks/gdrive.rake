@@ -11,6 +11,107 @@ require 'set'
 tab = "---->"
 namespace :gdrive do
 
+	task :edit_subcollections => :environment do
+		collections = ParseCollection.limit(10000).all.to_a
+		collection_name_hash = collections.index_by(&:name)
+		collections.each do |collection|
+			data = collection.data
+			if data != nil and data != ''
+				splits = data.split(',')
+				for split in splits
+					if split != '[PBL][EX] Committee Management'
+						c = collection_name_hash[split]
+						subcollections = c.subcollections ? c.subcollections : Array.new
+						subcollections << collection.id
+						subcollections = Set.new(subcollections).to_a
+						c.subcollections = subcollections
+						Thread.new{
+							c.save
+						}
+					end
+				end
+			end
+		end
+	end
+	task :scrape_collections => :environment do 
+		client = Google::APIClient.new
+		auth = client.authorization
+		auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
+		auth.client_secret = ENV['GOOGLE_INSTALLED_CLIENT_SECRET']
+		auth.scope = [
+		  "https://www.googleapis.com/auth/drive",
+		  "https://spreadsheets.google.com/feeds/",
+		  'https://www.googleapis.com/auth/calendar'
+		]
+		auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+		auth.refresh_token = ENV['GOOGLE_DRIVE_REFRESH']
+		auth.fetch_access_token!
+		access_token = auth.access_token
+		puts 'created session'
+		# Creates a session.
+		session = GoogleDrive.login_with_oauth(access_token)
+
+		# set global variables
+		$existing_golinks = ParseGoLink.limit(100000000).all.to_a
+		puts 'received golinks'
+		$threads = []
+
+		# start scraping
+		collections = session.collections
+		collections.each do |collection|
+			collection_scrape(collection, Array.new)
+		end
+
+		$threads.each(&:join)
+		puts 'finished scraping drive'
+
+	end
+
+	def collection_scrape(collection, previous_titles)
+		# create a new ParseCollection from this one
+		print '.'
+		# begin
+		status = Timeout::timeout(60) {
+		  # Something that should be interrupted if it takes more than 5 seconds...
+		  edit_collection_files(collection, previous_titles)
+		}
+		# rescue
+		# 	print 'timeout'
+		# end
+		# scrape subcollection
+		cumulative_titles = previous_titles.clone
+		cumulative_titles << collection.title
+		collection.subcollections.each do |subcollection|
+			until $threads.map {|t| t.alive?}.count(true) < 500 do 
+				sleep 5
+			end
+			t = Thread.new{
+				collection_scrape(subcollection, cumulative_titles)
+			}
+			$threads << t
+		end
+
+	end
+
+	def edit_collection_files(collection, directories)
+		c  = ParseCollection.new(name: collection.title)
+		data = directories.to_s
+		golinks = Array.new
+		collection.files do |file|
+			url = file.human_url
+			golinks.concat($existing_golinks.select{|x| x.url == url}.map{|x| x.id})
+		end
+		# save all golinks 
+		if golinks.length > 0
+			# ParseGoLink.save_all(golinks)
+			# $scraped_links.concat(golinks)
+			c.golinks = golinks
+			c.description = 'automatically generated collection from scraping the google drive'
+			c.data = directories.join(',')
+			c.save
+		end
+	end
+
 	task :scrape => :environment do 
 		client = Google::APIClient.new
 		auth = client.authorization
@@ -111,8 +212,6 @@ namespace :gdrive do
 			# update tags for the file
 			file_tags = tags + get_tags2(file.title)
 			file_tags = Set.new(file_tags).to_a
-			# puts file.title
-			# puts file_tags.join(',')
 			key = get_key(file)
 			url = file.human_url
 			description = file.title

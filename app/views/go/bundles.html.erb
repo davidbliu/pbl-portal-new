@@ -1,3 +1,17 @@
+<style type = 'text/css'>
+.bundle-card{
+	padding:10px;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <h3>My Bundles</h3>
 
 <p>
@@ -5,9 +19,38 @@ Links can be added and removed from bundles by directly using the chrome extensi
 </p>
 <div id = 'spacer' style = 'clear:both;height:25px'></div>
 <% @my_bundles.each do |bundle| %>
-<p>
-	<h5><%= bundle.name %></h5>
-	<div><%= bundle.groups.join(',') %></div>
-	<div><%= bundle.keys.join(',') %></div>
-</p>
+<div class = 'bundle-card'>
+	<h5><%= bundle.name %> (<%= bundle.urls.length %> Links)</h5>
+	<div>Groups: <input id = '<%= bundle.id %>' type = 'text' class = 'form-control bundle-groups-input' value = '<%= bundle.groups.join(',') %>' placeholder = 'no groups added to this bundle'></input></div>
+</div>
 <% end %>
+
+<script type = 'text/javascript'>
+function showSpinner(){
+	$('#loading-gif').show();
+}
+function hideSpinner(){
+	$("#loading-gif").hide();
+}
+$('.bundle-groups-input').keypress(function(e) {
+    if(e.which == 13) {
+		showSpinner();
+		id = $(this).attr('id');
+		groups = $(this).val();
+		$.ajax({
+	      url: '/go/update_bundle_groups',
+	      type: 'POST',
+	      data: {'id':id, 'groups':groups},
+	      success:function(data){
+	        hideSpinner();
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed');
+	        hideSpinner();
+	      }
+  		});
+	}
+
+
+});
+</script>

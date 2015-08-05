@@ -42,14 +42,18 @@ namespace :memcached do
 		#   LinkNotifier.send_memcached_email
 		# }
 	end
+	task :cache_bundles_permissions => :environment do 
+		ParseGoLinkBundle.cache_permissions
+		puts 'finished writing to bundle permissions at '+Time.now.to_s
+	end
 
 	task :cache_permissions => :environment do 
 		# puts 'pulling golinks'
 		golinks = ParseGoLink.limit(10000000).all.to_a
 		# puts 'getting groups hash'
 		groups_golink_hash = Hash.new
-		group_keys = Set.new
-		groups_golink_hash['all'] = Set.new
+		group_keys = Array.new
+		groups_golink_hash['all'] = Array.new
 		golinks.each do |golink|
 			if not golink.groups
 				groups_golink_hash['all'].add(golink.id)

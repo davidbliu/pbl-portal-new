@@ -1,0 +1,8 @@
+<% @collections.each do |collection| %>
+	<h3><a href = '/go/new_collections/<%= collection.id %>'><%= collection.name %></a></h3>
+	<p>
+		<% if collection.subcollections %>
+			<% collection.subcollections.each do |id| %><a href = '/go/new_collections/<%= id %>'><%= @collection_hash[id].name %></a>, <% end %>
+		<% end %>
+	</p>
+<% end %>

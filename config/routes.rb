@@ -52,8 +52,17 @@ Dockernotes::Application.routes.draw do
   get 'go/my_links', to:'go#my_links'
   get 'go/test', to:'go#test'
 
+
+  """ new collections """
+  get 'go/new_collections', to:'collections#index'
+  get 'go/new_collections/:id', to:'collections#view_collection'
+  get 'go/cache_collections', to:'collections#cache_collections'
+
   """ permissions testing routes"""
+  post 'go/update_bundle_groups', to:'go#update_bundle_groups'
   get '/permissions', to:'go#permissions'
+  get '/permissions/view_groups', to:'go#view_groups'
+  get '/permissions/view_bundles_permissions', to:'go#view_bundles_permissions'
 
 
   """ chrome extension routes """

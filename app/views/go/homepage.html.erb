@@ -161,11 +161,14 @@
       <h4><a href = '/go/my_links' class = 'collections-link'>My Links</a></h4>
       <h4><a href = '/go/my_recent_links' class = 'collections-link'>My Recently Visited Links</a></h4>
       <h4><a href = '/go/bundles' class = 'collections-link'>My Bundles</a></h4>
-      <% if @collections %>
-        <% @collections.each do |collection| %>
-        <h4><a href = '/go/collections/<%= collection.name %>' class = 'collections-link'><%= collection.name %></a></h4>
+      <% @collections.each do |collection| %>
+      <h4><a href = '/go/new_collections/<%= collection.id %>'><%= collection.name %></a></h4>
+      <p class = 'text-muted smalltext'>
+        <% if collection.subcollections %>
+          <% collection.subcollections.each do |id| %><a href = '/go/new_collections/<%= id %>'><%= @collections_hash[id].name %></a>, <% end %>
         <% end %>
-      <% end %>
+      </p>
+    <% end %>
       <h4><a href = '/go/tags'>Browse the entire catalogue</a></h4>
 </div>
 

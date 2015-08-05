@@ -5,7 +5,7 @@
 	overflow:hidden;
 }
 .link-row>.golink-description-td{
-	width:50%;
+	width:40%;
 	max-width:300px;
 	overflow:hidden;
 }
@@ -20,6 +20,13 @@
   top:175px;
   display:none;
   z-index:5000;
+}
+.collections-input {
+    position: relative;
+    z-index: 9998;
+}
+.ui-autocomplete {
+     z-index: 9999 !important;
 }
 </style>
 
@@ -42,7 +49,7 @@ You can help make PBL Links better by
 			<th></th>
 			<th>Key</th>
 			<th>Description</th>
-			<th>Permissions</th>
+			<th>Collections</th>
 		</tr>
 	</thead>
 	<tbody class = 'directory-tbody'>
@@ -54,8 +61,8 @@ You can help make PBL Links better by
 		<td class = 'golink-description-td'>
 			<input type = 'text' id = '<%= golink.id %>-description-input' class = 'form-control' value = '<%= golink.description %>'></input>
 		</td>
-		<td>
-			<input id = '<%= golink.id %>-groups-input' type = 'text' class = 'form-control' value = '<%= golink.groups ? golink.groups.join(',') : ""%>'></input>
+		<td class = 'golink-collections-td'>
+			<input id = '<%= golink.id %>-groups-input' type = 'text' class = 'form-control collections-input' value = '<%= golink.groups ? golink.groups.join(',') : ""%>'></input>
 		</td>
 		<td style='text-align:right'>
 			<a href = 'javascript:void(0);' class = 'link-save-btn' id = '<%= golink.id %>'><i class = 'mdi-action-done' style = 'font-size:15px'></i>
@@ -68,7 +75,15 @@ You can help make PBL Links better by
 	</tbody>
 </table>
 <%= will_paginate @golinks %>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.js"></script> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.js"></script> -->
+<%= javascript_include_tag 'jquery-ui.min.js' %>
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.js"></script> -->
 
+<script>
+// var collection_names = JSON.parse('<%= @collections.to_json.html_safe %>');
+var collection_names = '<%= @collections %>'.split(',');
+</script>
 <script type = 'text/javascript'>
 function showSpinner(){
 	$('#loading-gif').show();
@@ -95,6 +110,9 @@ $('.link-save-btn').click(function(){
       }
   });
 });	
+$( ".collections-input" ).autocomplete({
+      source: collection_names
+    });
 
 $('.link-delete-btn').click(function(){
 	showSpinner();

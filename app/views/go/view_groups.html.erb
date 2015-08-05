@@ -1,0 +1,27 @@
+<h3>Groups Table</h3>
+
+<p>Refer to this when giving permissions. granting permissions to the group will grant permissions to these people</p>
+<table class = 'table table-condensed'>
+<thead>
+	<tr>
+		<th>Group Name</th>
+		<th>Group Members</th>
+	</tr>
+</thead>
+<tbody>
+	<% @groups.each do |group| %>
+	<tr>
+		<td><%= group.name %></td>
+		<td>
+			<% group.member_emails.each do |email| %>
+			<img src = '<%= member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= @member_email_hash[email].name %>, 
+			<% end %>
+
+		</td>
+	</tr>
+	<% end %>
+
+</tbody>
+
+</table>
+

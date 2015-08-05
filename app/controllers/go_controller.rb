@@ -1,6 +1,42 @@
 require 'set'
 require 'will_paginate/array'
+require 'timeout'
 class GoController < ApplicationController
+
+	def dalli_client
+		options = { :namespace => "app_v1", :compress => true }
+    	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
+    	return dc 
+   	end
+
+   	def view_bundles_permissions
+   		dc = dalli_client
+   		@bundles_permissions_hash = dc.get('bundles_permissions_hash')
+   	end
+
+   	def update_bundle_groups
+   		id = params[:id]
+   		groups = params[:groups]
+   		if groups and groups != ""
+   			groups = groups.split(',').map{|x| x.strip}
+   		else
+   			groups = Array.new
+   		end
+   		bundle = ParseGoLinkBundle.find(id)
+   		bundle.groups = groups
+   		bundle.save
+   		
+   		Thread.new{
+			ParseGoLinkBundle.cache_permissions
+			puts 'exiting thread'
+	   	}
+   		render nothing:true, status:200
+   	end
+
+	def view_groups
+		@groups = ParseGroup.limit(10000).all.to_a
+		@member_email_hash = member_email_hash
+	end
 
 	def test
 		ParseGoLink.cache_golinks
@@ -34,11 +70,9 @@ class GoController < ApplicationController
 	end
 
 	def my_links
+		@collections = ParseCollection.collections.map{|x| x.name}.join(',')
+		puts @collections
 		@golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
-		# # get tags
-		# @selected_tags = Hash.new
-		# @tag_color_hash = Hash.new
-		# @tags = Set.new
 
 		# paginate go links
 		page = params[:page] ? params[:page] : 1
@@ -153,7 +187,10 @@ class GoController < ApplicationController
 	end
 
 	def homepage
-		@collections = cached_golink_collections
+		# @collections = cached_golink_collections
+		dc = ParseCollection.dalli_client
+		@collections = ParseCollection.collections(dc)
+		@collections_hash = ParseCollection.collections_hash(dc)
 	end
 
 	def update_rank
@@ -189,11 +226,6 @@ class GoController < ApplicationController
 	
 
 	def admin
-		# @my_links = go_link_key_hash.values.select{|x| x.member_email == current_member.email}
-		# @my_uncategorized = @my_links.select{|x| x.dir == '/PBL'}
-		# if current_member
-		# 	@favorite_links = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
-		# end
 
 		@click_hash = ParseGoLinkClick.click_hash
 		@recent_links = cached_golinks.sort_by{|x| x.updated_at}.reverse
@@ -241,7 +273,7 @@ class GoController < ApplicationController
 	end
 
 	def index
-		go_key = params[:key]
+		go_key = params[:key].gsub('_', ' ')
 		golinks = ParseGoLink.where(key: go_key).to_a
 		if golinks.length > 0
 			# correctly used alias
