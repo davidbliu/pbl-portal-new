@@ -198,7 +198,7 @@ class GoController < ApplicationController
 
 	def keys
 		start = Time.now
-		@golinks = cached_golinks.map{|x| x.key}
+		@golinks = cached_golinks.map{|x| 'link: ' + x.key}
 		end_time = Time.now
 		puts 'took '+ ((end_time - start) * 1000).to_s
 		render json: @golinks, status:200

@@ -115,6 +115,15 @@
   display:none;
   z-index:5000;
 }
+
+/*autocomplete styles*/
+.ui-autocomplete>li:hover{
+  cursor:pointer;
+  font-weight:bold;
+}
+.ui-autocomplete{
+  list-style: none;
+}
 </style>
 
 
@@ -185,13 +194,25 @@ function activateSearchButton(){
 }
 activateSearchButton();
 
+//autocomplete links and collections and automatically search or redirect
 function ajaxAutocomplete(){
   $.ajax({
       url: '/go/keys',
       type: 'GET',
       success:function(data){
         $( "#search-input" ).autocomplete({
-          source: data
+          source: data,
+          select: function(event, ui) { 
+            selected = ui.item.value;
+            if(selected.indexOf('link:') != -1){
+              key = selected.replace('link: ', '');
+              window.location.href = '/' + key + '/go'
+            }
+           else if(selected.indexOf('collection: ') != -1){
+
+           }
+
+          }
         });
       },
       error:function (xhr, textStatus, thrownError){
@@ -200,6 +221,7 @@ function ajaxAutocomplete(){
   });
 }
 ajaxAutocomplete();
+clickAutocompleteActions();
 </script>
 
 
