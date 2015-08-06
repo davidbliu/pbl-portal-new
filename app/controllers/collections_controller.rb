@@ -15,7 +15,7 @@ class CollectionsController < ApplicationController
 
 	def cache_collections
 		ParseCollection.cache_collections
-		render nothing:true, status:200
+		redirect_to '/go'
 	end
 
 	def view_collection
