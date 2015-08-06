@@ -6,10 +6,18 @@ module AuthHelper
     # my_email = "alice.sun@berkeley.edu"
     # my_email = 'davidbliu@gmail.com'
     # @current_member ||= ParseMember.where(email: my_email).first if cookies[:remember_token]
-    if member_email_hash.keys.include?(my_email)
-      return member_email_hash[my_email]
+    if SecondaryEmail.valid_emails.include?(my_email)
+      return SecondaryEmail.email_lookup_hash[my_email]
     end
     return nil
+  end
+
+  def not_signed_in
+    'members/not_signed_in'
+  end
+
+  def no_account
+    'members/no_account'
   end
 
   def current_member_email

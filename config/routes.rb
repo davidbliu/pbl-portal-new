@@ -58,6 +58,7 @@ Portal::Application.routes.draw do
   get 'go/new_collections', to:'collections#index'
   get 'go/new_collections/:id', to:'collections#view_collection'
   get 'go/cache_collections', to:'collections#cache_collections'
+  get 'go/collection_names', to:'collections#collection_names'
 
   """ permissions testing routes"""
   post 'go/update_bundle_groups', to:'go#update_bundle_groups'

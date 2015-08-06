@@ -81,8 +81,7 @@ You can help make PBL Links better by
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.js"></script> -->
 
 <script>
-// var collection_names = JSON.parse('<%= @collections.to_json.html_safe %>');
-var collection_names = '<%= @collections %>'.split(',');
+
 </script>
 <script type = 'text/javascript'>
 function showSpinner(){
@@ -110,9 +109,22 @@ $('.link-save-btn').click(function(){
       }
   });
 });	
-$( ".collections-input" ).autocomplete({
-      source: collection_names
-    });
+
+function ajaxAutcomplete(){
+	$.ajax({
+      url: '/go/collection_names',
+      type: 'GET',
+      success:function(data){
+        $( ".collections-input" ).autocomplete({
+          source: data
+        });
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed to load collections');
+      }
+  });
+}
+ajaxAutcomplete();
 
 $('.link-delete-btn').click(function(){
 	showSpinner();

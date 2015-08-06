@@ -120,8 +120,8 @@ class ChromeExtensionController < ApplicationController
 		# end
 		""" save the new link dont check for errors"""
 		golink = ParseGoLink.new(key: key, url: url, description: description, tags: ['new_xtension'], directory: '/tags')
-		if params[:email] and params[:email] != ""
-			golink.member_email = params[:email]
+		if params[:email] and params[:email] != "" and SecondaryEmail.valid_emails.include?(params[:email])
+			golink.member_email = SecondaryEmail.email_lookup_hash[params[:email]].email
 		end
 		golink.save
 		clear_go_cache

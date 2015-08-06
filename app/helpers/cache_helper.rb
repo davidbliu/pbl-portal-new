@@ -48,6 +48,11 @@ module CacheHelper
 
 	""" points caching methods """
 
+
+	""" permissions caches """ 
+	def email_lookup_hash
+	end
+
 	""" go key caching methods """
 	def clear_go_cache
 		# Rails.cache.write("go_link_hash", nil)

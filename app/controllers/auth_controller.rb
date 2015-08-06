@@ -4,7 +4,6 @@ class AuthController < ApplicationController
 	end
 
 	def google_callback
-		puts 'callback is starting'
 		result = Hash.new
 		authentication_info = request.env["omniauth.auth"]
 		
@@ -18,16 +17,17 @@ class AuthController < ApplicationController
 		cookies[:uid] = uid
 		cookies[:provider] = provider
 		cookies[:email] = email
-		#added by david (save the uid so upon new member creation can be used)
-		member = ParseMember.where(email: email) #.where(provider: provider, uid: uid)
-		if member.length > 0
-			member = member.first
+		member = nil
+		if SecondaryEmail.valid_emails.include?(email)
+			member = SecondaryEmail.email_lookup_hash[email]
+		end
+		if member != nil
 			result['member_name'] = member.name
-			# cookies[:remember_token] = member.remember_token
 			cookies[:remember_token] = member.email
 			redirect_to root_path
 		else
-			redirect_to :controller=>'auth',:action=>'sign_up', :email => email
+			@email = email
+			render no_account
 		end
 	end
 

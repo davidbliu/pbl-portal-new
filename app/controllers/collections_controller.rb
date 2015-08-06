@@ -8,6 +8,11 @@ class CollectionsController < ApplicationController
 		@collection_hash = ParseCollection.collections_hash(dc)
 	end
 
+	def collection_names
+		
+		render json: ParseCollection.collections.map{|x| x.name}, status:200
+	end
+
 	def cache_collections
 		ParseCollection.cache_collections
 		render nothing:true, status:200

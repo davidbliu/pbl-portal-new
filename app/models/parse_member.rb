@@ -6,8 +6,7 @@ class ParseMember < ParseResource::Base
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
 	:role, :year, :committee, :trello_id, :trello_token, :trello_member_id, :facebook_url, :position
-
-
+	
 	def gravatar_url(size = 100)
 		if self.facebook_url
 			return facebook_url
