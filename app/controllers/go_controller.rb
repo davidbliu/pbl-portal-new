@@ -190,6 +190,9 @@ class GoController < ApplicationController
 		# @collections = cached_golink_collections
 		dc = ParseCollection.dalli_client
 		@collections = ParseCollection.collections(dc)
+		parents_hash = ParseCollection.collections_parents_hash(dc)
+		parents = Set.new(parents_hash.keys)
+		@collections = @collections.select{|x| not parents.include?(x.id)}
 		@collections_hash = ParseCollection.collections_hash(dc)
 	end
 

@@ -3,6 +3,8 @@ class CollectionsController < ApplicationController
 	def index
 		dc = ParseCollection.dalli_client
 		@collections = ParseCollection.collections(dc)
+		childs = Set.new(ParseCollection.collections_parents_hash(dc).keys)
+		@collections = @collections.select{|x| not childs.include?(x.id)}
 		@collection_hash = ParseCollection.collections_hash(dc)
 	end
 
@@ -25,7 +27,7 @@ class CollectionsController < ApplicationController
 		golinks = cached_golinks
 		@collection_golinks = ParseCollection.collection_golinks(dc)
 		@golinks = @collection.get_golinks(golinks)
-		
+
 		parents_hash = ParseCollection.collections_parents_hash(dc)
 		if parents_hash.keys.include?(@collection.id)
 			puts 'this colllection has a parent'

@@ -12,26 +12,57 @@ tab = "---->"
 namespace :gdrive do
 
 	task :edit_subcollections => :environment do
-		collections = ParseCollection.limit(10000).all.to_a
-		collection_name_hash = collections.index_by(&:name)
+		collections = ParseCollection.limit(100000).all.to_a
+		# collection_name_hash = collections.index_by(&:name)
+		collections_name_hash = collections.index_by(&:name)
+		collections_hash = collections.index_by(&:id)
+		# collections.each do |collection|
+		# 	if not collection_name_hash.keys.include?(collection.name)
+		# 		collection_name_hash[collection.name] = Array.new
+		# 	end
+		# 	collection_name_hash[collection.name] << collection
+		# end
+
+		subcollections_hash = Hash.new
+		save_list = Array.new
 		collections.each do |collection|
 			data = collection.data
 			if data != nil and data != ''
 				splits = data.split(',')
+				puts collection.name
+				puts '-->' + splits.to_s
 				for split in splits
 					if split != '[PBL][EX] Committee Management'
-						c = collection_name_hash[split]
-						subcollections = c.subcollections ? c.subcollections : Array.new
-						subcollections << collection.id
-						subcollections = Set.new(subcollections).to_a
-						c.subcollections = subcollections
-						Thread.new{
-							c.save
-						}
+						if not subcollections_hash.keys.include?(split)
+							subcollections_hash[split] = Array.new
+						end
+						subcollections_hash[split] << collection.id
 					end
 				end
 			end
 		end
+		subcollections_hash.keys.each do |cname|
+			collection = collections_name_hash[cname]
+			collection.subcollections = subcollections_hash[cname]
+			puts collection.name
+			puts '-->' + collection.subcollections.join(',')
+			Thread.new{
+				collection.save
+			}
+		end
+		# puts '.......'
+		# save_list.uniq.each do |collection|
+		# 	puts collection.name
+		# 	if collection.subcollections
+		# 		collection.subcollections.each do |sub|
+		# 			print collections_hash[sub].name
+		# 		end
+		# 		puts ''
+		# 	else
+		# 		puts "\t" + 'has no subs'
+		# 	end
+		# end
+		# ParseCollection.save_all(c.uniq)
 	end
 	task :scrape_collections => :environment do 
 		client = Google::APIClient.new
