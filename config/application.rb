@@ -9,7 +9,7 @@ Bundler.require(:default, Rails.env)
 ENV.update YAML.load_file('config/application.yml')[Rails.env] rescue {}
 
 
-module Dockernotes
+module Portal 
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

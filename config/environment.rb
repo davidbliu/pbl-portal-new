@@ -15,5 +15,6 @@ ActionMailer::Base.smtp_settings = {
   }
 
 # Initialize the Rails application.
-Dockernotes::Application.initialize!
+Portal::Application.initialize!
+
 

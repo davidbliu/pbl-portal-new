@@ -172,7 +172,7 @@
       <h4><a href = '/go/tags'>Browse the entire catalogue</a></h4>
 </div>
 
-
+<%= javascript_include_tag 'jquery-ui.min.js' %>
 <script type = 'text/javascript'>
 function activateSearchButton(){
   $('#search-input').keypress(function(e) {
@@ -184,6 +184,22 @@ function activateSearchButton(){
 });
 }
 activateSearchButton();
+
+function ajaxAutocomplete(){
+  $.ajax({
+      url: '/go/keys',
+      type: 'GET',
+      success:function(data){
+        $( "#search-input" ).autocomplete({
+          source: data
+        });
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+}
+ajaxAutocomplete();
 </script>
 
 

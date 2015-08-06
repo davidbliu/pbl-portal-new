@@ -86,7 +86,8 @@ gem 'ruby-trello'
 #background jobs
 gem 'whenever', :require => false
 
-
+#logging
+gem 'lograge'
 # time out timeout when take too long controller
 gem "rack-timeout"
 

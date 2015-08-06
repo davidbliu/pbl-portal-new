@@ -1,4 +1,4 @@
-Dockernotes::Application.routes.draw do
+Portal::Application.routes.draw do
 
   get "/sign_out", to: "auth#sign_out"
   # get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
@@ -47,6 +47,7 @@ Dockernotes::Application.routes.draw do
   post 'go/save_link', to: 'go#save_link'
   post 'go/delete_link', to:'go#delete_link'
   get 'go/homepage', to: 'go#homepage'
+  get 'go/keys', to: 'go#keys'
   """ me"""
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'
