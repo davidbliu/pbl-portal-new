@@ -59,6 +59,10 @@ Portal::Application.routes.draw do
   get 'go/new_collections/:id', to:'collections#view_collection'
   get 'go/cache_collections', to:'collections#cache_collections'
   get 'go/collection_names', to:'collections#collection_names'
+  get '/go/collections/:id/edit', to:'collections#edit'
+  get '/collections', to: 'collections#index'
+  get '/collections/:id', to:'collections#view_collection'
+  get '/collections/:id/edit', to:'collections#edit_collection'
 
   """ permissions testing routes"""
   post 'go/update_bundle_groups', to:'go#update_bundle_groups'
@@ -81,6 +85,7 @@ Portal::Application.routes.draw do
   get 'chrome/most_used_links', to: 'chrome_extension#most_used_links'
   get 'chrome/resolve_chrome_email', to: 'chrome_extension#resolve_chrome_email'
   get 'chrome/tracker', to: 'chrome_extension#tracker'
+  get 'chrome/lookup', to:'chrome_extension#lookup'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'

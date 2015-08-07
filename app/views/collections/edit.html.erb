@@ -18,25 +18,21 @@
 <h2 style = 'text-align:center'><%= @collection.name %></h2>
 <p style = 'text-align:center'><%= @collection.description %></p>
 
-<a href = '/collections/<%= @collection.id %>/edit'>Edit</a>
 <% if @parents %>
 <h3>Parents: 
 	<span style = 'font-size:15px'>
 		<% @parents.each do |parent| %>
-		<a href = '/collections/<%= parent.id %>'><%= parent.name %></a>
+		<a href = '/go/new_collections/<%= parent.id %>'><%= parent.name %></a>
 		<% end %>
 	</span>
 	</h3>
 <% end %>
-
 <h3>Subcollections</h3>
 <% if @collection.subcollections %>
 	<% @collection.subcollections.each do |id| %>
-	<h5><a href = '/collections/<%= id %>'><%= @collection_hash[id].name %> (<%= @collection_hash[id].golinks.length %> Links, <%= @collection_hash[id].subcollections ? @collection_hash[id].subcollections.length : 0 %> Collections)</a></h5>
+	<h5><a href = '/go/new_collections/<%= id %>'><%= @collection_hash[id].name %> (<%= @collection_hash[id].golinks.length %> Links, <%= @collection_hash[id].subcollections ? @collection_hash[id].subcollections.length : 0 %> Collections)</a></h5>
 	<% end %>
 <% end %>
-
-
 
 <h3>Links</h3>
 <table class = 'table table-hover table-condensed'>
@@ -56,7 +52,7 @@
 
 <% if @collection.subcollections %>
 	<% @collection.subcollections.each do |id| %>
-		<h3><a href = '/collections/<%= id %>'><%= @collection_hash[id].name %></a></h3>
+		<h3><a href = '/go/new_collections/<%= id %>'><%= @collection_hash[id].name %></a></h3>
 		<table class = 'table table-hover table-condensed'>
 			<tbody>
 			<% @collection_golinks[id].each do |golink| %>
