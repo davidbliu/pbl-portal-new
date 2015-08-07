@@ -398,9 +398,9 @@ class ParseGoLink < ParseResource::Base
 		#TODO dont include search items for deleted links
 		# results =GoLink.search(search_term)
 		# results = GoLink.search(query: {match: {_all: {query: search_term, fuzziness: 1}}}, :size => 100).results
-		search_term  = '*' + search_term + '*'
-		# results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
-		results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+		# search_term  = '*' + search_term + '*'
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
 		# query = { "fuzzy" => { "key" => search_term }}
 		# query = search_term
 		# results = GoLink.search(search_term, :size=>100).results.results
