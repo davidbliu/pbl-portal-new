@@ -3,6 +3,13 @@ require 'will_paginate/array'
 require 'timeout'
 class GoController < ApplicationController
 
+	def typeahead
+		render 'typeahead_homepage'
+	end
+
+	def ajax_search
+		render json: ParseGoLink.search(params[:q]).map{|x| {'label'=>x.key, 'value'=>'golink'}}, status: 200
+	end
 	def dalli_client
 		options = { :namespace => "app_v1", :compress => true }
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)

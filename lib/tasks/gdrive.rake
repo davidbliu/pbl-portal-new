@@ -11,6 +11,25 @@ require 'set'
 tab = "---->"
 namespace :gdrive do
 
+	task :create_file => :environment do 
+		client = Google::APIClient.new
+		puts 'created google api client'
+		auth = client.authorization
+		auth.client_id = ENV['GOOGLE_INSTALLED_CLIENT_ID']
+		auth.client_secret = ENV['GOOGLE_INSTALLED_CLIENT_SECRET']
+		auth.scope = [
+		  "https://www.googleapis.com/auth/drive",
+		  "https://spreadsheets.google.com/feeds/",
+		  'https://www.googleapis.com/auth/calendar'
+		]
+		auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+		auth.refresh_token = ENV['GOOGLE_DRIVE_REFRESH']
+		auth.fetch_access_token!
+		access_token = auth.access_token
+		puts 'created session'
+		# Creates a session.
+		session = GoogleDrive.login_with_oauth(access_token)
+	end
 	task :edit_subcollections => :environment do
 		collections = ParseCollection.limit(100000).all.to_a
 		# collection_name_hash = collections.index_by(&:name)

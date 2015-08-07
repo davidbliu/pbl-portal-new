@@ -396,9 +396,14 @@ class ParseGoLink < ParseResource::Base
 
 	def self.search(search_term)
 		#TODO dont include search items for deleted links
-		# GoLink.search(search_term)
-		keys = Array.new
-		results = GoLink.search(search_term, :size=>1000).results.results
+		# results =GoLink.search(search_term)
+		# results = GoLink.search(query: {match: {_all: {query: search_term, fuzziness: 1}}}, :size => 100).results
+		search_term  = '*' + search_term + '*'
+		# results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+		results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+		# query = { "fuzzy" => { "key" => search_term }}
+		# query = search_term
+		# results = GoLink.search(search_term, :size=>100).results.results
 		golinks = Array.new
 		results.each do |result|
 			# keys << result._source["key"]
@@ -406,7 +411,6 @@ class ParseGoLink < ParseResource::Base
 			golinks << ParseGoLink.new(key: data['key'], description: data['description'], url: data['url'], tags: Array.new)
 		end
 		return golinks
-		# return keys
 	end
 	
 	""" catalogue methods DEPRECATED""" 

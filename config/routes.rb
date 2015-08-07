@@ -10,7 +10,7 @@ Portal::Application.routes.draw do
 
   get '/clearcache', to: 'application#clearcache'
 
-  get '/go', to: 'go#homepage'
+  get '/go', to: 'go#typeahead'
   get '/go/manage', to: 'go#manage'
   get '/go/add', to:'go#add'
   post '/go/create', to: 'go#create'
@@ -48,6 +48,8 @@ Portal::Application.routes.draw do
   post 'go/delete_link', to:'go#delete_link'
   get 'go/homepage', to: 'go#homepage'
   get 'go/keys', to: 'go#keys'
+  get 'go/type', to: 'go#typeahead'
+  get 'go/ajax_search', to:'go#ajax_search'
   """ me"""
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'

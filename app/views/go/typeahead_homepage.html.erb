@@ -1,0 +1,195 @@
+
+<style type = 'text/css'>
+#directory-container{
+   position: fixed;
+  top: 50px;
+  bottom: 0px;
+  /*width: 100px;*/
+  right:45px;
+  /*background: #eee;*/
+  margin: 10px;
+  overflow: scroll;
+}
+.right-panel-div{ 
+  /*indlcudes tag cloud and collections div*/
+  margin-top:10px;
+  padding:10px;
+}
+
+.label:hover{
+  cursor:pointer;
+}
+.label.selected-tag{
+  opacity:1.0;
+}
+.label{
+  opacity:0.3;
+  margin:2px;
+}
+.smalltext{
+  font-size:10px;
+}
+#custom-search-input{
+    /*padding: 3px;*/
+    margin-top:25px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+    max-width:100%;
+    text-align:center;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+    padding-bottom:0px;
+    width:100%;
+    text-align:center;
+}
+#search-input-group{
+  text-align:center;
+  width:100%;
+}
+
+
+.directory-section-div{
+	clear:both;
+	margin-bottom:15px;
+	overflow:auto;
+}
+.mdi-hardware-keyboard-tab{
+	color:rgba(0,0,0,0.1);
+}
+
+.navbar-material-blue-900.navbar {
+  background-color: black;
+}
+
+#spinner-div{
+  z-index: 5000;
+    position: fixed;
+    top:100px;
+    left:500px;
+    margin: auto;
+    display:none;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+
+/*autocomplete styles*/
+.ui-autocomplete>li:hover{
+  cursor:pointer;
+  font-weight:bold;
+}
+.ui-autocomplete {
+    list-style: none;
+    max-width: 450px;
+    background-color: rgba(250, 250, 250, 0.75);
+    border-radius:5px;
+}
+
+
+
+.ui-tooltip {
+    background: #4a4a4a;
+    color: #96f226;
+    border: 2px solid #454545;
+    border-radius: 0px;
+    box-shadow: 0 0 
+}
+
+.ui-autocomplete.source:hover {
+    background: #454545;
+}
+
+.ui-menu .ui-menu-item a{
+    background:red;
+    height:10px;
+font-size:8px;}
+
+
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+.ui-helper-hidden-accessible{
+  display:none;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+<div style = 'text-align:center'>
+<h1 class = 'middle-title'><a href = '/go'><img src = '/assets/link-circle.png' height=75></img></a> PBL Links</h1>
+    <p>PBL Links is a custom URL shortener with two main goals: simplifying the way we <b>access and discover PBL resources</b>. </p>
+
+    <h4><a href = '/go/my_links' class = 'collections-link'>My Links</a></h4>
+    <h4><a href = '/collections'>Collections</a></h4>
+</div>
+
+
+
+  <div id="custom-search-input">
+      <div id = 'search-input-group' class="input-group">
+          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" />
+      </div>
+  </div>
+  <!-- end of search input -->
+
+<!-- 
+  <div class = 'row' style = 'text-align:center'>
+      <h3>Welcome to PBL Links</h3>
+      <p>Use the search bar above to find your Links. Click on a search result to be redirected to that link. Collections of links are groups of similar links and will also appear in the results box with a folder image next to them. Click on a collection to browse the links inside of it. If you've recently added links, you can edit them under the "my links" section. </p>
+      
+  </div> -->
+
+<%= javascript_include_tag 'jquery-ui.min.js' %>
+<script type = 'text/javascript'>
+ $( "#search-input" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax({
+          url: "/go/ajax_search",
+          dataType: "json",
+          data: {
+            q: request.term
+          },
+          success: function( data ) {
+            response( data );
+          }
+        });
+      },
+      minLength: 2,
+      select: function( event, ui ) {
+        // you have access to ui.item.value and ui.item.label
+        // console.log(ui.item.value);
+        $('#search-input').val('you are being redirected');
+        if(ui.item.value == 'golink'){
+          window.location = '/' + ui.item.label + '/go'; 
+          $('#loading-gif').show();
+        }
+
+        
+
+      },
+      // open: function() {
+      //   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      // },
+      // close: function() {
+      //   $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+      // }
+    });
+
+</script>
+
+
+
+
