@@ -8,7 +8,10 @@ class GoController < ApplicationController
 	end
 
 	def ajax_search
-		render json: ParseGoLink.search(params[:q]).map{|x| {'label'=>x.key, 'value'=>'golink'}}, status: 200
+		link_results = ParseGoLink.search(params[:q]).map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
+		collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
+		results = collection_results + link_results
+		render json: results, status: 200
 	end
 	def dalli_client
 		options = { :namespace => "app_v1", :compress => true }
