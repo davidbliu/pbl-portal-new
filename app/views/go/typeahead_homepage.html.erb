@@ -143,6 +143,7 @@ font-size:8px;}
           <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" />
       </div>
   </div>
+  <button class = 'btn btn-material-blue-500' style = 'display:none' id = 'redirect-btn'></button>
   <!-- end of search input -->
 
 <!-- 
@@ -171,14 +172,16 @@ font-size:8px;}
       select: function( event, ui ) {
         // you have access to ui.item.value and ui.item.label
         // console.log(ui.item.value);
-        $('#search-input').val('you are being redirected');
-        if(ui.item.value == 'golink'){
-          window.location = '/' + ui.item.label + '/go'; 
-          $('#loading-gif').show();
-        }
+        // $('#search-input').val('you are being redirected');
+        // if(ui.item.value == 'golink'){
+        //   window.location = '/' + ui.item.label + '/go'; 
+        //   $('#loading-gif').show();
+        // }
+        ui.item.value = ui.item.label;
 
-        
-
+        // setTimeout(function (){
+        //   $('#search-input').val(ui.item.label);    
+        // }, 300)
       },
       // open: function() {
       //   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -187,6 +190,16 @@ font-size:8px;}
       //   $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
       // }
     });
+function activateSearchButton(){
+  $('#search-input').keypress(function(e) {
+    if(e.which == 13) {
+       term = $('#search-input').val();
+       console.log(window.location);
+       window.location.assign('/' + term + '/go');
+    }
+});
+}
+activateSearchButton();
 
 </script>
 
