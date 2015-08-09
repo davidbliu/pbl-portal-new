@@ -73,14 +73,6 @@
     margin: auto;
     display:none;
 }
-#loading-gif{
-  height:150px;
-  position:fixed;
-  left:500px;
-  top:175px;
-  display:none;
-  z-index:5000;
-}
 
 /*autocomplete styles*/
 .ui-autocomplete>li:hover{
@@ -97,10 +89,7 @@
 
 
 #loading-gif{
-  height:150px;
-  position:fixed;
-  left:500px;
-  top:175px;
+  height:75px;
   display:none;
   z-index:5000;
 }
@@ -109,7 +98,6 @@
 }
 </style>
 
-<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <div style = 'text-align:center'>
 <h1 class = 'middle-title'><a href = '/go'><img src = '/assets/link-circle.png' height=75></img></a> PBL Links</h1>
     <p>PBL Links is a custom URL shortener with two main goals: simplifying the way we <b>access and discover PBL resources</b>. </p>
@@ -122,10 +110,15 @@
 
   <div id="custom-search-input">
       <div id = 'search-input-group' class="input-group">
-          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" />
+          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" <% if @search_term %>value = '<%= @search_term %>'<% end %> />
       </div>
   </div>
-  <button class = 'btn btn-material-blue-500' style = 'display:none' id = 'redirect-btn'></button>
+
+  <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+
+  <div id = 'results-container'>
+  </div>
   <!-- end of search input -->
 
 <!-- 
@@ -135,63 +128,87 @@
       
   </div> -->
 
-<%= javascript_include_tag 'jquery-ui.min.js' %>
+<%= javascript_include_tag 'debounce.js' %>
 
 <script type = 'text/javascript'>
-var id = '';
- $( "#search-input" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax({
-          url: "/go/ajax_search",
-          dataType: "json",
-          data: {
-            q: request.term
-          },
-          success: function( data ) {
-            response( data );
-          }
-        });
-      },
-      minLength: 2,
-      select: function( event, ui ) {
-        // you have access to ui.item.value and ui.item.label
-        // console.log(ui.item.value);
-        // $('#search-input').val('you are being redirected');
-        // if(ui.item.value == 'golink'){
-        //   window.location = '/' + ui.item.label + '/go'; 
-        //   $('#loading-gif').show();
-        // }
-        ui.item.value = ui.item.label;
-        id = ui.item.id;
-
-        // setTimeout(function (){
-        //   $('#search-input').val(ui.item.label);    
-        // }, 300)
-      },
-      // open: function() {
-      //   $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      // },
-      // close: function() {
-      //   $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-      // }
-    });
-function activateSearchButton(){
-  $('#search-input').keypress(function(e) {
-    if(e.which == 13) {
-       term = $('#search-input').val();
-       if(term.indexOf('collection: ')!= -1){
-          window.location.assign('/collections/'+id);
-       }
-       else if(term.indexOf('link: ')!= -1){
-        window.location.assign('/' + id + '/go');
-       }
-       else{
-        window.location.assign('/go/search/?search_term='+term);
-      }
-    }
-});
+function showSpinner(){
+  $('#loading-gif').show();
 }
-activateSearchButton();
+function hideSpinner(){
+  $('#loading-gif').hide();
+}
+
+function pullSearchResults(search_term){
+  $.ajax({
+      url: '/go/ajax_search?q='+search_term,
+      type: 'get',
+      success:function(data){
+        hideSpinner();
+        $('#results-container').html('');
+        $('#results-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to lookup ' + $(this).val());
+      }
+  });
+}
+var last_term = '';
+$('#search-input').keyup($.debounce(250, function(){
+  search_term = $(this).val();
+  console.log(search_term);
+  if(last_term == search_term){
+    return;
+  }
+  last_term = search_term
+  showSpinner();
+  pullSearchResults(search_term);
+
+}));
+
+<% if @search_term %>
+pullSearchResults('<%= @search_term %>');
+<% end %>
+
+// var id = '';
+ // $( "#search-input" ).autocomplete({
+ //      source: function( request, response ) {
+ //        $.ajax({
+ //          url: "/go/ajax_search",
+ //          dataType: "json",
+ //          data: {
+ //            q: request.term
+ //          },
+ //          success: function( data ) {
+ //            response( data );
+ //          }
+ //        });
+ //      },
+ //      minLength: 2,
+ //      select: function( event, ui ) {
+ //        ui.item.value = ui.item.label;
+ //        id = ui.item.id;
+ //      },
+ //    });
+
+
+// function activateSearchButton(){
+//   $('#search-input').keypress(function(e) {
+//     if(e.which == 13) {
+//        term = $('#search-input').val();
+//        if(term.indexOf('collection: ')!= -1){
+//           window.location.assign('/collections/'+id);
+//        }
+//        else if(term.indexOf('link: ')!= -1){
+//         window.location.assign('/' + id + '/go');
+//        }
+//        else{
+//         window.location.assign('/go/search/?search_term='+term);
+//       }
+//     }
+// });
+// }
+// activateSearchButton();
 
 </script>
 

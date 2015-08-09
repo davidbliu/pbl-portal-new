@@ -4,14 +4,19 @@ require 'timeout'
 class GoController < ApplicationController
 
 	def typeahead
+		if params[:search_term] and params[:search_term] != ''
+			@search_term = params[:search_term]
+		end
 		render 'typeahead_homepage'
 	end
 
 	def ajax_search
-		link_results = ParseGoLink.search(params[:q]).map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
-		collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
-		results = collection_results + link_results
-		render json: results, status: 200
+		puts params[:q]
+		@golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
+		# collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
+		# results = collection_results + link_results
+		# render json: results, status: 200
+		render 'ajax_search', layout: false
 	end
 	def dalli_client
 		options = { :namespace => "app_v1", :compress => true }
@@ -331,7 +336,7 @@ class GoController < ApplicationController
 		else
 			search_term = go_key
 			URI.escape(search_term, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
-			redirect_to '/go/search?search_term='+search_term
+			redirect_to '/go?search_term='+search_term
 		end
 		
 	end
