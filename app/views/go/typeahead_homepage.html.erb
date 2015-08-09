@@ -96,6 +96,18 @@
 .ui-helper-hidden-accessible{
   display:none;
 }
+/* go links styles*/
+
+.link-row>.golink-key-td{
+  width:25%;
+  max-width: 200px;
+  overflow:hidden;
+}
+.link-row>.golink-description-td{
+  width:50%;
+  max-width:300px;
+  overflow:hidden;
+}
 </style>
 
 <div style = 'text-align:center'>
@@ -118,6 +130,23 @@
 
 
   <div id = 'results-container'>
+    <% if @golinks %>
+
+      <h3>Links</h3>
+      <table class = 'table table-hover table-condensed'>
+        <tbody>
+        <% @golinks.each do |golink| %>
+        <tr class = 'link-row' id = '<%= golink.id %>-row'>
+          <td class = 'golink-key-td'><a href = '<%= golink.url %>' target="_blank"><%= golink.key %></a>
+          </td> 
+          <td class = 'golink-description-td'>
+            <%= golink.description %>
+          </td>
+        </tr>
+        <% end %>
+        </tbody>
+      </table>
+    <% end %>
   </div>
   <!-- end of search input -->
 

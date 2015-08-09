@@ -320,14 +320,14 @@ class GoController < ApplicationController
 			if golinks.length > 1
 				@golinks = golinks
 				# get tags
-				@tag_color_hash = ParseGoLinkTag.color_hash
-				@tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort  #filter through all golinks for their tags
-				@selected_tags = Array.new
+				# @tag_color_hash = ParseGoLinkTag.color_hash
+				# @tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort  #filter through all golinks for their tags
+				# @selected_tags = Array.new
 				page = 1
 				# paginate go links
-				@golinks = @golinks.paginate(:page => page, :per_page => 200)
+				# @golinks = @golinks.paginate(:page => page, :per_page => 200)
 
-				render 'tag_catalogue'
+				render 'typeahead_homepage'
 
 			else
 				# send to link url
