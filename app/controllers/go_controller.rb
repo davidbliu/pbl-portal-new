@@ -299,36 +299,31 @@ class GoController < ApplicationController
 	end
 
 	def index
+		# log this click 
 		go_key = params[:key].gsub('_', ' ')
 		golinks = ParseGoLink.where(key: go_key).to_a
+		GoLog.log_click(current_member ? current_member.email : 'no_email', go_key, Time.now)
 		if golinks.length > 0
 			# correctly used alias
 			""" log tracking data for link click """
-			Thread.new{
-				click = ParseGoLinkClick.new
-				if current_member	
-					click.member_email = current_member.email
-					click.key = go_key
-					click.time = Time.now
-					click.save
-				else
-					click.key = go_key
-					click.time = Time.now
-				end
-				click.save
-			}
+			# Thread.new{
+			# 	click = ParseGoLinkClick.new
+			# 	if current_member	
+			# 		click.member_email = current_member.email
+			# 		click.key = go_key
+			# 		click.time = Time.now
+			# 		click.save
+			# 	else
+			# 		click.key = go_key
+			# 		click.time = Time.now
+			# 	end
+			# 	click.save
+			# }
+
 			if golinks.length > 1
 				@golinks = golinks
-				# get tags
-				# @tag_color_hash = ParseGoLinkTag.color_hash
-				# @tags = Set.new(@golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort  #filter through all golinks for their tags
-				# @selected_tags = Array.new
 				page = 1
-				# paginate go links
-				# @golinks = @golinks.paginate(:page => page, :per_page => 200)
-
 				render 'typeahead_homepage'
-
 			else
 				# send to link url
 				redirect_to golinks[0].url

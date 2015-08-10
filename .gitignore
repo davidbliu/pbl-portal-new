@@ -30,3 +30,4 @@ google_calendar_refresh.rb
 contact_sheet_fa15.csv
 cron.log
 error.log
+/log/*
