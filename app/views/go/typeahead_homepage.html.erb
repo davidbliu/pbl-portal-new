@@ -199,6 +199,7 @@ $('#search-input').keyup($.debounce(250, function(){
 pullSearchResults('<%= @search_term %>');
 <% end %>
 
+$('#search-input').select();
 // var id = '';
  // $( "#search-input" ).autocomplete({
  //      source: function( request, response ) {
