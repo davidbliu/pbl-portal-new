@@ -122,7 +122,7 @@ class ChromeExtensionController < ApplicationController
 		golink = ParseGoLink.new(key: key, url: url, description: description, tags: ['new_xtension'], directory: '/tags')
 		if params[:email] and params[:email] != "" 
 			if SecondaryEmail.valid_emails.include?(params[:email])
-				golink.member_email = SecondaryEmail.email_lookup_hash[params[:email]].
+				golink.member_email = SecondaryEmail.email_lookup_hash[params[:email]].email
 			else
 				golink.member_email = params[:email]
 			end
