@@ -302,7 +302,9 @@ class GoController < ApplicationController
 		# log this click 
 		go_key = params[:key].gsub('_', ' ')
 		golinks = ParseGoLink.where(key: go_key).to_a
-		GoLog.log_click(current_member ? current_member.email : params[:email], go_key, Time.now)
+		email = params[:email] ? params[:email] : ''
+		email = current_member ? current_member.email : email
+		GoLog.log_click(email, go_key, Time.now)
 		if golinks.length > 0
 			# correctly used alias
 			""" log tracking data for link click """
