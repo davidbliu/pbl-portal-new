@@ -1,18 +1,3 @@
-task :push_app => :environment do 
-	app = Rpush::Gcm::App.new
-	app.name = "chrome"
-	app.auth_key = "..."
-	app.connections = 1
-	app.save!
-end
-
-task :push_notification => :environment do
-	n = Rpush::Gcm::Notification.new
-	n.app = Rpush::Gcm::App.find_by_name("chrome")
-	n.registration_ids = NotificationClient.all.map{|x| x.registration_id}
-	n.data = { message: "hi mom!" }
-	n.save!
-end
 
 
 require 'gcm'
