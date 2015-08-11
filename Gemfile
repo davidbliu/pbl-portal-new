@@ -1,3 +1,4 @@
+
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -82,6 +83,10 @@ gem 'link_thumbnailer'
 
 # tasks
 gem 'ruby-trello'
+
+# push notifications
+#gem 'rpush'
+gem 'gcm'
 
 #background jobs
 gem 'whenever', :require => false

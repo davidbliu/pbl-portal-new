@@ -44,6 +44,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.8)
+    ansi (1.5.0)
     archieml (0.2.0)
     arel (4.0.2)
     autoparse (0.3.3)
@@ -98,6 +99,9 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     fastimage (1.5.5)
       addressable (~> 2.3, >= 2.3.5)
+    gcm (0.1.0)
+      httparty
+      json
     google-api-client (0.7.1)
       addressable (>= 2.3.2)
       autoparse (>= 0.3.3)
@@ -121,6 +125,9 @@ GEM
     hike (1.2.3)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    httparty (0.13.5)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     httpauth (0.2.1)
     i18n (0.7.0)
     jbuilder (1.5.3)
@@ -167,6 +174,7 @@ GEM
     mime-types (1.25.1)
     minitest (4.7.5)
     multi_json (1.11.2)
+    multi_xml (0.5.5)
     multipart-post (2.0.0)
     mysql2 (0.3.16)
     net-http-digest_auth (1.4)
@@ -221,6 +229,13 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retriable (1.4.1)
+    rpush (2.5.0)
+      activesupport
+      ansi
+      multi_json (~> 1.0)
+      net-http-persistent
+      railties
+      thor (>= 0.18.1, < 2.0)
     rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
     rspec-expectations (3.2.1)
@@ -326,6 +341,7 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-rails
   execjs
+  gcm
   google-api-client
   google_calendar
   google_drive
@@ -347,6 +363,7 @@ DEPENDENCIES
   quiet_assets
   rack-timeout
   rails (= 4.0.0)
+  rpush
   rspec-rails (~> 3.0)
   ruby-trello
   sass-rails (~> 4.0.0)

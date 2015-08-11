@@ -88,6 +88,8 @@ Portal::Application.routes.draw do
   get 'chrome/resolve_chrome_email', to: 'chrome_extension#resolve_chrome_email'
   get 'chrome/tracker', to: 'chrome_extension#tracker'
   get 'chrome/lookup', to:'chrome_extension#lookup'
+  # notifications
+  post 'chrome/register_notification_client', to: 'chrome_extension#register_notification_client'
 
   """tasks routes """
   get '/tasks', to:'tasks#home'

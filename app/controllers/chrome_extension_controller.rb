@@ -26,6 +26,18 @@ class ChromeExtensionController < ApplicationController
 		render 'tracker', layout: false
 	end
 
+	def register_notification_client
+		response.headers['Access-Control-Allow-Origin'] = '*'
+		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+		response.headers['Access-Control-Request-Method'] = '*'
+		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+		email = params[:email]
+		registration_id = params[:registration_id]
+		NotificationClient.destroy_all(NotificationClient.where(email: email).to_a)
+		NotificationClient.create(email:email, registration_id:registration_id)
+		render nothing:true, status:200
+	end
+
 	def my_bundles
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
