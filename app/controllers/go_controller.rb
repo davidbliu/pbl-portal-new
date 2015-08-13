@@ -3,6 +3,11 @@ require 'will_paginate/array'
 require 'timeout'
 class GoController < ApplicationController
 
+	def landing_page
+		@url = params[:url]
+		@url_matches = cached_golinks.select{|x| x.is_url_match(@url)}
+	end
+
 	def typeahead
 		if params[:search_term] and params[:search_term] != ''
 			@search_term = params[:search_term]
@@ -11,8 +16,10 @@ class GoController < ApplicationController
 	end
 
 	def ajax_search
+		#TODO distinguish links that are collections
 		puts params[:q]
-		@golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
+		@golinks = cached_golinks.select{|x| x.key.include?(params[:q])}
+		# @golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
 		# collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
 		# results = collection_results + link_results
 		# render json: results, status: 200
@@ -48,11 +55,7 @@ class GoController < ApplicationController
    		render nothing:true, status:200
    	end
 
-	def view_groups
-		@groups = ParseGroup.limit(10000).all.to_a
-		@member_email_hash = member_email_hash
-	end
-
+	
 	def test
 		ParseGoLink.cache_golinks
 		render nothing:true, status:200
@@ -85,8 +88,7 @@ class GoController < ApplicationController
 	end
 
 	def my_links
-		@collections = ParseCollection.collections.map{|x| x.name}.join(',')
-		puts @collections
+
 		@golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
 
 		# paginate go links

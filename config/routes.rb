@@ -54,6 +54,13 @@ Portal::Application.routes.draw do
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'
   get 'go/test', to:'go#test'
+  get 'go/landing_page', to: 'go#landing_page'
+  get 'go/my_recent', to:'go#my_recent'
+
+
+  """ cache """
+  get '/cache_golinks', to:'cache#cache_golinks'
+  get '/cache_members', to: 'cache#cache_members'
 
 
   """ new collections """
@@ -69,7 +76,8 @@ Portal::Application.routes.draw do
   """ permissions testing routes"""
   post 'go/update_bundle_groups', to:'go#update_bundle_groups'
   get '/permissions', to:'go#permissions'
-  get '/permissions/view_groups', to:'go#view_groups'
+  get '/view_groups', to:'groups#view_groups'
+  get '/view_group/:id', to:'groups#view_group'
   get '/permissions/view_bundles_permissions', to:'go#view_bundles_permissions'
 
 

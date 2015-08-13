@@ -44,7 +44,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.8)
-    ansi (1.5.0)
     archieml (0.2.0)
     arel (4.0.2)
     autoparse (0.3.3)
@@ -229,13 +228,6 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retriable (1.4.1)
-    rpush (2.5.0)
-      activesupport
-      ansi
-      multi_json (~> 1.0)
-      net-http-persistent
-      railties
-      thor (>= 0.18.1, < 2.0)
     rspec-core (3.2.3)
       rspec-support (~> 3.2.0)
     rspec-expectations (3.2.1)
@@ -363,7 +355,6 @@ DEPENDENCIES
   quiet_assets
   rack-timeout
   rails (= 4.0.0)
-  rpush
   rspec-rails (~> 3.0)
   ruby-trello
   sass-rails (~> 4.0.0)

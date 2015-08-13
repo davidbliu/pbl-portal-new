@@ -46,16 +46,14 @@ You can help make PBL Links better by
 <table class = 'directory-table table table-hover table-condensed'>
 	<thead>
 		<tr>
-			<th></th>
 			<th>Key</th>
 			<th>Description</th>
-			<th>Collections</th>
+			<th>Shared With</th>
 		</tr>
 	</thead>
 	<tbody class = 'directory-tbody'>
 	<% @golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.id %>-row'>
-		<td class = 'golink-type-td'><img class = '' src = '<%= golink.get_type_image %>' height=17/></td>
 		<td class = 'golink-key-td'><input id = '<%= golink.id %>-key-input' type = 'text' class = 'form-control' value = '<%= golink.key %>'></input>
 		</td> 
 		<td class = 'golink-description-td'>
@@ -65,9 +63,7 @@ You can help make PBL Links better by
 			<input id = '<%= golink.id %>-groups-input' type = 'text' class = 'form-control collections-input' value = '<%= golink.groups ? golink.groups.join(',') : ""%>'></input>
 		</td>
 		<td style='text-align:right'>
-			<a href = 'javascript:void(0);' class = 'link-save-btn' id = '<%= golink.id %>'><i class = 'mdi-action-done' style = 'font-size:15px'></i>
-			</a>
-			<a href = 'javascript:void(0);' class = 'link-delete-btn' id = '<%= golink.id %>'><i class = 'mdi-action-delete' style = 'font-size:15px'></i>
+			<a href = 'javascript:void(0);' class = 'link-delete-btn' id = '<%= golink.id %>'>x
 			</a>
 		</td>
 	</tr>

@@ -12,7 +12,7 @@
 <tbody>
 	<% @groups.each do |group| %>
 	<tr>
-		<td><%= group.name %></td>
+		<td><a href = '/view_group/<%= group.id %>'><%= group.name %></a></td>
 		<td>
 			<% group.member_emails.each do |email| %>
 			<img src = '<%= member_email_hash[email].gravatar_url %>' class = 'profile-image profile-image-small'></img> <%= @member_email_hash[email].name %>, 

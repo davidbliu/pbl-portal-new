@@ -13,7 +13,7 @@ class ParseGoLink < ParseResource::Base
 	def self.cache_golinks
 		"""caches go links in a separate thread """
 		Thread.new{
-			dc = self.dalli_client
+			dc = DalliManager.dalli_client
 			status = Timeout::timeout(30) {
 				puts 'thread has spawned'
 				if dc.get('golinks_already_caching') == nil
@@ -30,7 +30,7 @@ class ParseGoLink < ParseResource::Base
 						end
 						golink_key_hash[golink.key] << golink 
 					end
-					dc = dalli_client
+					dc = DalliManager.dalli_client
 					dc.set('golink_key_hash', golink_key_hash)
 					dc.set('golinks_already_caching', nil)
 					puts 'finished caching golinks'
@@ -42,7 +42,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.cached_golinks
-		self.dalli_client.get('golinks')
+		DalliManager.dalli_client.get('golinks')
 	end
 
 	def self.cache_permissions
