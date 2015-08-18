@@ -18,11 +18,12 @@ class GoController < ApplicationController
 	def ajax_search
 		#TODO distinguish links that are collections
 		puts params[:q]
-		@golinks = cached_golinks.select{|x| x.key.include?(params[:q])}
-		# @golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
+		# @golinks = cached_golinks.select{|x| x.key.include?(params[:q])}
+		@golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
 		# collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
 		# results = collection_results + link_results
 		# render json: results, status: 200
+		puts 'what is going on'
 		render 'ajax_search', layout: false
 	end
 	def dalli_client
