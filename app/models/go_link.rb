@@ -4,6 +4,8 @@ class GoLink < ActiveRecord::Base
 	include Elasticsearch::Model
   include Elasticsearch::Model::Callbacks
 
+  GoLink.__elasticsearch__.client = Elasticsearch::Client.new host: ENV['ELASTICSEARCH_HOST']
+
   """ elasticsearch """
 
 	def short_url
