@@ -1,12 +1,17 @@
 <style type = 'text/css'>
 .link-row>.golink-key-td{
-	width:25%;
+	width:20%;
 	max-width: 200px;
 	overflow:hidden;
 }
 .link-row>.golink-description-td{
-	width:40%;
+	width:30%;
 	max-width:300px;
+	overflow:hidden;
+}
+.link-row>.golink-url-td{
+	width:20%;
+	max-width:200px;
 	overflow:hidden;
 }
 .link-row>.golink-type-td{
@@ -62,6 +67,11 @@
       </div>
   </div>
 
+ <% if @filter and @filter != ''  %>
+ <h3>Filtered by <div class = 'label label-default'><%= @filter %></div></h3>
+ <a href = '/go/my_links'>Remove Filters</a>
+ <% end %>
+
 
 <div id = 'spacer' style = 'clear:both;height:25px'></div>
 <table class = 'directory-table table table-hover table-condensed'>
@@ -70,6 +80,7 @@
 			<th></th>
 			<th>Key</th>
 			<th>Description</th>
+			<th>URL</th>
 			<th>Shared With</th>
 			<th>Last Updated</th>
 		</tr>
@@ -83,13 +94,15 @@
 		<td class = 'golink-description-td'>
 			<input data-id = '<%= golink.id %>' type = 'text' id = '<%= golink.id %>-description-input' class = 'form-control edit-input' value = '<%= golink.description %>'></input>
 		</td>
+		<td class = 'golink-url-td'><input data-id = '<%= golink.id %>' type = 'text' id = '<%= golink.id %>-url-input' class = 'form-control edit-input' value = '<%= golink.url %>'></input>
+		</td>
 		<td class = 'golink-permissions-td'>
 			<select  id = '<%= golink.id %>-permissions-input' class = 'form-control permissions-input' data-id = '<%= golink.id %>'>
 				<option <% if golink.permissions and golink.permissions == 'Only Me' %>selected<% end %>>Only Me</option>
 			  	<option <% if golink.permissions and golink.permissions == 'Only PBL' %>selected<% end %>>Only PBL</option>
 			  	<option <% if golink.permissions and golink.permissions == 'Only Officers' %>selected<% end %>>Only Officers</option>
 			  	<option <% if golink.permissions and golink.permissions == 'Only Execs' %>selected<% end %>>Only Execs</option>
-			  	<option <% if not golink.permissions or golink.permissions and golink.permissions == 'Anyone' %>selected<% end %>>Anyone</option>
+			  	<option <% if not golink.permissions or golink.permissions == '' or (golink.permissions and golink.permissions == 'Anyone') %>selected<% end %>>Anyone</option>
 			</select>
 		</td>
 		
@@ -123,12 +136,13 @@ function hideSpinner(){
 function saveEdit(id){
 	key = $('#'+id+'-key-input').val();
     description = $('#'+id+'-description-input').val();
+    url = $('#'+id+'-url-input').val();
     permissions = $("#" + id + "-permissions-input option:selected").text();
     showSpinner();
     $.ajax({
 	      url: '/go/edit',
 	      type: 'POST',
-	      data: {'id':id, 'key':key, 'description':description, 'permissions':permissions},
+	      data: {'id':id, 'key':key, 'description':description, 'permissions':permissions, 'url':url},
 	      success:function(data){
 	        hideSpinner();
 	      },
@@ -166,6 +180,14 @@ $('.link-delete-btn').click(function(){
       }
   });
 
+});
+
+
+
+$('#search-input').keypress(function(e){
+	if(e.which == 13) {
+        window.location = '/go/my_links?filter='+$(this).val();//my_links?filter='encodeURIComponent($(this).val());
+    }
 });
 </script>
 

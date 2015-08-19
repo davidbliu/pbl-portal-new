@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150810234814) do
+ActiveRecord::Schema.define(version: 20150819222108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -265,6 +265,8 @@ ActiveRecord::Schema.define(version: 20150810234814) do
     t.integer  "num_clicks"
     t.text     "text"
     t.string   "parse_id"
+    t.string   "permissions"
+    t.string   "member_email"
   end
 
   create_table "google_events", force: true do |t|

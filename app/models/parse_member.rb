@@ -44,6 +44,15 @@ class ParseMember < ParseResource::Base
 		ParseMember.limit(10000).all.index_by(&:old_id)
 	end
 
+	def officer?
+		return true
+	end
+	def exec?
+		return true
+	end
+
+
+
 
 
 	""" get members by types """
@@ -55,7 +64,7 @@ class ParseMember < ParseResource::Base
 		# end
 		mhash = ParseMember.email_hash
 		keys = Set.new(mhash.keys)
-		emails = ParseCommitteeMember.limit(1000).where(semester_name: semester.name).map{|x| x.member_email}
+		emails = ParseCommitteeMember.limit(10000).where(semester_name: semester.name).map{|x| x.member_email}
 		cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
 		# Rails.cache.write('current_members', cms)
 		return cms

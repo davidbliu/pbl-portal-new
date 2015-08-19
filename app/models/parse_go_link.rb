@@ -4,11 +4,48 @@ class ParseGoLink < ParseResource::Base
 	:old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections, :permissions
 
 
-	""" permissions""" 
+	""" permissions include Only Me, Only Officers, Only Execs, Only PBL, Public""" 
 	def self.dalli_client
 		options = { :namespace => "app_v1", :compress => true }
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
     	return dc
+	end
+
+	def get_permissions
+		(self.permissions and self.permissions != '') ? self.permissions : 'Anyone'
+
+	end
+	def get_creator
+		(self.member_email and self.member_email != '') ? self.member_email : 'noemail'
+	end
+
+	def can_view(member)
+		if member == nil
+			return self.get_permissions == 'Anyone'
+		end
+		if self.get_permissions == 'Anyone'
+			return true
+		end
+
+		if self.get_permissions == 'Only PBL'
+			return (member and member.email != nil and member.email != '')
+		end
+
+		if self.get_permissions == 'Only Officers'
+			return (member and member.position != nil and (member.position == 'chair' or member.position == 'exec'))
+		end
+
+		if self.get_permissions == 'Only Execs'
+			return (member and member.position != nil and member.position == 'exec')
+		end
+
+		if self.get_permissions == 'Only My Committee'
+			return true
+		end
+		# you can view if you created the link
+		if self.member_email == member.email
+			return true
+		end
 	end
 
 	def self.cache_golinks
@@ -378,14 +415,13 @@ class ParseGoLink < ParseResource::Base
 		parse_text_hash_keys = parse_text_hash.keys
 		# puts 'received text hash!'
 		ParseGoLink.limit(10000).all.each do |pgl|
-			puts pgl.key
-			# gl = GoLink.new
+			print '.'
 			gl = GoLink.where(key: pgl.key, parse_id: pgl.id).first_or_create
-			# gl.key = pgl.key
 			gl.url = pgl.url
 			gl.description = pgl.description
 			gl.member_id = pgl.member_id
-			# gl.parse_id = pgl.id
+			gl.permissions = pgl.permissions
+			gl.member_email = pgl.member_email
 			if parse_text_hash_keys.include?(pgl.id)
 				gl.text = parse_text_hash[pgl.id].text
 			else
@@ -402,16 +438,17 @@ class ParseGoLink < ParseResource::Base
 		# results =GoLink.search(search_term)
 		# results = GoLink.search(query: {match: {_all: {query: search_term, fuzziness: 1}}}, :size => 100).results
 		# search_term  = '*' + search_term + '*'
-		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
 		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
 		# query = { "fuzzy" => { "key" => search_term }}
 		# query = search_term
 		# results = GoLink.search(search_term, :size=>100).results.results
 		golinks = Array.new
 		results.each do |result|
-			# keys << result._source["key"]
 			data =  result._source
-			golinks << ParseGoLink.new(key: data['key'], description: data['description'], url: data['url'], tags: Array.new)
+			golinks << ParseGoLink.new(key: data['key'], description: data['description'], url: data['url'], member_email: data['member_email'], permissions: data['permissions'])
+			#, member_email: data['member_email'],
+				# permissions:data['permissions'])#
 		end
 		return golinks
 	end

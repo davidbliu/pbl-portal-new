@@ -1,6 +1,6 @@
 class ParseCommitteeMember < ParseResource::Base
 
-  fields :committee_id, :member_id, :semester_id, :position_id, :member_email, :committee_abbr, :semester_name
+  fields :committee_id, :member_id, :semester_id, :position_id, :member_email, :committee_abbr, :semester_name, :position
 
 
 
@@ -8,9 +8,9 @@ class ParseCommitteeMember < ParseResource::Base
 
 
   """ Position of this committee member object (chair, cm, gm, exec) """
-  def position
-    return CommitteeMemberPosition.positions[self.position_id]
-  end
+  # def position
+  #   return CommitteeMemberPosition.positions[self.position_id]
+  # end
 
   def role
     return self.position.name

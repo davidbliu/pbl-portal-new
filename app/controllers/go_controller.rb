@@ -20,6 +20,8 @@ class GoController < ApplicationController
 		@permissions = params[:permissions]
 		email = current_member ? current_member.email : nil
 		golink = ParseGoLink.create(url:@url, key: @key, description: @description, permissions:@permissions, member_email:email)
+		GoJobQueue.create_job("elasticsearch:reindex")
+		GoJobQueue.create_job("memcached:cache_golinks")
 		render json: golink, status:200
 	end
 
@@ -33,8 +35,22 @@ class GoController < ApplicationController
 		golink.key = params[:key]
 		golink.description = params[:description]
 		golink.permissions=params[:permissions]
+		golink.url = params[:url]
+		# reflect changes in GoLink so appears in search
+		gl = GoLink.where(parse_id:golink.id)
+		if gl.length > 0
+			gl = gl.first
+			gl.key = params[:key]
+			gl.description = params[:description]
+			gl.permissions = params[:permissions]
+			gl.url = params[:url]
+			gl.save
+		end
 		golink.save
 		render nothing: true, status:200
+	end
+
+	def my_recent
 	end
 
 
@@ -46,14 +62,10 @@ class GoController < ApplicationController
 	end
 
 	def ajax_search
-		#TODO distinguish links that are collections
 		puts params[:q]
 		# @golinks = cached_golinks.select{|x| x.key.include?(params[:q])}
-		@golinks = ParseGoLink.search(params[:q]) #.map{|x| {'label'=>'link: ' + x.key, 'value'=>'link', 'id'=>x.key}}
-		# collection_results = ParseCollection.collections.select{|x| x.name.downcase.include?(params[:q].downcase)}.map{|x| {'label'=>'collection: '+x.name, 'value'=>'collection', 'id'=> x.id}}
-		# results = collection_results + link_results
-		# render json: results, status: 200
-		puts 'what is going on'
+		@golinks = ParseGoLink.search(params[:q])
+		@golinks = @golinks.select{|x| x.can_view(current_member)}
 		render 'ajax_search', layout: false
 	end
 	def dalli_client
@@ -121,7 +133,16 @@ class GoController < ApplicationController
 	def my_links
 		# @golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
 		# paginate go links
+
 		@golinks = ParseGoLink.limit(1000000).where(member_email: current_member.email).sort{|a,b| b.updated_at <=> a.updated_at}
+
+		# apply filters
+		filter = params[:filter]
+		if filter and filter != ''
+			@golinks = @golinks.select{|x| x.key.include?(filter) or x.description.include?(filter) or x.url.include?(filter)}
+			@filter = filter
+		end
+
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 	end
@@ -331,27 +352,21 @@ class GoController < ApplicationController
 	def index
 		# log this click 
 		go_key = params[:key].gsub('_', ' ')
-		golinks = ParseGoLink.where(key: go_key).to_a
+		golinks = ParseGoLink.where(key: go_key).select{|x| x.can_view(current_member)}
 		
 		email = current_member ? current_member.email : ''
 		email = params[:email] ? params[:email] : email
-		GoLog.log_click(email, go_key, Time.now)
+		# GoLog.log_click(email, go_key, Time.now)
 		if golinks.length > 0
 			# correctly used alias
 			""" log tracking data for link click """
-			# Thread.new{
-			# 	click = ParseGoLinkClick.new
-			# 	if current_member	
-			# 		click.member_email = current_member.email
-			# 		click.key = go_key
-			# 		click.time = Time.now
-			# 		click.save
-			# 	else
-			# 		click.key = go_key
-			# 		click.time = Time.now
-			# 	end
-			# 	click.save
-			# }
+			Thread.new{
+				click = ParseGoLinkClick.new
+				click.member_email = email
+				click.key = go_key
+				click.time = Time.now
+				click.save
+			}
 
 			if golinks.length > 1
 				@golinks = golinks

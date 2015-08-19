@@ -1,4 +1,17 @@
 namespace :migrate do
+
+	task :set_positions => :environment do
+		mhash = ParseMember.limit(100000).all.index_by(&:email)
+		members = Array.new
+		ParseCommitteeMember.limit(10000).all.each do |cm|
+			member = mhash[cm.member_email]
+			member.position = cm.position
+			puts member.name
+			puts cm.position
+			members << member
+		end
+		ParseMember.save_all(members)
+	end
 	task :member_emails => :environment do
 		email_hash = Hash.new
 		email_set = Array.new
