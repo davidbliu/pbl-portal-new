@@ -59,6 +59,7 @@ Portal::Application.routes.draw do
   get 'go/my_recent', to:'go#my_recent'
   post 'go/add', to:'go#add'
   post 'go/delete', to:'go#delete'
+  post 'go/edit', to:'go#edit'
 
   """ cache """
   get '/cache_golinks', to:'cache#cache_golinks'

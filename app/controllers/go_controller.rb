@@ -9,8 +9,8 @@ class GoController < ApplicationController
 	end
 
 	def add_landing_page
-		@url = params[:url]
-		@key = params[:key].downcase.gsub(' ' , '-').gsub(/[^- \p{Alnum}]/, '').gsub(' ','-').gsub('--', '-').gsub('--', '-')
+		@url = params[:url] ? params[:url] : ''
+		@key = params[:key] ? params[:key].downcase.gsub(' ' , '-').gsub(/[^- \p{Alnum}]/, '').gsub(' ','-').gsub('--', '-').gsub('--', '-') : 'example-key'
 	end
 
 	def add
@@ -26,6 +26,15 @@ class GoController < ApplicationController
 	def delete
 		ParseGoLink.find(params[:id]).destroy
 		render nothing:true, status:200
+	end
+
+	def edit
+		golink = ParseGoLink.find(params[:id])
+		golink.key = params[:key]
+		golink.description = params[:description]
+		golink.permissions=params[:permissions]
+		golink.save
+		render nothing: true, status:200
 	end
 
 
@@ -110,8 +119,9 @@ class GoController < ApplicationController
 	end
 
 	def my_links
-		@golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
+		# @golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
 		# paginate go links
+		@golinks = ParseGoLink.limit(1000000).where(member_email: current_member.email).sort{|a,b| b.updated_at <=> a.updated_at}
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 	end
@@ -379,11 +389,11 @@ class GoController < ApplicationController
 		redirect_to '/go'
 	end
 
-	def edit
-		puts 'editing : '+ params[:id].to_s
-		@link = ParseGoLink.find(params[:id])
-		@clicks = ParseGoLinkClick.where(key: @link.key)
-	end
+	# def edit
+	# 	puts 'editing : '+ params[:id].to_s
+	# 	@link = ParseGoLink.find(params[:id])
+	# 	@clicks = ParseGoLinkClick.where(key: @link.key)
+	# end
 
 	def update
 		""" one can edit link url or description and owner but not much else, in particular link aliases cannot be changed """
@@ -474,7 +484,7 @@ class GoController < ApplicationController
 	end
 
 	def guide
-
+		render 'picture_guide.html.erb'
 	end
 
 	def create
