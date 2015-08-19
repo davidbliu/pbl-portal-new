@@ -55,8 +55,10 @@ Portal::Application.routes.draw do
   get 'go/my_links', to:'go#my_links'
   get 'go/test', to:'go#test'
   get 'go/landing_page', to: 'go#landing_page'
+  get 'go/add_landing_page', to:'go#add_landing_page'
   get 'go/my_recent', to:'go#my_recent'
-
+  post 'go/add', to:'go#add'
+  post 'go/delete', to:'go#delete'
 
   """ cache """
   get '/cache_golinks', to:'cache#cache_golinks'

@@ -8,6 +8,27 @@ class GoController < ApplicationController
 		@url_matches = cached_golinks.select{|x| x.is_url_match(@url)}
 	end
 
+	def add_landing_page
+		@url = params[:url]
+		@key = params[:key].downcase.gsub(' ' , '-').gsub(/[^- \p{Alnum}]/, '').gsub(' ','-').gsub('--', '-').gsub('--', '-')
+	end
+
+	def add
+		@url = params[:url]
+		@key = params[:key]
+		@description = params[:description]
+		@permissions = params[:permissions]
+		email = current_member ? current_member.email : nil
+		golink = ParseGoLink.create(url:@url, key: @key, description: @description, permissions:@permissions, member_email:email)
+		render json: golink, status:200
+	end
+
+	def delete
+		ParseGoLink.find(params[:id]).destroy
+		render nothing:true, status:200
+	end
+
+
 	def typeahead
 		if params[:search_term] and params[:search_term] != ''
 			@search_term = params[:search_term]
@@ -89,9 +110,7 @@ class GoController < ApplicationController
 	end
 
 	def my_links
-
 		@golinks = cached_golinks.select{|x| x.member_email == current_member.email and x.type != 'bundle'}.sort{|a,b| b.updated_at <=> a.updated_at}
-
 		# paginate go links
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
@@ -245,9 +264,7 @@ class GoController < ApplicationController
 		
 	end
 
-	def add
-
-	end
+	
 	def mobile
 		# TODO support mobile browsing
 	end

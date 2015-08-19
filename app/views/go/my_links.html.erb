@@ -31,16 +31,11 @@
 </style>
 
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
-<h3>My Links</h3>
 
-<p>
-You can help make PBL Links better by 
-<ol>
-	<li>Clean up keys</li>
-	<li>Add a description and tags</li>
-	<li>Add your link to a collection or bundle</li>
-</ol>
-</p>
+<div style = 'text-align:center'>
+<h1><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> My Links</h1>
+<p>Links that you've recently added or edited</p>
+</div>
 <div id = 'spacer' style = 'clear:both;height:25px'></div>
 
 <table class = 'directory-table table table-hover table-condensed'>
@@ -59,8 +54,14 @@ You can help make PBL Links better by
 		<td class = 'golink-description-td'>
 			<input type = 'text' id = '<%= golink.id %>-description-input' class = 'form-control' value = '<%= golink.description %>'></input>
 		</td>
-		<td class = 'golink-collections-td'>
-			<input id = '<%= golink.id %>-groups-input' type = 'text' class = 'form-control collections-input' value = '<%= golink.groups ? golink.groups.join(',') : ""%>'></input>
+		<td class = 'golink-permissions-td'>
+			<select class = 'form-control'>
+				<option <% if golink.permissions and golink.permissions == 'Only Me' %>selected<% end %>>Only Me</option>
+			  	<option <% if golink.permissions and golink.permissions == 'Only PBL' %>selected<% end %>>Only PBL</option>
+			  	<option <% if golink.permissions and golink.permissions == 'Only Officers' %>selected<% end %>>Only Officers</option>
+			  	<option <% if golink.permissions and golink.permissions == 'Only Execs' %>selected<% end %>>Only Execs</option>
+			  	<option <% if not golink.permissions or golink.permissions and golink.permissions == 'Anyone' %>selected<% end %>>Anyone</option>
+			</select>
 		</td>
 		<td style='text-align:right'>
 			<a href = 'javascript:void(0);' class = 'link-delete-btn' id = '<%= golink.id %>'>x
@@ -86,48 +87,14 @@ function showSpinner(){
 function hideSpinner(){
 	$('#loading-gif').hide();
 }
-$('.link-save-btn').click(function(){
-	showSpinner();
-	id = $(this).attr('id');
-	key = $("#"+id+'-key-input').val();
-	description = $("#"+id+'-description-input').val();
-	groups = $("#"+id+'-groups-input').val();
-	$.ajax({
-      url: '/go/save_link',
-      type: 'POST',
-      data: {'id':id, 'key':key, 'description': description, 'groups':groups},
-      success:function(data){
-        hideSpinner();
-      },
-      error:function (xhr, textStatus, thrownError){
-        alert('failed');
-        hideSpinner();
-      }
-  });
-});	
 
-function ajaxAutcomplete(){
-	$.ajax({
-      url: '/go/collection_names',
-      type: 'GET',
-      success:function(data){
-        $( ".collections-input" ).autocomplete({
-          source: data
-        });
-      },
-      error:function (xhr, textStatus, thrownError){
-        alert('failed to load collections');
-      }
-  });
-}
-ajaxAutcomplete();
 
 $('.link-delete-btn').click(function(){
 	showSpinner();
 	id = $(this).attr('id');
 	row = $("#" + id + '-row');
 	$.ajax({
-      url: '/go/delete_link',
+      url: '/go/delete',
       type: 'POST',
       data: {'id':id},
       success:function(data){

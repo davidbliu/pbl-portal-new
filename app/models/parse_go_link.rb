@@ -1,6 +1,7 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
-	fields :key, :url, :description, :member_id, :old_id, :type, :directory, :old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections
+	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
+	:old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections, :permissions
 
 
 	""" permissions""" 
@@ -369,20 +370,22 @@ class ParseGoLink < ParseResource::Base
 
 	""" elasticsearch methods"""
 	def self.import
+		puts 'importing go links'
 		# create GoLink Objects
-		GoLink.destroy_all
+		# GoLink.destroy_all
 		# puts 'requesting text hash...'
 		parse_text_hash = ParseElasticsearchData.limit(100000).all.index_by(&:go_link_id)
 		parse_text_hash_keys = parse_text_hash.keys
 		# puts 'received text hash!'
 		ParseGoLink.limit(10000).all.each do |pgl|
-			# puts pgl.key
-			gl = GoLink.new
-			gl.key = pgl.key
+			puts pgl.key
+			# gl = GoLink.new
+			gl = GoLink.where(key: pgl.key, parse_id: pgl.id).first_or_create
+			# gl.key = pgl.key
 			gl.url = pgl.url
 			gl.description = pgl.description
 			gl.member_id = pgl.member_id
-			gl.parse_id = pgl.id
+			# gl.parse_id = pgl.id
 			if parse_text_hash_keys.include?(pgl.id)
 				gl.text = parse_text_hash[pgl.id].text
 			else
