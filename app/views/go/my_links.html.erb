@@ -13,6 +13,9 @@
 	width: 5%;
 	overflow:hidden;
 }
+.golink-type-image{
+	height:15px;
+}
 #loading-gif{
   height:150px;
   position:fixed;
@@ -41,6 +44,7 @@
 <table class = 'directory-table table table-hover table-condensed'>
 	<thead>
 		<tr>
+			<th></th>
 			<th>Key</th>
 			<th>Description</th>
 			<th>Shared With</th>
@@ -49,6 +53,7 @@
 	<tbody class = 'directory-tbody'>
 	<% @golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.id %>-row'>
+		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
 		<td class = 'golink-key-td'><input id = '<%= golink.id %>-key-input' type = 'text' class = 'form-control' value = '<%= golink.key %>'></input>
 		</td> 
 		<td class = 'golink-description-td'>
