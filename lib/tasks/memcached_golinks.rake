@@ -20,19 +20,20 @@ namespace :memcached do
 		dc.set('golink_key_hash', golink_key_hash)
 		dc.set('go_key_hash', go_key_hash)
 		dc.set('golinks', golinks)
+		dc.set('golinks_hash', golinks.index_by(&:id))
 		key_hash = dc.get('go_key_hash')
 		
-		golinks = go_key_hash.values
-		tags = Set.new(golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
-		tag_links = Hash.new
-		tags.each do |tag|
-			tag_links[tag] = golinks.select{|x| x.tags ? x.tags.include?(tag) : false}
-		end
-		dc.set('tag_links', tag_links)
+		# golinks = go_key_hash.values
+		# tags = Set.new(golinks.map{|x| x.tags}.select{|x| x != nil and x!= ""}.flatten()).to_a.sort
+		# tag_links = Hash.new
+		# tags.each do |tag|
+		# 	tag_links[tag] = golinks.select{|x| x.tags ? x.tags.include?(tag) : false}
+		# end
+		# dc.set('tag_links', tag_links)
 
-		# save tag information
-		dc.set('go_tags', tags)
-		dc.set('golinks_already_caching', nil)
+		# # save tag information
+		# dc.set('go_tags', tags)
+		# dc.set('golinks_already_caching', nil)
 		puts 'finished writing to memcached '+Time.now.to_s
 
 		

@@ -1,6 +1,6 @@
 class ParseGoLinkClick < ParseResource::Base
 
-	fields :key, :member_id, :time, :old_member_id, :member_email
+	fields :key, :member_id, :time, :old_member_id, :member_email, :golink_id
 
 
 	def get_time

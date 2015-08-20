@@ -10,6 +10,7 @@ task :push => :environment do
 	#  gcm = GCM.new("my_api_key", timeout: 3)
 
 	registration_ids= NotificationClient.where(email:'davidbliu@gmail.com').map{|x| x.registration_id}
+	# registration_ids = NotificationClient.all.map{|x| x.registration_id}
 	random_id = SecureRandom.hex.to_s
 	puts 'pushing a notification out'
 	options = options = {data: {id: random_id, title: 'Mission', message: "a new link was added: pbl.link/mission", type:'links', key:'mission'}, collapse_key: "updated_score"}

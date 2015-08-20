@@ -22,18 +22,17 @@
 
 
 </style>
-<h3>Links</h3>
+<h3>Recently Visited</h3>
 <table class = 'table table-hover table-condensed'>
 	<tbody>
 	<% @golinks.each do |golink| %>
-	<tr class = 'link-row' id = '<%= golink.parse_id %>-row'>
+	<tr class = 'link-row' id = '<%= golink.id %>-row'>
 		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
-		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id %>' target="_blank"><%= golink.key %></a>
+		<td class = 'golink-key-td'><a href = '<%= golink.url %>' target="_blank"><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'>
 			<%= golink.description %>
 		</td>
-
 
 	</tr>
 	<% end %>

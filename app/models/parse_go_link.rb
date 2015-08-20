@@ -1,7 +1,7 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
-	:old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections, :permissions
+	:old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections, :permissions, :parse_id
 
 
 	""" permissions include Only Me, Only Officers, Only Execs, Only PBL, Public""" 
@@ -446,7 +446,7 @@ class ParseGoLink < ParseResource::Base
 		golinks = Array.new
 		results.each do |result|
 			data =  result._source
-			golinks << ParseGoLink.new(key: data['key'], description: data['description'], url: data['url'], member_email: data['member_email'], permissions: data['permissions'])
+			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], url: data['url'], member_email: data['member_email'], permissions: data['permissions'])
 			#, member_email: data['member_email'],
 				# permissions:data['permissions'])#
 		end

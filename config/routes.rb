@@ -29,6 +29,7 @@ Portal::Application.routes.draw do
   get '/go/:key/metrics', to: 'go#metrics'
   get '/go/cwd', to: 'go#cwd'
   get '/:key/go', to: 'go#index'
+  get '/go/redirect_id/:id', to:'go#redirect_id'
   get '/go/affix', to: 'go#affix'
   get '/go/:url/lookup', to: 'go#lookup'
   get '/go/lookup', to: 'go#lookup'

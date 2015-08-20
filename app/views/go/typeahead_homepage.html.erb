@@ -133,7 +133,7 @@
         <tbody>
         <% @golinks.each do |golink| %>
         <tr class = 'link-row' id = '<%= golink.id %>-row'>
-          <td class = 'golink-key-td'><a href = '<%= golink.url %>' target="_blank"><%= golink.key %></a>
+          <td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.id %>' target="_blank"><%= golink.key %></a>
           </td> 
           <td class = 'golink-description-td'>
             <%= golink.description %>
