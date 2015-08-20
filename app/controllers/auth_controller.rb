@@ -27,7 +27,7 @@ class AuthController < ApplicationController
 			redirect_to root_path
 		else
 			@email = email
-			render no_account
+			render no_account, layout:false
 		end
 	end
 

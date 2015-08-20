@@ -3,6 +3,16 @@ require 'will_paginate/array'
 require 'timeout'
 class GoController < ApplicationController
 
+	before_filter :authorize, :except => [:index, :redirect_id]
+
+	def authorize
+		if not current_member
+			render 'authorize', layout: false
+		else
+			puts current_member.email
+		end
+	end
+
 	def landing_page
 		@url = params[:url]
 		@url_matches = cached_golinks.select{|x| x.is_url_match(@url)}

@@ -1,4 +1,6 @@
 <%= stylesheet_link_tag "application" %>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
 <%= stylesheet_link_tag 'open_sans.css' %>
-<h4>There is no account for <%= @email %></h4>
+
+<h1>Please sign into the portal to use this feature</h1>
+<a href = '/auth/google_oauth2'><button class = 'btn btn-material-blue-500' >Sign In</button></a>

@@ -6,6 +6,9 @@ module AuthHelper
     # my_email = "alice.sun@berkeley.edu"
     # my_email = 'davidbliu@gmail.com'
     # @current_member ||= ParseMember.where(email: my_email).first if cookies[:remember_token]
+    if my_email == nil or my_email == ''
+      return nil
+    end
     if SecondaryEmail.valid_emails.include?(my_email)
       return SecondaryEmail.email_lookup_hash[my_email]
     end
