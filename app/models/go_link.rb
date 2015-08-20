@@ -2,10 +2,14 @@ require 'elasticsearch/model'
 class GoLink < ActiveRecord::Base
 	attr_accessible :key, :url, :description, :permissions, :member_email
 	include Elasticsearch::Model
-  include Elasticsearch::Model::Callbacks
+	include Elasticsearch::Model::Callbacks
 
-  GoLink.__elasticsearch__.client = Elasticsearch::Client.new host: ENV['ELASTICSEARCH_HOST']
+	GoLink.__elasticsearch__.client = Elasticsearch::Client.new host: ENV['ELASTICSEARCH_HOST']
 
+	def to_parse
+		ParseGoLink.new(parse_id: self.parse_id, key: self.key, description: self.description, member_email: self.member_email,
+			permissions: self.permissions, url: self.url)
+	end
   """ elasticsearch """
 
 	def short_url

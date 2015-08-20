@@ -115,8 +115,11 @@
 
   <h4><a href = '/go/guide'>Guide</a></h4>
   <h4><a href = '/go/my_links'>My Links</a></h4>
+  <h4><a href = '/go/popular'>Popular Links</a></h4>
+  <h4><a id = 'recent-link' href = 'javascript:void(0)'>Recently Visited</a></h4>
   <h4><a href = '/go/add_landing_page'>Add a Link</a></h4>
-  
+  <h4><a href = '/go/sharing_center'>Share</a></h4>
+
   <div id="custom-search-input" class = 'card'>
       <div id = 'search-input-group' class="input-group">
           <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" <% if @search_term %>value = '<%= @search_term %>'<% end %> />
@@ -198,45 +201,27 @@ pullSearchResults('<%= @search_term %>');
 <% end %>
 
 $('#search-input').select();
-// var id = '';
- // $( "#search-input" ).autocomplete({
- //      source: function( request, response ) {
- //        $.ajax({
- //          url: "/go/ajax_search",
- //          dataType: "json",
- //          data: {
- //            q: request.term
- //          },
- //          success: function( data ) {
- //            response( data );
- //          }
- //        });
- //      },
- //      minLength: 2,
- //      select: function( event, ui ) {
- //        ui.item.value = ui.item.label;
- //        id = ui.item.id;
- //      },
- //    });
 
-
-// function activateSearchButton(){
-//   $('#search-input').keypress(function(e) {
-//     if(e.which == 13) {
-//        term = $('#search-input').val();
-//        if(term.indexOf('collection: ')!= -1){
-//           window.location.assign('/collections/'+id);
-//        }
-//        else if(term.indexOf('link: ')!= -1){
-//         window.location.assign('/' + id + '/go');
-//        }
-//        else{
-//         window.location.assign('/go/search/?search_term='+term);
-//       }
-//     }
-// });
-// }
-// activateSearchButton();
+// popular links and recent links shown on homepage
+function getRecentLinks(){
+  showSpinner();
+  $.ajax({
+      url: '/go/my_recent',
+      type: 'get',
+      success:function(data){
+        hideSpinner();
+        $('#results-container').html('');
+        $('#results-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to pull recent links');
+      }
+  });
+}
+$('#recent-link').click(function(){
+  getRecentLinks();
+});
 
 </script>
 

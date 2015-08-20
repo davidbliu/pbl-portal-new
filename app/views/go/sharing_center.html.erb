@@ -36,7 +36,12 @@
 
 
   <p>
-  	<b>Registered Emails: </b><%= NotificationClient.limit(100000).all.map{|x| x.email}.join(',') %>
+  	<h4>Registered Emails</h4>
+  	<ul class = 'list-group'>
+  	<% @clients.each do |client| %>
+  	<li class = 'list-group-item'><%= client.email %></li>
+  	<% end %>
+  	</ul>
   </p>
 
 
@@ -57,7 +62,8 @@ function hideSpinner(){
       data: {'message': $('#message-input').val(), 'recipients': $('#recipients-input').val(), 'link':$('#link-input').val()},
       success:function(data){
       	hideSpinner();
-        $('#message').html('<h2>Your message has been sent!</h2>');
+      	console.log(data)
+        $('#message').html(data.body);
       },
       error:function (xhr, textStatus, thrownError){
       	hideSpinner();

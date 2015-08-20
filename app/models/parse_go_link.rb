@@ -187,145 +187,6 @@ class ParseGoLink < ParseResource::Base
 		return true
 	end
 
-	""" methods to rename  directories """
-	def self.rename_directory(directory, new_directory)
-		""" cache must be invalidated after calling this method """
-		if self.valid_directory(new_directory)
-			golinks = ParseGoLink.hash.values
-			affected = golinks.select{|x| x.dir.start_with?(directory)}
-
-			changed_directory = Array.new
-			affected.each do |golink|
-				additional = golink.dir.split(directory)[-1] ? golink.dir.split(directory)[-1] : ""
-				new_dir = ParseGoLink.valid_directory(new_directory + additional) ? new_directory + additional : golink.dir
-				puts 'old: '+golink.dir + "\t" + 'new: ' + new_dir
-				golink.directory = new_dir
-				changed_directory << golink
-			end
-
-			puts 'Saving '+ changed_directory.length.to_s + ' links'
-			ParseGoLink.save_all(changed_directory)
-			return true
-		else
-			puts 'invalid directory'
-			return false
-		end
-	end
-	def self.create_directory(directory)
-		if self.valid_directory(directory)
-			uuid = SecureRandom.random_number(100000000).to_s
-			auto = ParseGoLink.new(key: "auto-generated-"+uuid, url: 'http://www.google.com', directory: directory, description: 'auto generated from creating new directory')
-			return auto.save
-		else
-			return false
-		end
-		
-	end
-	""" methods to help get directory tree """
-	def self.one_ply(directories)
-		directories.map{|x| '/' + x.split('/').select{|y| y!= ""}[0]}.uniq.sort
-	end
-	def self.two_ply(directories)
-		directories.select{|x| x.scan('/').length > 1}.map{|x| '/' + x.split('/').select{|y| y!= ""}[0] + '/' + x.split('/').select{|y| y!= ""}[1]}.uniq.sort
-	end
-	def self.three_ply(directories)
-		three_ply_dirs = Array.new
-		directories.select{|x| x.scan('/').length > 2}.each do |dir|
-			splits = dir.split('/').select{|x| x!= ""}
-			three_ply_dirs << '/' + splits[0] + '/' + splits[1] + '/' + splits[2]
-		end
-		return three_ply_dirs.sort
-	end
-	def self.n_ply_tree(directories)
-		""" currently only returns a three ply tree"""
-		one_level = self.one_ply(directories)
-		two_level = self.two_ply(directories)
-		three_level = self.three_ply(directories)
-		one_to_two = Hash.new
-		two_level.each do |two|
-			two_root = '/' + two.split('/').select{|x| x!= ''}[0]
-			if not one_to_two.keys.include?(two_root)
-				one_to_two[two_root] = Array.new
-			end
-			one_to_two[two_root] << two
-		end
-		two_to_three = Hash.new
-		three_level.each do |three|
-			split = three.split('/').select{|x| x!= ''}
-			three_root = '/' + split[0] + '/' + split[1]
-			if not two_to_three.keys.include?(three_root)
-				two_to_three[three_root] = Array.new
-			end
-			two_to_three[three_root] << three
-		end
-		""" sort all subdirectories """
-		return [one_to_two, two_to_three]
-	end
-
-
-	def self.dir_hash
-		# ParseGoLink.all.index_by(&:dir)
-		dhash = Hash.new
-		ParseGoLink.hash.values.each do |golink|
-			dir = golink.dir 
-			if not dhash.keys.include?(dir)
-				dhash[dir] = Array.new
-			end
-			dhash[dir]  << golink 
-		end
-		return dhash
-	end
-
-	def self.directories(golinks)
-		golinks.map{|x| x.dir}.uniq
-	end
-	def self.all_directories(golinks)
-		dirs = self.directories(golinks)
-		return self.one_ply(dirs) + self.two_ply(dirs) + self.three_ply(dirs)
-	end
-
-	def self.directory_hash(golinks)
-		dhash = Hash.new
-		golinks.each do |golink|
-			dir = golink.dir 
-			if not dhash.keys.include?(dir)
-				dhash[dir] = Array.new
-			end
-			dhash[dir]  << golink 
-		end
-		return dhash
-	end
-	
-	def self.directory_links(dir_name = '')
-		hash = self.dir_hash
-		if hash.keys.include?(dir_name)
-			result = hash[dir_name]
-			if result != nil
-				return result
-			end
-		end
-		return Array.new
-	end
-
-	def self.subdirectories(prefix = '/')
-		lvl = prefix.split('/').select{|x| x != ''}.length
-		puts 'level was '+lvl.to_s
-		all_dirnames = Array.new
-		dirnames = ParseGoLink.hash.values.uniq{|x| x.dir}.map{|x| x.dir}
-		all_dirnames << '/'
-		dirnames.each do |dirname|
-			split = dirname.split('/').select{|x| x!= ''}
-			sofar = ''
-			for token in split
-				sofar += '/' + token
-				if not all_dirnames.include?(sofar)
-					all_dirnames << sofar
-				end
-			end
-		end
-		all_dirnames.select{|x| x.start_with?(prefix) and x != prefix and x.split('/').select{|x| x != ''}.length == lvl+1}.sort
-	end
-
 	def get_type_image
 		type = self.resolve_type
 		return ParseGoLink.type_to_image(type)
@@ -414,7 +275,7 @@ class ParseGoLink < ParseResource::Base
 		parse_text_hash = ParseElasticsearchData.limit(100000).all.index_by(&:go_link_id)
 		parse_text_hash_keys = parse_text_hash.keys
 		# puts 'received text hash!'
-		ParseGoLink.limit(10000).all.each do |pgl|
+		ParseGoLink.limit(100000).all.each do |pgl|
 			print '.'
 			gl = GoLink.where(key: pgl.key, parse_id: pgl.id).first_or_create
 			gl.url = pgl.url
@@ -438,7 +299,7 @@ class ParseGoLink < ParseResource::Base
 		# results =GoLink.search(search_term)
 		# results = GoLink.search(query: {match: {_all: {query: search_term, fuzziness: 1}}}, :size => 100).results
 		# search_term  = '*' + search_term + '*'
-		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^10', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
 		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
 		# query = { "fuzzy" => { "key" => search_term }}
 		# query = search_term

@@ -68,20 +68,24 @@ class GoController < ApplicationController
 
 	def my_recent
 		@golinks = Array.new
-		if current_member
-			seen = Array.new
-			clicks = ParseGoLinkClick.limit(10000000).where(member_email: current_member.email).to_a
-			puts 'clicks are here ' + clicks.length.to_s
-			clicks.each do |click|
-				if not seen.include?(click.golink_id)
-					seen << click.golink_id
-				end
+		seen = Array.new
+		clicks = ParseGoLinkClick.limit(10000000).where(member_email: current_member.email).to_a.select{|x| x.time > Time.now - 1.week}
+		clicks.each do |click|
+			if click.golink_id and not seen.include?(click.golink_id)
+				seen << click.golink_id
 			end
-			# golink_id_hash
-			@golinks = cached_golinks.select{|x| seen.include?(x.id)}
-			puts 'here are the golinks'
-			puts @golinks
 		end
+		golinks = GoLink.find_all_by_parse_id(seen)
+		# sort the golinks by their position in seeen
+		go_hash = golinks.index_by(&:parse_id)
+		puts go_hash.keys
+		puts seen
+		@golinks = seen.map{|x| go_hash[x]}.select{|x| x != nil}.map{|x| x.to_parse}.reverse
+		render 'my_recent', layout:false
+	end
+
+	def popular
+		# ParseGoLinkClick.limit(1000000).all.each do |click|
 	end
 
 	def typeahead
@@ -103,62 +107,6 @@ class GoController < ApplicationController
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
     	return dc 
    	end
-
-   # 	def view_bundles_permissions
-   # 		dc = dalli_client
-   # 		@bundles_permissions_hash = dc.get('bundles_permissions_hash')
-   # 	end
-
-   # 	def update_bundle_groups
-   # 		id = params[:id]
-   # 		groups = params[:groups]
-   # 		if groups and groups != ""
-   # 			groups = groups.split(',').map{|x| x.strip}
-   # 		else
-   # 			groups = Array.new
-   # 		end
-   # 		bundle = ParseGoLinkBundle.find(id)
-   # 		bundle.groups = groups
-   # 		bundle.save
-   		
-   # 		Thread.new{
-			# ParseGoLinkBundle.cache_permissions
-			# puts 'exiting thread'
-	  #  	}
-   # 		render nothing:true, status:200
-   # 	end
-
-	
-	# def test
-	# 	ParseGoLink.cache_golinks
-	# 	render nothing:true, status:200
-	# end
-
-	# def save_link
-	# 	golink = ParseGoLink.find(params[:id])
-	# 	golink.key = params[:key]
-	# 	golink.description = params[:description]
-	# 	if params[:groups] and params[:groups] != ""
-	# 		groups = params[:groups].split(',').map{|x| x.strip}
-	# 		puts groups
-	# 		golink.groups = groups
-	# 	end
-	# 	golink.type = 'edited'
-	# 	golink.save
-	# 	ParseGoLink.cache_golinks
-	# 	render nothing: true, status:200
-	# end
-
-	# def delete_link
-	# 	golink = ParseGoLink.find(params[:id])
-	# 	golink.destroy
-	# 	ParseGoLink.cache_golinks
-	# 	render nothing:true, status: 200
-	# end
-
-	# def bundles
-	# 	@my_bundles = ParseGoLinkBundle.my_bundles(current_member.email)
-	# end
 
 	def my_links
 		@golinks = ParseGoLink.limit(1000000).where(member_email: current_member.email).sort{|a,b| b.updated_at <=> a.updated_at}
@@ -234,14 +182,15 @@ class GoController < ApplicationController
 	end
 
 	def sharing_center
+		@clients = NotificationClient.limit(10000).all.select{|x| x.email != ''}
 
 	end
 	def share
 		message = params[:message]
 		link = params[:link]
 		recipients = params[:recipients]
-		NotificationClient.push(recipients.split(','), message, link)
-		render nothing: true, status:200
+		message = NotificationClient.push(recipients.split(','), message, link)
+		render json: message, status:200
 	end
 
 
@@ -439,23 +388,23 @@ class GoController < ApplicationController
 
 	
 
-	def lookup
-		url = params[:url]
-		@keys = cached_golinks.select{|x| x.url == url}
-	end
+	# def lookup
+	# 	url = params[:url]
+	# 	@keys = cached_golinks.select{|x| x.url == url}
+	# end
 	
-	def cwd
-		@cwd = params[:cwd]
-		@subdirectories = ParseGoLink.subdirectories(@cwd)
-		@links = ParseGoLink.directory_links(@cwd)
-		render '_cwd.html.erb', layout: false
-	end
+	# def cwd
+	# 	@cwd = params[:cwd]
+	# 	@subdirectories = ParseGoLink.subdirectories(@cwd)
+	# 	@links = ParseGoLink.directory_links(@cwd)
+	# 	render '_cwd.html.erb', layout: false
+	# end
 
-	def clearcache
-		""" clear cache but also update values """
-		clear_go_cache
-		redirect_to '/go'
-	end
+	# def clearcache
+	# 	""" clear cache but also update values """
+	# 	clear_go_cache
+	# 	redirect_to '/go'
+	# end
 
 	# def edit
 	# 	puts 'editing : '+ params[:id].to_s
@@ -463,27 +412,27 @@ class GoController < ApplicationController
 	# 	@clicks = ParseGoLinkClick.where(key: @link.key)
 	# end
 
-	def update
-		""" one can edit link url or description and owner but not much else, in particular link aliases cannot be changed """
-		link = go_link_hash[params[:id]]
-		#ParseGoLink.find(params[:id])
-		puts link
-		link.url = params[:url]
-		link.description = params[:description]
-		# link.directory = params[:directory]
-		link.directory = params[:directory] != "" ? params[:directory] : '/PBL'
-		puts 'current member'
-		if current_member
-			puts 'current member 1'
-			# link.member_id = current_member.id
-			link.member_email = current_member.email
-			puts 'current member 2'
-		end
-		link.save
-		clear_go_cache
+	# def update
+	# 	""" one can edit link url or description and owner but not much else, in particular link aliases cannot be changed """
+	# 	link = go_link_hash[params[:id]]
+	# 	#ParseGoLink.find(params[:id])
+	# 	puts link
+	# 	link.url = params[:url]
+	# 	link.description = params[:description]
+	# 	# link.directory = params[:directory]
+	# 	link.directory = params[:directory] != "" ? params[:directory] : '/PBL'
+	# 	puts 'current member'
+	# 	if current_member
+	# 		puts 'current member 1'
+	# 		# link.member_id = current_member.id
+	# 		link.member_email = current_member.email
+	# 		puts 'current member 2'
+	# 	end
+	# 	link.save
+	# 	clear_go_cache
 
-		render :nothing => true, :status => 200, :content_type => 'text/html'
-	end
+	# 	render :nothing => true, :status => 200, :content_type => 'text/html'
+	# end
 
 
 	# def directories
@@ -544,58 +493,58 @@ class GoController < ApplicationController
 	# 	@resource_hub = true
 	# end
 
-	def reindex
-		ParseGoLink.import
-		# Rails.cache.write('go_link_hash', nil)
-		clear_go_cache
-		redirect_to '/go'
-	end
+	# def reindex
+	# 	ParseGoLink.import
+	# 	# Rails.cache.write('go_link_hash', nil)
+	# 	clear_go_cache
+	# 	redirect_to '/go'
+	# end
 
 	
 
-	def create
-		key = params[:key]
-		url = params[:url]
-		description = params[:description]
-		directory = params[:directory] != "" ? params[:directory] : '/PBL'
-		""" do some error checking """
-		errors = Array.new
-		if not ParseGoLink.valid_key(key)
-			errors << "key"
-		end
-		if not ParseGoLink.valid_url(url)
-			errors << "url"
-		end
-		if not ParseGoLink.valid_directory(directory)
-			errors << "directory"
-		end
-		""" if there are errors, return with errors """
-		if errors.length > 0
-			render json: "Error with creating link", :status=>500, :content_type=>'text/html'
-		else
-			""" save the new link """
-			golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
-			if current_member
-				golink.member_email = current_member.email
-			end
-			golink.save
-			clear_go_cache
-			# render :nothing => true, :status => 200, :content_type => 'text/html'
-			response.headers['Access-Control-Allow-Origin'] = '*'
-			response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
-			response.headers['Access-Control-Request-Method'] = '*'
-			response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-			render json: "Successfully created link", :status=>200, :content_type=>'text/html'
-		end
-	end
+	# def create
+	# 	key = params[:key]
+	# 	url = params[:url]
+	# 	description = params[:description]
+	# 	directory = params[:directory] != "" ? params[:directory] : '/PBL'
+	# 	""" do some error checking """
+	# 	errors = Array.new
+	# 	if not ParseGoLink.valid_key(key)
+	# 		errors << "key"
+	# 	end
+	# 	if not ParseGoLink.valid_url(url)
+	# 		errors << "url"
+	# 	end
+	# 	if not ParseGoLink.valid_directory(directory)
+	# 		errors << "directory"
+	# 	end
+	# 	""" if there are errors, return with errors """
+	# 	if errors.length > 0
+	# 		render json: "Error with creating link", :status=>500, :content_type=>'text/html'
+	# 	else
+	# 		""" save the new link """
+	# 		golink = ParseGoLink.new(key: key, url: url, description: description, directory: directory)
+	# 		if current_member
+	# 			golink.member_email = current_member.email
+	# 		end
+	# 		golink.save
+	# 		clear_go_cache
+	# 		# render :nothing => true, :status => 200, :content_type => 'text/html'
+	# 		response.headers['Access-Control-Allow-Origin'] = '*'
+	# 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
+	# 		response.headers['Access-Control-Request-Method'] = '*'
+	# 		response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+	# 		render json: "Successfully created link", :status=>200, :content_type=>'text/html'
+	# 	end
+	# end
 
-	def destroy
-		# Rails.cache.write('go_link_hash', nil)
-		ParseGoLink.find(params[:id]).destroy
-		# ParseGoLink.import #TODO should not have to reindex upon destroy
-		clear_go_cache
-		redirect_to '/go'
-	end
+	# def destroy
+	# 	# Rails.cache.write('go_link_hash', nil)
+	# 	ParseGoLink.find(params[:id]).destroy
+	# 	# ParseGoLink.import #TODO should not have to reindex upon destroy
+	# 	clear_go_cache
+	# 	redirect_to '/go'
+	# end
 
 	# def delete_link
 
@@ -610,50 +559,47 @@ class GoController < ApplicationController
 	# 	render nothing: true, status: 200
 	# end
 
-	def update_link
-		key = params[:key]
-		tags = params[:tags].split(',')
-		description = params[:description]
-		newkey = params[:newkey]
+	# def update_link
+	# 	key = params[:key]
+	# 	tags = params[:tags].split(',')
+	# 	description = params[:description]
+	# 	newkey = params[:newkey]
 
-		golink = go_link_key_hash[key]
-		golink.tags = tags
-		golink.description = description
+	# 	golink = go_link_key_hash[key]
+	# 	golink.tags = tags
+	# 	golink.description = description
 
-		if newkey and newkey != ""
-			if ParseGoLink.valid_key(newkey) and not go_link_key_hash.keys.include?(newkey)
-				golink.key = newkey
-			end
-		end
+	# 	if newkey and newkey != ""
+	# 		if ParseGoLink.valid_key(newkey) and not go_link_key_hash.keys.include?(newkey)
+	# 			golink.key = newkey
+	# 		end
+	# 	end
 		
-		golink.save
-		# clear_go_cache
+	# 	golink.save
+	# 	# clear_go_cache
 
-		@golink = golink 
-		# get colors
-		@tag_color_hash = ParseGoLinkTag.color_hash
-		@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
-		render 'update_link',:layout =>false
-		# render nothing: true, status:200
-	end
+	# 	@golink = golink 
+	# 	# get colors
+	# 	@tag_color_hash = ParseGoLinkTag.color_hash
+	# 	@ratings = go_link_ratings.select{|x| x.member_email == current_member.email}.index_by(&:key)
+	# 	render 'update_link',:layout =>false
+	# 	# render nothing: true, status:200
+	# end
 
-	def json
-		render json: GoLink.all
-	end
 
-	""" TODO move metrics to ID"""
-	def metrics
-		# @golink = ParseGoLink.find(params[:id])
-		key = params[:key]
-		@golink = ParseGoLink.where(key: key).to_a[0]
-		@clicks = ParseGoLinkClick.where(key: key).sort_by{|x| x.time}.reverse
+	# """ TODO move metrics to ID"""
+	# def metrics
+	# 	# @golink = ParseGoLink.find(params[:id])
+	# 	key = params[:key]
+	# 	@golink = ParseGoLink.where(key: key).to_a[0]
+	# 	@clicks = ParseGoLinkClick.where(key: key).sort_by{|x| x.time}.reverse
 
-		@member_email_hash = member_email_hash
-		# @current_members = current_members
-		@committee_member_hash = committee_member_hash
-		@resource_hub = true
-		render 'metrics', :layout =>false
-	end
+	# 	@member_email_hash = member_email_hash
+	# 	# @current_members = current_members
+	# 	@committee_member_hash = committee_member_hash
+	# 	@resource_hub = true
+	# 	render 'metrics', :layout =>false
+	# end
 
 
 end

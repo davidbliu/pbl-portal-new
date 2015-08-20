@@ -24,6 +24,14 @@
 </style>
 <h3>Links</h3>
 <table class = 'table table-hover table-condensed'>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Added By</th>
+		</tr>
+	</thead>
 	<tbody>
 	<% @golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.parse_id %>-row'>
@@ -33,6 +41,7 @@
 		<td class = 'golink-description-td'>
 			<%= golink.description %>
 		</td>
+		<td><%= golink.member_email %></td>
 
 
 	</tr>
