@@ -22,11 +22,17 @@ class GoController < ApplicationController
 		golink = ParseGoLink.create(url:@url, key: @key, description: @description, permissions:@permissions, member_email:email)
 		GoJobQueue.create_job("elasticsearch:reindex")
 		GoJobQueue.create_job("memcached:cache_golinks")
+		# reflect changes in GoLink so appears in search
+		gl = GoLink.new(key: @key, description: @description, member_email: email, permissions: @permissions, url: @url)
+		gl.parse_id = golink.id
+		gl.save
 		render json: golink, status:200
 	end
 
 	def delete
 		ParseGoLink.find(params[:id]).destroy
+		# reflect changes to GoLink 
+		GoLink.destroy_all(parse_id: params[:id])
 		render nothing:true, status:200
 	end
 
