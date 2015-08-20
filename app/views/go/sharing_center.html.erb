@@ -1,0 +1,68 @@
+<style type = 'text/css'>
+#loading-gif{
+  height:75px;
+  display:none;
+  z-index:5000;
+}
+</style>
+<h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Share Links</h1>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+<div id = 'message'></div>
+ <div id = 'sharing-container' class = 'main-container'>
+ 	<div>
+ 		<div class="input-group">
+		  <span class="input-group-addon">Recipients</span>
+		  <input id = 'recipients-input' type="text" class="form-control" placeholder = 'Recipients (example: davidbliu@gmail.com)'>
+		</div>
+
+		<div class="input-group">
+		  <span class="input-group-addon">Message</span>
+		  <input id = 'message-input' type="text" class="form-control" placeholder = 'Message' value = ''>
+		</div>
+
+		<div class="input-group">
+		  <span class="input-group-addon">Link</span>
+		  <input id = 'link-input' type="text" class="form-control" placeholder = 'Link (example: wd-drive)'>
+		</div>
+
+	    <div class = 'btn-container'>
+	    	<button class = 'btn btn-material-purple-500' id = "back">Back to webpage</button>
+	    	<button class = 'btn btn-material-blue-500' id = "share">Share</button>
+		</div>
+    </div>
+   </div>
+
+
+  <p>
+  	<b>Registered Emails: </b><%= NotificationClient.limit(100000).all.map{|x| x.email}.join(',') %>
+  </p>
+
+
+
+  <script type = 'text/javascript'>
+  function showSpinner(){
+  $('#loading-gif').show();
+}
+function hideSpinner(){
+  $('#loading-gif').hide();
+}
+
+  $('#share').click(function(){
+  	showSpinner();
+  	$.ajax({
+      url: '/go/share',
+      type: 'POST',
+      data: {'message': $('#message-input').val(), 'recipients': $('#recipients-input').val(), 'link':$('#link-input').val()},
+      success:function(data){
+      	hideSpinner();
+        $('#message').html('<h2>Your message has been sent!</h2>');
+      },
+      error:function (xhr, textStatus, thrownError){
+      	hideSpinner();
+        alert('failed to send message');
+      }
+  });
+  });
+  </script>

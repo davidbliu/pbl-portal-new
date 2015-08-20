@@ -94,61 +94,61 @@ class GoController < ApplicationController
     	return dc 
    	end
 
-   	def view_bundles_permissions
-   		dc = dalli_client
-   		@bundles_permissions_hash = dc.get('bundles_permissions_hash')
-   	end
+   # 	def view_bundles_permissions
+   # 		dc = dalli_client
+   # 		@bundles_permissions_hash = dc.get('bundles_permissions_hash')
+   # 	end
 
-   	def update_bundle_groups
-   		id = params[:id]
-   		groups = params[:groups]
-   		if groups and groups != ""
-   			groups = groups.split(',').map{|x| x.strip}
-   		else
-   			groups = Array.new
-   		end
-   		bundle = ParseGoLinkBundle.find(id)
-   		bundle.groups = groups
-   		bundle.save
+   # 	def update_bundle_groups
+   # 		id = params[:id]
+   # 		groups = params[:groups]
+   # 		if groups and groups != ""
+   # 			groups = groups.split(',').map{|x| x.strip}
+   # 		else
+   # 			groups = Array.new
+   # 		end
+   # 		bundle = ParseGoLinkBundle.find(id)
+   # 		bundle.groups = groups
+   # 		bundle.save
    		
-   		Thread.new{
-			ParseGoLinkBundle.cache_permissions
-			puts 'exiting thread'
-	   	}
-   		render nothing:true, status:200
-   	end
+   # 		Thread.new{
+			# ParseGoLinkBundle.cache_permissions
+			# puts 'exiting thread'
+	  #  	}
+   # 		render nothing:true, status:200
+   # 	end
 
 	
-	def test
-		ParseGoLink.cache_golinks
-		render nothing:true, status:200
-	end
+	# def test
+	# 	ParseGoLink.cache_golinks
+	# 	render nothing:true, status:200
+	# end
 
-	def save_link
-		golink = ParseGoLink.find(params[:id])
-		golink.key = params[:key]
-		golink.description = params[:description]
-		if params[:groups] and params[:groups] != ""
-			groups = params[:groups].split(',').map{|x| x.strip}
-			puts groups
-			golink.groups = groups
-		end
-		golink.type = 'edited'
-		golink.save
-		ParseGoLink.cache_golinks
-		render nothing: true, status:200
-	end
+	# def save_link
+	# 	golink = ParseGoLink.find(params[:id])
+	# 	golink.key = params[:key]
+	# 	golink.description = params[:description]
+	# 	if params[:groups] and params[:groups] != ""
+	# 		groups = params[:groups].split(',').map{|x| x.strip}
+	# 		puts groups
+	# 		golink.groups = groups
+	# 	end
+	# 	golink.type = 'edited'
+	# 	golink.save
+	# 	ParseGoLink.cache_golinks
+	# 	render nothing: true, status:200
+	# end
 
-	def delete_link
-		golink = ParseGoLink.find(params[:id])
-		golink.destroy
-		ParseGoLink.cache_golinks
-		render nothing:true, status: 200
-	end
+	# def delete_link
+	# 	golink = ParseGoLink.find(params[:id])
+	# 	golink.destroy
+	# 	ParseGoLink.cache_golinks
+	# 	render nothing:true, status: 200
+	# end
 
-	def bundles
-		@my_bundles = ParseGoLinkBundle.my_bundles(current_member.email)
-	end
+	# def bundles
+	# 	@my_bundles = ParseGoLinkBundle.my_bundles(current_member.email)
+	# end
 
 	def my_links
 		@golinks = ParseGoLink.limit(1000000).where(member_email: current_member.email).sort{|a,b| b.updated_at <=> a.updated_at}
@@ -223,6 +223,16 @@ class GoController < ApplicationController
 		render 'picture_guide.html.erb'
 	end
 
+	def sharing_center
+
+	end
+	def share
+		message = params[:message]
+		link = params[:link]
+		recipients = params[:recipients]
+		NotificationClient.push(recipients.split(','), message, link)
+		render nothing: true, status:200
+	end
 
 
 	# def permissions
