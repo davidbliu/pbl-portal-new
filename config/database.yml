@@ -12,7 +12,7 @@ development:
   # port: 5432
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
-  pool: 5
+  pool: 30
   timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
@@ -25,7 +25,7 @@ test:
   password: password
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
-  pool: 5
+  pool: 30
   timeout: 5000
 
 production:
@@ -35,5 +35,5 @@ production:
   password: password
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
-  pool: 5
+  pool: 30
   timeout: 5000
