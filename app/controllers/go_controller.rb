@@ -151,7 +151,7 @@ class GoController < ApplicationController
 				permissions = filter.split('Shared With:')[1].strip
 				@golinks = @golinks.select{|x| x.get_permissions == permissions}
 			else
-				@golinks = @golinks.select{|x| x.key.include?(filter) or x.description.include?(filter) or x.url.include?(filter)}
+				@golinks = @golinks.select{|x| (x.key and x.key.include?(filter)) or (x.description and x.description.include?(filter)) or (x.url and x.url.include?(filter))}
 			end
 			@filter = filter
 		end
