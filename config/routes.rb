@@ -68,6 +68,8 @@ Portal::Application.routes.draw do
   get 'go/dashboard', to:'go#dashboard'
   get 'go/popular', to:'go#popular'
 
+  get 'go/quick_add', to:'go#quick_add'
+
   """ cache """
   get '/cache_golinks', to:'cache#cache_golinks'
   get '/cache_members', to: 'cache#cache_members'

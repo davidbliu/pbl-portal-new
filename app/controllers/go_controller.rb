@@ -39,6 +39,19 @@ class GoController < ApplicationController
 		render json: golink, status:200
 	end
 
+	def quick_add
+		@url = params[:url]
+		@key = params[:key]
+		@permissions = 'Anyone'
+		email = current_member ? current_member.email : nil
+		golink = ParseGoLink.create(url:@url, key: @key, permissions:@permissions, member_email:email)
+		# reflect changes in GoLink so appears in search
+		gl = GoLink.new(key: @key, member_email: email, permissions: @permissions, url: @url)
+		gl.parse_id = golink.id
+		gl.save
+		redirect_to '/go/finished_adding?id='+golink.id
+	end
+
 	def finished_adding
 		@golink = ParseGoLink.find(params[:id])
 
