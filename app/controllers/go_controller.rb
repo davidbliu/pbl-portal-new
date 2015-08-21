@@ -39,6 +39,11 @@ class GoController < ApplicationController
 		render json: golink, status:200
 	end
 
+	def finished_adding
+		@golink = ParseGoLink.find(params[:id])
+
+	end
+
 	def delete
 		ParseGoLink.find(params[:id]).destroy
 		# reflect changes to GoLink 
@@ -200,6 +205,7 @@ class GoController < ApplicationController
 		email_lookup_hash = SecondaryEmail.email_lookup_hash
 		valid_emails = SecondaryEmail.valid_emails
 		@members = @clients.select{|x| valid_emails.include?(x.email)}.map{|x| email_lookup_hash[x.email]}
+		@key = params[:key]
 
 	end
 	def share

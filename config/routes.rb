@@ -59,6 +59,7 @@ Portal::Application.routes.draw do
   get 'go/add_landing_page', to:'go#add_landing_page'
   get 'go/my_recent', to:'go#my_recent'
   post 'go/add', to:'go#add'
+  get 'go/finished_adding', to:'go#finished_adding'
   post 'go/delete', to:'go#delete'
   post 'go/edit', to:'go#edit'
   post 'go/edit_description', to:'go#edit_description'

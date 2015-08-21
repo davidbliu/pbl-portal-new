@@ -1,0 +1,45 @@
+<style type = 'text/css'>
+.golink-card{
+	padding:15px;
+}
+</style>
+<h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Finished Adding</h1>
+
+
+<div style = 'width:100%; text-align:center'>
+	<h2 id = 'message'></h2>
+	<div class = 'golink-card'><a href = '/go/redirect_id/<%= @golink.id %>'>pbl.link/<%= @golink.key %></a> is set to redirect to <a href = '<%= @golink.url %>'><%= @golink.url %></a></div>
+
+<button class = 'btn btn-material-red-500 undo-btn' data-id='<%= @golink.id %>'>Undo</button>
+<button class = 'btn btn-material-purple-500 share-btn' data-id = '<%= @golink.id %>' data-key = '<%= @golink.key %>'>Share</button>
+<button class = 'btn btn-material-blue-500 add-btn'>Add Another</button>
+
+</div>
+
+<script type = 'text/javascript'>
+$('.undo-btn').click(function(){
+	id = $(this).attr('data-id');
+	$.ajax({
+      url: '/go/delete',
+      type: 'POST',
+      data: {'id': id},
+      success:function(data){
+      	$('#message').text('your link was removed');
+      	$('.undo-btn').remove();
+      	$('.share-btn').remove();
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed to undo');
+      }
+  });
+});
+
+$('.share-btn').click(function(){
+	window.location = '/go/sharing_center?key='+$(this).attr('data-key');
+});
+$('.add-btn').click(function(){
+	window.location = '/go/add_landing_page';
+});
+
+
+</script>

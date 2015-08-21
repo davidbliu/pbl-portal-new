@@ -72,18 +72,20 @@ $('#save').click(function(){
       type: 'POST',
       data: {'key': $('#key-input').val(), 'url': $('#url-input').val(), 'description': $('#description-input').val(), 'permissions': $("#permissions-input option:selected").text()},
       success:function(data){
-      	console.log(data);
-        console.log('sucessfully saved link');
-        message = "<h2>Successfully saved " + $('#key-input').val() + " </h2>";
-        message = message +  "<button id = '" + data.attributes.objectId + "' class = 'btn btn-material-red-500 undo-btn'>Undo</button>"
-        message = message + "<p>Clicking Undo will delete this link. You can add additional links below or return to browsing";
-        $('#message').html(message);
+      	window.location = '/go/finished_adding?id='+data.attributes.objectId;
+      	// console.log(data);
+       //  console.log('sucessfully saved link');
+       //  message = "<h2>Successfully saved " + $('#key-input').val() + " </h2>";
+       //  message = message +  "<button id = '" + data.attributes.objectId + "' class = 'btn btn-material-red-500 undo-btn'>Undo</button>"
+       //  message = message + "<button id = '" + data.attributes.objectId + "' class = 'btn btn-material-blue-500 share-btn'>Share</button>"
+       //  message = message + "<p>Clicking Undo will delete this link. You can add additional links below or return to browsing";
+       //  $('#message').html(message);
 
-        activateUndoButton();
+       //  activateUndoButton();
 
-        $('#key-input').val('');
-        $('#url-input').val('');
-        $('#description-input').val('');
+       //  $('#key-input').val('');
+       //  $('#url-input').val('');
+       //  $('#description-input').val('');
       },
       error:function (xhr, textStatus, thrownError){
         // console.log('failed');
