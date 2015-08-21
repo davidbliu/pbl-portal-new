@@ -6,4 +6,5 @@ class DalliManager
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)
     	return dc
 	end
+
 end

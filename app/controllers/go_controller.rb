@@ -20,7 +20,7 @@ class GoController < ApplicationController
 
 	def add_landing_page
 		@url = params[:url] ? params[:url] : ''
-		@key = params[:key] ? params[:key].downcase.gsub(' ' , '-').gsub(/[^- \p{Alnum}]/, '').gsub(' ','-').gsub('--', '-').gsub('--', '-') : 'example-key'
+		@key = params[:key] ? params[:key].downcase.gsub(' ' , '-').gsub(/[^- a-z0-9]/, '').gsub(' ','-').gsub('--', '-').gsub('--', '-') : 'example-key'
 	end
 
 	def add
@@ -123,8 +123,12 @@ class GoController < ApplicationController
 		end
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		render 'my_links'
 	end
 
+	def dashboard
+
+	end
 
 
 	def index

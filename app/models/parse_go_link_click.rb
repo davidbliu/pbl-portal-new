@@ -2,6 +2,20 @@ class ParseGoLinkClick < ParseResource::Base
 
 	fields :key, :member_id, :time, :old_member_id, :member_email, :golink_id
 
+	def self.histogram
+		# keys are ids, values are num clicks
+		hist = Hash.new
+		ParseGoLinkClick.limit(100000).all.each do |click|
+			puts click.golink_id
+			if click.golink_id and click.golink_id != '' and not hist.keys.include?(click.golink_id)
+				hist[click.golink_id] = 0
+			end
+			if click.golink_id and click.golink_id != ''
+				hist[click.golink_id] += 1
+			end
+		end
+		return hist
+	end
 
 	def get_time
 		self.time. + Time.zone_offset("PDT")

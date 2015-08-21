@@ -63,6 +63,7 @@ Portal::Application.routes.draw do
   post 'go/edit', to:'go#edit'
   get 'go/sharing_center', to:'go#sharing_center'
   post 'go/share', to:'go#share'
+  get 'go/dashboard', to:'go#dashboard'
 
   """ cache """
   get '/cache_golinks', to:'cache#cache_golinks'
