@@ -8,7 +8,7 @@ class GoLink < ActiveRecord::Base
 
 	def to_parse
 		ParseGoLink.new(parse_id: self.parse_id, key: self.key, description: self.description, member_email: self.member_email,
-			permissions: self.permissions, url: self.url)
+			permissions: self.permissions, url: self.url, num_clicks: self.num_clicks)
 	end
   """ elasticsearch """
 

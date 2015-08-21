@@ -100,6 +100,8 @@ class GoController < ApplicationController
 
 	def popular
 		# ParseGoLinkClick.limit(1000000).all.each do |click|
+		@golinks = ParseGoLink.limit(10000).order('num_clicks desc').select{|x| x.can_view(current_member)}.take(20)
+		render 'popular', layout:false
 	end
 
 	def typeahead
@@ -144,7 +146,7 @@ class GoController < ApplicationController
 		page = params[:page] ? params[:page] : 1
 		sort_by = (params[:sort_by] and params[:sort_by] != 'views') ? params[:sort_by] : 'updatedAt desc'
 		if params[:sort_by] == 'views'
-			puts 'cannot sort by views yet'
+			sort_by = 'num_clicks desc'
 		end
 		@golinks = ParseGoLink.order(sort_by).page(page).per(100)
 	end
@@ -168,14 +170,8 @@ class GoController < ApplicationController
 			else
 				# send to link url
 				golink = golinks[0]
-				""" log tracking data for link click """
 				Thread.new{
-					click = ParseGoLinkClick.new
-					click.member_email = email
-					click.key = golink.key
-					click.time = Time.now
-					click.golink_id = golink.id
-					click.save
+					golink.log_view(current_member)
 				}
 				redirect_to golink.url
 			end
@@ -190,12 +186,7 @@ class GoController < ApplicationController
 		golink = ParseGoLink.find(params[:id])
 		email = current_member ? current_member.email : ''
 		Thread.new{
-			click = ParseGoLinkClick.new
-			click.member_email = email
-			click.key = golink.key
-			click.time = Time.now
-			click.golink_id = golink.id
-			click.save
+			golink.log_view(current_member)
 		}
 		redirect_to golink.url
 	end
@@ -206,13 +197,17 @@ class GoController < ApplicationController
 
 	def sharing_center
 		@clients = NotificationClient.limit(10000).all.select{|x| x.email != ''}
+		email_lookup_hash = SecondaryEmail.email_lookup_hash
+		valid_emails = SecondaryEmail.valid_emails
+		@members = @clients.select{|x| valid_emails.include?(x.email)}.map{|x| email_lookup_hash[x.email]}
 
 	end
 	def share
 		message = params[:message]
 		link = params[:link]
 		recipients = params[:recipients]
-		message = NotificationClient.push(recipients.split(','), current_member.name + ' sent ' +link,  message, link)
+		recipients << current_member.email
+		message = NotificationClient.push(current_member, recipients, 'PBL Link Notifier',  message, link)
 		render json: message, status:200
 	end
 

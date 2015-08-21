@@ -139,21 +139,23 @@ function hideSpinner(){
 }
 
 function saveEdit(id){
+
 	key = $('#'+id+'-key-input').val();
     description = $('#'+id+'-description-input').val();
     url = $('#'+id+'-url-input').val();
     permissions = $("#" + id + "-permissions-input option:selected").text();
-    showSpinner();
+    // showSpinner();
+    $('#'+id+'-row').fadeOut(100).fadeIn(100);
     $.ajax({
 	      url: '/go/edit',
 	      type: 'POST',
 	      data: {'id':id, 'key':key, 'description':description, 'permissions':permissions, 'url':url},
 	      success:function(data){
-	        hideSpinner();
+	        // hideSpinner();
 	      },
 	      error:function (xhr, textStatus, thrownError){
 	        alert('failed');
-	        hideSpinner();
+	        // hideSpinner();
 	      }
 	  });
 }
@@ -168,20 +170,21 @@ $('.permissions-input').change(function(){
 	saveEdit(id);
 });
 $('.link-delete-btn').click(function(){
-	showSpinner();
+	// showSpinner();
 	id = $(this).attr('id');
 	row = $("#" + id + '-row');
+	$(row).remove();
 	$.ajax({
       url: '/go/delete',
       type: 'POST',
       data: {'id':id},
       success:function(data){
-        hideSpinner();
-        $(row).remove();
+        // hideSpinner();
+        
       },
       error:function (xhr, textStatus, thrownError){
         alert('failed');
-        hideSpinner();
+        // hideSpinner();
       }
   });
 

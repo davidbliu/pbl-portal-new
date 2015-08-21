@@ -4,6 +4,28 @@
   display:none;
   z-index:5000;
 }
+
+/*autocomplete styles*/
+.ui-autocomplete>li:hover{
+  cursor:pointer;
+  font-weight:bold;
+}
+.ui-autocomplete {
+    list-style: none;
+    max-width: 300px;
+    background-color: rgba(250, 250, 250, 0.75);
+    border-radius:5px;
+}
+.label-delete{
+  color:white;
+  margin-left:5px;
+}
+.smalltext{
+  font-size:10px;
+}
+.ui-helper-hidden-accessible{
+  display:none;
+}
 </style>
 <h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Share Links</h1>
 
@@ -14,7 +36,8 @@
  	<div>
  		<div class="input-group">
 		  <span class="input-group-addon">Recipients</span>
-		  <input id = 'recipients-input' type="text" class="form-control" placeholder = 'Recipients (example: davidbliu@gmail.com)'>
+		  <input id = 'recipients-input' type="text" class="form-control" placeholder = 'Recipients'>
+      <div id = 'recipients-div'></div>
 		</div>
 
 		<div class="input-group">
@@ -28,38 +51,67 @@
 		</div>
 
 	    <div class = 'btn-container'>
-	    	<button class = 'btn btn-material-purple-500' id = "back">Back to webpage</button>
-	    	<button class = 'btn btn-material-blue-500' id = "share">Share</button>
+<!-- 	    	<button class = 'btn btn-material-purple-500' id = "back">Back to webpage</button>
+ -->	    	<button class = 'btn btn-material-blue-500' id = "share">Share</button>
 		</div>
     </div>
    </div>
 
 
-  <p>
-  	<h4>Registered Emails</h4>
-  	<ul class = 'list-group'>
-  	<% @clients.each do |client| %>
-  	<li class = 'list-group-item'><%= client.email %></li>
-  	<% end %>
-  	</ul>
-  </p>
+<!-- <p class = 'smalltext text-muted'>Note: some members may be unable to push to if they haven't clicked register for push on their chrome extensions</p> -->
 
-
+<%= javascript_include_tag 'jquery-ui.min.js' %>
 
   <script type = 'text/javascript'>
+
+client_map = [];
+<% @members.each do |member| %>
+client_map.push({label: '<%= member.name %>', value: '<%= member.email %>', id: '<%= member.id %>'});
+<% end %>
+
+console.log(client_map);
+$('#recipients-input').autocomplete({
+  source: client_map,
+  select: function(event, ui) {
+      console.log(ui.item);
+      recipient_div = document.createElement('div');
+      $(recipient_div).addClass('label');
+      $(recipient_div).addClass('label-default');
+      $(recipient_div).addClass('recipient');
+      $(recipient_div).attr('data-id', ui.item.value);
+      $(recipient_div).attr('style', 'margin-left:3px');
+      $(recipient_div).text(ui.item.label);
+      $(recipient_div).append('<a href = "javascript:void(0);" style = "color:white" class = "label-delete">x</a>');
+      $('#recipients-div').append(recipient_div);
+      event.preventDefault();
+      console.log(ui.item.value);
+      console.log(ui.item.label);
+      activateLabelDelete();
+      $('#recipients-input').val('');
+    }
+});
   function showSpinner(){
   $('#loading-gif').show();
 }
 function hideSpinner(){
   $('#loading-gif').hide();
 }
-
+function activateLabelDelete(){
+  $('.label-delete').unbind('click').bind('click', function(){
+    $(this).parent().remove();
+  });
+}
   $('#share').click(function(){
   	showSpinner();
+
+    recipients = [];
+    $('.recipient').each(function(){
+      recipients.push($(this).attr('data-id'));
+    });
   	$.ajax({
       url: '/go/share',
       type: 'POST',
-      data: {'message': $('#message-input').val(), 'recipients': $('#recipients-input').val(), 'link':$('#link-input').val()},
+      data: {'message': $('#message-input').val(), 'recipients': recipients, 'link':$('#link-input').val()},
       success:function(data){
       	hideSpinner();
       	console.log(data)

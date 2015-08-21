@@ -27,7 +27,7 @@
     border: solid 1px #E4E4E4;
     border-radius: 6px;
     background-color: #fff;
-    width:50%;
+    width:100%;
     text-align:center;
     display:inline-block;
 }
@@ -84,7 +84,7 @@
 		<td><%= golink.member_email %></td>
 		<td><%= golink.updated_at.split('T')[0] %></td>
 		<td><%= golink.get_permissions %></td>
-		<td><a href = '#'>13</a></td>
+		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
 
 
 	</tr>

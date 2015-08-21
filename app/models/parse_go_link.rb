@@ -1,9 +1,26 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
-	:old_member_id, :num_clicks, :member_email, :tags, :groups, :member_emails, :collections, :permissions, :parse_id
+	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id
 
 
+
+	def log_view(member)
+		click = ParseGoLinkClick.new
+		click.member_email = member ? member.email : 'noemail'
+		click.key = self.key
+		click.time = Time.now
+		click.golink_id = self.id
+		click.save
+		""" save num clicks in the link itself """
+		num_clicks = self.num_clicks ? self.num_clicks + 1 : 1
+		self.num_clicks = num_clicks
+		self.save
+		""" save into the GoLink object """
+		gl = GoLink.where(parse_id: self.id).first
+		gl.num_clicks = num_clicks
+		gl.save
+	end
 	""" permissions include Only Me, Only Officers, Only Execs, Only PBL, Public""" 
 	def self.dalli_client
 		options = { :namespace => "app_v1", :compress => true }
@@ -307,7 +324,8 @@ class ParseGoLink < ParseResource::Base
 		golinks = Array.new
 		results.each do |result|
 			data =  result._source
-			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], url: data['url'], member_email: data['member_email'], permissions: data['permissions'])
+			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
+				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'])
 			#, member_email: data['member_email'],
 				# permissions:data['permissions'])#
 		end

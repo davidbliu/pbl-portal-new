@@ -34,7 +34,7 @@
     border: solid 1px #E4E4E4;
     border-radius: 6px;
     background-color: #fff;
-    max-width:50%;
+    max-width:100%;
     text-align:center;
     clear:both;
     display:inline-block;
@@ -75,17 +75,6 @@
     display:none;
 }
 
-/*autocomplete styles*/
-.ui-autocomplete>li:hover{
-  cursor:pointer;
-  font-weight:bold;
-}
-.ui-autocomplete {
-    list-style: none;
-    max-width: 450px;
-    background-color: rgba(250, 250, 250, 0.75);
-    border-radius:5px;
-}
 
 
 
@@ -186,7 +175,7 @@
   </div>
 
   <div class = 'button-container'>
-  <button class = 'filter-button'>Popular Links</button>
+  <button class = 'filter-button' id = 'popular-link'>Popular Links</button>
   <button class = 'filter-button' id = 'recent-link'>Recently Visited</button>
   </div>
 
@@ -285,6 +274,26 @@ function getRecentLinks(){
 }
 $('#recent-link').click(function(){
   getRecentLinks();
+});
+
+function getPopularLinks(){
+  showSpinner();
+  $.ajax({
+      url: '/go/popular',
+      type: 'get',
+      success:function(data){
+        hideSpinner();
+        $('#results-container').html('');
+        $('#results-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to pull recent links');
+      }
+  });
+}
+$('#popular-link').click(function(){
+  getPopularLinks();
 });
 
 </script>

@@ -1,0 +1,74 @@
+<style type = 'text/css'>
+.golink-type-image{
+  height:15px;
+}
+/* go links styles*/
+.link-row>.golink-type-td>{
+  width:5%;
+  overflow:hidden;
+  max-width:20px;
+}
+
+.link-row>.golink-key-td{
+  width:25%;
+  max-width: 200px;
+  overflow:hidden;
+}
+.link-row>.golink-description-td{
+  width:40%;
+  max-width:300px;
+  overflow:hidden;
+}
+.description-input{
+	min-width:300px;
+}
+
+</style>
+<table class = 'table table-hover table-condensed'>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Key</th>
+			<th>Description</th>
+			<th>Added By</th>
+			<th>Shared With</th>
+			<th>Views</th>
+		</tr>
+	</thead>
+	<tbody>
+	<% golinks.each do |golink| %>
+	<tr class = 'link-row' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-row'>
+		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
+		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id ? golink.parse_id : golink.id  %>' target="_blank" id = '<%= golink.parse_id ? golink.parse_id : golink.id  %>-key'><%= golink.key %></a>
+		</td> 
+		<td class = 'golink-description-td'>
+			<input data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' class = 'form-control description-input edit-input' value = '<%= golink.description %>' placeholder = 'enter a description'/>
+		</td>
+		<td><%= golink.get_creator %></td>
+		<td><%= golink.get_permissions %></td>
+		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<script type = 'text/javascript'>
+$('.description-input').keypress(function(e){
+	if(e.which == 13) {
+        id = $(this).attr('data-id');
+        $(this).fadeOut(100).fadeIn(100);
+        $.ajax({
+	      url: '/go/edit_description',
+	      type: 'POST',
+	      data: {'id':id, 'description':$(this).val()},
+	      success:function(data){
+	      	console.log('succeeded');
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed');
+	      }
+	  });    
+    }
+});
+
+</script>
