@@ -2,7 +2,7 @@ require 'gcm'
 class NotificationClient < ParseResource::Base
 	fields :email, :registration_id, :data
 
-	def self.push(recipients, message, link)
+	def self.push(recipients, title, message, link)
 		# registration_ids= NotificationClient.where(email:'davidbliu@gmail.com').map{|x| x.registration_id}
 		# registration_ids = NotificationClient.all.map{|x| x.registration_id}
 		gcm = GCM.new(ENV["GOOGLE_PUSH_API_KEY"])
@@ -11,7 +11,7 @@ class NotificationClient < ParseResource::Base
 		
 		# puts 'pushing a notification out to '+registration_ids.to_s
 		# puts 'using the key '+ENV['GOOGLE_PUSH_API_KEY']
-		options = options = {data: {id: SecureRandom.hex.to_s, title: 'PBL Link Notifier', message: message, type:'links', key:link}, collapse_key: "updated_score"}
+		options = options = {data: {id: SecureRandom.hex.to_s, title: title, message: message + ' at: ' + Time.now.to_s, type:'links', key:link}, collapse_key: "updated_score"}
 		response = gcm.send(registration_ids, options)
 		return response
 	end

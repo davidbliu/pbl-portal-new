@@ -61,6 +61,7 @@ Portal::Application.routes.draw do
   post 'go/add', to:'go#add'
   post 'go/delete', to:'go#delete'
   post 'go/edit', to:'go#edit'
+  post 'go/edit_description', to:'go#edit_description'
   get 'go/sharing_center', to:'go#sharing_center'
   post 'go/share', to:'go#share'
   get 'go/dashboard', to:'go#dashboard'

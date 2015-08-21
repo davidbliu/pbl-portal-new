@@ -6,7 +6,6 @@ class ParseGoLinkClick < ParseResource::Base
 		# keys are ids, values are num clicks
 		hist = Hash.new
 		ParseGoLinkClick.limit(100000).all.each do |click|
-			puts click.golink_id
 			if click.golink_id and click.golink_id != '' and not hist.keys.include?(click.golink_id)
 				hist[click.golink_id] = 0
 			end
@@ -15,6 +14,19 @@ class ParseGoLinkClick < ParseResource::Base
 			end
 		end
 		return hist
+	end
+
+	def self.hash
+		h = Hash.new
+		ParseGoLinkClick.limit(100000).all.each do |click|
+			if click.golink_id and click.golink_id != '' and not h.keys.include?(click.golink_id)
+				h[click.golink_id] = Array.new
+			end
+			if click.golink_id and click.golink_id != ''
+				h[click.golink_id] << click
+			end
+		end
+		return h
 	end
 
 	def get_time

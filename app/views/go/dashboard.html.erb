@@ -1,1 +1,102 @@
-<h1 style = 'text-align:center'>Dashboard</h1>
+<style type = 'text/css'>
+.golink-type-image{
+  height:15px;
+}
+/* go links styles*/
+.link-row>.golink-type-td>{
+  width:5%;
+  overflow:hidden;
+  max-width:20px;
+}
+
+.link-row>.golink-key-td{
+  width:20%;
+  max-width: 200px;
+  overflow:hidden;
+}
+.link-row>.golink-description-td{
+  width:20%;
+  max-width:300px;
+  overflow:hidden;
+}
+
+/*search styles*/
+#custom-search-input{
+    /*padding: 3px;*/
+    margin-top:25px;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+    width:50%;
+    text-align:center;
+    display:inline-block;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+    padding-bottom:0px;
+    width:100%;
+    text-align:center;
+}
+#search-input-group{
+  text-align:center;
+  width:100%;
+}
+
+</style>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+<h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Dashboard</h1>
+
+<div id = 'outer' style ='width:100%;text-align:center'>
+ <div id="custom-search-input">
+      <div id = 'search-input-group' class="input-group">
+          <input id = 'search-input' type="text" class="input-lg" placeholder="Search the dashboard" />
+      </div>
+  </div>
+</div>
+
+
+  <div style = 'clear:both; height:25px'></div>
+
+<table class = 'table table-hover table-condensed'>
+	<thead>
+		<tr>
+			<th></th>
+			<th>Key <a href = '/go/dashboard?sort_by=key'><i class="fa fa-fw fa-sort" id = 'key-sort'></i></a></th>
+			<th>Description</th>
+			<th>Added By</th>
+			<th>Last Updated <a href = '/go/dashboard'><i class="fa fa-fw fa-sort" id = 'updatedAt-sort'></i></a></th>
+			<th>Shared With</th>
+			<th>Views <a href = '/go/dashboard?sort_by=views'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
+		</tr>
+	</thead>
+	<tbody>
+	<% @golinks.select{|x| x.can_view(current_member)}.each do |golink| %>
+	<tr class = 'link-row' id = '<%= golink.parse_id %>-row'>
+		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
+		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.id %>' target="_blank"><%= golink.key %></a>
+		</td> 
+		<td class = 'golink-description-td'>
+			<%= golink.description %>
+		</td>
+		<td><%= golink.member_email %></td>
+		<td><%= golink.updated_at.split('T')[0] %></td>
+		<td><%= golink.get_permissions %></td>
+		<td><a href = '#'>13</a></td>
+
+
+	</tr>
+	<% end %>
+	</tbody>
+</table>
+
+
+<%= will_paginate @golinks %>
+
+
+<script type = 'text/javascript'>
+
+
+</script>

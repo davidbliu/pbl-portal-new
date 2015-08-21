@@ -21,6 +21,28 @@ namespace :go_links do
 		# end
 		# puts 'created '+GoLink.all.length.to_s + ' go links!'
 	end
+	task :popular_links => :environment do
+		h = ParseGoLinkClick.hash
+		h.keys.each do |id|
+			clicks = h[id]
+			popular = PopularLink.where(parse_id:id).to_a
+			begin
+				golink = ParseGoLink.find(id)
+			rescue
+				puts 'deleted'
+			end
+			puts golink.key
+			if popular.length > 0
+				popular = popular[0]
+				puts popular
+				puts 'that was popular'
+				popular.num_clicks = clicks.length
+				popular.save
+			else
+				popular = PopularLink.create(parse_id: id, num_clicks: clicks.length, key: golink.key)
+			end
+		end
+	end
 end 
 
 

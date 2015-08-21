@@ -31,12 +31,13 @@
 }
 #custom-search-input{
     /*padding: 3px;*/
-    margin-top:25px;
     border: solid 1px #E4E4E4;
     border-radius: 6px;
     background-color: #fff;
-    max-width:100%;
+    max-width:50%;
     text-align:center;
+    clear:both;
+    display:inline-block;
 }
 
 #custom-search-input input{
@@ -97,6 +98,31 @@
   display:none;
 }
 
+.filter-button{
+    border-radius: 5px;
+    padding: 7px;
+    box-shadow: none;
+    /*background-color: rgba(0, 0, 0, 0.1);*/
+    /*background-color:white;*/
+    background-color:#eee;
+    /*border:1px solid rgba(0,0,0,0.1);*/
+    border: none;
+    margin-top: 10px;
+}
+
+#page-card-container{
+  clear:both;
+  display:inline-block;
+}
+.page-card{
+  padding:15px;
+  float:left;
+  text-align:center;
+  margin:10px;
+}
+.page-card>a{
+  color:black;
+}
 </style>
 
 <!--  -->
@@ -113,17 +139,55 @@
 
   <h1><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> PBL Links</h1>
 
-  <h4><a href = '/go/guide'>Guide</a></h4>
-  <h4><a href = '/go/my_links'>My Links</a></h4>
-  <h4><a href = '/go/popular'>Popular Links</a></h4>
-  <h4><a id = 'recent-link' href = 'javascript:void(0)'>Recently Visited</a></h4>
-  <h4><a href = '/go/add_landing_page'>Add a Link</a></h4>
-  <h4><a href = '/go/sharing_center'>Share</a></h4>
+  <div id = 'page-card-container'>
+    <div class = 'page-card'>
+      <a href = '/go/guide'>
+      <div><i class = 'mdi-action-info'></i></div>
+      <div><span>Guide</span></div>
+      </a>
+    </div>
+
+
+    <div class = 'page-card'>
+      <a href = '/go/my_links'>
+      <div><i class = 'mdi-action-face-unlock'></i></div>
+      <div><span>My Links</span></div>
+      </a>
+    </div>
+   
+    <div class = 'page-card'>
+      <a href = '/go/add_landing_page'>
+      <div><i class = 'mdi-content-add-circle'></i></div>
+      <div><span>Add</span></div>
+      </a>
+    </div>
+    <div class = 'page-card'>
+      <a href = '/go/sharing_center'>
+      <div><i class = 'mdi-social-share'></i></div>
+      <div><span>Share</span></div>
+      </a>
+    </div>
+
+
+    <div class = 'page-card'>
+      <a href = '/go/dashboard'>
+      <div><i class = 'mdi-action-dashboard'></i></div>
+      <div><span>Dashboard</span></div>
+      </a>
+    </div>
+  </div>
+
+  <div style = 'clear:both;height:1px'></div>
 
   <div id="custom-search-input" class = 'card'>
       <div id = 'search-input-group' class="input-group">
           <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" <% if @search_term %>value = '<%= @search_term %>'<% end %> />
       </div>
+  </div>
+
+  <div class = 'button-container'>
+  <button class = 'filter-button'>Popular Links</button>
+  <button class = 'filter-button' id = 'recent-link'>Recently Visited</button>
   </div>
 
 </div>

@@ -10,16 +10,18 @@
 }
 
 .link-row>.golink-key-td{
-  width:50%;
+  width:25%;
   max-width: 200px;
   overflow:hidden;
 }
 .link-row>.golink-description-td{
-  width:50%;
+  width:40%;
   max-width:300px;
   overflow:hidden;
 }
-
+.description-input{
+	min-width:300px;
+}
 
 </style>
 <h3>Links</h3>
@@ -30,21 +32,46 @@
 			<th>Key</th>
 			<th>Description</th>
 			<th>Added By</th>
+			<th>Shared With</th>
+			<th>Views</th>
 		</tr>
 	</thead>
 	<tbody>
 	<% @golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.parse_id %>-row'>
 		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
-		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id %>' target="_blank"><%= golink.key %></a>
+		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id %>' target="_blank" id = '<%= golink.parse_id %>-key'><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'>
-			<%= golink.description %>
+			<input data-id = '<%= golink.parse_id %>' class = 'form-control description-input edit-input' value = '<%= golink.description %>' placeholder = 'enter a description'/>
 		</td>
-		<td><%= golink.member_email %></td>
+		<td><%= golink.get_creator %></td>
+		<td><%= golink.get_permissions %></td>
+		<td>13</td>
 
 
 	</tr>
 	<% end %>
 	</tbody>
 </table>
+
+<script type = 'text/javascript'>
+$('.description-input').keypress(function(e){
+	if(e.which == 13) {
+        id = $(this).attr('data-id');
+        $(this).fadeOut(100).fadeIn(100);
+        $.ajax({
+	      url: '/go/edit_description',
+	      type: 'POST',
+	      data: {'id':id, 'description':$(this).val()},
+	      success:function(data){
+	      	console.log('succeeded');
+	      },
+	      error:function (xhr, textStatus, thrownError){
+	        alert('failed');
+	      }
+	  });    
+    }
+});
+
+</script>

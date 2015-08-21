@@ -66,6 +66,20 @@ class GoController < ApplicationController
 		render nothing: true, status:200
 	end
 
+	def edit_description
+		golink = ParseGoLink.find(params[:id])
+		golink.description = params[:description]
+		# reflect changes in GoLink so appears in search
+		gl = GoLink.where(parse_id:golink.id)
+		if gl.length > 0
+			gl = gl.first
+			gl.description = params[:description]
+			gl.save
+		end
+		golink.save
+		render nothing: true, status:200
+	end
+
 	def my_recent
 		@golinks = Array.new
 		seen = Array.new
@@ -127,7 +141,12 @@ class GoController < ApplicationController
 	end
 
 	def dashboard
-
+		page = params[:page] ? params[:page] : 1
+		sort_by = (params[:sort_by] and params[:sort_by] != 'views') ? params[:sort_by] : 'updatedAt desc'
+		if params[:sort_by] == 'views'
+			puts 'cannot sort by views yet'
+		end
+		@golinks = ParseGoLink.order(sort_by).page(page).per(100)
 	end
 
 
@@ -193,7 +212,7 @@ class GoController < ApplicationController
 		message = params[:message]
 		link = params[:link]
 		recipients = params[:recipients]
-		message = NotificationClient.push(recipients.split(','), message, link)
+		message = NotificationClient.push(recipients.split(','), current_member.name + ' sent ' +link,  message, link)
 		render json: message, status:200
 	end
 
