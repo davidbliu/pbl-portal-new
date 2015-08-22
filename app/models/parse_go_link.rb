@@ -5,7 +5,7 @@ class ParseGoLink < ParseResource::Base
 
 
 	def get_rating
-		self.rating ? self.rating : 0
+		(self.rating and self.rating > 0) ? self.rating : 0
 	end
 
 	def get_votes

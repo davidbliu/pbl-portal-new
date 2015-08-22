@@ -26,7 +26,7 @@
 	min-width:300px;
 }
 .vote-btn{
-	font-size:13px;
+	/*font-size:13px;*/
 }
 .vote-btn:hover{
 	cursor:pointer;
@@ -34,40 +34,52 @@
 .golink-vote-td{
 	width:50px;
 }
+.editing{
+	opacity:0.5;
+}
+.golink-creator:hover{
+	cursor:pointer;
+	text-decoration: underline;
+}
 </style>
 <table class = 'table table-hover table-condensed'>
 	<thead>
 		<tr>
+			<th>Rating</th>
 			<th></th>
 			<th>Key</th>
 			<th>Description</th>
 			<th>Added By</th>
 			<th>Shared With</th>
 			<th>Views</th>
-			<th>Rating</th>
-			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
 	<% golinks.each do |golink| %>
 	<tr class = 'link-row' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-row'>
+		<td class = 'golink-rating-td'>
+			<span data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote' class = 'mdi-navigation-arrow-drop-up vote-btn'></span><span id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-span'><%= golink.get_rating %></span><span class = 'mdi-navigation-arrow-drop-down vote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span>
+		</td>
 		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
 		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id ? golink.parse_id : golink.id  %>' target="_blank" id = '<%= golink.parse_id ? golink.parse_id : golink.id  %>-key'><%= golink.key %></a>
 		</td> 
 		<td class = 'golink-description-td'>
 			<input data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' class = 'form-control description-input edit-input' value = '<%= golink.description %>' placeholder = 'enter a description'/>
 		</td>
-		<td><%= golink.get_creator %></td>
+		<td class = 'golink-creator-td'><div class = 'golink-creator' data-email = '<%= golink.member_email %>'><%= golink.get_creator %></div></td>
 		<td><%= golink.get_permissions %></td>
 		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
-		<td class = 'golink-rating-td' id = '<%= golink.parse_id ? golink.parse_id : id %>-rating-td'><%= golink.get_rating %>, <%= golink.get_votes %> votes</td>
-		<td class = 'golink-vote-td'><span class = 'vote-btn mdi-action-thumb-up upvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote'></span> <span class = 'vote-btn mdi-action-thumb-down downvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span></td>
+		<!-- <td class = 'golink-rating-td' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-td'><%= golink.get_rating %>, <%= golink.get_votes %> votes</td> -->
+		<!-- <td class = 'golink-vote-td'><span class = 'vote-btn mdi-action-thumb-up upvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote'></span> <span class = 'vote-btn mdi-action-thumb-down downvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span></td> -->
 	</tr>
 	<% end %>
 	</tbody>
 </table>
 
 <script type = 'text/javascript'>
+
+
+
 $('.description-input').keypress(function(e){
 	if(e.which == 13) {
         id = $(this).attr('data-id');
@@ -89,14 +101,28 @@ $('.description-input').keypress(function(e){
 $('.vote-btn').click(function(){
 	id = $(this).attr('data-id');
 	type = $(this).attr('data-vote');
-	$(this).fadeOut(100).fadeIn(100);
+	$('#'+id+'-row').fadeOut(100).fadeIn(100);
+
+	rating = parseInt($('#'+id+'-rating-span').text());
+	if(type == 'upvote'){
+		rating += 1;
+	}	
+	else{
+		rating -= 1;
+	}
+	$('#' + id + '-rating-span').text(rating);
+	that = $('#' + id + '-rating-span');
+	$(that).addClass('editing');
 	$.ajax({
       url: '/go/vote',
       type: 'POST',
       data: {'id':id, 'type':type},
       success:function(data){
         // console.log('voted');
-        $('#' + id + '-rating-td').text(data);
+        $(that).text(data);
+        if($(that).hasClass('editing')){
+        	$(that).removeClass('editing');
+        }
         console.log(data);
       },
       error:function (xhr, textStatus, thrownError){

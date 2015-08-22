@@ -47,7 +47,7 @@
 </style>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-<h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Dashboard</h1>
+<!-- <h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Dashboard</h1> -->
 
 <!-- <div id = 'outer' style ='width:100%;text-align:center'>
  <div id="custom-search-input">
@@ -59,17 +59,18 @@
 
  -->
 
-
+<h3>All Links</h3>
 <table class = 'table table-hover table-condensed'>
 	<thead>
 		<tr>
 			<th></th>
-			<th>Key <a href = '/go/dashboard?sort_by=key'><i class="fa fa-fw fa-sort" id = 'key-sort'></i></a></th>
+			<th>Key <a href = '/go/dashboard?sort_by=key' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'key-sort'></i></a></th>
 			<th>Description</th>
 			<th>Added By</th>
-			<th>Last Updated <a href = '/go/dashboard'><i class="fa fa-fw fa-sort" id = 'updatedAt-sort'></i></a></th>
+			<th>Last Updated <a href = '/go/dashboard' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'updatedAt-sort'></i></a></th>
 			<th>Shared With</th>
-			<th>Views <a href = '/go/dashboard?sort_by=views'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
+			<th>Views <a href = '/go/dashboard?sort_by=views' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
+      <th>Rating <a href = '/go/dashboard?sort_by=rating desc' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -85,6 +86,7 @@
 		<td><%= golink.updated_at.split('T')[0] %></td>
 		<td><%= golink.get_permissions %></td>
 		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
+    <td><%= golink.get_rating %></td>
 
 
 	</tr>

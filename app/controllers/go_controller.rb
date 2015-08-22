@@ -165,7 +165,7 @@ class GoController < ApplicationController
 			sort_by = 'num_clicks desc'
 		end
 		@golinks = ParseGoLink.order(sort_by).page(page).per(100)
-		render 'dashboard'
+		render 'dashboard', layout: false
 	end
 
 
@@ -178,7 +178,7 @@ class GoController < ApplicationController
 			ParseGoLinkRating.downvote_link(id, current_member.email)
 		end
 		golink = ParseGoLink.find(id)
-		render text: golink.rating.to_s + ', ' + golink.votes.to_s + ' votes'
+		render text: golink.get_rating.to_s
 	end
 	def index
 		# TODO: accept id as input and redirect to url
