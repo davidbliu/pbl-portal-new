@@ -128,14 +128,17 @@ function getUnique(array){
 }
 
 $('.description-input').focus( function() {
+  $('.tag-container').each(function(){
+  	$(this).hide();
+  });
   id = $(this).attr('data-id');
   $('#'+id+'-tag-container').show();
 });
 
-$('input').blur( function() {
-  id = $(this).attr('data-id');
-  $('#'+id+'-tag-container').hide();
-});
+// $('link-row').blur( function() {
+//   id = $(this).attr('data-id');
+//   $('#'+id+'-tag-container').hide();
+// });
 
 $('.description-input').keypress(function(e){
 	if(e.which == 13) {
