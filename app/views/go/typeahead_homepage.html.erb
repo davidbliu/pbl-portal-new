@@ -111,63 +111,16 @@
 </style>
 
 
+
+
 <div style = 'text-align:center'>
+<%= render partial: 'pbl_links_nav' %>
 
 
-  <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <!-- <h4 class="modal-title" id="myModalLabel">PBL Links Guide</h4> -->
-      </div>
-      <div class="modal-body">
-        <img src = '/assets/pbl-links-guide.png' style = 'width:100%'></img>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
   <h1><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> PBL Links</h1>
 
-  <div id = 'page-card-container'>
-    <div class = 'page-card'>
-      <a href = 'javascript:void(0);' data-toggle="modal" data-target="#myModal">
-      <div><i class = 'mdi-action-help'></i></div>
-      <div><span>Guide</span></div>
-      </a>
-    </div>
-
-
-    <div class = 'page-card'>
-      <a href = '/go/my_links'>
-      <div><i class = 'mdi-action-face-unlock'></i></div>
-      <div><span>My Links</span></div>
-      </a>
-    </div>
-   
-    <div class = 'page-card'>
-      <a href = '/go/add_landing_page'>
-      <div><i class = 'mdi-content-add-circle'></i></div>
-      <div><span>Add</span></div>
-      </a>
-    </div>
-    <div class = 'page-card'>
-      <a href = '/go/sharing_center'>
-      <div><i class = 'mdi-social-share'></i></div>
-      <div><span>Share</span></div>
-      </a>
-    </div>
-
   
-
-
-    
-  </div>
 
   <div style = 'clear:both;height:1px'></div>
 
