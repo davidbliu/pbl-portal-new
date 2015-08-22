@@ -77,16 +77,8 @@ class GoController < ApplicationController
 	end
 	def edit
 
-		description, tags = get_description_tags(params[:description])
 		golink = ParseGoLink.find(params[:id])
-		golink.description = description
-		if tags 
-			prev_tags = golink.tags ? golink.tags : []
-			tags.push(*prev_tags)
-			tags = Set.new(tags).to_a
-			golink.tags = tags
-		end
-
+		description = params[:description]
 		golink.key = params[:key]
 		golink.description = description
 		golink.permissions=params[:permissions]
@@ -118,7 +110,7 @@ class GoController < ApplicationController
 		if gl.length > 0
 			gl = gl.first
 			gl.description = description
-			gl.tags = tags.to_a
+			gl.tags = tags
 			gl.save
 		end
 		golink.save
