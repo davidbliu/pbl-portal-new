@@ -30,8 +30,6 @@ class GoController < ApplicationController
 		@permissions = params[:permissions]
 		email = current_member ? current_member.email : nil
 		golink = ParseGoLink.create(url:@url, key: @key, description: @description, permissions:@permissions, member_email:email)
-		GoJobQueue.create_job("elasticsearch:reindex")
-		GoJobQueue.create_job("memcached:cache_golinks")
 		# reflect changes in GoLink so appears in search
 		gl = GoLink.new(key: @key, description: @description, member_email: email, permissions: @permissions, url: @url)
 		gl.parse_id = golink.id
@@ -190,6 +188,7 @@ class GoController < ApplicationController
 				golink = golinks[0]
 				Thread.new{
 					golink.log_view(current_member)
+					ActiveRecord::Base.connection.close
 				}
 				redirect_to golink.url
 			end
@@ -205,6 +204,7 @@ class GoController < ApplicationController
 		email = current_member ? current_member.email : ''
 		Thread.new{
 			golink.log_view(current_member)
+			ActiveRecord::Base.connection.close
 		}
 		redirect_to golink.url
 	end
