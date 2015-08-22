@@ -1,9 +1,16 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
-	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id
+	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes
 
 
+	def get_rating
+		self.rating ? self.rating : 0
+	end
+
+	def get_votes
+		self.votes ? self.votes : 0
+	end
 
 	def log_view(member)
 		click = ParseGoLinkClick.new
@@ -325,7 +332,8 @@ class ParseGoLink < ParseResource::Base
 		results.each do |result|
 			data =  result._source
 			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
-				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'])
+				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
+				rating: data['rating'], votes: data['votes'])
 			#, member_email: data['member_email'],
 				# permissions:data['permissions'])#
 		end

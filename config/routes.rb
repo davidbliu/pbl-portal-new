@@ -67,6 +67,7 @@ Portal::Application.routes.draw do
   post 'go/share', to:'go#share'
   get 'go/dashboard', to:'go#dashboard'
   get 'go/popular', to:'go#popular'
+  post 'go/vote', to:'go#vote'
 
   get 'go/quick_add', to:'go#quick_add'
 

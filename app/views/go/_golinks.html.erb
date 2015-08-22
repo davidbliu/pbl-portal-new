@@ -19,10 +19,21 @@
   max-width:300px;
   overflow:hidden;
 }
+.link-row>.golink-rating-td{
+	width:10%;
+}
 .description-input{
 	min-width:300px;
 }
-
+.vote-btn{
+	font-size:13px;
+}
+.vote-btn:hover{
+	cursor:pointer;
+}
+.golink-vote-td{
+	width:50px;
+}
 </style>
 <table class = 'table table-hover table-condensed'>
 	<thead>
@@ -33,6 +44,8 @@
 			<th>Added By</th>
 			<th>Shared With</th>
 			<th>Views</th>
+			<th>Rating</th>
+			<th>Actions</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -47,6 +60,8 @@
 		<td><%= golink.get_creator %></td>
 		<td><%= golink.get_permissions %></td>
 		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
+		<td class = 'golink-rating-td' id = '<%= golink.parse_id ? golink.parse_id : id %>-rating-td'><%= golink.get_rating %>, <%= golink.get_votes %> votes</td>
+		<td class = 'golink-vote-td'><span class = 'vote-btn mdi-action-thumb-up upvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote'></span> <span class = 'vote-btn mdi-action-thumb-down downvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span></td>
 	</tr>
 	<% end %>
 	</tbody>
@@ -69,6 +84,25 @@ $('.description-input').keypress(function(e){
 	      }
 	  });    
     }
+});
+
+$('.vote-btn').click(function(){
+	id = $(this).attr('data-id');
+	type = $(this).attr('data-vote');
+	$(this).fadeOut(100).fadeIn(100);
+	$.ajax({
+      url: '/go/vote',
+      type: 'POST',
+      data: {'id':id, 'type':type},
+      success:function(data){
+        // console.log('voted');
+        $('#' + id + '-rating-td').text(data);
+        console.log(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed to register vote');
+      }
+  });
 });
 
 </script>

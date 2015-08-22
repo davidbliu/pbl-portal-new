@@ -1,6 +1,6 @@
 require 'elasticsearch/model'
 class GoLink < ActiveRecord::Base
-	attr_accessible :key, :url, :description, :permissions, :member_email
+	attr_accessible :key, :url, :description, :permissions, :member_email, :rating, :votes
 	include Elasticsearch::Model
 	include Elasticsearch::Model::Callbacks
 
