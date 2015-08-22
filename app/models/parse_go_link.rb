@@ -1,8 +1,12 @@
 require 'timeout'
 class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
-	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes
+	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes, :tags
 
+
+	def get_parse_id
+		return self.parse_id ? self.parse_id : self.id
+	end
 
 	def get_rating
 		(self.rating and self.rating > 0) ? self.rating : 0
@@ -10,6 +14,18 @@ class ParseGoLink < ParseResource::Base
 
 	def get_votes
 		self.votes ? self.votes : 0
+	end
+
+	def get_tags
+		self.tags ? self.tags : []
+	end
+
+	def add_tag(tag)
+		# add to self array of tags
+		# add to tag histogram
+	end
+
+	def remove_tag(tag)
 	end
 
 	def log_view(member)
@@ -307,6 +323,7 @@ class ParseGoLink < ParseResource::Base
 			gl.member_id = pgl.member_id
 			gl.permissions = pgl.permissions
 			gl.member_email = pgl.member_email
+			gl.tags = pgl.tags
 			if parse_text_hash_keys.include?(pgl.id)
 				gl.text = parse_text_hash[pgl.id].text
 			else
@@ -319,11 +336,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.search(search_term)
-		#TODO dont include search items for deleted links
-		# results =GoLink.search(search_term)
-		# results = GoLink.search(query: {match: {_all: {query: search_term, fuzziness: 1}}}, :size => 100).results
-		# search_term  = '*' + search_term + '*'
-		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'tags^2', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
 		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
 		# query = { "fuzzy" => { "key" => search_term }}
 		# query = search_term
@@ -333,9 +346,21 @@ class ParseGoLink < ParseResource::Base
 			data =  result._source
 			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
 				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
-				rating: data['rating'], votes: data['votes'])
+				rating: data['rating'], votes: data['votes'], tags: data['tags'])
 			#, member_email: data['member_email'],
 				# permissions:data['permissions'])#
+		end
+		return golinks
+	end
+
+	def self.tag_search(search_term)
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['tags'], fuzziness:0}}, :size=>10000).results
+		golinks = Array.new
+		results.each do |result|
+			data =  result._source
+			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
+				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
+				rating: data['rating'], votes: data['votes'], tags: data['tags'])
 		end
 		return golinks
 	end

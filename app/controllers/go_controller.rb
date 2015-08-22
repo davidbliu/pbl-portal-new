@@ -62,10 +62,33 @@ class GoController < ApplicationController
 		render nothing:true, status:200
 	end
 
+	def get_description_tags(desc)
+		description = desc
+		tags = nil
+		if desc and desc.include?('#')
+			split = desc.split('#')
+			# puts 'this is the split: ' + split.to_s
+			description = split[0].strip
+			tags = split[1..split.length].map{|x| x.strip}
+			# puts 'description was '+description
+			# puts 'these are tags '+tags.to_s
+		end
+		return [description, tags]
+	end
 	def edit
+
+		description, tags = get_description_tags(params[:description])
 		golink = ParseGoLink.find(params[:id])
+		golink.description = description
+		if tags 
+			prev_tags = golink.tags ? golink.tags : []
+			tags.push(*prev_tags)
+			tags = Set.new(tags).to_a
+			golink.tags = tags
+		end
+
 		golink.key = params[:key]
-		golink.description = params[:description]
+		golink.description = description
 		golink.permissions=params[:permissions]
 		golink.url = params[:url]
 		# reflect changes in GoLink so appears in search
@@ -73,7 +96,7 @@ class GoController < ApplicationController
 		if gl.length > 0
 			gl = gl.first
 			gl.key = params[:key]
-			gl.description = params[:description]
+			gl.description = description
 			gl.permissions = params[:permissions]
 			gl.url = params[:url]
 			gl.save
@@ -83,13 +106,19 @@ class GoController < ApplicationController
 	end
 
 	def edit_description
+
+		# description, tags = get_description_tags(params[:description])
+		description = params[:description]
+		tags = params[:tags].split(',')
 		golink = ParseGoLink.find(params[:id])
-		golink.description = params[:description]
+		golink.description = description
+		golink.tags = tags
 		# reflect changes in GoLink so appears in search
 		gl = GoLink.where(parse_id:golink.id)
 		if gl.length > 0
 			gl = gl.first
-			gl.description = params[:description]
+			gl.description = description
+			gl.tags = tags.to_a
 			gl.save
 		end
 		golink.save
@@ -109,7 +138,7 @@ class GoController < ApplicationController
 		# sort the golinks by their position in seeen
 		go_hash = golinks.index_by(&:parse_id)
 		puts go_hash.keys
-		puts seen
+		# puts seen
 		@golinks = seen.map{|x| go_hash[x]}.select{|x| x != nil}.map{|x| x.to_parse}.reverse
 		render 'my_recent', layout:false
 	end
@@ -129,11 +158,28 @@ class GoController < ApplicationController
 
 	def ajax_search
 		puts params[:q]
-		# @golinks = cached_golinks.select{|x| x.key.include?(params[:q])}
-		@golinks = ParseGoLink.search(params[:q])
+		puts 'this is params '
+		if params[:q].include?('#')
+			puts 'search tags for ' + params[:q].gsub('#', '')
+			@golinks = ParseGoLink.tag_search(params[:q].gsub('#', ''))
+		else
+			@golinks = ParseGoLink.search(params[:q])
+		end
 		@golinks = @golinks.select{|x| x.can_view(current_member)}
+		page = params[:page] ? params[:page] : 1
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 		render 'ajax_search', layout: false
 	end
+
+	def tag_search
+		puts params[:q]
+		@golinks = ParseGoLink.tag_search(params[:q])
+		@golinks = @golinks.select{|x| x.can_view(current_member)}
+		page = params[:page] ? params[:page] : 1
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		render 'ajax_search', layout: false
+	end
+
 	def dalli_client
 		options = { :namespace => "app_v1", :compress => true }
     	dc = Dalli::Client.new(ENV['MEMCACHED_HOST'], options)

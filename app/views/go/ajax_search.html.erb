@@ -1,2 +1,5 @@
 <h3>Search Results</h3>
+
 <%= render partial: 'golinks', locals: {golinks: @golinks} %>
+
+<%= will_paginate @golinks %>

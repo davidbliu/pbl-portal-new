@@ -41,55 +41,133 @@
 	cursor:pointer;
 	text-decoration: underline;
 }
+.tag-delete-link{
+	margin-left:3px;
+	color:white !important;
+}
 </style>
-<table class = 'table table-hover table-condensed'>
-	<thead>
-		<tr>
-			<th>Rating</th>
-			<th></th>
-			<th>Key</th>
-			<th>Description</th>
-			<th>Added By</th>
-			<th>Shared With</th>
-			<th>Views</th>
+<% if golinks.length == 0 %>
+<p>No results</p>
+<% else %>
+
+	<table class = 'table table-hover table-condensed'>
+		<thead>
+			<tr>
+				<th>Rating</th>
+				<th></th>
+				<th>Key</th>
+				<th>Description</th>
+				<th>Added By</th>
+				<th>Shared With</th>
+				<th>Views</th>
+			</tr>
+		</thead>
+		<tbody>
+		<% golinks.each do |golink| %>
+		<tr class = 'link-row' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-row'>
+			<td class = 'golink-rating-td'>
+				<span data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote' class = 'mdi-navigation-arrow-drop-up vote-btn'></span><span id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-span'><%= golink.get_rating %></span><span class = 'mdi-navigation-arrow-drop-down vote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span>
+			</td>
+			<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
+			<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id ? golink.parse_id : golink.id  %>' target="_blank" id = '<%= golink.parse_id ? golink.parse_id : golink.id  %>-key'><%= golink.key %></a>
+			</td> 
+			<td class = 'golink-description-td'>
+				<input id = '<%= golink.get_parse_id %>-description-input' data-tags = '<%= golink.tags ? golink.tags.join(',') : '' %>' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' class = 'form-control description-input edit-input' value = '<%= golink.description %>' placeholder = 'enter a description'/>
+				<div id = '<%= golink.get_parse_id %>-tag-container'><% if golink.tags %><% golink.tags.each do |tag| %><div class = 'label label-default tag-label' data-tag = '<%= tag %>'><%= tag %><a href = 'javascript:void(0)' class = 'tag-delete-link' data-id = '<%= golink.get_parse_id %>' data-tag = '<%= tag %>'>x</a></div><% end %><% end %></div>
+			</td>
+			<td class = 'golink-creator-td'><div class = 'golink-creator' data-email = '<%= golink.member_email %>'><%= golink.get_creator %></div></td>
+			<td><%= golink.get_permissions %></td>
+			<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
+			<!-- <td class = 'golink-rating-td' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-td'><%= golink.get_rating %>, <%= golink.get_votes %> votes</td> -->
+			<!-- <td class = 'golink-vote-td'><span class = 'vote-btn mdi-action-thumb-up upvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote'></span> <span class = 'vote-btn mdi-action-thumb-down downvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span></td> -->
 		</tr>
-	</thead>
-	<tbody>
-	<% golinks.each do |golink| %>
-	<tr class = 'link-row' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-row'>
-		<td class = 'golink-rating-td'>
-			<span data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote' class = 'mdi-navigation-arrow-drop-up vote-btn'></span><span id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-span'><%= golink.get_rating %></span><span class = 'mdi-navigation-arrow-drop-down vote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span>
-		</td>
-		<td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(golink.resolve_type) %>'></img></td>
-		<td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.parse_id ? golink.parse_id : golink.id  %>' target="_blank" id = '<%= golink.parse_id ? golink.parse_id : golink.id  %>-key'><%= golink.key %></a>
-		</td> 
-		<td class = 'golink-description-td'>
-			<input data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' class = 'form-control description-input edit-input' value = '<%= golink.description %>' placeholder = 'enter a description'/>
-		</td>
-		<td class = 'golink-creator-td'><div class = 'golink-creator' data-email = '<%= golink.member_email %>'><%= golink.get_creator %></div></td>
-		<td><%= golink.get_permissions %></td>
-		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
-		<!-- <td class = 'golink-rating-td' id = '<%= golink.parse_id ? golink.parse_id : golink.id %>-rating-td'><%= golink.get_rating %>, <%= golink.get_votes %> votes</td> -->
-		<!-- <td class = 'golink-vote-td'><span class = 'vote-btn mdi-action-thumb-up upvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'upvote'></span> <span class = 'vote-btn mdi-action-thumb-down downvote-btn' data-id = '<%= golink.parse_id ? golink.parse_id : golink.id %>' data-vote = 'downvote'></span></td> -->
-	</tr>
-	<% end %>
-	</tbody>
-</table>
-
+		<% end %>
+		</tbody>
+	</table>
+<% end %>
 <script type = 'text/javascript'>
+activateTagFilter();
+function removeTags(){
+	$('.tag-delete-link').click(function(){
+		id = $(this).attr('data-id');
+		tag = $(this).attr('data-tag');
+		description = $('#' + id + '-description-input').val().split('#')[0];
+		tags = $('#' + id + '-description-input').attr('data-tags').split(',');
+		index = tags.indexOf(tag);
+		if(index != -1){
+			tags.splice(index, 1);
+		}
+		$('#' + id + '-description-input').attr('data-tags', tags.join(','));
+		console.log(tags);
+		console.log(description);
+		console.log(id);
+		$(this).parent().remove();
+		$.ajax({
+		      url: '/go/edit_description',
+		      type: 'POST',
+		      data: {'id':id, 'tags':tags.join(','), 'description': description},
+		      success:function(data){
+		      	console.log('succeeded');
+		      },
+		      error:function (xhr, textStatus, thrownError){
+		        alert('failed');
+		      }
+		  }); 
+	});
+}
+removeTags();
 
-
-
+function getUnique(array){
+	var uniqueArray = array.filter(function(elem, pos) {
+    return array.indexOf(elem) == pos;
+  }); 
+	return uniqueArray;
+}
 $('.description-input').keypress(function(e){
 	if(e.which == 13) {
         id = $(this).attr('data-id');
+        tags = $(this).attr('data-tags').split(',');
+        description = $(this).val();
+        if (description.indexOf('#') != -1){
+        	splits = description.split('#');
+	        description = splits[0];
+	        for (var i = 1; i< splits.length;i++){
+	        	tags.push(splits[i].trim());
+	        }
+        }
+        tags = getUnique(tags);
+        tag_container = $('#'+id+'-tag-container');
+        tag_container.html('');
+        tag_container.attr('data-tags', tags.join(','));
+        for(var i=0;i<tags.length;i++){
+        	if(tags[i] == ''){
+        		continue;
+        	}
+        	tag_div = document.createElement('div');
+        	$(tag_div).addClass('label');
+        	$(tag_div).addClass('label-default');
+        	$(tag_div).addClass('tag-label');
+        	// $(tag_div).attr('id', id + tags[i] + '-tag')
+        	$(tag_div).text(tags[i]);
+        	$(tag_div).attr('data-tag', tags[i]);
+        	tag_delete_link = document.createElement('a');
+        	$(tag_delete_link).attr('data-tag', tags[i]);
+        	$(tag_delete_link).attr('data-id', id);
+        	$(tag_delete_link).addClass('tag-delete-link');
+        	$(tag_delete_link).text('x');
+        	$(tag_div).append(tag_delete_link);
+        	tag_container.append(tag_div);
+        }
+        $(this).val(description);
         $(this).fadeOut(100).fadeIn(100);
         $.ajax({
 	      url: '/go/edit_description',
 	      type: 'POST',
-	      data: {'id':id, 'description':$(this).val()},
+	      data: {'id':id, 'description':description, 'tags' : tags.join(',')},
 	      success:function(data){
 	      	console.log('succeeded');
+	      	removeTags();
+	      	activateTagFilter();
 	      },
 	      error:function (xhr, textStatus, thrownError){
 	        alert('failed');

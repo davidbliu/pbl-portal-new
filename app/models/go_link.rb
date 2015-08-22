@@ -1,6 +1,7 @@
 require 'elasticsearch/model'
 class GoLink < ActiveRecord::Base
-	attr_accessible :key, :url, :description, :permissions, :member_email, :rating, :votes
+	attr_accessible :key, :url, :description, :permissions, :member_email, :rating, :votes, :tags
+	serialize :tags
 	include Elasticsearch::Model
 	include Elasticsearch::Model::Callbacks
 
@@ -8,7 +9,7 @@ class GoLink < ActiveRecord::Base
 
 	def to_parse
 		ParseGoLink.new(parse_id: self.parse_id, key: self.key, description: self.description, member_email: self.member_email,
-			permissions: self.permissions, url: self.url, num_clicks: self.num_clicks)
+			permissions: self.permissions, url: self.url, num_clicks: self.num_clicks, tags: self.tags, votes: self.votes, rating: self.rating)
 	end
   """ elasticsearch """
 

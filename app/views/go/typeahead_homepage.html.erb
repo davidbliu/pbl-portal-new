@@ -137,28 +137,56 @@
 
 
    <div id = 'page-card-container'>
-    <div class = 'page-card'>
-      <a href = 'javascript:void(0);' id = 'popular-link'>
-      <div><i class = 'mdi-social-whatshot'></i></div>
-      <div><span>Popular Links</span></div>
-      </a>
-    </div>
+    <div id = 'filter-cards'>
 
-
-    <div class = 'page-card'>
-      <a href = 'javascript:void(0);' id = 'recent-link'>
-      <div><i class = 'mdi-action-history'></i></div>
-      <div><span>Recently Visited</span></div>
-      </a>
-    </div>
+      
+    <!--   <div class = 'page-card'>
+        <a href = 'javascript:void(0);' id = 'popular-link'>
+        <div><i class = 'mdi-social-whatshot'></i></div>
+        <div><span>Popular Links</span></div>
+        </a>
+      </div> -->
 
       <div class = 'page-card'>
-      <a href = 'javascript:void(0);' id = 'dashboard-link'>
-      <div><i class = 'mdi-action-list'></i></div>
-      <div><span>All Links</span></div>
-      </a>
+        <a href = 'javascript:void(0);' id = 'dashboard-link'>
+        <div><i class = 'mdi-action-list'></i></div>
+        <div><span>All Links</span></div>
+        </a>
+      </div>
+
+      <div class = 'page-card'>
+        <a href = 'javascript:void(0);' id = 'recent-link'>
+        <div><i class = 'mdi-action-history'></i></div>
+        <div><span>Recently Visited</span></div>
+        </a>
+      </div>
+
+        
+
+      <!-- <div class = 'page-card'>
+        <a href = 'javascript:void(0);' id = 'tags-link'>
+        <div><i class = 'mdi-action-dns'></i></div>
+        <div><span>Tags</span></div>
+        </a>
+      </div> -->
+
+       <div class = 'page-card'>
+        <a href = 'javascript:void(0);' id = 'hide-link'>
+        <div><i class = 'mdi-content-block'></i></div>
+        <div><span>Hide Options</span></div>
+        </a>
+      </div>
+
     </div>
 
+    
+
+    <div class = 'page-card' style = 'display:none' id = 'show-link'>
+      <a href = 'javascript:void(0);'>
+      <div><i class = 'mdi-action-view-list'></i></div>
+      <div><span>Show Options</span></div>
+      </a>
+    </div>
     
    
   </div>
@@ -201,6 +229,37 @@
 <%= javascript_include_tag 'debounce.js' %>
 
 <script type = 'text/javascript'>
+
+function activateTagFilter(){
+  $(".tag-label").click(function(){
+    showSpinner();
+    $.ajax({
+        url: '/go/tag_search',
+        type: 'get',
+        data: {'q': $(this).attr('data-tag')},
+        success:function(data){
+          hideSpinner();
+          $('#results-container').html('');
+          $('#results-container').html(data);
+          ajaxPaginate();
+        },
+        error:function (xhr, textStatus, thrownError){
+          hideSpinner();
+          alert('failed to pull dashboard');
+        }
+    });
+  });
+}
+
+$('#hide-link').click(function(){
+  $('#filter-cards').hide();
+  $('#show-link').show();
+});
+
+$('#show-link').click(function(){
+  $('#filter-cards').show();
+  $('#show-link').hide();
+});
 function showSpinner(){
   $('#loading-gif').show();
 }
@@ -261,9 +320,14 @@ function pullPaginatedPage(url){
 }
 
 function pullSearchResults(search_term){
+  if(search_term.indexOf('#') == 0){
+    url = '/go/tag_search'
+  }
+  url = '/go/ajax_search'
   $.ajax({
-      url: '/go/ajax_search?q='+search_term,
+      url: url,
       type: 'get',
+      data: {'q': search_term},
       success:function(data){
         hideSpinner();
         $('#results-container').html('');
