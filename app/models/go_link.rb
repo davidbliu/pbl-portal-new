@@ -13,6 +13,25 @@ class GoLink < ActiveRecord::Base
 	end
   """ elasticsearch """
 
+  	def self.url_matches(url)
+  		direct_matches = GoLink.where(url:url).to_a.map{|x| x.key}
+  		puts direct_matches
+  		puts 'those were direct_matches'
+  		indirect_matches = []
+		if url.include?('docs.google.com') and url.include?("/d/")
+			begin
+				doc_id = url.split('/d/')[1].split('/')[0]
+				# puts 'doc id was '+doc_id
+				indirect_matches = GoLink.where('url LIKE ?', '%' + doc_id+'%').to_a.map{|x| x.key}
+			rescue
+				puts 'error'
+			end
+		end
+		matches = direct_matches + indirect_matches
+		matches = Set.new(matches).to_a.map{|x| 'pbl.link/' + x}
+		return matches
+  	end
+
 	def short_url
 		if url.length > 50
 			return url.first(50) + "..."

@@ -58,6 +58,10 @@
     </div>
    </div>
 
+<div style = 'clear:both;height:50px'></div>
+<h2 style = 'text-align:center'>Past Shares</h2>
+<div id = 'shares-container'></div>
+
 
 <!-- <p class = 'smalltext text-muted'>Note: some members may be unable to push to if they haven't clicked register for push on their chrome extensions</p> -->
 
@@ -124,4 +128,22 @@ function activateLabelDelete(){
       }
   });
   });
+
+function pullShares(){
+  showSpinner();
+  $.ajax({
+      url: '/go/shares',
+      type: 'GET',
+      success:function(data){
+        hideSpinner();
+        console.log(data);
+        $('#shares-container').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to pull shares');
+      }
+  });
+}
+pullShares();
   </script>

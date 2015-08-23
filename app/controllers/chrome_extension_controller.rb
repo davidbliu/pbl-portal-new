@@ -182,7 +182,10 @@ class ChromeExtensionController < ApplicationController
 
 	def lookup
 		url = params[:url]
-		@matches = cached_golinks.select{|x| x.is_url_match(url)}.map{|x| 'pbl.link/'+x.key}
+		# @matches = cached_golinks.select{|x| x.is_url_match(url)}.map{|x| 'pbl.link/'+x.key}
+		# @matches = ['pbl.link/hi']
+		@matches = GoLink.url_matches(url)
+
 
 		response.headers['Access-Control-Allow-Origin'] = '*'
 		response.headers['Access-Control-Allow-Methods'] = 'POST, PUT, DELETE, GET, OPTIONS'
