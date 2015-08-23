@@ -336,7 +336,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.search(search_term)
-		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'tags^2', 'description', 'text', 'url'], fuzziness:1}}, :size=>100).results
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'tags^2', 'description', 'text', 'url', 'member_email'], fuzziness:1}}, :size=>100).results
 		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
 		# query = { "fuzzy" => { "key" => search_term }}
 		# query = search_term
@@ -354,7 +354,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def self.tag_search(search_term)
-		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['tags'], fuzziness:0}}, :size=>10000).results
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['tags'], fuzziness:0}}, :size=>100000).results
 		golinks = Array.new
 		results.each do |result|
 			data =  result._source
@@ -364,6 +364,28 @@ class ParseGoLink < ParseResource::Base
 		end
 		return golinks
 	end
+
+	def self.member_search(email)
+		query = {
+		    query: {
+		        multi_match: {
+		            query: email,
+		            fields: ['member_email']
+	            }
+	        }
+	    }
+		results = GoLink.search(query, size: 10000).results
+		golinks = Array.new
+		results.each do |result|
+			data =  result._source
+			puts data
+			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
+				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
+				rating: data['rating'], votes: data['votes'], tags: data['tags'], updated_at: data['updated_at'])
+		end
+		return golinks
+	end
+	
 	
 	""" catalogue methods DEPRECATED""" 
 	def self.catalogue_by_resource_type

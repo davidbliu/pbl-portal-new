@@ -54,6 +54,7 @@ Portal::Application.routes.draw do
   """ me"""
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'
+  get 'go/their_links', to:'go#their_links'
   get 'go/test', to:'go#test'
   get 'go/landing_page', to: 'go#landing_page'
   get 'go/add_landing_page', to:'go#add_landing_page'
@@ -64,6 +65,7 @@ Portal::Application.routes.draw do
   post 'go/edit', to:'go#edit'
   post 'go/edit_description', to:'go#edit_description'
   get 'go/sharing_center', to:'go#sharing_center'
+  get 'go/shares', to:'go#shares'
   post 'go/share', to:'go#share'
   get 'go/dashboard', to:'go#dashboard'
   get 'go/popular', to:'go#popular'

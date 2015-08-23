@@ -110,7 +110,7 @@ class GoController < ApplicationController
 		if gl.length > 0
 			gl = gl.first
 			gl.description = description
-			gl.tags = tags
+			gl.tags = Array.new(tags)
 			gl.save
 		end
 		golink.save
@@ -129,7 +129,7 @@ class GoController < ApplicationController
 		golinks = GoLink.find_all_by_parse_id(seen)
 		# sort the golinks by their position in seeen
 		go_hash = golinks.index_by(&:parse_id)
-		puts go_hash.keys
+		# puts go_hash.keys
 		# puts seen
 		@golinks = seen.map{|x| go_hash[x]}.select{|x| x != nil}.map{|x| x.to_parse}.reverse
 		render 'my_recent', layout:false
@@ -194,6 +194,13 @@ class GoController < ApplicationController
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 		render 'my_links'
+	end
+
+	def their_links
+		@golinks = GoLink.where(member_email: params[:email]).order(:updated_at).reverse.map{|x| x.to_parse} #ParseGoLink.member_search(params[:email])
+		page = params[:page] ? params[:page] : 1
+		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		render 'ajax_search', layout:false
 	end
 
 	def dashboard
@@ -272,12 +279,29 @@ class GoController < ApplicationController
 
 	end
 	def share
+		puts 'this was called !!!!!!'
 		message = params[:message]
 		link = params[:link]
-		recipients = params[:recipients]
+		recipients = Set.new(params[:recipients]).to_a
+		# save shares
+		Share.create(sender: current_member.email, recipient: 'old', message: message, links: link, time:Time.now, message_id: SecureRandom.hex.to_s, all_recipients: recipients.join(','))
+		# end
+		# Share.save_all(shares)
+
 		recipients << current_member.email
+
 		message = NotificationClient.push(current_member, recipients, 'PBL Link Notifier',  message, link)
 		render json: message, status:200
+	end
+
+	def shares
+		notifications = Share.limit(10000).order('time desc').all.to_a
+
+		@received = notifications.select{|x| x.all_recipients.include?(current_member.email)}
+		@sent = notifications.select{|x| x.sender == current_member.email}
+		# puts 'recieved is '+ @received.to_s
+		# puts 'sent is '+@sent.to_s
+		render 'shares', layout: false
 	end
 
 

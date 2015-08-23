@@ -163,12 +163,12 @@
 
         
 
-      <!-- <div class = 'page-card'>
-        <a href = 'javascript:void(0);' id = 'tags-link'>
-        <div><i class = 'mdi-action-dns'></i></div>
-        <div><span>Tags</span></div>
+      <div class = 'page-card'>
+        <a href = 'javascript:void(0);' id = 'shares-link'>
+        <div><i class = 'mdi-action-announcement'></i></div>
+        <div><span>Shares</span></div>
         </a>
-      </div> -->
+      </div>
 
       <!--  <div class = 'page-card'>
         <a href = 'javascript:void(0);' id = 'hide-link'>
@@ -230,8 +230,13 @@
 
 <script type = 'text/javascript'>
 
+function activateHelpers(){
+    activateTheirLinks();
+    ajaxPaginate();
+}
 function activateTagFilter(){
   $(".tag-label").click(function(){
+    $('#search-input').val('#'+$(this).attr('data-tag'));
     showSpinner();
     $.ajax({
         url: '/go/tag_search',
@@ -242,6 +247,7 @@ function activateTagFilter(){
           $('#results-container').html('');
           $('#results-container').html(data);
           ajaxPaginate();
+          activateTheirLinks();
         },
         error:function (xhr, textStatus, thrownError){
           hideSpinner();
@@ -273,13 +279,33 @@ function showSpinner(){
 function hideSpinner(){
   $('#loading-gif').hide();
 }
-
-function pullTheirLinks(){
-
+function pullTheirLinks(email){
+  showSpinner();
+  $.ajax({
+      url: '/go/their_links',
+      type: 'get',
+      data:{'email':email},
+      success:function(data){
+        hideSpinner();
+        $('#results-container').html('');
+        $('#results-container').html(data);
+        ajaxPaginate();
+        activateTheirLinks();
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to pull their links');
+      }
+  });
 }
-$('.golink-creator').click(function(){
-
-});
+function activateTheirLinks(){
+  $('.golink-creator').click(function(){
+    email = $(this).attr('data-email');
+    console.log('this email was searched '+email);
+    pullTheirLinks(email);
+  });
+}
+activateTheirLinks();
 
 function pullDashboard(){
   showSpinner();
@@ -291,6 +317,7 @@ function pullDashboard(){
         $('#results-container').html('');
         $('#results-container').html(data);
         ajaxPaginate();
+        activateTheirLinks();
       },
       error:function (xhr, textStatus, thrownError){
         hideSpinner();
@@ -318,6 +345,7 @@ function pullPaginatedPage(url){
         $('#results-container').html('');
         $('#results-container').html(data);
         ajaxPaginate();
+        activateTheirLinks();
       },
       error:function (xhr, textStatus, thrownError){
         hideSpinner();
@@ -339,7 +367,9 @@ function pullSearchResults(search_term){
         hideSpinner();
         $('#results-container').html('');
         $('#results-container').html(data);
-        ajaxPaginate();
+        // ajaxPaginate();
+        // activateTheirLinks();
+        activateHelpers();
       },
       error:function (xhr, textStatus, thrownError){
         hideSpinner();
@@ -362,6 +392,8 @@ $('#search-input').keyup($.debounce(250, function(){
 
 <% if @search_term %>
 pullSearchResults('<%= @search_term %>');
+ajaxPaginate();
+  activateTheirLinks();
 <% end %>
 
 // $('#search-input').select();
@@ -376,6 +408,8 @@ function getRecentLinks(){
         hideSpinner();
         $('#results-container').html('');
         $('#results-container').html(data);
+        ajaxPaginate();
+        activateTheirLinks();
       },
       error:function (xhr, textStatus, thrownError){
         hideSpinner();
@@ -396,6 +430,8 @@ function getPopularLinks(){
         hideSpinner();
         $('#results-container').html('');
         $('#results-container').html(data);
+        ajaxPaginate();
+        activateTheirLinks();
       },
       error:function (xhr, textStatus, thrownError){
         hideSpinner();
@@ -406,6 +442,29 @@ function getPopularLinks(){
 $('#popular-link').click(function(){
   getPopularLinks();
 });
+
+function getSharesLink(){
+  showSpinner();
+  $.ajax({
+      url: '/go/shares',
+      type: 'get',
+      success:function(data){
+        hideSpinner();
+        $('#results-container').html('');
+        $('#results-container').html(data);
+        ajaxPaginate();
+        activateTheirLinks();
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed to pull shared links');
+      }
+  });
+}
+$('#shares-link').click(function(){
+  getSharesLink();
+});
+
 
 </script>
 
