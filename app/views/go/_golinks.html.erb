@@ -135,11 +135,6 @@ $('.description-input').focus( function() {
   $('#'+id+'-tag-container').show();
 });
 
-// $('link-row').blur( function() {
-//   id = $(this).attr('data-id');
-//   $('#'+id+'-tag-container').hide();
-// });
-
 $('.description-input').keypress(function(e){
 	if(e.which == 13) {
         id = $(this).attr('data-id');
@@ -194,37 +189,6 @@ $('.description-input').keypress(function(e){
     }
 });
 
-$('.vote-btn').click(function(){
-	id = $(this).attr('data-id');
-	type = $(this).attr('data-vote');
-	$('#'+id+'-row').fadeOut(100).fadeIn(100);
 
-	rating = parseInt($('#'+id+'-rating-span').text());
-	if(type == 'upvote'){
-		rating += 1;
-	}	
-	else{
-		rating -= 1;
-	}
-	$('#' + id + '-rating-span').text(rating);
-	that = $('#' + id + '-rating-span');
-	$(that).addClass('editing');
-	$.ajax({
-      url: '/go/vote',
-      type: 'POST',
-      data: {'id':id, 'type':type},
-      success:function(data){
-        // console.log('voted');
-        $(that).text(data);
-        if($(that).hasClass('editing')){
-        	$(that).removeClass('editing');
-        }
-        console.log(data);
-      },
-      error:function (xhr, textStatus, thrownError){
-        alert('failed to register vote');
-      }
-  });
-});
 
 </script>
