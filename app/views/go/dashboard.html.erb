@@ -70,7 +70,7 @@
 			<th>Last Updated <a href = '/go/dashboard' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'updatedAt-sort'></i></a></th>
 			<th>Shared With</th>
 			<th>Views <a href = '/go/dashboard?sort_by=views' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
-      <th>Rating <a href = '/go/dashboard?sort_by=rating desc' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
+      <!-- <th>Rating <a href = '/go/dashboard?sort_by=rating desc' class = 'sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th> -->
 		</tr>
 	</thead>
 	<tbody>
@@ -86,7 +86,6 @@
 		<td><%= golink.updated_at.split('T')[0] %></td>
 		<td><%= golink.get_permissions %></td>
 		<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
-    <td><%= golink.get_rating %></td>
 
 
 	</tr>

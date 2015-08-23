@@ -126,7 +126,7 @@
 
   <div id="custom-search-input">
       <div id = 'search-input-group' class="input-group">
-          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" <% if @search_term %>value = '<%= @search_term %>'<% end %> />
+          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" onfocus="this.placeholder = ''" onfocusout="this.placeholder = 'Search for a PBL Link'"<% if @search_term %>value = '<%= @search_term %>'<% end %> />
       </div>
   </div>
 
@@ -139,7 +139,7 @@
    <div id = 'page-card-container'>
     <div id = 'filter-cards'>
 
-      
+
     <!--   <div class = 'page-card'>
         <a href = 'javascript:void(0);' id = 'popular-link'>
         <div><i class = 'mdi-social-whatshot'></i></div>
@@ -170,12 +170,12 @@
         </a>
       </div> -->
 
-       <div class = 'page-card'>
+      <!--  <div class = 'page-card'>
         <a href = 'javascript:void(0);' id = 'hide-link'>
         <div><i class = 'mdi-content-block'></i></div>
         <div><span>Hide Options</span></div>
         </a>
-      </div>
+      </div> -->
 
     </div>
 
@@ -250,6 +250,13 @@ function activateTagFilter(){
     });
   });
 }
+$('#search-input').focus(function(){
+  $('#page-card-container').hide();
+});
+
+$('#search-input').blur(function(){
+  $('#page-card-container').show();
+});
 
 $('#hide-link').click(function(){
   $('#filter-cards').hide();
@@ -356,7 +363,7 @@ $('#search-input').keyup($.debounce(250, function(){
 pullSearchResults('<%= @search_term %>');
 <% end %>
 
-$('#search-input').select();
+// $('#search-input').select();
 
 // popular links and recent links shown on homepage
 function getRecentLinks(){

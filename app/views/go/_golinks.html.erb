@@ -176,6 +176,7 @@ $('.description-input').keypress(function(e){
         	tag_container.append(tag_div);
         }
         $(this).val(description);
+        $(this).attr('data-tags', tags.join(','));
         $(this).fadeOut(100).fadeIn(100);
         $.ajax({
 	      url: '/go/edit_description',
