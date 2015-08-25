@@ -23,4 +23,4 @@ Installation steps are provided in install.sh (for Ubuntu 14.04) and mac_install
 ![Portal ER Diagram](https://github.com/davidbliu/pbl-portal-new/blob/master/documentation/er_diagram.png "Portal ER Diagram")
 
 the three main modules to understand are __members__, __points__ and __tabling__ (colored yellow)
-
+x
