@@ -73,6 +73,7 @@ Portal::Application.routes.draw do
   post 'go/delete_tag', to:'go#delete_tag'
   get 'go/tags', to:'go#tags'
   get 'go/tag_search', to:'go#tag_search'
+  get 'go/installing', to:'go#installing'
 
   get 'go/quick_add', to:'go#quick_add'
 

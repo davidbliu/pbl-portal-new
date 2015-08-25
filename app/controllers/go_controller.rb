@@ -13,6 +13,9 @@ class GoController < ApplicationController
 		end
 	end
 
+	def installing
+		render 'installing', layout: false
+	end
 	def landing_page
 		@url = params[:url]
 		@url_matches = cached_golinks.select{|x| x.is_url_match(@url)}
