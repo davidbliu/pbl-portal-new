@@ -182,7 +182,7 @@ class GoController < ApplicationController
    	end
 
 	def my_links
-		@golinks = ParseGoLink.limit(1000000).where(member_email: current_member.email).sort{|a,b| b.updated_at <=> a.updated_at}
+		@golinks = ParseGoLink.limit(1000000).order('createdAt desc').where(member_email: current_member.email)
 		# apply filters
 		filter = params[:filter]
 		if filter and filter != ''
