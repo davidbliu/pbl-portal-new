@@ -208,7 +208,7 @@ class GoController < ApplicationController
 
 	def dashboard
 		page = params[:page] ? params[:page] : 1
-		sort_by = (params[:sort_by] and params[:sort_by] != 'views') ? params[:sort_by] : 'updatedAt desc'
+		sort_by = (params[:sort_by] and params[:sort_by] != 'views') ? params[:sort_by] : 'createdAt desc'
 		if params[:sort_by] == 'views'
 			sort_by = 'num_clicks desc'
 		end
