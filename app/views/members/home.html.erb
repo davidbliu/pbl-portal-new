@@ -29,9 +29,8 @@
 		<div id = 'me-div'>
 			<a href = '/members/<%= current_member.id %>'><img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img></a>
 			<!-- <div>Set your professional image on <a href = 'http://pbl.link/gravatar' target = '_blank'>pbl.link/gravatar</a></div> -->
-			<div><%= current_member.committee %></div>
+			<div><%= current_member.committee %> <%= current_member.position ? current_member.position.capitalize : 'no position' %></div>
 			<div><%= current_member.email %></div>
-			<div><%= current_member.role %></div>
 		</div>
 		<% end %>
 
@@ -40,18 +39,19 @@
 		    <div class = 'right-card shadow-z-1'>
 		    	<h4>Announcements</h4>
 			    <ul class = 'list-group'>
-			    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
-			    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
-			    	<li class = 'list-group-item'>Dont forget to check out professional photos at <a href = 'http://pbl.link/of-photos'>pbl.link/of-photos</a></li>
+			    	<li class = 'list-group-item'>Tabling form at <a href = 'http://pbl.link/tabling'>pbl.link/tabling</a></li>
+			    	<li class = 'list-group-item'>Chalking form at <a href = 'http://pbl.link/chalking'>pbl.link/chalking</a></li>
+			    	<li class = 'list-group-item'>Handbilling form at <a href = 'http://pbl.link/handbilling'>pbl.link/handbilling</a></li>
+			    	<li class = 'list-group-item'>Search <b>#rweek</b> on PBL Links for all Rweek materials</li>
 			    </ul>
 			</div>
 		</div>	
 
 		<!-- pull notifications from the server -->
-		<div class = 'home-card' id = 'notifications-container'>
+<!-- 		<div class = 'home-card' id = 'notifications-container'>
 			<p class = 'smalltext text-muted'>Coming soon...</p>
-			<!-- <img id = 'notifications-loading-image' src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=50></img> -->
-		</div>
+			<img id = 'notifications-loading-image' src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=50></img>
+		</div> -->
 
 		<!-- <div class="home-card">
 		    
@@ -66,7 +66,9 @@
 
 		<div class = 'home-card'>
 			<h3><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
+			<p>Visit <a href = 'http://pbl.link/calendar'>pbl.link/calendar</a> for the Official Events Calendar</p>
 			<div class = 'right-card shadow-z-1' id = 'events-container'>
+
 				<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>
 			</div>
 		</div>
@@ -111,6 +113,4 @@ var email = "asdf";
 <% end %>
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
-<!-- <%= javascript_include_tag "trello_tasks" %> -->
 <%= javascript_include_tag "calendar_pull" %>
-<!-- <%= javascript_include_tag "pull_notifications" %> -->

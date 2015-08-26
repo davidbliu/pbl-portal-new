@@ -27,8 +27,8 @@ class ApplicationController < ActionController::Base
                            )
   cal.login_with_refresh_token(ENV['REFRESH_TOKEN'])
   now = Time.now.utc
-    start_min = Time.now-4.months
-    start_max = start_min + 1.week
+    start_min = Time.now
+    start_max = start_min + 2.week
     @google_events = cal.find_events_in_range(start_min, start_max, :max_results=>1000)
 
     render 'layouts/google_events', :layout=>false
