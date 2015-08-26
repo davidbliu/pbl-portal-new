@@ -151,6 +151,9 @@ Portal::Application.routes.draw do
   # email routes
   get 'send_email', to:'application#send_email'
 
+  #static routes
+  get 'static/wd', to:'static#wd'
+
   resources :google_events do 
     collection do 
       get 'google_calendar_redirect'

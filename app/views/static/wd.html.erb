@@ -1,0 +1,159 @@
+<style type = 'text/css'>
+.main-area{
+	margin-left:15px;
+	margin-top:25px;
+	text-align:center;
+	clear:both;
+}
+.projects-area{
+	margin-left:15px;
+	margin-top:25px;
+}
+#past-projects-container{
+	text-align:left;
+}
+.past-project-div{
+	padding:15px;
+	float:left;
+	width:30%;
+}
+
+.challenge-div{
+	text-align:left;
+	padding:15px;
+	width:25%;
+}
+.challenge-container{
+	text-align:center;
+	clear:both;
+	display:inline-block;
+	width:100%;
+}
+</style>
+<%= stylesheet_link_tag "application" %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
+<%= stylesheet_link_tag 'open_sans.css' %>
+
+<div class = 'main-area'>
+	<h1>Berkeley PBL Web Development</h1>
+	<img src = '/assets/wd-pairs-fa15.jpg' height=250></img>
+
+
+
+	<h2>About Us</h2>
+	<p>We work on projects that make PBL a better club and are excited to provide you the opportunity to learn the skills and technologies we use to make impactful tools. 
+	</p>
+
+	<h2>Past Projects</h2>
+	<div id = 'past-projects-container'>
+
+		<div class = 'past-project-div'>
+			<h3>PBL Links</h3>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>What:</b> A custom url shortener and internal search engine for PBL</li>
+				<li class = 'list-group-item'><b>How:</b> We indexed all of PBL's over 10,000 resources from Box, Google Drive, Youtube, Flickr, and more into our database and exposed their scraped fulltext to Elasticsearch. We built a chrome extension to make accessing, discovering, and creating links a seamless experience. For reliablity and scalability we've deployed multiple containers of our webserver.</li>
+				<li class = 'list-group-item'><b>Technologies:</b> Docker, Elasticsearch, Haproxy, Memcached, Postgres, Ruby on Rails, Parse</li>
+			</ul>
+		</div>
+
+		<div class = 'past-project-div'>
+			<h3>PBL Members Portal</h3>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>What:</b> A Members Portal for tracking every PBL Member's information, schedules, points, attendance, and more</li>
+				<li class = 'list-group-item'><b>How:</b> We build a traditional Ruby on Rails website</li>
+				<li class = 'list-group-item'><b>Technologies:</b> Docker, Ruby on Rails, Parse</li>
+				<li class = 'list-group-item'><b>More:</b> <a href = 'http://pbl.link/portal-git'>pbl.link/portal-git</a></li>
+			</ul>
+		</div>
+
+		<div class = 'past-project-div'>
+			<h3>Deliberations Engine</h3>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>What:</b> A generic deliberations engine that creates recommendations on which committees are best for which members based on applicant preferences and committee chair preferences.</li>
+				<li class = 'list-group-item'><b>How:</b> We used a modified version of the Gale-Shapley (stable marriage) algorithm</li>
+				<li class = 'list-group-item'><b>Technologies:</b> CS70, Ruby on Rails</li>
+				<li class = 'list-group-item'><b>More:</b> <a href = 'http://pbl.link/deliberations-algorithm'>pbl.link/deliberations-algorithm</a></li>
+			</ul>
+		</div>
+
+		<div class = 'past-project-div'>
+			<h3>WD Elevator Challenge</h3>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>What:</b> A fun elevator challenge for PBL's Apprentice Challenge program</li>
+				<li class = 'list-group-item'><b>How:</b> We found an integer programming problem (scheduling elevators to pick up passengers) and created a challenge website to encourage PBL members to think of creative algorithms.</li>
+				<li class = 'list-group-item'><b>Technologies:</b> Flask, Parse</li>
+				<li class = 'list-group-item'><b>More:</b> <a href = 'http://pbl.link/elevator-scheduling'>pbl.link/elevator-scheduling</a></li>
+			</ul>
+		</div>
+
+		<div class = 'past-project-div'>
+			<h3>Facebook Matchmaker</h3>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>What:</b> A fun matchmaking widget that generates suggestions for potential romantic matches based on social gestures and interactions on Faceboook</li>
+				<li class = 'list-group-item'><b>How:</b> We scraped PBL's Facebook pages and groups and created ranking lists based on likes and comments. Feeding those into the stable marriage algorithm, we generated suggested matches for PBL Members.</li>
+				<li class = 'list-group-item'><b>Technologies:</b> Facebook SDK, Flask</li>
+			</ul>
+		</div>
+
+	</div>
+	
+
+
+</div>
+
+<div style = 'display:block;clear:both;height:20px'></div>
+
+<div class = 'main-area'>
+	<h1 style>Apply</h1>
+	<h3>Show us what you can do!</h3>
+	<p>We want teammates who dream big and are ready to make a difference!</p>
+	<p>Please complete one challenge and submit your solution to berkeleypbl.webdev@gmail.com</p> 
+	<p>Dont stress about any of these! The idea is for you to have fun and show us what you're about!</p>
+	<p>You may use any tool at your disposal. We google about 99% of what we do :)</p>
+	<p>Email us any questions you have at berkeleypbl.webdev@gmail.com!</p>
+
+	<h3>Challenges</h3>
+	<div class = 'challenge-container row'>
+		<div class = 'challenge-div col-md-4'>
+			<h4>Coding Challenge: Alien Dictionary</h4>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>Description:</b> You uncovered an alien dictionary and want to find out their alphabet. The words in the dictionary are sorted in alphabetical order, but you dont know what the characters are in alphabetical order!</li>
+				<li class = 'list-group-item'><b>Submission:</b> Using the dictionary entries (below), return the characters in alphabetical order. For example, the characters in alphabetical order for English are (ABCDEFGHIJKL....). Send us the sorted characters and any code/work you used to generate the sorting.</li>
+				<li class = 'list-group-item'><b>Dictionary:</b> <a href = 'http://pbl.link/alien-dictionary'>pbl.link/alien-dictionary</a>
+				</li>
+			</ul>
+
+		</div>
+
+		<div class = 'challenge-div col-md-4'>
+			<h4>UI Challenge: Cat Gallery</h4>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>Description:</b> You have a brilliant plan for a hot new website: a cat picture gallery! Use the images we provide below and display them in your gallery.</li>
+				<li class = 'list-group-item'><b>Constraints:</b> Images can be sized down but not up; Images must retain their original aspect ratio (ie: a square image cannot be resized into a rectangle). Images must fit in a rectangular area with minimal unused space inside.</li>
+				<li class = 'list-group-item'><b>Resources:</b> <a href = 'http://pbl.link/cat-images'>pbl.link/cat-images</a></li>
+				<li class = 'list-group-item'><b>Submitting:</b> Show us the finalized gallery (a .html page); how did you decide how to rearrange the images?</li>
+			</ul>
+		</div>
+
+		<div class = 'challenge-div col-md-4'>
+			<h4>Engineering Challenge: DIY</h4>
+			<ul class = 'list-group'>
+				<li class = 'list-group-item'><b>Description:</b> Show us something you built!</li>
+				<li class = 'list-group-item'><b>Details:</b> This doesn't have to be software related. It can be any hack (hardware or software)!</li>
+				<li class = 'list-group-item'><b>Submitting:</b> Briefly describe the project in your email to us. What did it solve? How did you built it? What were the challenges? We will followup with an informal chat about your project.</li>
+
+			</ul>
+		</div>
+
+	</div>
+
+	<div style = 'display:block;clear:both;height:20px'></div>
+	<h3>Cheers and happy coding!</h3>
+	<img src = 'http://tclhost.com/clya4nh.gif' height=200></img>
+
+
+	
+
+</div>
+
+
