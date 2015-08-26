@@ -22,7 +22,7 @@
         <td><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img></td>
         <td><%= member.name %></td>
         <td><%= member.committee %></td>
-        <td><%= member.role.capitalize %></td>
+        <td><%= member.position ? member.position.capitalize : 'none' %></td>
         <td><%= member.email %></td>
         <td><%= member.phone %></td>
         <td><%= member.year %></td>

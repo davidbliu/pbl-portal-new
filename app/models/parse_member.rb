@@ -5,7 +5,9 @@ class ParseMember < ParseResource::Base
 	:profile, :old_member_id, :remember_token, 
 	:confirmation_status, :swipy_data, :registration_comment,
 	:commitments, :old_id, :email, :phone, :major, :committee_id, :position_id, 
-	:role, :year, :committee, :trello_id, :trello_token, :trello_member_id, :facebook_url, :position
+	:role, :year, :committee, :facebook_url, 
+	# member blog migration
+	:latest_semester, :position
 	
 	def gravatar_url(size = 100)
 		if self.facebook_url
@@ -45,29 +47,23 @@ class ParseMember < ParseResource::Base
 	end
 
 	def officer?
-		return true
+		(self.position and (self.position == 'chair' or self.position == 'exec')) ? true : false
 	end
 	def exec?
-		return true
+		self.position and self.position == 'exec' ? true : false
 	end
-
-
-
 
 
 	""" get members by types """
-
 	def self.current_members(semester = ParseSemester.current_semester)
-		# cms = Rails.cache.read('current_members')
-		# if cms != nil 
-		# 	return cms
-		# end
-		mhash = ParseMember.email_hash
-		keys = Set.new(mhash.keys)
-		emails = ParseCommitteeMember.limit(10000).where(semester_name: semester.name).map{|x| x.member_email}
-		cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
-		# Rails.cache.write('current_members', cms)
-		return cms
+		""" old method using jointable"""
+		# mhash = ParseMember.email_hash
+		# keys = Set.new(mhash.keys)
+		# emails = ParseCommitteeMember.limit(10000).where(semester_name: semester.name).map{|x| x.member_email}
+		# cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
+		# return cms
+		""" new method using member blob""" 
+		ParseMember.order("committee").where(latest_semester: semester.name)
 	end
 
 	def self.current_members_hash(semester = ParseSemester.current_semester)
@@ -163,6 +159,16 @@ class ParseMember < ParseResource::Base
 			members << member
 		end
 		ParseMember.save_all(members)
+	end
+
+	def self.set_latest_semester
+		current = ParseMember.current_members
+		current_members = Array.new
+		current.each do |member|
+			member.latest_semester = 'Fall 2015'
+			current_members << member
+		end
+		ParseMember.save_all(current_members)
 	end
 
 	def self.merge_emails
