@@ -1,5 +1,5 @@
 class ParseEventMember < ParseResource::Base
-	fields :event_id, :member_email
+	fields :event_id, :member_email, :type
 	# should add fields for member approval of event attendance and for chair approval
 
 

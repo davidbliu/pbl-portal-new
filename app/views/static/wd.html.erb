@@ -1,13 +1,19 @@
 <style type = 'text/css'>
 .main-area{
 	margin-left:15px;
-	margin-top:25px;
+	margin-top:15px;
 	text-align:center;
 	clear:both;
 }
 .projects-area{
 	margin-left:15px;
 	margin-top:25px;
+}
+#top-banner{
+	color: white;
+    background-color: black;
+    padding: 10px;
+    text-align: center;
 }
 #past-projects-container{
 	text-align:left;
@@ -21,7 +27,8 @@
 .challenge-div{
 	text-align:left;
 	padding:15px;
-	width:25%;
+	width:33%;
+	float:left;
 }
 .challenge-container{
 	text-align:center;
@@ -34,19 +41,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
 <%= stylesheet_link_tag 'open_sans.css' %>
 
-<div class = 'main-area'>
-	<h1>Berkeley PBL Web Development</h1>
-	<img src = '/assets/wd-pairs-fa15.jpg' height=250></img>
 
+<div id = 'top-banner'>
+	<h1>Berkeley PBL Web Development</h1>
+</div>
+
+
+<div class = 'main-area'>
+	
+	<img src = '/assets/wd-pairs-fa15.jpg' height=250></img>
+	<p>Chairs: Eric Quach and David Liu</p>
 
 
 	<h2>About Us</h2>
 	<p>We work on projects that make PBL a better club and are excited to provide you the opportunity to learn the skills and technologies we use to make impactful tools. 
 	</p>
+</div>
 
+	<div style = 'display:block;clear:both;height:20px;border-bottom:10px solid rgba(0,0,0,0.1)'></div>
+
+<div class = 'main-area'>
 	<h2>Past Projects</h2>
-	<div id = 'past-projects-container'>
-
+	<div id = 'past-projects-container' >
 		<div class = 'past-project-div'>
 			<h3>PBL Links</h3>
 			<ul class = 'list-group'>
@@ -94,14 +110,10 @@
 				<li class = 'list-group-item'><b>Technologies:</b> Facebook SDK, Flask</li>
 			</ul>
 		</div>
-
 	</div>
-	
-
-
 </div>
 
-<div style = 'display:block;clear:both;height:20px'></div>
+<div style = 'display:block;clear:both;height:20px;border-bottom:10px solid rgba(0,0,0,0.1)'></div>
 
 <div class = 'main-area'>
 	<h1 style>Apply</h1>
@@ -114,18 +126,18 @@
 
 	<h3>Challenges</h3>
 	<div class = 'challenge-container row'>
-		<div class = 'challenge-div col-md-4'>
+		<div class = 'challenge-div'>
 			<h4>Coding Challenge: Alien Dictionary</h4>
 			<ul class = 'list-group'>
 				<li class = 'list-group-item'><b>Description:</b> You uncovered an alien dictionary and want to find out their alphabet. The words in the dictionary are sorted in alphabetical order, but you dont know what the characters are in alphabetical order!</li>
-				<li class = 'list-group-item'><b>Submission:</b> Using the dictionary entries (below), return the characters in alphabetical order. For example, the characters in alphabetical order for English are (ABCDEFGHIJKL....). Send us the sorted characters and any code/work you used to generate the sorting.</li>
+				<li class = 'list-group-item'><b>Submitting:</b> Using the dictionary entries (below), return the characters in alphabetical order. For example, the characters in alphabetical order for English are (ABCDEFGHIJKL....). Send us the sorted characters and any code/work you used to generate the sorting.</li>
 				<li class = 'list-group-item'><b>Dictionary:</b> <a href = 'http://pbl.link/alien-dictionary'>pbl.link/alien-dictionary</a>
 				</li>
 			</ul>
 
 		</div>
 
-		<div class = 'challenge-div col-md-4'>
+		<div class = 'challenge-div'>
 			<h4>UI Challenge: Cat Gallery</h4>
 			<ul class = 'list-group'>
 				<li class = 'list-group-item'><b>Description:</b> You have a brilliant plan for a hot new website: a cat picture gallery! Use the images we provide below and display them in your gallery.</li>
@@ -135,7 +147,7 @@
 			</ul>
 		</div>
 
-		<div class = 'challenge-div col-md-4'>
+		<div class = 'challenge-div'>
 			<h4>Engineering Challenge: DIY</h4>
 			<ul class = 'list-group'>
 				<li class = 'list-group-item'><b>Description:</b> Show us something you built!</li>

@@ -140,8 +140,6 @@ Portal::Application.routes.draw do
   get '/push', to:'push#index'
   get '/pull_notifications', to: 'members#notifications'
 
-  """ points routes """
-  get '/pull_google_events', to: 'points#pull_google_events'
 
   """me routes"""
   get '/member/:email', to: 'members#member'
@@ -153,6 +151,12 @@ Portal::Application.routes.draw do
 
   #static routes
   get 'static/wd', to:'static#wd'
+
+
+
+  # points and attendance routess
+  get 'points', to:'points#index'
+  get 'points/attendance', to:'points#attendance'
 
   resources :google_events do 
     collection do 
@@ -223,17 +227,17 @@ Portal::Application.routes.draw do
     end
   end
 
-  resources :points do
-    collection do
-      get 'all_points' # display points for all semesters. like a master view
-      get 'rankings'
-      get 'mark_attendance'
-      post 'update_attendance'
-      get 'apprentice'
-      get 'coocurrence'
-    end
+  # resources :points do
+  #   collection do
+  #     get 'all_points' # display points for all semesters. like a master view
+  #     get 'rankings'
+  #     get 'mark_attendance'
+  #     post 'update_attendance'
+  #     get 'apprentice'
+  #     get 'coocurrence'
+  #   end
 
-  end
+  # end
 
   resources :event_members do 
     member do

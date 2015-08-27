@@ -5,7 +5,17 @@ class MembersController < ApplicationController
 	#
 	# allow to modify account
 	# 
-	before_filter :is_approved, :only => [:all, :index_committee]
+	# before_filter :is_approved, :only => [:all, :index_committee]
+
+	before_filter :authorize
+
+	def authorize
+		if not current_member
+			render 'layouts/authorize', layout: false
+		else
+			puts current_member.email
+		end
+	end
 
 	def home
 		@current_member = current_member

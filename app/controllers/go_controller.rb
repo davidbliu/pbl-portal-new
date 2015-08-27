@@ -7,7 +7,7 @@ class GoController < ApplicationController
 
 	def authorize
 		if not current_member
-			render 'authorize', layout: false
+			render 'layouts/authorize', layout: false
 		else
 			puts current_member.email
 		end

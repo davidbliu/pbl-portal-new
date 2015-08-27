@@ -3,6 +3,40 @@ class PointsController < ApplicationController
 	# before_filter :is_approved
 	before_filter :is_officer, :only => :mark_attendance
 
+	before_filter :authorize
+
+	def authorize
+		if not current_member
+			render 'layouts/authorize', layout: false
+		else
+			puts current_member.email
+		end
+	end
+
+
+	def index
+		# what events you attended
+		@attended = PointManager.attended_events(current_member.id)
+		# how many points you have
+		@points = PointManager.points(current_member.id)
+		# how many points everyone on your committee has
+		@member_name_point_dict = PointManager.member_name_point_dict
+		# rankings for pbl (top 10 points)
+		@top_cms = PointManager.top_cms.first(10)
+	end
+
+	def attendance
+		emails = [current_member.email]
+		@events = ParseEvent.order("start_time desc").where(semester_name: ParseSemester.current_semester.name).limit(10000000).all
+		@members = ParseMember.current_members.select{|x| emails.include?(x.email)}
+
+		ems = ParseEventMember.limit(100000000).all
+		@event_members = Set.new
+		ems.each do |em|
+			@event_members.add(em.event_id + "," + em.member_email)
+		end
+	end
+
 	#
 	# shows all point data ever
 	# comprehensive master dayumn
@@ -25,16 +59,7 @@ class PointsController < ApplicationController
 	end
 
 
-	def index
-		# what events you attended
-		@attended = PointManager.attended_events(current_member.id)
-		# how many points you have
-		@points = PointManager.points(current_member.id)
-		# how many points everyone on your committee has
-		@member_name_point_dict = PointManager.member_name_point_dict
-		# rankings for pbl (top 10 points)
-		@top_cms = PointManager.top_cms.first(10)
-	end
+	
 	def cooccurrence
 		
 	end

@@ -2,6 +2,16 @@
 require 'set'
 class TablingController < ApplicationController
 
+	before_filter :authorize
+
+	def authorize
+		if not current_member
+			render 'layouts/authorize', layout: false
+		else
+			puts current_member.email
+		end
+	end
+	
   def commitments
   	commitments = current_member.commitments
   	@marked = Array.new
