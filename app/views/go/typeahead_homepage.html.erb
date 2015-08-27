@@ -201,20 +201,7 @@
   <div id = 'results-container'>
     <% if @golinks %>
 
-      <h3>Links</h3>
-      <table class = 'table table-hover table-condensed'>
-        <tbody>
-        <% @golinks.each do |golink| %>
-        <tr class = 'link-row' id = '<%= golink.id %>-row'>
-          <td class = 'golink-key-td'><a href = '/go/redirect_id/<%= golink.id %>' target="_blank"><%= golink.key %></a>
-          </td> 
-          <td class = 'golink-description-td'>
-            <%= golink.description %>
-          </td>
-        </tr>
-        <% end %>
-        </tbody>
-      </table>
+      <%= render partial: 'golinks', locals: {golinks: @golinks} %>
     <% end %>
   </div>
   <!-- end of search input -->
@@ -229,7 +216,6 @@
 <%= javascript_include_tag 'debounce.js' %>
 
 <script type = 'text/javascript'>
-
 function activateHelpers(){
     activateTheirLinks();
     ajaxPaginate();
@@ -391,8 +377,8 @@ $('#search-input').keyup($.debounce(250, function(){
 }));
 
 <% if @search_term %>
-pullSearchResults('<%= @search_term %>');
-ajaxPaginate();
+  pullSearchResults('<%= @search_term %>');
+  ajaxPaginate();
   activateTheirLinks();
 <% end %>
 
@@ -443,27 +429,6 @@ $('#popular-link').click(function(){
   getPopularLinks();
 });
 
-function getSharesLink(){
-  showSpinner();
-  $.ajax({
-      url: '/go/shares',
-      type: 'get',
-      success:function(data){
-        hideSpinner();
-        $('#results-container').html('');
-        $('#results-container').html(data);
-        ajaxPaginate();
-        activateTheirLinks();
-      },
-      error:function (xhr, textStatus, thrownError){
-        hideSpinner();
-        alert('failed to pull shared links');
-      }
-  });
-}
-$('#shares-link').click(function(){
-  getSharesLink();
-});
 
 
 </script>

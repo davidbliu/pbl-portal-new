@@ -2,6 +2,57 @@
 .golink-card{
 	padding:15px;
 }
+#editing-div{
+  width:500px;
+
+}
+.input-group{
+  width:500px;
+  margin-left:30%;
+}
+
+.link-row>.golink-key-td{
+  width:20%;
+  max-width: 200px;
+  overflow:hidden;
+}
+.link-row>.golink-description-td{
+  width:30%;
+  max-width:300px;
+  overflow:hidden;
+}
+.link-row>.golink-url-td{
+  width:20%;
+  max-width:200px;
+  overflow:hidden;
+}
+.link-row>.golink-type-td{
+  width: 5%;
+  overflow:hidden;
+}
+.golink-type-image{
+  height:15px;
+}
+
+
+/*tag styles*/
+.tag-delete-link{
+  margin-left:3px;
+  color:white !important;
+}
+.tag-container{
+  display:none;
+}
+.label:hover{
+  cursor:pointer;
+}
+.label.selected-tag{
+  opacity:1.0;
+}
+.label{
+  opacity:0.3;
+  margin:2px;
+}
 </style>
 <h1 style = 'text-align:center'><a href = '/go'><img src = '/assets/link-circle.png' height=40></img></a> Finished Adding</h1>
 
@@ -11,10 +62,156 @@
 	<div class = 'golink-card'><a href = '/go/redirect_id/<%= @golink.id %>'>pbl.link/<%= @golink.key %></a> is set to redirect to <a href = '<%= @golink.url %>'><%= @golink.url %></a></div>
 
 <button class = 'btn btn-material-red-500 undo-btn' data-id='<%= @golink.id %>'>Undo</button>
-<button class = 'btn btn-material-purple-500 share-btn' data-id = '<%= @golink.id %>' data-key = '<%= @golink.key %>'>Share</button>
+<!-- <button class = 'btn btn-material-purple-500 share-btn' data-id = '<%= @golink.id %>' data-key = '<%= @golink.key %>'>Share</button> -->
 <button class = 'btn btn-material-blue-500 add-btn'>Add Another</button>
 
+
+<div style = 'clear:both;height:100px'></div>
+    <h3>Finish editing this link</h3>
+
+<table class = 'directory-table table table-hover table-condensed'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Key</th>
+      <th>Description</th>
+      <th>URL</th>
+      <th>Shared With</th>
+    </tr>
+  </thead>
+  <tbody class = 'directory-tbody'>
+  <tr class = 'link-row' id = '<%= @golink.id %>-row'>
+    <td class = 'golink-type-td'><img class = 'golink-type-image' src = '<%= ParseGoLink.type_to_image(@golink.resolve_type) %>'></img></td>
+    <td class = 'golink-key-td'><input data-id = '<%= @golink.id %>' id = '<%= @golink.id %>-key-input' type = 'text' class = 'form-control edit-input' value = '<%= @golink.key %>'></input>
+    </td> 
+
+    <td class = 'golink-description-td'>
+        <input id = '<%= @golink.get_parse_id %>-description-input' data-tags = '<%= @golink.tags ? @golink.tags.join(',') : '' %>' data-id = '<%= @golink.parse_id ? @golink.parse_id : @golink.id %>' class = 'form-control description-input' value = '<%= @golink.description %>' placeholder = 'enter a description'/>
+        <div id = '<%= @golink.get_parse_id %>-tag-container' class = 'tag-container'><% if @golink.tags %><% @golink.tags.each do |tag| %><div class = 'label label-default tag-label' data-tag = '<%= tag %>'><%= tag %><a href = 'javascript:void(0)' class = 'tag-delete-link' data-id = '<%= @golink.get_parse_id %>' data-tag = '<%= tag %>'>x</a></div><% end %><% end %></div>
+    </td>
+
+    <td class = 'golink-url-td'><input data-id = '<%= @golink.id %>' type = 'text' id = '<%= @golink.id %>-url-input' class = 'form-control edit-input' value = '<%= @golink.url %>'></input>
+    </td>
+    <td class = 'golink-permissions-td'>
+      <select  id = '<%= @golink.id %>-permissions-input' class = 'form-control permissions-input' data-id = '<%= @golink.id %>'>
+        <option <% if @golink.permissions and @golink.permissions == 'Only Me' %>selected<% end %>>Only Me</option>
+          <option <% if @golink.permissions and @golink.permissions == 'Only PBL' %>selected<% end %>>Only PBL</option>
+          <option <% if @golink.permissions and @golink.permissions == 'Only Officers' %>selected<% end %>>Only Officers</option>
+          <option <% if @golink.permissions and @golink.permissions == 'Only Execs' %>selected<% end %>>Only Execs</option>
+          <option <% if not @golink.permissions or @golink.permissions == '' or (@golink.permissions and @golink.permissions == 'Anyone') %>selected<% end %>>Anyone</option>
+      </select>
+    </td>
+    
+  </tr>
+  </tbody>
+</table>
+
+
 </div>
+
+<script type = 'text/javascript'>
+
+function removeTags(){
+  $('.tag-delete-link').click(function(){
+    id = $(this).attr('data-id');
+    tag = $(this).attr('data-tag');
+    description = $('#' + id + '-description-input').val().split('#')[0];
+    tags = $('#' + id + '-description-input').attr('data-tags').split(',');
+    index = tags.indexOf(tag);
+    if(index != -1){
+      tags.splice(index, 1);
+    }
+    $('#' + id + '-description-input').attr('data-tags', tags.join(','));
+    console.log(tags);
+    console.log(description);
+    console.log(id);
+    $(this).parent().remove();
+    $.ajax({
+          url: '/go/edit_description',
+          type: 'POST',
+          data: {'id':id, 'tags':tags.join(','), 'description': description},
+          success:function(data){
+            console.log('succeeded');
+          },
+          error:function (xhr, textStatus, thrownError){
+            alert('failed');
+          }
+      }); 
+  });
+}
+removeTags();
+
+
+function getUnique(array){
+  var uniqueArray = array.filter(function(elem, pos) {
+    return array.indexOf(elem) == pos;
+  }); 
+  return uniqueArray;
+}
+
+$('.description-input').focus( function() {
+  $('.tag-container').each(function(){
+    $(this).hide();
+  });
+  id = $(this).attr('data-id');
+  $('#'+id+'-tag-container').show();
+});
+
+$('.description-input').keypress(function(e){
+  if(e.which == 13) {
+        id = $(this).attr('data-id');
+        tags = $(this).attr('data-tags').split(',');
+        description = $(this).val();
+        if (description.indexOf('#') != -1){
+          splits = description.split('#');
+          description = splits[0];
+          for (var i = 1; i< splits.length;i++){
+            tags.push(splits[i].trim());
+          }
+        }
+        tags = getUnique(tags);
+        tag_container = $('#'+id+'-tag-container');
+        tag_container.html('');
+        tag_container.attr('data-tags', tags.join(','));
+        for(var i=0;i<tags.length;i++){
+          if(tags[i] == ''){
+            continue;
+          }
+          tag_div = document.createElement('div');
+          $(tag_div).addClass('label');
+          $(tag_div).addClass('label-default');
+          $(tag_div).addClass('tag-label');
+          // $(tag_div).attr('id', id + tags[i] + '-tag')
+          $(tag_div).text(tags[i]);
+          $(tag_div).attr('data-tag', tags[i]);
+          tag_delete_link = document.createElement('a');
+          $(tag_delete_link).attr('data-tag', tags[i]);
+          $(tag_delete_link).attr('data-id', id);
+          $(tag_delete_link).addClass('tag-delete-link');
+          $(tag_delete_link).text('x');
+          $(tag_div).append(tag_delete_link);
+          tag_container.append(tag_div);
+        }
+        $(this).val(description);
+        $(this).attr('data-tags', tags.join(','));
+        $(this).fadeOut(100).fadeIn(100);
+        $.ajax({
+        url: '/go/edit_description',
+        type: 'POST',
+        data: {'id':id, 'description':description, 'tags' : tags.join(',')},
+        success:function(data){
+          console.log('succeeded');
+          removeTags();
+          activateTagFilter();
+        },
+        error:function (xhr, textStatus, thrownError){
+          alert('failed');
+        }
+    });    
+    }
+});
+
+</script>
 
 <script type = 'text/javascript'>
 $('.undo-btn').click(function(){
@@ -41,5 +238,57 @@ $('.add-btn').click(function(){
 	window.location = '/go/add_landing_page';
 });
 
+
+function saveEdit(id){
+
+  key = $('#'+id+'-key-input').val();
+    description = $('#'+id+'-description-input').val().split('#')[0];
+    url = $('#'+id+'-url-input').val();
+    permissions = $("#" + id + "-permissions-input option:selected").text();
+    // showSpinner();
+    $('#'+id+'-row').fadeOut(100).fadeIn(100);
+    $.ajax({
+        url: '/go/edit',
+        type: 'POST',
+        data: {'id':id, 'key':key, 'description':description, 'permissions':permissions, 'url':url},
+        success:function(data){
+          // hideSpinner();
+        },
+        error:function (xhr, textStatus, thrownError){
+          alert('failed');
+          // hideSpinner();
+        }
+    });
+}
+$('.edit-input').keypress(function(e){
+  if(e.which == 13) {
+        id = $(this).attr('data-id');
+        saveEdit(id);
+    }
+});
+$('.permissions-input').change(function(){
+  id = $(this).attr('data-id');
+  saveEdit(id);
+});
+$('.link-delete-btn').click(function(){
+  // showSpinner();
+  id = $(this).attr('id');
+  row = $("#" + id + '-row');
+  $(row).remove();
+  $.ajax({
+      url: '/go/delete',
+      type: 'POST',
+      data: {'id':id},
+      success:function(data){
+        // hideSpinner();
+        
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+        // hideSpinner();
+      }
+  });
+
+});
 
 </script>

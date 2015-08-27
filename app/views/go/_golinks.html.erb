@@ -2,6 +2,7 @@
 .golink-type-image{
   height:15px;
 }
+
 /* go links styles*/
 .link-row>.golink-type-td>{
   width:5%;
@@ -25,15 +26,8 @@
 .description-input{
 	min-width:300px;
 }
-.vote-btn{
-	/*font-size:13px;*/
-}
-.vote-btn:hover{
-	cursor:pointer;
-}
-.golink-vote-td{
-	width:50px;
-}
+
+
 .editing{
 	opacity:0.5;
 }
@@ -89,7 +83,13 @@
 	</table>
 <% end %>
 <script type = 'text/javascript'>
-activateTagFilter();
+try {
+    activateTagFilter();
+}
+catch(err) {
+    console.log(err.message);
+}
+
 function removeTags(){
 	$('.tag-delete-link').click(function(){
 		id = $(this).attr('data-id');
