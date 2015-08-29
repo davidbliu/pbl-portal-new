@@ -4,12 +4,17 @@
 
 	
 
-	def self.attended_events(member_id)
+	def self.attended_events(email)
 		""" gets the events that this member attended """
 
-		ems = PointManager.event_members(member_id)
-		events = Event.this_semester.where('id in (?)', ems.pluck(:event_id))
-		return events
+		# ems = PointManager.event_members(member_id)
+		# events = Event.this_semester.where('id in (?)', ems.pluck(:event_id))
+		# return events
+		events = ParseEvent.limit(1000).where(semester_name: ParseSemester.current_semester.name)
+		member_events = ParseEventMember.limit(1000).where(member_email: email).select{|x| x.type == 'chair' or x.type == 'exec'}
+		eids = member_events.map{|x| x.event_id}
+		attended = events.select{|x| eids.include?(x.google_id)}
+		return attended
 	end
 
 	def self.points(member_id)

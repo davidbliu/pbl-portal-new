@@ -15,26 +15,51 @@ class PointsController < ApplicationController
 
 
 	def index
-		# what events you attended
-		@attended = PointManager.attended_events(current_member.id)
-		# how many points you have
-		@points = PointManager.points(current_member.id)
-		# how many points everyone on your committee has
-		@member_name_point_dict = PointManager.member_name_point_dict
-		# rankings for pbl (top 10 points)
-		@top_cms = PointManager.top_cms.first(10)
+		# # what events you attended
+		@attended = PointManager.attended_events(current_member.email)
+		@points = @attended.map{|x| x.get_points}.inject{|sum,x| sum + x }
+		# # how many points you have
+		# @points = PointManager.points(current_member.id)
+		# # how many points everyone on your committee has
+		# @member_name_point_dict = PointManager.member_name_point_dict
+		# # rankings for pbl (top 10 points)
+		# @top_cms = PointManager.top_cms.first(10)
+	end
+
+	def update_attendance
+		event_id = params[:event_id]
+		email = params[:email]
+		type = params[:type]
+		ems = ParseEventMember.where(event_id: event_id).where(member_email: email).to_a
+		if ems.length > 0
+			em = ems[0]
+		else
+			em = ParseEventMember.new(event_id: event_id, member_email: email)
+		end
+		em.type = type
+		em.save
+		render nothing: true, status: 200
 	end
 
 	def attendance
-		emails = [current_member.email]
-		@events = ParseEvent.order("start_time desc").where(semester_name: ParseSemester.current_semester.name).limit(10000000).all
-		@members = ParseMember.current_members.select{|x| emails.include?(x.email)}
 
-		ems = ParseEventMember.limit(100000000).all
-		@event_members = Set.new
-		ems.each do |em|
-			@event_members.add(em.event_id + "," + em.member_email)
+		@events = ParseEvent.order("start_time desc").where(semester_name: ParseSemester.current_semester.name).all
+		@ems = ParseEventMember.limit(1000000).all
+		filter = params[:filter] ? params[:filter] : 'my_committee'
+		if filter == 'all'
+			@members = ParseMember.current_members.to_a
+		elsif filter == 'me'
+			@members = [current_member]
+		elsif filter == 'chairs'
+			@members = ParseMember.current_members.select{|x| x.position == 'chair'}
+		else
+			@members = ParseMember.committee_members(current_member.committee).to_a
 		end
+
+		@event_members = ParseEventMember.hash(@ems)
+		@keys = @event_members.keys
+		@current_member = current_member
+		puts @current_member
 	end
 
 	#
@@ -104,33 +129,33 @@ class PointsController < ApplicationController
 	#
 	# save event members. input is (event_id, member_id) list
 	# TODO assumes current semester
-	#
-	def update_attendance
-		begin
-			@semester_id = Semester.current_semester.id
-			begin
-				marked = params[:attendance_data]
-				marked.keys.each do |key|
-					em = EventMember.create(semester_id: @semester_id, event_id: marked[key]['event_id'], member_id:marked[key]['member_id'])
-					em.save
-				end
-			rescue 
-				p 'adding attendance failed'
-			end
-			begin
-				unmarked = params[:remove_data]
-				unmarked.keys.each do |key|
-					em = EventMember.where(event_id: unmarked[key]['event_id'], member_id:unmarked[key]['member_id']).destroy_all
-				end
-			rescue
-				p 'remove attendance failed'
-			end
+	# #
+	# def update_attendance
+	# 	begin
+	# 		@semester_id = Semester.current_semester.id
+	# 		begin
+	# 			marked = params[:attendance_data]
+	# 			marked.keys.each do |key|
+	# 				em = EventMember.create(semester_id: @semester_id, event_id: marked[key]['event_id'], member_id:marked[key]['member_id'])
+	# 				em.save
+	# 			end
+	# 		rescue 
+	# 			p 'adding attendance failed'
+	# 		end
+	# 		begin
+	# 			unmarked = params[:remove_data]
+	# 			unmarked.keys.each do |key|
+	# 				em = EventMember.where(event_id: unmarked[key]['event_id'], member_id:unmarked[key]['member_id']).destroy_all
+	# 			end
+	# 		rescue
+	# 			p 'remove attendance failed'
+	# 		end
 			
-			render :nothing => true, :status => 200, :content_type => 'text/html'
-		rescue
-			render :nothing => true, :status => 500, :content_type => 'text/html'
-		end
-	end
+	# 		render :nothing => true, :status => 200, :content_type => 'text/html'
+	# 	rescue
+	# 		render :nothing => true, :status => 500, :content_type => 'text/html'
+	# 	end
+	# end
 
 	#
 	# calculate apprentice rankings

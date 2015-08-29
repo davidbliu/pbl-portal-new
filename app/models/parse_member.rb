@@ -66,6 +66,10 @@ class ParseMember < ParseResource::Base
 		ParseMember.order("committee").where(latest_semester: semester.name)
 	end
 
+	def self.committee_members(semester = ParseSemester.current_semester, committee)
+		ParseMember.where(latest_semester:semester.name).where(committee:committee)
+	end
+
 	def self.current_members_hash(semester = ParseSemester.current_semester)
 		ParseMember.current_members.index_by(&:email)
 	end

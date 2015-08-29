@@ -1,11 +1,15 @@
 class ParseEvent < ParseResource::Base
-  fields :name, :location, :start_time, :end_time, :description, :points, :google_id, :type, :semester_name
+  fields :name, :location, :start_time, :end_time, :description, :points, :google_id, :type, :semester_name, :points
 
   """ convenience methods: a replacement for PointManager"""
   def self.attended_events(member, semester = ParseSemester.current_semester)
     
   end
 
+  def get_points
+    self.points ? self.points : 0
+  end
+  
   def self.current_events(semester = ParseSemester.current_semester) #TODO change this to the real semester
     ParseEvent.limit(10000).where(semester_name: semester.name)
   end

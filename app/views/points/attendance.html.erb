@@ -1,23 +1,138 @@
+<style type = 'text/css'>
+.attendance-cell{
+	min-width:15px;
+}
+.attendance-cell:hover{
+	cursor: pointer;
+}
+td.chair-cell{
+	background-color:green;
+	opacity:0.75 !important;
+}
+td.cm-cell{
+	background-color:green;
+	opacity:0.3;
+}
+td.none-cell{
+	background-color:none;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+.member-col{
+	min-width:100px;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+
 <h1 class = 'centered'>Attendance</h1>
 
-<table class = 'table table-striped'>
+<div><a href = '/points/attendance?filter=my_committee'>My Committee</a></div>
+<!-- <div><a href = '/points/attendance?filter=all'>All Members</a></div> -->
+<div><a href = '/points/attendance?filter=chairs'>All Chairs</a></div>
+<!-- <div><a href = '/points/attendance?filter=all_cms'>All CMs</a></div> -->
+
+<table class = 'table table-bordered'>
 	<thead>
 		<tr>
 			<th>Event</th>
 			<% @members.each do |member| %>
-			<th><%= member.name %></th>
+			<th class = 'member-col'><%= member.name %></th>
 			<% end %>
 		</tr>
 	</thead>
 	<tbody>
 		<% @events.each do |event| %>
 		<tr>
-			<td><%= event.name %></td>
+			<td><%= event.name %> (<%= event.get_points %>)</td>
 			<% @members.each do |member| %>
-			<td><% if @event_members.include?(event.google_id + ',' + member.email) %>x<% end %></td>
+			<td class = 'attendance-cell <%= ParseEventMember.get_status(event, member, @event_members) %>-cell' data-type = '<%= ParseEventMember.get_status(event, member, @event_members) %>' data-eventid = '<%= event.google_id %>' data-email = '<%= member.email %>'></td>
 			<% end %>
 		</tr>
 		<% end %>
 	</tbody>
 </table>
 
+
+<script type = 'text/javascript'>
+
+function showSpinner(){
+  $('#loading-gif').show();
+}
+function hideSpinner(){
+  $('#loading-gif').hide();
+}
+
+function getPreviousType(cell){
+	type = $(cell).attr('data-type').split('-')[0];
+}
+function getCurrentType(type, previousType){
+	console.log('previous was '+previousType+' and current is '+type);
+	if(previousType == 'none'){
+		return type;
+	}
+	if(previousType == 'cm' && type == 'chair'){
+		return 'chair';
+	}
+	if(previousType == 'chair' && type == 'cm'){
+		return 'chair';
+	}
+	if(previousType == 'chair' && type == 'chair'){
+		return 'none'
+	}
+	return 'none';
+}
+function setType(cell, type){
+	$(cell).attr('data-type', type);
+	$(cell).attr('class', type+'-cell attendance-cell');
+}
+function removeTypes(cell){
+	// remove other classes
+	if($(cell).hasClass('chair-cell')){
+		$(cell).removeClass('chair-cell');
+	}
+	if($(cell).hasClass('cm-cell')){
+		$(cell).removeClass('cm-cell');
+	}
+	if($(cell).hasClass('none-cell')){
+		$(cell).removeClass('none-cell');
+	}
+}
+
+$('.attendance-cell').click(function(){
+	// update attendance on server
+	// change color of cell
+	showSpinner();
+	type = $(this).attr('data-type');
+	eid = $(this).attr('data-eventid');
+	email = $(this).attr('data-email');
+	type = '<%= current_member.position ? current_member.position : "none" %>';
+	
+	cell = $(this);
+	previousType = $(this).attr('data-type');
+	currType = getCurrentType(type, previousType);
+	removeTypes(cell);
+	setType(cell, currType);
+
+	$.ajax({
+      url: '/points/update_attendance',
+      type: 'POST',
+      data: {'event_id': eid, 'email': email, 'type': type},
+      success:function(data){
+      	hideSpinner();
+      	console.log('success');
+      },
+      error:function (xhr, textStatus, thrownError){
+      	hideSpinner();
+      	alert('failed');
+      }
+  });
+});
+</script>

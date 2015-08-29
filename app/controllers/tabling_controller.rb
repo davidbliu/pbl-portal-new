@@ -30,7 +30,8 @@ class TablingController < ApplicationController
 
 	def index
     # @slots = TablingSlot.all
-    @slots = ParseTablingManager.get_tabling_schedule
+    # @slots = ParseTablingManager.get_tabling_schedule
+    # render 'temp'
   end
 	
 	#

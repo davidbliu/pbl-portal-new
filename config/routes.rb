@@ -151,12 +151,14 @@ Portal::Application.routes.draw do
 
   #static routes
   get 'static/wd', to:'static#wd'
+  get 'static/extension', to:'static#extension'
 
 
 
   # points and attendance routess
   get 'points', to:'points#index'
   get 'points/attendance', to:'points#attendance'
+  post 'points/update_attendance', to:'points#update_attendance'
 
   resources :google_events do 
     collection do 

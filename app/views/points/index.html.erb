@@ -1,61 +1,16 @@
 <style type = 'text/css'>
-th, td {
-    vertical-align: top;
-}
-ul {
-	list-style:none;
-	margin-right:50px;
-}
-.points-card{
-	text-align: center;
-	margin:0px;
-}
-table .points-table{
-	  border-spacing: 10px;
-  border-collapse: separate;
-}
+
 </style>
 
-<!-- <table class = 'points-table'> -->
-<!-- <tr> -->
-	<!-- <td> -->
-	<div class = 'row'>
-		<div class = 'col-md-3'>
-			<div >
-			<h1>Points</h1>
-			<p>You have <%= @points %> points</p>
-			<h2>Attended Events</h2>
-			<ul>
-			<% @attended.each do |event| %>
-			<li><%= event.name %></li>
-			<% end %>
-			</ul>
-			</div>
-		</div>
-	<!-- </td> -->
-	<!-- <td> -->
-		<div class = 'col-md-3'>
-			<div >
-			<h2>PBL Points</h2>
-			<ul>
-			<% @member_name_point_dict.keys.each do |member_name| %>
-			<li><%= member_name %>: <%= @member_name_point_dict[member_name] %></li>
-			<% end %>
-			</ul>
-			</div>
-		</div>
-	<!-- </td> -->
-	<!-- <td> -->
-		<div class = 'col-md-3'>
-			<div >
-			<h2>Top Cms</h2>
-			<ul>
-			<% @top_cms.each do |member| %>
-			<li><%= member.name %>: <%= @member_name_point_dict[member.name] %></li>
-			<% end %>
-			</ul>
-			</div>
-		</div>
-	<!-- </td> -->
-<!-- </tr> -->
-<!-- </table> -->
+<div class = 'centered'>
+<h1>Points</h1>
+<h3>You have <%= @points %> points</h3>
+<h2>Events You Attended</h2>
+<div><a href = '/points/attendance?filter=me'>My Attendance</a></div>
+<% @attended.each do |event| %>
+<div><%= event.name %> (<%= event.get_points %>)</div>
+<% end %>
+
+<!-- <h2>Your Committee</h2> -->
+
+</div>
