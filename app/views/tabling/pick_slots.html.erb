@@ -1,0 +1,48 @@
+<style type = 'text/css'>
+.pick-slot-div{
+	padding:15px;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+<h1 class = 'centered'>Pick 3 slots you can attend</h1>
+
+<div id = 'slots-container' class = 'centered'>
+<% @unconfirmed.each do |slot| %>
+	<div class = 'pick-slot-div'>
+		<h3 class = 'slot-time'><%= TablingManager.time_string(slot.time) %></h3>
+		<div class = 'input-area'>
+			<h4>Can you attend this slot?</h4>
+			<div class = 'suggested-slot-area'></div>
+			<a href = '/tabling/confirm_slot?time=<%= slot.time %>'><button class = 'btn btn-material-blue-500 accept-slot-btn'>Yes</button></a>
+			<a href = '/tabling/get_slots?prev_time=<%= slot.time %>' %><button class = 'btn btn-material-red-500 reject-slot-btn'>No</button></a>
+		</div>
+
+	</div>
+<% end %>
+
+<% @confirmed.each do |slot| %>
+	<div class = 'pick-slot-div'>
+		<h3 class = 'slot-time'><%= TablingManager.time_string(slot.time) %></h3>
+		<div class = 'input-area'>
+			<p>You've confirmed you can make this slot</p>
+			<a href = '/tabling/unconfirm_slot?time=<%= slot.time %>'><button class = 'btn btn-material-purple-500'>I can no longer attend this slot</button></a>
+		</div>
+
+	</div>
+<% end %>
+</div>
+
+
+<script type = 'text/javascript'>
+
+</script>

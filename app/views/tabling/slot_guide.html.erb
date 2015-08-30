@@ -1,0 +1,17 @@
+<table class = 'table table-condensed'>
+	<thead>
+		<tr>
+			<th>Slot</th>
+			<th>Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @times.each do |time| %>
+		<tr>
+			<td><%= time %></td>
+			<td><%= TablingManager.time_string(time) %>
+			</td>
+		</tr>
+		<% end %>
+	</tbody>
+</table>

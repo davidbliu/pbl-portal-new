@@ -1,0 +1,11 @@
+<style type = 'text/css'>
+.slot-link{
+	color:black !important;
+}
+</style>
+<h1 class = 'centered'>Pick a slot you can attend instead</h1>
+<ul class = 'list-group centered'>
+<% @slots.each do |slot| %>
+	<li class = 'list-group-item' data-slot ='<%= slot.time %>'><h4><a class = 'slot-link' href = '/tabling/confirm_slot?prev_time=<%= @prev_time %>&time=<%= slot.time %>'><%= TablingManager.time_string(slot.time) %></a></h4></li>
+<% end %>
+</ul>

@@ -1,4 +1,83 @@
-<h1 class = 'centered'>Tell us your commitments</h1>
-<p style = 'centered'>Mark slots that you cannot attend. Try to leave at least 5 slots open so we can properly accomodate your preferences</p>
-	<!-- "></a>, as we are using a variation of <a href = 'http://pbl.link/tabling-algorithm'>pbl.link/tabling-algorithm</a></p> -->
-<%= render "day_chart", objects: @marked %>
+<style type = 'text/css'>
+.day-div {
+	padding:10px;
+	float: left;
+	width:20%;
+}
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+<h1 class = 'centered'>Tell us your schedule</h1>
+<p class = 'centered'>Mark slots that you are free. Try to leave at least 5 slots open during tabling so we can find a good slot for you</p>
+
+
+<% @times_hash.keys.each do |day| %>
+	<div class = 'day-div'>
+		<div class = 'label label-primary'><%= day %></div>
+		<% @times_hash[day].each do |time| %>
+			<div class = 'time-div'>
+				
+				<% if not @commitments.include?(time) %>
+					<span class = 'mdi-toggle-check-box-outline-blank commitment-toggle' data-time = '<%= time %>'></span>
+				<% else %>
+					<span class = 'mdi-toggle-check-box commitment-toggle' data-time = '<%= time %>'></span>
+				<% end %>
+				<%= TablingManager.time_string(time) %></div>
+		<% end %>
+	</div>
+<% end %>
+
+<script type = 'text/javascript'>
+function showSpinner(){
+	$("#loading-gif").show();
+}
+function hideSpinner(){
+	$('#loading-gif').hide();
+}
+var checked = 'mdi-toggle-check-box';
+var unchecked = 'mdi-toggle-check-box-outline-blank';
+function toggle(box){
+	if($(box).hasClass(checked)){
+		$(box).removeClass(checked);
+		$(box).addClass(unchecked);
+	}
+	else{
+		$(box).removeClass(unchecked);
+		$(box).addClass(checked);
+	}
+}
+$('.commitment-toggle').click(function(){
+	toggle($(this));
+	times = [];
+	$('.commitment-toggle').each(function(){
+		if($(this).hasClass(checked)){
+			times.push($(this).attr('data-time'));
+		}
+	});
+	console.log(times);
+	showSpinner();
+	$.ajax({
+      url: '/tabling/save_commitments',
+      type: 'POST',
+      data: {'commitments': times.join(',')},
+      success:function(data){
+        hideSpinner();
+        console.log('saved');
+      },
+      error:function (xhr, textStatus, thrownError){
+        hideSpinner();
+        alert('failed');
+      }
+  });
+
+});	
+</script>

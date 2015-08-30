@@ -4,14 +4,58 @@ th, td {
     vertical-align: top;
 }
 .tabling-day {
-	margin-left: 20px;
+	padding:10px;
+	float: left;
+	width:20%;
+}
+.tabling-container{
+	clear:both;
+	display:inline-block;
+	width:100%;
+}
+.slot-member{
+	padding:2px;
+}
+.tabling-nav{
+	padding:10px;
+}
+.tabling-nav>a{
+	font-size:20px;
+	color:black !important;
 }
 </style>
 
 
-<h1 style = 'text-align:center'>Tabling is under construction...</h1>
+<!-- 
+<div class = 'col-md-2' style = 'text-align:center'>
 
+	<div class = 'tabling-nav'><a href = '/tabling/pick_slots'><span class = 'mdi-action-event'></span>
+		<div>Pick Slots</div>
+	</a></div>
 
+	<div class = 'tabling-nav'><a href = '/tabling/commitments'><span class = 'mdi-action-event'></span>
+		<div>Commitments</div>
+	</a></div>
+
+</div> -->
+
+<!-- <div class = 'col-md-10'> -->
+	<h1 class = 'centered'>Tabling Schedule</h1>
+	<div class = 'tabling-container'>
+		<% @tabling_hash.keys.each do |tabling_day| %>
+		<div class = 'tabling-day'>
+			<% @tabling_hash[tabling_day].each do |slot| %>
+			<div class = 'tabling-slot'>
+				<div class = 'label label-primary'><%= TablingManager.time_string(slot.time) %></div>
+				<% slot.get_member_emails.each do |email| %>
+					<div class = 'slot-member'><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img> <%= @member_email_hash[email].name %></div>
+				<% end %>
+			</div>
+			<% end %>
+		</div>
+		<% end %>
+	</div>
+<!-- </div> -->
 
 
 

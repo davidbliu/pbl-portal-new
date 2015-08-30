@@ -1,7 +1,52 @@
+require 'set'
+
 class TablingManager < ActiveRecord::Base
 
 
 """ displaying tabling schedules """
+
+def self.time_string(time)
+  return self.get_day(time) + ' at '+self.get_hour(time)
+end
+
+def self.times_hash
+    times = []
+    times << (8..8+10).to_a
+    times << (32..32+10).to_a
+    times << (56..56+10).to_a
+    times << (80..80+10).to_a
+    times << (104..104+10).to_a
+    times = times.flatten()
+    
+    times_hash = {}
+    times.each do |time|
+      day = self.get_day(time)
+      if not times_hash.keys.include?(day)
+        times_hash[day] = []
+      end
+      times_hash[day] << time
+    end
+    return times_hash
+end
+
+def self.get_day(time)
+  day = time / 24
+  day_strings = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+  day_string = day_strings[day]
+  return day_string
+end
+
+def self.get_hour(time)
+  hour = time % 24
+  h = hour % 12
+  if h==0
+    h=12
+  end
+  half = hour >= 12 ? 'pm': 'am'
+  hour_string =  h.to_s+':00'+half
+  return hour_string
+end
+
 
 def self.tabling_schedule
   """ returns the tabling schedule in a Hash
@@ -35,6 +80,104 @@ end
 
 """switching tabling"""
 
+
+
+
+""" use tabling histogram to generate tabling"""
+def self.generate_tabling
+  slots = {}
+  assignments = {}
+  assigned = Set.new
+  member_slots = {}
+  TablingHist.all.each do |hist|
+    slots[hist.time] = hist.get_confirmed + hist.get_unconfirmed
+    assignments[hist.time] = []
+  end
+  # make member_slots
+  slots.keys.each do |slot|
+    slots[slot].each do |member|
+      if not member_slots.keys.include?(member)
+        member_slots[member] = []
+      end
+      member_slots[member] << slot
+    end
+  end
+  puts 'this is member_slots'
+  puts member_slots
+
+  slots_available = Set.new(member_slots.values.flatten())
+
+  while member_slots.keys.length > 0
+    slots_available = Set.new(member_slots.values.flatten())
+    slot = self.get_least_filled_slot(slots_available, assignments)
+    member = slots[slot].select{|x| not assigned.include?(x)}.sample
+    assigned.add(member)
+    assignments[slot] << member
+    member_slots = member_slots.except(member)
+    puts member_slots.keys.length
+  end
+  puts assignments
+
+  ParseTablingSlot.destroy_all
+  tabling_slots = []
+  assignments.keys.each do |time|
+    tabling_slots << ParseTablingSlot.new(time: time, member_emails:assignments[time].join(','),
+      day: TablingManager.get_day(time), hour: TablingManager.get_hour(time))
+  end
+  ParseTablingSlot.save_all(tabling_slots)
+
+
+  # members = Set.new(members).to_a
+
+  # while members.length > assigned.length
+  #   mc_slot = self.get_most_constrained_slot(slots, assignments, assigned)
+  #   m = self.can_assign(slots[mc_slot])
+  # end
+  # puts assignments
+end
+
+def self.get_least_filled_slot(slots, assignments)
+  mcv = [slots]
+  num_assigned = 10000
+  slots.each do |slot|
+    if assignments[slot].length < num_assigned
+      num_assigned = assignments[slot].length
+      mcv = [slot]
+    elsif assignments[slot].length == num_assigned
+      mcv << slot
+    end
+  end
+  return mcv.sample
+
+end
+
+def self.get_most_constrained_slot(slots, assignments, assigned)
+  mcv = slots
+  num_assigned = 10000
+  slots = slots.keys.select{|x| self.can_assign(slots[x], assigned).length > 0}
+  slots.each do |slot|
+    if assignments[slot].length < num_assigned
+      num_assigned = assignments[slot].length
+      mcv = [slot]
+    elsif assignments[slot].length == num_assigned
+      mcv << slot
+    end
+  end
+  return mcv.sample
+end
+
+def self.can_assign(slot_members, assigned)
+  return slot_members.select{|x| not assigned.include?(x)}
+end
+
+
+def self.get_initial_assignments(histogram)
+  assignments = {}
+  histogram.each do |hist|
+    assignments[hist.time] = []
+  end
+  return assignments
+end
 
 """generating tabling"""
 

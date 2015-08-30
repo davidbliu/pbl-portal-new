@@ -306,6 +306,11 @@ Portal::Application.routes.draw do
   end
   resources :tabling do
     collection do
+      get 'slot_guide'
+      get 'pick_slots'
+      get 'get_slots'
+      get 'confirm_slot'
+      get 'unconfirm_slot'
       get 'generate'
       get 'options'
       get 'edit_tabling'
@@ -313,6 +318,7 @@ Portal::Application.routes.draw do
       get 'manage'
       get 'convert'
       get 'commitments'
+      post 'save_commitments'
 
       # for testing progress bars
       get 'progress_update'

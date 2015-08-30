@@ -1,5 +1,24 @@
 require 'set'
 require 'chronic'
+namespace :tabling do
+  task :init => :environment do 
+    current_members = ParseMember.current_members
+    slots = []
+    slots << (10..11).to_a
+    slots << (34..36).to_a
+    slots << (58..60).to_a
+    slots << (82..84).to_a
+    slots << (106..108).to_a
+    slots = slots.flatten()
+
+    TablingHist.initialize_histogram(current_members, slots)
+  end
+  task :generate => :environment do 
+    TablingManager.generate_tabling
+  end
+end
+
+
 
 task :g_tabling => :environment do
   times = 20..50
