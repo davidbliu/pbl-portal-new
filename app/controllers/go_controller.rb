@@ -78,6 +78,7 @@ class GoController < ApplicationController
 		end
 		return [description, tags]
 	end
+	
 	def edit
 
 		golink = ParseGoLink.find(params[:id])
@@ -182,21 +183,21 @@ class GoController < ApplicationController
    	end
 
 	def my_links
-		@golinks = ParseGoLink.limit(1000000).order('createdAt desc').where(member_email: current_member.email)
 		# apply filters
 		filter = params[:filter]
+		@golinks = ParseGoLink.limit(1000000).order('createdAt desc').where(member_email: current_member.email)
 		if filter and filter != ''
-			if filter.include?("Shared With:")
-				permissions = filter.split('Shared With:')[1].strip
-				@golinks = @golinks.select{|x| x.get_permissions == permissions}
-			else
-				@golinks = @golinks.select{|x| (x.key and x.key.include?(filter)) or (x.description and x.description.include?(filter)) or (x.url and x.url.include?(filter))}
-			end
-			@filter = filter
+			# @golinks = ParseGoLink.search_my_links(filter, current_member.email)
+			@golinks = @golinks.select{|x| (x.key and x.key.include?(filter)) or (x.description and x.description.include?(filter)) or (x.url and x.url.include?(filter))}
 		end
+
+		# return paginated go links
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 		render 'my_links'
+	end
+
+	def search_my_links
 	end
 
 	def admin
@@ -308,6 +309,9 @@ class GoController < ApplicationController
 		# puts 'recieved is '+ @received.to_s
 		# puts 'sent is '+@sent.to_s
 		render 'shares', layout: false
+	end
+
+	def settings
 	end
 
 

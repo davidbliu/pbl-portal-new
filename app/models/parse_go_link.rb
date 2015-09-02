@@ -4,6 +4,16 @@ class ParseGoLink < ParseResource::Base
 	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes, :tags
 
 
+	def can_edit(email)
+		if self.member_email == email
+			return true
+		end
+		admin_emails = ['davidbliu@gmail.com', 'akwan726@gmail.com', 'emilyyliu96@gmail.com']
+		if admin_emails.include?(email)
+			return true
+		end
+		return false
+	end
 	def get_parse_id
 		return self.parse_id ? self.parse_id : self.id
 	end
@@ -258,7 +268,7 @@ class ParseGoLink < ParseResource::Base
 		if url == nil
 			return type
 		end
-		
+
 		if url.include?('docs.google.com/document')
 			type = 'document'
 		elsif url.include?('docs.google.com/spreadsheets')
@@ -339,34 +349,32 @@ class ParseGoLink < ParseResource::Base
 		# puts 'imported into elasticsearch index'
 	end
 
+	# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
+
 	def self.search(search_term)
 		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'tags^2', 'description', 'text', 'url', 'member_email'], fuzziness:1}}, :size=>100).results
-		# results = GoLink.search(query: {query_string: {query: search_term, fields: ['key^10', 'data', 'description', 'text'], fuzziness:1}}, :size=>100).results
-		# query = { "fuzzy" => { "key" => search_term }}
-		# query = search_term
-		# results = GoLink.search(search_term, :size=>100).results.results
+		return self.search_results_to_golinks(results)
+	end
+
+	def self.search_my_links(search_term, email)
+		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['key^3', 'tags^2', 'description', 'text', 'url', 'member_email'], fuzziness:1}}, :size=>100).results
+		return self.search_results_to_golinks(results)
+	end
+
+	def self.search_results_to_golinks(results)
 		golinks = Array.new
 		results.each do |result|
 			data =  result._source
 			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
 				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
-				rating: data['rating'], votes: data['votes'], tags: data['tags'])
-			#, member_email: data['member_email'],
-				# permissions:data['permissions'])#
+				rating: data['rating'], votes: data['votes'], tags: data['tags'], updatedAt: data['updated_at'])
 		end
 		return golinks
 	end
 
 	def self.tag_search(search_term)
 		results = GoLink.search(query: {multi_match: {query: search_term, fields: ['tags'], fuzziness:0}}, :size=>100000).results
-		golinks = Array.new
-		results.each do |result|
-			data =  result._source
-			golinks << ParseGoLink.new(parse_id: data['parse_id'], key: data['key'], description: data['description'], 
-				url: data['url'], member_email: data['member_email'], permissions: data['permissions'], num_clicks: data['num_clicks'],
-				rating: data['rating'], votes: data['votes'], tags: data['tags'])
-		end
-		return golinks
+		return self.search_results_to_golinks(results)
 	end
 
 	def self.member_search(email)

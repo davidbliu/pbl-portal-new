@@ -56,16 +56,6 @@
   background-color: black;
 }
 
-#spinner-div{
-  z-index: 5000;
-    position: fixed;
-    top:100px;
-    left:500px;
-    margin: auto;
-    display:none;
-}
-
-
 
 
 #loading-gif{
@@ -120,21 +110,11 @@
   </div>
 
   <div class = 'button-container'>
-  <!-- <button class = 'filter-button' id = 'popular-link'>Popular Links</button> -->
-  <!-- <button class = 'filter-button' id = 'recent-link'>Recently Visited</button> -->
   </div>
 
 
    <div id = 'page-card-container'>
     <div id = 'filter-cards'>
-
-
-    <!--   <div class = 'page-card'>
-        <a href = 'javascript:void(0);' id = 'popular-link'>
-        <div><i class = 'mdi-social-whatshot'></i></div>
-        <div><span>Popular Links</span></div>
-        </a>
-      </div> -->
 
       <div class = 'page-card'>
         <a href = 'javascript:void(0);' id = 'dashboard-link'>
@@ -150,25 +130,7 @@
         </a>
       </div>
 
-        
-<!-- 
-      <div class = 'page-card'>
-        <a href = 'javascript:void(0);' id = 'shares-link'>
-        <div><i class = 'mdi-action-announcement'></i></div>
-        <div><span>Shares</span></div>
-        </a>
-      </div> -->
-
-      <!--  <div class = 'page-card'>
-        <a href = 'javascript:void(0);' id = 'hide-link'>
-        <div><i class = 'mdi-content-block'></i></div>
-        <div><span>Hide Options</span></div>
-        </a>
-      </div> -->
-
     </div>
-
-    
 
     <div class = 'page-card' style = 'display:none' id = 'show-link'>
       <a href = 'javascript:void(0);'>
@@ -184,8 +146,9 @@
 
 
 </div>
+<div class = 'centered' style = 'width:100%'>
   <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
-
+</div>
 
   <div id = 'results-container'>
     <% if @golinks %>

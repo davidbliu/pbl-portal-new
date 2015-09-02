@@ -54,6 +54,7 @@ Portal::Application.routes.draw do
   """ me"""
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'
+  get 'go/search_my_links', to:'go#search_my_links'
   get 'go/their_links', to:'go#their_links'
   get 'go/test', to:'go#test'
   get 'go/landing_page', to: 'go#landing_page'
@@ -74,6 +75,7 @@ Portal::Application.routes.draw do
   get 'go/tags', to:'go#tags'
   get 'go/tag_search', to:'go#tag_search'
   get 'go/installing', to:'go#installing'
+  get 'go/settings', to:'go#settings'
 
   get 'go/quick_add', to:'go#quick_add'
 
