@@ -255,6 +255,10 @@ class ParseGoLink < ParseResource::Base
 	def resolve_type
 		type = 'other'
 		url = self.url
+		if url == nil
+			return type
+		end
+		
 		if url.include?('docs.google.com/document')
 			type = 'document'
 		elsif url.include?('docs.google.com/spreadsheets')
