@@ -364,6 +364,13 @@ $('#search-input').keyup($.debounce(250, function(){
 
 }));
 
+$('#search-input').keypress(function(e){
+  if(e.which == 13) {
+      term = $(this).val();
+      window.location='/'+term+'/go'
+    }
+});
+
 <% if @search_term %>
   pullSearchResults('<%= @search_term %>');
   ajaxPaginate();
