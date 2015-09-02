@@ -35,7 +35,7 @@
 		<h3 class = 'slot-time'><%= TablingManager.time_string(slot.time) %></h3>
 		<div class = 'input-area'>
 			<p>You've confirmed you can make this slot</p>
-			<a href = '/tabling/unconfirm_slot?time=<%= slot.time %>'><button class = 'btn btn-material-purple-500'>I can no longer attend this slot</button></a>
+			<a href = '/tabling/get_slots?prev_time=<%= slot.time %>'><button class = 'btn btn-material-purple-500'>I can no longer attend this slot</button></a>
 		</div>
 
 	</div>

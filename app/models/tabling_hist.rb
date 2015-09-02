@@ -77,9 +77,6 @@ class TablingHist < ParseResource::Base
 
 		puts 'initializing histogram'
 
-		TablingHist.destroy_all
-		puts 'destroyed previous histogram'
-
 		members = members.map{|x| x.email}
 		assignments = self.get_empty_assignments(slots)
 
@@ -98,9 +95,7 @@ class TablingHist < ParseResource::Base
 		
 		unfinished = members.select{|x| member_counts[x] < num}
 		puts 'placing members into histogram'
-		# num.times do
-		# 	assigned = Set.new
-		# 	while assigned.length < members.length
+
 		while unfinished.length > 0
 				remaining_slots = slots.select{|x| slot_counts[x] < max_capacity}
 				mcv = self.get_most_constrained_member(remaining_slots, unfinished, assignments, commitments)
@@ -115,9 +110,6 @@ class TablingHist < ParseResource::Base
 				member_counts[mcv] +=1 
 				unfinished = members.select{|x| member_counts[x] < num}
 		end
-				# puts 'the name of the mcv was '+mcv+' and the lcv was '+lcv.to_s
-		# 	end
-		# end
 
 		puts assignments
 		hist = []
@@ -126,6 +118,10 @@ class TablingHist < ParseResource::Base
 			h.update_counts
 			hist << h
 		end
+
+		TablingHist.destroy_all
+		puts 'destroyed previous histogram'
+
 		TablingHist.save_all(hist)
 	end
 

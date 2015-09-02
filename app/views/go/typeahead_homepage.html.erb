@@ -29,26 +29,16 @@
 .smalltext{
   font-size:10px;
 }
-#custom-search-input{
-    border: solid 1px #E4E4E4;
-    border-radius: 6px;
-    background-color: #fff;
-    width:100%;
-    text-align:center;
-    clear:both;
-    display:inline-block;
+#search-input{
+  width:100%;
+  padding:10px;
+  text-align:center;
 }
 
-#custom-search-input input{
-    border: 0;
-    box-shadow: none;
-    padding-bottom:0px;
-    width:100%;
-    text-align:center;
-}
-#search-input-group{
-  text-align:center;
-  width:100%;
+#search-input:focus{
+  border-color: rgba(126, 239, 104, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+  outline: 0 none;
 }
 
 
@@ -125,9 +115,7 @@
   <div style = 'clear:both;height:1px'></div>
 
   <div id="custom-search-input">
-      <div id = 'search-input-group' class="input-group">
-          <input id = 'search-input' type="text" class="input-lg" placeholder="Search for a PBL link" onfocus="this.placeholder = ''" onfocusout="this.placeholder = 'Search for a PBL Link'"<% if @search_term %>value = '<%= @search_term %>'<% end %> />
-      </div>
+          <input id = 'search-input' type="text" placeholder="Search for a PBL link" onfocus="this.placeholder = ''" onfocusout="this.placeholder = 'Search for a PBL Link'"<% if @search_term %>value = '<%= @search_term %>'<% end %>></input>
   </div>
 
   <div class = 'button-container'>
@@ -242,13 +230,13 @@ function activateTagFilter(){
     });
   });
 }
-$('#search-input').focus(function(){
-  $('#page-card-container').hide();
-});
+// $('#search-input').focus(function(){
+//   $('#page-card-container').hide();
+// });
 
-$('#search-input').blur(function(){
-  $('#page-card-container').show();
-});
+// $('#search-input').blur(function(){
+//   $('#page-card-container').show();
+// });
 
 $('#hide-link').click(function(){
   $('#filter-cards').hide();

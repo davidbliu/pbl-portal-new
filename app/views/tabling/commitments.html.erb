@@ -16,8 +16,16 @@
 
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 
-<h1 class = 'centered'>Tell us your schedule</h1>
-<p class = 'centered'>Mark slots that you are free. Try to leave at least 5 slots open during tabling so we can find a good slot for you</p>
+<div class = 'top-area'>
+	<h1 class = 'centered'>Tell us your schedule</h1>
+	<p class = 'centered'>Mark slots that you are free. Try to leave at least 5 slots open during tabling so we can find a good slot for you</p>
+
+	<button id = 'saveAll' class = 'btn btn-material-blue-500'>Save All</button>
+	<button id = 'clearAll' class = 'btn btn-material-gray-500'>Clear All</button>
+	<button id = 'checkAll' class = 'btn btn-material-gray-500'>Check All</button>
+	<div style = 'clear:both;display:inline-block;height:10px'></div>
+</div>
+
 
 
 <% @times_hash.keys.each do |day| %>
@@ -35,6 +43,8 @@
 		<% end %>
 	</div>
 <% end %>
+
+
 
 <script type = 'text/javascript'>
 function showSpinner(){
@@ -55,8 +65,7 @@ function toggle(box){
 		$(box).addClass(checked);
 	}
 }
-$('.commitment-toggle').click(function(){
-	toggle($(this));
+function saveAll(){
 	times = [];
 	$('.commitment-toggle').each(function(){
 		if($(this).hasClass(checked)){
@@ -78,6 +87,27 @@ $('.commitment-toggle').click(function(){
         alert('failed');
       }
   });
+}
+$('#saveAll').click(function(){
+	saveAll();
+});
+$('#clearAll').click(function(){
+	$('.commitment-toggle').each(function(){
+		if($(this).hasClass(checked)){
+			toggle($(this));
+		}
+	});
+});
+$('#checkAll').click(function(){
+	$('.commitment-toggle').each(function(){
+		if(!$(this).hasClass(checked)){
+			toggle($(this));
+		}
+	});
+});
+$('.commitment-toggle').click(function(){
+	toggle($(this));
+	
 
 });	
 </script>

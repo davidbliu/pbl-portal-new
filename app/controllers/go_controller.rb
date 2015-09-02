@@ -199,6 +199,9 @@ class GoController < ApplicationController
 		render 'my_links'
 	end
 
+	def admin
+	end
+
 	def their_links
 		@golinks = GoLink.where(member_email: params[:email]).order(:updated_at).reverse.map{|x| x.to_parse} #ParseGoLink.member_search(params[:email])
 		page = params[:page] ? params[:page] : 1

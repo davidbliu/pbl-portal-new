@@ -12,6 +12,12 @@ class TablingController < ApplicationController
 		end
 	end
 
+	def whenisgood
+		@commitments = {}
+		Commitments.limit(1000).all.each do |commitment|
+			commitments[commitment.member_email] = commitments.commitments
+		end
+	end
 	def slot_guide
 		@times = (0..167).to_a
 	end
@@ -43,6 +49,7 @@ class TablingController < ApplicationController
 		if params[:prev_time]
 			prev_slot = TablingHist.where(time: params[:prev_time].to_i).to_a[0]
 			prev_slot.unconfirmed = TablingHist.remove_item(prev_slot.unconfirmed, current_member.email)
+			prev_slot.confirmed = TablingHist.remove_item(prev_slot.confirmed, current_member.email)
 
 			# switch an unconfirmed from the slot to previous slot
 			switch = slot.get_unconfirmed.sample

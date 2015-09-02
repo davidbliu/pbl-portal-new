@@ -17,7 +17,7 @@ def self.times_hash
     times << (80..80+10).to_a
     times << (104..104+10).to_a
     times = times.flatten()
-    
+
     times_hash = {}
     times.each do |time|
       day = self.get_day(time)
@@ -107,6 +107,7 @@ def self.generate_tabling
 
   slots_available = Set.new(member_slots.values.flatten())
 
+  
   while member_slots.keys.length > 0
     slots_available = Set.new(member_slots.values.flatten())
     slot = self.get_least_filled_slot(slots_available, assignments)
@@ -114,7 +115,7 @@ def self.generate_tabling
     assigned.add(member)
     assignments[slot] << member
     member_slots = member_slots.except(member)
-    puts member_slots.keys.length
+    puts 'assigned '+member+' into slot '+slot.to_s+' which has '+assignments[slot].length.to_s
   end
   puts assignments
 
@@ -126,14 +127,6 @@ def self.generate_tabling
   end
   ParseTablingSlot.save_all(tabling_slots)
 
-
-  # members = Set.new(members).to_a
-
-  # while members.length > assigned.length
-  #   mc_slot = self.get_most_constrained_slot(slots, assignments, assigned)
-  #   m = self.can_assign(slots[mc_slot])
-  # end
-  # puts assignments
 end
 
 def self.get_least_filled_slot(slots, assignments)

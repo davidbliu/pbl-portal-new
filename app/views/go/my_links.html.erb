@@ -30,26 +30,16 @@
   z-index:5000;
 }
 /*search styles*/
-#custom-search-input{
-    /*padding: 3px;*/
-    margin-top:25px;
-    border: solid 1px #E4E4E4;
-    border-radius: 6px;
-    background-color: #fff;
-    max-width:100%;
-    text-align:center;
+#search-input{
+  width:100%;
+  padding:10px;
+  text-align:center;
 }
 
-#custom-search-input input{
-    border: 0;
-    box-shadow: none;
-    padding-bottom:0px;
-    width:100%;
-    text-align:center;
-}
-#search-input-group{
-  text-align:center;
-  width:100%;
+#search-input:focus{
+  border-color: rgba(126, 239, 104, 0.8);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6);
+  outline: 0 none;
 }
 
 .smalltext{
@@ -86,12 +76,10 @@
 
 
 <div id="custom-search-input">
-      <div id = 'search-input-group' class="input-group">
-          <input id = 'search-input' type="text" class="input-lg" placeholder="Search"/>
-      </div>
+
+          <input id = 'search-input' type="text" placeholder="Search my links"/>
   </div>
 
-<!-- <p class = 'smalltext text-muted'>You can search through keys and descriptions by inputting a search term and pressing enter. You can filter by who you've shared your link with by typing in "Shared With: Only Officers", for example. Links are sorted by date updated.</p> -->
  <% if @filter and @filter != ''  %>
  <h3>Filtered by <div class = 'label label-default'><%= @filter %></div></h3>
  <a href = '/go/my_links'>Remove Filters</a>
