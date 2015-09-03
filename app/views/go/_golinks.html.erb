@@ -58,6 +58,9 @@
 .permissions-input{
 	min-width:125px;
 }
+.link-row>.last-updated-td{
+	min-width:100px;
+}
 </style>
 <% if golinks.length == 0 %>
 <p>No results</p>
@@ -72,6 +75,7 @@
 				<th>Description</th>
 				<th>Added By</th>
 				<th>Shared With</th>
+				<th id = 'last-updated-col'>Last Updated</th>
 				<th>Views</th>
 				<th></td>
 			</tr>
@@ -117,15 +121,19 @@
 					<div class = '<%= golink.get_parse_id %>-permissions'><%= golink.get_permissions %></div>
 				<% end %>
 			</td>
+			<td class = 'last-updated-td'><%= golink.updated_at ? golink.updated_at.split('T')[0] : '' %></td>
 			<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
-			<td class = 'golink-url-td'>
-				<div id = '<%= golink.get_parse_id %>-url'><%= golink.url %></div>
-			</td>
+			
 			<td>
 				<% if current_member and golink.can_edit(current_member.email) %>
 					<a href = 'javascript:void(0);' class = 'link-delete-btn' id = '<%= golink.get_parse_id %>'>x</a>
 				<% end %>
 			</td>
+
+			<td class = 'golink-url-td'>
+				<div id = '<%= golink.get_parse_id %>-url'><%= golink.url %></div>
+			</td>
+
 		</tr>
 		<% end %>
 		</tbody>
