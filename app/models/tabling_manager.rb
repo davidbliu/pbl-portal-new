@@ -2,7 +2,6 @@ require 'set'
 
 class TablingManager < ActiveRecord::Base
 
-
 """ displaying tabling schedules """
 
 def self.time_string(time)

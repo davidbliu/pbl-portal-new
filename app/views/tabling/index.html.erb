@@ -23,9 +23,14 @@ th, td {
 	font-size:20px;
 	color:black !important;
 }
+
+.tabling-slot{
+	/*border:1px solid black;*/
+}
 </style>
 
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>    
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
 <!-- 
 <div class = 'col-md-2' style = 'text-align:center'>
 
@@ -45,10 +50,10 @@ th, td {
 		<% @tabling_hash.keys.each do |tabling_day| %>
 		<div class = 'tabling-day'>
 			<% @tabling_hash[tabling_day].each do |slot| %>
-			<div class = 'tabling-slot'>
+			<div class = 'tabling-slot' data-time = '<%= slot.time %>'>
 				<div class = 'label label-primary'><%= TablingManager.time_string(slot.time) %></div>
 				<% slot.get_member_emails.each do |email| %>
-					<div class = 'slot-member'><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img> <%= @member_email_hash[email].name %></div>
+					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>' data-time = '<%= slot.time %>'><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img> <%= @member_email_hash[email].name %></div>
 				<% end %>
 			</div>
 			<% end %>
@@ -56,7 +61,49 @@ th, td {
 		<% end %>
 	</div>
 <!-- </div> -->
+<script type = 'text/javascript'>
 
+function switchTablingSlot(email, time1, time2){
+	$.ajax({
+      url: '/tabling/switch_tabling',
+      type: 'POST',
+      data: {'email':email, 'time1':time1, 'time2':time2},
+      success:function(data){
+        console.log('success');
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+
+}
+var dragging = '';
+
+$('.slot-member').mousedown(function(){
+	dragging = $(this);
+
+});
+
+$('.slot-member').draggable(
+);
+
+$('.tabling-slot').droppable( {
+    drop: function(event, ui){
+    	console.log(event);
+    	console.log(ui.draggable.text());
+    	email = ui.draggable.attr('data-email');
+    	time1= ui.draggable.attr('data-time');
+    	time2 = $(this).attr('data-time');
+
+    	switchTablingSlot(email, time1, time2);
+    	d = ui.draggable.detach();
+    	$(d).removeClass('ui-draggable');
+    	$(d).attr('style', '');
+    	$(d).appendTo($(this));
+
+    }
+  } );
+</script>
 
 
 

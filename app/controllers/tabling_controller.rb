@@ -12,6 +12,20 @@ class TablingController < ApplicationController
 		end
 	end
 
+	def switch_tabling
+		email = params[:email]
+		time1 = params[:time1].to_i
+		time2 = params[:time2].to_i
+		slots = ParseTablingSlot.all.to_a.index_by(&:time)
+		# remove member from original slot
+		slot1 = slots[time1]
+		slot2 = slots[time2]
+		slot1.member_emails = TablingHist.remove_item(slot1.member_emails, email)
+		slot2.member_emails = TablingHist.push_item(slot2.member_emails, email)
+		ParseTablingSlot.save_all([slot1, slot2])
+		render nothing:true, status:200
+	end
+
 	def whenisgood
 		@commitments = {}
 		Commitments.limit(1000).all.each do |commitment|

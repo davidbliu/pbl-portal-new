@@ -308,6 +308,7 @@ Portal::Application.routes.draw do
   end
   resources :tabling do
     collection do
+      post 'switch_tabling'
       get 'whenisgood'
       get 'slot_guide'
       get 'pick_slots'
