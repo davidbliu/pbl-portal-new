@@ -78,7 +78,7 @@ function switchTablingSlot(email, time1, time2){
 
 }
 var dragging = '';
-
+<% if current_member and current_member.email == 'davidbliu@gmail.com' or current_member.email == 'eric.quach@berkeley.edu' %>
 $('.slot-member').mousedown(function(){
 	dragging = $(this);
 
@@ -103,6 +103,8 @@ $('.tabling-slot').droppable( {
 
     }
   } );
+
+<% end %>
 </script>
 
 
