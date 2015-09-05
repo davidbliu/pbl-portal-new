@@ -30,6 +30,7 @@ class PointsController < ApplicationController
 		event_id = params[:event_id]
 		email = params[:email]
 		type = params[:type]
+		puts 'the type was '+type
 		ems = ParseEventMember.where(event_id: event_id).where(member_email: email).to_a
 		if ems.length > 0
 			em = ems[0]

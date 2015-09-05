@@ -124,7 +124,7 @@ $('.attendance-cell').click(function(){
 	$.ajax({
       url: '/points/update_attendance',
       type: 'POST',
-      data: {'event_id': eid, 'email': email, 'type': type},
+      data: {'event_id': eid, 'email': email, 'type': currType},
       success:function(data){
       	hideSpinner();
       	console.log('success');
