@@ -340,6 +340,15 @@ Portal::Application.routes.draw do
   resources :tabling_slot_members, only: [ :create, :destroy, :update ] do
     put :set_status_for, on: :member
   end
+
+
+  resources :blog do
+    collection do 
+      get 'create_post'
+      get 'edit_post'
+      get 'update_post'
+    end
+  end
   
 
   
