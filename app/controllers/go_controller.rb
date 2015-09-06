@@ -3,7 +3,7 @@ require 'will_paginate/array'
 require 'timeout'
 class GoController < ApplicationController
 
-	before_filter :authorize, :except => [:index, :redirect_id, :typeahead, :ajax_search]
+	before_filter :authorize, :except => [:index, :redirect_id, :home, :ajax_search]
 
 	def authorize
 		if not current_member
