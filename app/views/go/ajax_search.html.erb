@@ -15,9 +15,8 @@
 
 
 <script type = 'text/javascript'>
-console.log('changing sort by links');
-$('#key-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
-$('#views-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
-$('#updatedAt-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
-console.log($('#key-sort'));
+var search_term = '<%= URI.escape(@search_term, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]")) %>';
+$('#key-sort-link').attr('href', '/go/ajax_search?q='+search_term+'&sort_by=key');
+$('#views-sort-link').attr('href', '/go/ajax_search?q=' + search_term+'&sort_by=views');
+$('#updatedAt-sort-link').attr('href', '/go/ajax_search?q=' + search_term+'&sort_by=updatedAt');
 </script>

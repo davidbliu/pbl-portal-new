@@ -4,6 +4,9 @@ class ParseGoLink < ParseResource::Base
 	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes, :tags
 
 
+	def get_num_clicks
+		self.num_clicks ? self.num_clicks : 0
+	end
 	def can_edit(email)
 		if self.member_email == email
 			return true

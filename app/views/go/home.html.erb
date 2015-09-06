@@ -147,9 +147,9 @@ function activateTagFilter(){
     $('#search-input').val('#'+$(this).attr('data-tag'));
     showSpinner();
     $.ajax({
-        url: '/go/tag_search',
+        url: '/go/ajax_search',
         type: 'get',
-        data: {'q': $(this).attr('data-tag')},
+        data: {'q': '#'+$(this).attr('data-tag')},
         success:function(data){
           hideSpinner();
           $('#results-container').html('');
@@ -256,9 +256,9 @@ function pullPaginatedPage(url){
 }
 
 function pullSearchResults(search_term){
-  if(search_term.indexOf('#') == 0){
-    url = '/go/tag_search'
-  }
+  // if(search_term.indexOf('#') == 0){
+  //   url = '/go/tag_search'
+  // }
   url = '/go/ajax_search'
   $.ajax({
       url: url,

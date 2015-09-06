@@ -175,20 +175,34 @@ class GoController < ApplicationController
 			@golinks = ParseGoLink.search(@search_term)
 		end
 		@golinks = @golinks.select{|x| x.can_view(current_member)}
+
+		# incorporate sorting
+		if params[:sort_by]
+			sort_by = params[:sort_by]
+			if sort_by == 'key'
+				@golinks = @golinks.sort_by{|x| x.key}
+			elsif sort_by == 'updatedAt'
+				@golinks = @golinks.sort_by{|x| x.updated_at}
+			elsif sort_by == 'views'
+				@golinks = @golinks.sort_by{|x| - x.get_num_clicks}
+			end
+		end
+
+		# end
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 		render 'ajax_search', layout: false
 	end
 
-	def tag_search
-		@search_term = params[:q]
-		@golinks = ParseGoLink.tag_search(@search_term)
-		@golinks = @golinks.select{|x| x.can_view(current_member)}
-		page = params[:page] ? params[:page] : 1
-		@golinks = @golinks.paginate(:page => page, :per_page => 100)
-		@type = 'tag'
-		render 'ajax_search', layout: false
-	end
+	# def tag_search
+	# 	@search_term = params[:q]
+	# 	@golinks = ParseGoLink.tag_search(@search_term)
+	# 	@golinks = @golinks.select{|x| x.can_view(current_member)}
+	# 	page = params[:page] ? params[:page] : 1
+	# 	@golinks = @golinks.paginate(:page => page, :per_page => 100)
+	# 	@type = 'tag'
+	# 	render 'ajax_search', layout: false
+	# end
 
 	def dalli_client
 		options = { :namespace => "app_v1", :compress => true }
@@ -218,6 +232,7 @@ class GoController < ApplicationController
 	end
 
 	def their_links
+		@search_term = params[:email]
 		@golinks = GoLink.where(member_email: params[:email]).order(:updated_at).reverse.map{|x| x.to_parse} #ParseGoLink.member_search(params[:email])
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
