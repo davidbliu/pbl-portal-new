@@ -59,28 +59,28 @@
                   <div><%= current_member.email %></div></h5>
                     
                   <li class="sub-menu">
-                      <a href="/go">
+                      <a class="<%= 'active' if controller_name == 'go' && action_name != 'my_links' %>" href="/go">
                           <i class="fa fa-search"></i>
                           <span>PBL Links</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a href="/go/my_links" >
+                      <a class="<%= 'active' if controller_name == 'go' && action_name == 'my_links' %>" href="/go/my_links" >
                           <i class="fa fa-user"></i>
                           <span>My Links</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a href="/members" >
+                      <a class="<%= 'active' if controller_name == 'members' && action_name != 'home' %>" href="/members" >
                           <i class="fa fa-users"></i>
                           <span>Members</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a href="/tabling" >
+                      <a class="<%= 'active' if controller_name == 'tabling' %>" href="/tabling" >
                           <i class="fa fa-table"></i>
                           <span>Tabling</span>
                       </a>
@@ -88,7 +88,7 @@
 
 
                   <li class="sub-menu">
-                      <a href="/points" >
+                      <a class="<%= 'active' if controller_name == 'points' %>" href="/points" >
                           <i class="fa fa-trophy"></i>
                           <span>Points</span>
                       </a>
@@ -134,22 +134,28 @@ var original_margin = "210px";
 var new_margin = "0px";
 var toggled = false;
 $('#sidebar-toggle').click(function(){
-  if (!toggled){
-    margin = new_margin;
-    toggled = true;
-  }
-  else{
-    margin = original_margin;
-    toggled = false;
-  }
-  $('#main-content').css({ "margin-left": margin});
-  $('#sidebar').toggle();
+
+    if (!toggled){
+      margin = new_margin;
+      toggled = true;
+    }
+    else{
+      <% if current_member %>
+        margin = original_margin;
+        toggled = false;
+      <% end %>
+    }
+    $('#main-content').css({ "margin-left": margin});
+    $('#sidebar').toggle();
+    
+    });
+
   
-});
-<% if not current_member %>
-$('#main-content').css({ "margin-left": new_margin});
-toggled = true;
-<% end %>
+  <% if not current_member %>
+  $('#main-content').css({ "margin-left": new_margin});
+  toggled = true;
+  <% end %>
+
 </script>
 
 
