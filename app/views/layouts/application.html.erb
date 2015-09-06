@@ -32,11 +32,15 @@
                   <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
               </div>
             <!--logo start-->
-            <a href="index.html" class="logo"><b>Berkeley PBL</b></a>
+            <a href="/" class="logo"><b>Berkeley PBL</b></a>
             <!--logo end-->
             <div class="top-menu">
               <ul class="nav pull-right top-menu">
-                    <li><a class="logout" href="/sign_out">Logout</a></li>
+                <% if current_member %>
+                  <li><a class="logout" href="/sign_out">Logout</a></li>
+                <% else %> 
+                  <li><a class="logout" href="/auth/google_oauth2">Login</a></li>
+                <% end %>
               </ul>
             </div>
         </header>
@@ -54,17 +58,17 @@
                   <div><%= current_member.committee %> <%= current_member.position ? current_member.position.capitalize : 'No Position' %></div>
                   <div><%= current_member.email %></div></h5>
                     
-                  <li class="mt">
-                      <a class="sub-menu" href="index.html">
-                          <i class="fa fa-dashboard"></i>
-                          <span>Dashboard</span>
+                  <li class="sub-menu">
+                      <a href="/go">
+                          <i class="fa fa-search"></i>
+                          <span>PBL Links</span>
                       </a>
                   </li>
 
                   <li class="sub-menu">
-                      <a href="/go" >
+                      <a href="/go/my_links" >
                           <i class="fa fa-desktop"></i>
-                          <span>PBL Links</span>
+                          <span>My Links</span>
                       </a>
                   </li>
 
@@ -106,7 +110,7 @@
           </div>
           <footer class="footer" style = 'margin-top:25px'>
             <div class="container">
-              <p class="text-muted">Created by PBL WD Fall 2015</p>
+              <p class="text-muted">PBL WD Fall 2015 ©</p>
             </div>
           </footer>
       
@@ -141,7 +145,11 @@ $('#sidebar-toggle').click(function(){
   $('#main-content').css({ "margin-left": margin});
   $('#sidebar').toggle();
   
-})
+});
+<% if not current_member %>
+$('#main-content').css({ "margin-left": new_margin});
+toggled = true;
+<% end %>
 </script>
 
 

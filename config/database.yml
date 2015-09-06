@@ -6,8 +6,8 @@
 development:
   adapter: postgresql
   database: ucbpblmembersportal_development
-  username: postgres
-  password: password
+  username: ericquach
+  password: 
   # host: localhost
   # port: 5432
   host: <%= ENV['PG_HOST'] %>
@@ -21,8 +21,8 @@ development:
 test:
   adapter: postgresql
   database: ucbpblmembersportal_testing
-  username: postgres
-  password: password
+  username: ericquach
+  password: 
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
   pool: 30
@@ -31,8 +31,8 @@ test:
 production:
   adapter: postgresql
   database: ucbpblmembersportal_development
-  username: postgres
-  password: password
+  username: ericquach
+  password: 
   host: <%= ENV['PG_HOST'] %>
   port: <%= ENV['PG_PORT'] %>
   pool: 30
