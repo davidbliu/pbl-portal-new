@@ -8,7 +8,7 @@ class ParseGoLink < ParseResource::Base
 		if self.member_email == email
 			return true
 		end
-		admin_emails = ['davidbliu@gmail.com', 'akwan726@gmail.com', 'emilyyliu96@gmail.com']
+		admin_emails = ['davidbliu@gmail.com', 'akwan726@gmail.com', 'emilyyliu96@gmail.com', 'eric.quach@berkeley.edu']
 		if admin_emails.include?(email)
 			return true
 		end

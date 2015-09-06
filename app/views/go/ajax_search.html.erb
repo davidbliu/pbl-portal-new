@@ -12,3 +12,12 @@
 <%= render partial: 'golinks', locals: {golinks: @golinks} %>
 
 <%= will_paginate @golinks %>
+
+
+<script type = 'text/javascript'>
+console.log('changing sort by links');
+$('#key-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
+$('#views-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
+$('#updatedAt-sort-link').attr('href', '/go/ajax_search?q=<%= @search_term %>');
+console.log($('#key-sort'));
+</script>

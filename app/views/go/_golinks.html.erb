@@ -26,6 +26,9 @@
 .link-row>.golink-rating-td{
 	width:10%;
 }
+.link-row>.views-td{
+	min-width:75px;
+}
 .description-input{
 	min-width:300px;
 }
@@ -42,9 +45,6 @@
 	margin-left:3px;
 	color:white !important;
 }
-/*.tag-container{
-	display:none;
-}*/
 
 /*hidden edit inputs*/
 .hidden-edit{
@@ -62,21 +62,23 @@
 	min-width:100px;
 }
 </style>
+
+
 <% if golinks.length == 0 %>
 <p>No results</p>
 <% else %>
-
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 	<table class = 'table table-hover table-condensed'>
 		<thead>
 			<tr>
 				<!-- <th>Rating</th> -->
 				<th></th>
-				<th>Key</th>
+				<th>Key <a href = 'javascript:void(0)' class = 'sort-link' id = 'key-sort-link'><i class="fa fa-fw fa-sort" id = 'key-sort'></i></a></th>
 				<th>Description</th>
 				<th>Added By</th>
+				<th>Last Updated <a href = 'javascript:void(0)' class = 'sort-link' id = 'updatedAt-sort-link'><i class="fa fa-fw fa-sort" id = 'updatedAt-sort'></i></a></th>
 				<th>Shared With</th>
-				<th id = 'last-updated-col'>Last Updated</th>
-				<th>Views</th>
+				<th>Views <a href = 'javascript:void(0)' class = 'sort-link' id = 'views-sort-link'><i class="fa fa-fw fa-sort" id = 'views-sort'></i></a></th>
 				<th></td>
 			</tr>
 		</thead>
@@ -122,7 +124,7 @@
 				<% end %>
 			</td>
 			<td class = 'last-updated-td'><%= golink.updated_at ? golink.updated_at.split('T')[0] : '' %></td>
-			<td><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
+			<td class = 'views-td'><%= golink.num_clicks ? golink.num_clicks : 0 %></td>
 			
 			<td>
 				<% if current_member and golink.can_edit(current_member.email) %>
