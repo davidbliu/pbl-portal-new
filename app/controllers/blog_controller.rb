@@ -39,7 +39,7 @@ class BlogController < ApplicationController
 	def email_post
 		id = params[:id]
 		post = BlogPost.find(id)
-		BlogNotifier.send_blog_email(members = ['davidbliu@gmail.com', 'eric.quach@berkeley.edu'], post)
+		BlogNotifier.send_blog_email(members = ['davidbliu@gmail.com', 'eric.quach@berkeley.edu', 'akwan726@gmail.com'], post)
 		redirect_to '/blog'
 	end
 
