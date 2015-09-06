@@ -1,0 +1,31 @@
+<%= tinymce_assets %>
+
+<h1 class = 'centered'>Create Post</h1>
+
+<div class = 'centered'>
+
+<input id = 'title-input' type = 'text' class = 'form-control' placeholder = 'Title'></input>
+
+<%= text_area_tag :content, "", :class => "tinymce", :rows => 40, :cols => 120 %>
+<%= tinymce %>
+
+<button id = 'save-btn' class = 'btn btn-material-blue-900'>Create Post</button>
+</div>
+
+<script type = 'text/javascript'>
+$('#save-btn').click(function(){
+	content_html = tinyMCE.activeEditor.getContent();
+	console.log(content_html);
+	$.ajax({
+      url: '/blog/save_post',
+      type: 'POST',
+      data: {'title': $('#title-input').val(), 'content': content_html},
+      success:function(data){
+        window.location = '/blog';
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+});
+</script>

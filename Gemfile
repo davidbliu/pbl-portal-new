@@ -102,6 +102,10 @@ gem 'quiet_assets', group: :development
 #logos
 gem "font-awesome-rails"
 
+#blog gems
+gem 'tinymce-rails'
+
+
 # active admin dependencies
 #
 # gem 'activeadmin', github: 'gregbell/active_admin'

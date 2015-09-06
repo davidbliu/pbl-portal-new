@@ -345,8 +345,9 @@ Portal::Application.routes.draw do
   resources :blog do
     collection do 
       get 'create_post'
+      post 'save_post'
       get 'edit_post'
-      get 'update_post'
+      post 'update_post'
     end
   end
   

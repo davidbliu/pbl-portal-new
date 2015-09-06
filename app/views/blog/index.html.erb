@@ -1,0 +1,35 @@
+<style type = 'text/css'>
+.post-div{
+	padding:20px;
+	border:1px solid rgba(0,0,0,0.1);
+	margin:10px;
+	background-color:white;
+}
+.meta-div{
+
+}
+#top-spacer{
+	clear:both;
+	display:inline-block;
+	height:50px;
+}
+</style>
+<h1 class = 'centered'>PBL Blog</h1>
+
+<div id = 'top-spacer'></div>
+
+<% @posts.each do |post| %>
+	<div class = 'post-div'>
+		<div class = 'meta-div'>
+			<div>Title: <%= post.title %></div>
+			<div>Author: <%= post.author %></div>
+			<div>Last Updated: <%= post.updated_at.split('T')[0] %></div>
+		</div>
+		<p><%= post.content.html_safe %></p>
+		<div class = 'post-links'>
+			<% if post.can_edit(current_member.email) %>
+				<a href = 'blog/edit_post?id=<%= post.id %>'>Edit this post</a>
+			<% end %>
+		</div>
+	</div>
+<% end %>

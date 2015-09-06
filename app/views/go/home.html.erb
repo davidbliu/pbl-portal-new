@@ -92,6 +92,8 @@
   </div>
 
 
+
+<% if current_member %>
    <div id = 'page-card-container'>
     <div id = 'filter-cards'>
 
@@ -108,18 +110,9 @@
         <div><span>Recently Visited</span></div>
         </a>
       </div>
-
     </div>
-
-    <div class = 'page-card' style = 'display:none' id = 'show-link'>
-      <a href = 'javascript:void(0);'>
-      <div><i class = 'mdi-action-view-list'></i></div>
-      <div><span>Show Options</span></div>
-      </a>
-    </div>
-    
-   
   </div>
+  <% end %>
 
 
 
