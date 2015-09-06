@@ -10,6 +10,8 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+//= require new_jquery
 //= require jquery_ujs
 //= require bootstrap.min
+//= require jquery-1.8.3.min
+//= require common-scripts

@@ -98,6 +98,8 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     fastimage (1.5.5)
       addressable (~> 2.3, >= 2.3.5)
+    font-awesome-rails (4.4.0.0)
+      railties (>= 3.2, < 5.0)
     gcm (0.1.0)
       httparty
       json
@@ -333,6 +335,7 @@ DEPENDENCIES
   elasticsearch-model
   elasticsearch-rails
   execjs
+  font-awesome-rails
   gcm
   google-api-client
   google_calendar

@@ -98,7 +98,10 @@ gem "rack-timeout"
 
 gem 'twilio-ruby'
 gem 'quiet_assets', group: :development
-#
+
+#logos
+gem "font-awesome-rails"
+
 # active admin dependencies
 #
 # gem 'activeadmin', github: 'gregbell/active_admin'
