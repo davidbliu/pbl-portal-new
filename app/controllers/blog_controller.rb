@@ -24,7 +24,7 @@ class BlogController < ApplicationController
 	# end
 
 	def save_post
-		id = params[:id]
+		id = (params[:id] and params[:id] != '') ? params[:id] : nil
 		puts id 
 		puts 'this is the id'
 		title = params[:title]

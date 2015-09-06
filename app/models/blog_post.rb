@@ -3,7 +3,7 @@ class BlogPost < ParseResource::Base
 
 	def self.save_post(id, title, content, author, view_permissions='Anyone', edit_permissions='Anyone')
 		if not id
-			BlogPost.create(title:title, content:content, author:author, view_permissions: permissions, edit_permissions: edit_permissions)
+			BlogPost.create(title:title, content:content, author:author, view_permissions: view_permissions, edit_permissions: edit_permissions)
 		else
 			post = BlogPost.find(id)
 			post.title = title
