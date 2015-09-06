@@ -25,14 +25,6 @@
 <%= render 'go/catalogue_modal' %>
 <div class = 'row'>
 	<div class = 'col-md-7'>
-		<% if current_member %>
-		<div id = 'me-div'>
-			<a href = '/members/<%= current_member.id %>'><img src = '<%= current_member.gravatar_url %>' class = 'profile-image'></img></a>
-			<!-- <div>Set your professional image on <a href = 'http://pbl.link/gravatar' target = '_blank'>pbl.link/gravatar</a></div> -->
-			<div><%= current_member.committee %> <%= current_member.position ? current_member.position.capitalize : 'no position' %></div>
-			<div><%= current_member.email %></div>
-		</div>
-		<% end %>
 
 		<div class="home-card">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Notifications</h3>

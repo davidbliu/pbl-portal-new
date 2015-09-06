@@ -10,4 +10,8 @@
  *
  *= require_self
  *= require bootstrap.min.css
+ *= require style.css
+ *= require style-responsive.css
+ *= require font-awesome
+ *= require main.css
  */

@@ -1,147 +1,160 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>PBL Portal</title>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Berkeley Web Development Committee">
+    <meta name="keyword" content="Berkeley PBL Portal">
 
-<!-- <%= favicon_link_tag 'favicon.ico' %> -->
-<link rel="icon" 
-      type="image/png" 
-      href="/assets/pbl-logo-circle.png">
-<link href="/assets/pbl-logo.png" rel="apple-touch-icon" />
-  <%= csrf_meta_tags %>
-  <%= stylesheet_link_tag "application" %>
-  <%= javascript_include_tag "application" %>
-<!--   
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
-
-   -->
-  <!-- include bootcards -->
-  <!-- include a bootswatch theme -->
-  <!-- <link href = 'http://bootswatch.com/paper/bootstrap.min.css' rel = 'stylesheet'> -->
-
-  <!-- Bootcards CSS for desktop: -->
-<!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootcards/1.0.0/css/bootcards-desktop.min.css"> -->
-
-<!-- Bootstrap and Bootcards JS -->
-<!-- <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/bootcards/1.0.0/js/bootcards.min.js"></script> -->
-<!-- <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">  removed for wonkers error-->
-<!-- <link href = 'https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css' ref = 'stylesheet'> -->
-<!-- material design -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/roboto.min.css"> -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
+    <title>Berkeley PBL Portal</title>
+    <!-- <%= favicon_link_tag 'favicon.ico' %> -->
+    <link rel="icon" 
+          type="image/png" 
+          href="/assets/pbl-logo-circle.png">
+    <link href="/assets/pbl-logo.png" rel="apple-touch-icon" />
+      <%= csrf_meta_tags %>
+      <%= stylesheet_link_tag "application" %>
+      <%= javascript_include_tag "application" %>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material-fullpalette.min.css">
 
 
 
+  </head>
+
+  <body>
+
+  <section id="container" >
+
+      <!--header start-->
+      <header class="header black-bg">
+              <div id = 'sidebar-toggle' class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+              </div>
+            <!--logo start-->
+            <a href="index.html" class="logo"><b>Berkeley PBL</b></a>
+            <!--logo end-->
+            <div class="top-menu">
+              <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="/sign_out">Logout</a></li>
+              </ul>
+            </div>
+        </header>
+      <!--header end-->
+
+      <!--sidebar start-->
+      <aside>
+        <% if current_member %>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+              
+                  <p class="centered"><a href="#"><img src="<%= current_member.gravatar_url %>" width="120"></a></p>
+                  <h5 class="centered">
+                  <div><%= current_member.committee %> <%= current_member.position ? current_member.position.capitalize : 'No Position' %></div>
+                  <div><%= current_member.email %></div></h5>
+                    
+                  <li class="mt">
+                      <a class="active" href="index.html">
+                          <i class="fa fa-dashboard"></i>
+                          <span>Dashboard</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="/go" >
+                          <i class="fa fa-desktop"></i>
+                          <span>PBL Links</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="/members" >
+                          <i class="fa fa-cogs"></i>
+                          <span>Members</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="/tabling" >
+                          <i class="fa fa-book"></i>
+                          <span>Tabling</span>
+                      </a>
+                  </li>
 
 
-
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.min.css"> -->
-
-<!-- <link rel = 'stylesheet' href = 'https://cdnjs.cloudflare.com/ajax/libs/slidebars/0.10.2/slidebars.min.css'> -->
-<!--  -->
-<!-- <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'> -->
-<%= stylesheet_link_tag 'open_sans.css' %>
-
+                  <li class="sub-menu">
+                      <a href="/points" >
+                          <i class="fa fa-book"></i>
+                          <span>Points</span>
+                      </a>
+                  </li>
 
 
-<style type = 'text/css'>
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans';
-}
-p, div {
-    font-family: 'Open Sans';
-}
-#footer-search{
-  border: 0;
-    box-shadow: none;
-}
-body {
-  /*padding-top: 50px;*/
-}
-a {
-    color: #428bca;
-}
-a:hover{
-  color: #428bca;
-}
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+        <% end %>
+      </aside>
+      <!--sidebar end-->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
 
-a:link {
-    color: #428bca;
-}
-
-a:visited {
-    color: #428bca;
-}
-
-a:hover {
-    color: #428bca;
-}
-
-a:active {
-    color: #428bca;
-}
-.label-primary{
-  background-color: rgba(25, 118, 210, 0.79);
-}
-#sb-site{
-  background-color:inherit;
-}
-.profile-image{
-  border-radius:10000px;
-  max-height:100px;
-}
-.profile-image-small{
-  height:25px;
-  width: 25px;
-}
-.profile-image-tiny{
-  height:15px;
-  width:15px;
-}
-.centered{
-  text-align:center;
-}
-
-</style>
-
-</head>
-<body  data-no-turbolink>
-
-<!-- add a header -->
-<%= render "/layouts/navbar_new" %>
-<div class="container" id = "sb-site">
-
-<%= yield %>
-<!-- end of header -->
-</div>
-
-<footer class="footer" style = 'margin-top:25px'>
+          <%= yield %>
+          <!-- end of header -->
+          </div>
+                <footer class="footer" style = 'margin-top:25px'>
       <div class="container">
             <p class="text-muted">Created by PBL WD Fall 2015</p>
       </div>
     </footer>
+      
+          </section>
+      </section>
 
-    
+
+      <!--main content end-->
+      <!--footer start-->
+
+
+  </section>
+
+
+
+
+
+    <!-- js placed at the end of the document so the pages load faster -->
+<script type = 'text/javascript'>
+var original_margin = "210px";
+var new_margin = "0px";
+var toggled = false;
+$('#sidebar-toggle').click(function(){
+  if (!toggled){
+    margin = new_margin;
+    toggled = true;
+  }
+  else{
+    margin = original_margin;
+    toggled = false;
+  }
+  $('#main-content').css({ "margin-left": margin});
+  $('#sidebar').toggle();
+  
+})
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.min.js"></script>
 
-<script>
-  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  // })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  // ga('create', 'UA-65682221-1', 'auto');
-  // ga('send', 'pageview');
 
-</script>
+  
 
-</body>
 
+  
+  
+
+  </body>
 </html>
