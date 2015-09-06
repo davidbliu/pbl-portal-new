@@ -1,4 +1,13 @@
-<h3>Search Results</h3>
+
+<% if @golinks.length > 0 %>
+	<h3 class = 'centered'>Search: <%= @search_term %></h3>
+
+	<% if @type and @type == 'tag' %>
+	<h5 class = 'centered'><a href = '/go?tag_search_term=<%= @search_term[1..@search_term.length-1] %>'>Link to #<%= @search_term %></a></h5>
+	<% else %>
+	<h5 class = 'centered'><a href = '/go?search_term=<%= @search_term %>'>Link to search for <%= @search_term %></a></h5>
+	<% end %>
+<% end %>
 
 <%= render partial: 'golinks', locals: {golinks: @golinks} %>
 

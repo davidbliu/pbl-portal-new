@@ -1,20 +1,5 @@
 
 <style type = 'text/css'>
-#directory-container{
-   position: fixed;
-  top: 50px;
-  bottom: 0px;
-  /*width: 100px;*/
-  right:45px;
-  /*background: #eee;*/
-  margin: 10px;
-  overflow: scroll;
-}
-.right-panel-div{ 
-  /*indlcudes tag cloud and collections div*/
-  margin-top:10px;
-  padding:10px;
-}
 
 .label:hover{
   cursor:pointer;
@@ -42,12 +27,6 @@
   outline: 0 none;
 }
 
-
-.directory-section-div{
-	clear:both;
-	margin-bottom:15px;
-	overflow:auto;
-}
 .mdi-hardware-keyboard-tab{
 	color:rgba(0,0,0,0.1);
 }
@@ -185,13 +164,6 @@ function activateTagFilter(){
     });
   });
 }
-// $('#search-input').focus(function(){
-//   $('#page-card-container').hide();
-// });
-
-// $('#search-input').blur(function(){
-//   $('#page-card-container').show();
-// });
 
 $('#hide-link').click(function(){
   $('#filter-cards').hide();
@@ -296,8 +268,6 @@ function pullSearchResults(search_term){
         hideSpinner();
         $('#results-container').html('');
         $('#results-container').html(data);
-        // ajaxPaginate();
-        // activateTheirLinks();
         activateHelpers();
       },
       error:function (xhr, textStatus, thrownError){
@@ -332,8 +302,6 @@ $('#search-input').keypress(function(e){
   activateTheirLinks();
 <% end %>
 
-// $('#search-input').select();
-
 // popular links and recent links shown on homepage
 function getRecentLinks(){
   showSpinner();
@@ -355,28 +323,6 @@ function getRecentLinks(){
 }
 $('#recent-link').click(function(){
   getRecentLinks();
-});
-
-function getPopularLinks(){
-  showSpinner();
-  $.ajax({
-      url: '/go/popular',
-      type: 'get',
-      success:function(data){
-        hideSpinner();
-        $('#results-container').html('');
-        $('#results-container').html(data);
-        ajaxPaginate();
-        activateTheirLinks();
-      },
-      error:function (xhr, textStatus, thrownError){
-        hideSpinner();
-        alert('failed to pull recent links');
-      }
-  });
-}
-$('#popular-link').click(function(){
-  getPopularLinks();
 });
 
 

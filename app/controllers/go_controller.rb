@@ -13,6 +13,15 @@ class GoController < ApplicationController
 		end
 	end
 
+	def home
+		if params[:search_term] and params[:search_term] != ''
+			@search_term = params[:search_term]
+		elsif params[:tag_search_term] and params[:tag_search_term] != ''
+			@search_term = '#' + params[:tag_search_term]
+		end
+		render 'home'
+	end
+
 	def installing
 		render 'installing', layout: false
 	end
@@ -146,20 +155,24 @@ class GoController < ApplicationController
 	end
 
 	def typeahead
+
 		if params[:search_term] and params[:search_term] != ''
 			@search_term = params[:search_term]
+		elsif params[:tag_search_term] and params[:tag_search_term] != ''
+			@search_term = '#' + params[:tag_search_term]
 		end
+
 		render 'typeahead_homepage'
 	end
 
 	def ajax_search
-		puts params[:q]
-		puts 'this is params '
-		if params[:q].include?('#')
-			puts 'search tags for ' + params[:q].gsub('#', '')
-			@golinks = ParseGoLink.tag_search(params[:q].gsub('#', ''))
+		@search_term = params[:q]
+		if @search_term.include?('#')
+			puts 'search tags for ' + @search_term.gsub('#', '')
+			@golinks = ParseGoLink.tag_search(@search_term.gsub('#', ''))
+			@type = 'tag'
 		else
-			@golinks = ParseGoLink.search(params[:q])
+			@golinks = ParseGoLink.search(@search_term)
 		end
 		@golinks = @golinks.select{|x| x.can_view(current_member)}
 		page = params[:page] ? params[:page] : 1
@@ -168,11 +181,12 @@ class GoController < ApplicationController
 	end
 
 	def tag_search
-		puts params[:q]
-		@golinks = ParseGoLink.tag_search(params[:q])
+		@search_term = params[:q]
+		@golinks = ParseGoLink.tag_search(@search_term)
 		@golinks = @golinks.select{|x| x.can_view(current_member)}
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
+		@type = 'tag'
 		render 'ajax_search', layout: false
 	end
 

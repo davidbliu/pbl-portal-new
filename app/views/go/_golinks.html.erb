@@ -42,9 +42,9 @@
 	margin-left:3px;
 	color:white !important;
 }
-.tag-container{
+/*.tag-container{
 	display:none;
-}
+}*/
 
 /*hidden edit inputs*/
 .hidden-edit{
@@ -96,7 +96,7 @@
 			<td class = 'golink-description-td'>
 				<div id = '<%= golink.get_parse_id %>-description'><%= golink.description %></div>
 				<input id = '<%= golink.get_parse_id %>-description-input' data-tags = '<%= golink.tags ? golink.tags.join(',') : '' %>' data-id = '<%= golink.get_parse_id %>' class = 'form-control description-input edit-input hidden-edit' value = '<%= golink.description %>' placeholder = 'enter a description'/>
-				<div id = '<%= golink.get_parse_id %>-tag-container' class = 'tag-container'>
+				<div id = '<%= golink.get_parse_id %>-tag-container' class = 'hidden-edit'>
 					<% if golink.tags %>
 						<% golink.tags.each do |tag| %>
 							<div class = 'label label-default tag-label' data-tag = '<%= tag %>'><%= tag %><a href = 'javascript:void(0)' class = 'tag-delete-link' data-id = '<%= golink.get_parse_id %>' data-tag = '<%= tag %>'>x</a></div>
@@ -249,13 +249,13 @@ function getUnique(array){
 	return uniqueArray;
 }
 
-$('.description-input').focus( function() {
-  $('.tag-container').each(function(){
-  	$(this).hide();
-  });
-  id = $(this).attr('data-id');
-  $('#'+id+'-tag-container').show();
-});
+// $('.description-input').focus( function() {
+//   $('.tag-container').each(function(){
+//   	$(this).hide();
+//   });
+//   id = $(this).attr('data-id');
+//   $('#'+id+'-tag-container').show();
+// });
 
 $('.description-input').keypress(function(e){
 	if(e.which == 13) {

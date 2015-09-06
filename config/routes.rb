@@ -10,7 +10,8 @@ Portal::Application.routes.draw do
 
   get '/clearcache', to: 'application#clearcache'
 
-  get '/go', to: 'go#typeahead'
+  # get '/go', to: 'go#typeahead'
+  get '/go', to: 'go#home'
   get '/go/manage', to: 'go#manage'
   get '/go/add', to:'go#add'
   post '/go/create', to: 'go#create'
