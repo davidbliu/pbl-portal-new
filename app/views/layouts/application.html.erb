@@ -58,6 +58,7 @@
                   <div><%= current_member.committee %> <%= current_member.position ? current_member.position.capitalize : 'No Position' %></div>
                   <div><%= current_member.email %></div></h5>
                     
+
                   <li class="sub-menu">
                       <a class="<%= 'active' if controller_name == 'go' && action_name != 'my_links' %>" href="/go">
                           <i class="fa fa-search"></i>
@@ -94,6 +95,12 @@
                       </a>
                   </li>
 
+                  <li class="sub-menu">
+                      <a class="<%= 'active' if controller_name == 'blog' %>" href="/blog">
+                          <i class="fa fa-book"></i>
+                          <span>Blog</span>
+                      </a>
+                  </li>
 
               </ul>
               <!-- sidebar menu end-->
