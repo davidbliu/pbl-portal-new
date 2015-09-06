@@ -117,7 +117,7 @@ class GoController < ApplicationController
 		tags = params[:tags].split(',')
 		golink = ParseGoLink.find(params[:id])
 		golink.description = description
-		golink.tags = tags
+		golink.tags = tags.select{|x| x != '' }
 		# reflect changes in GoLink so appears in search
 		gl = GoLink.where(parse_id:golink.id)
 		if gl.length > 0
