@@ -348,6 +348,8 @@ Portal::Application.routes.draw do
       post 'save_post'
       get 'edit_post'
       post 'update_post'
+      get 'delete_post'
+      get 'email_post'
     end
   end
   

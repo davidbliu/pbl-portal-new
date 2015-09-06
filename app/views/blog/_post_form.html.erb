@@ -1,0 +1,78 @@
+<style type = 'text/css'>
+#top-spacer{
+  clear:both;
+  height:25px;
+}
+</style>
+<%= tinymce_assets %>
+<div class = 'centered'>
+
+<div class="input-group">
+  <span class="input-group-addon">Title</span>
+  <input id = 'title-input' type="text" class="form-control" placeholder = 'Enter a title here' <% if post %>value='<%= post.title %>'<% end %>>
+</div>
+
+<div class="input-group">
+  <span class="input-group-addon">View Permissions</span>
+  <select  id = 'view-permissions-input' class = 'form-control'>
+    <% if post %>
+    <option selected><%= @post.get_view_permissions %>
+    <% end %>
+      <option>Only Me</option>
+      <option>Only PBL</option>
+      <option>Only Officers</option>
+      <option>Only Execs</option>
+      <option>Anyone</option>
+  </select>
+</div>
+
+
+<div class="input-group">
+  <span class="input-group-addon">Edit Permissions</span>
+  <select  id = 'edit-permissions-input' class = 'form-control'>
+    <% if post %>
+    <option selected><%= @post.get_edit_permissions %>
+    <% end %>
+      <option>Only Me</option>
+      <option>Only PBL</option>
+      <option>Only Officers</option>
+      <option>Only Execs</option>
+      <option>Anyone</option>
+  </select>
+</div>
+
+<button id = 'save-btn' class = 'btn btn-material-blue-900'>Save post</button>
+<!-- <button id = 'save-btn' class = 'btn btn-material-grey-900'>Save and email post</button> -->
+
+<div id = 'top-spacer'></div>
+
+<%= text_area_tag :content, post ? post.content : "", :class => "tinymce", :rows => 40, :cols => 120 %>
+<%= tinymce %>
+
+</div>
+
+<script type = 'text/javascript'>
+$('#save-btn').click(function(){
+	content_html = tinyMCE.activeEditor.getContent();
+	console.log(content_html);
+  <% if post %>
+  id = '<%= post.id %>';
+  <% else %>
+  id = null;
+  <% end %>
+
+  view_permissions = $("#view-permissions-input option:selected").text();
+  edit_permissions = $("#edit-permissions-input option:selected").text();
+	$.ajax({
+      url: '/blog/save_post',
+      type: 'POST',
+      data: {'title': $('#title-input').val(), 'content': content_html ,'id': id, 'view_permissions' : view_permissions, 'edit_permissions': edit_permissions},
+      success:function(data){
+        window.location = '/blog';
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
+});
+</script>

@@ -6,7 +6,12 @@
 	background-color:white;
 }
 .meta-div{
-
+	padding:15px;
+	/*border:1px solid rgba(0,0,0,0.1);*/
+}
+.post-links{
+	padding:15px;
+	/*border:1px solid rgba(0,0,0,0.1);*/
 }
 #top-spacer{
 	clear:both;
@@ -16,19 +21,26 @@
 </style>
 <h1 class = 'centered'>PBL Blog</h1>
 
+<a href = '/blog/create_post'><button class = 'btn btn-material-blue-900'>Create new post</button></a>
+
 <div id = 'top-spacer'></div>
 
 <% @posts.each do |post| %>
 	<div class = 'post-div'>
+		<p><%= post.content.html_safe %></p>
+
 		<div class = 'meta-div'>
 			<div>Title: <%= post.title %></div>
 			<div>Author: <%= post.author %></div>
+			<div>Can View: <%= post.get_view_permissions %></div>
+			<div>Can Edit: <%= post.get_edit_permissions %></div>
 			<div>Last Updated: <%= post.updated_at.split('T')[0] %></div>
 		</div>
-		<p><%= post.content.html_safe %></p>
+
 		<div class = 'post-links'>
-			<% if post.can_edit(current_member.email) %>
-				<a href = 'blog/edit_post?id=<%= post.id %>'>Edit this post</a>
+			<% if @editable_ids.include?(post.id) %>
+				<div><a href = '/blog/edit_post?id=<%= post.id %>'>Edit this post</a></div>
+				<div><a href = '/blog/email_post?id=<%= post.id %>'>Email this post</a></div>
 			<% end %>
 		</div>
 	</div>
