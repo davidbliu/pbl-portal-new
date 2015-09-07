@@ -25,6 +25,6 @@ module Portal
     config.i18n.enforce_available_locales = true
     config.assets.compile = true
     config.assets.precompile =  ['*.js', '*.css', '*.css.erb']
-    config.tinymce.install = :copy
+
   end
 end

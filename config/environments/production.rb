@@ -85,7 +85,5 @@ Portal::Application.configure do
   config.assets.compile = true
   config.assets.precompile =  ['*.js', '*.css', '*.css.erb'] 
 
-  config.tinymce.install = :compile
-  config.assets.precompile << "tinymce-jquery.js"
 
 end
