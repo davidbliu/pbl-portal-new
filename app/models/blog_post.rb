@@ -1,5 +1,5 @@
 class BlogPost < ParseResource::Base
-	fields :title, :content, :author, :view_permissions, :edit_permissions
+	fields :title, :content, :author, :view_permissions, :edit_permissions, :timestamp
 
 	def self.save_post(id, title, content, author, view_permissions='Anyone', edit_permissions='Anyone')
 		if not id

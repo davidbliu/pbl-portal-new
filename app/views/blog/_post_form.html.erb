@@ -45,6 +45,9 @@
 </div>
 
 <button id = 'save-btn' class = 'btn btn-material-blue-900'>Save post</button>
+<% if post %>
+<a href = '/blog/delete_post?id=<%= post.id %>'><button class = 'btn btn-material-red-900 centered'>Delete this post</button></a>
+<% end %>
 <!-- <button id = 'save-btn' class = 'btn btn-material-grey-900'>Save and email post</button> -->
 
 <div id = 'top-spacer'></div>

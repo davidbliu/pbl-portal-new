@@ -4,44 +4,84 @@
 	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;
 	background-color:white;
+	overflow:auto;
+	
+}
+.content-div{
 }
 .meta-div{
 	padding:15px;
-	/*border:1px solid rgba(0,0,0,0.1);*/
+	border:1px solid rgba(0,0,0,0.1);
+	right:10px;
+	width:30%;
+
 }
 .post-links{
-	padding:15px;
-	/*border:1px solid rgba(0,0,0,0.1);*/
+
 }
 #top-spacer{
 	clear:both;
 	display:inline-block;
 	height:50px;
 }
-</style>
-<h1 class = 'centered'>PBL Blog</h1>
+#blog-search{
+	padding:8px;
+	width:50%;
+}
 
-<a href = '/blog/create_post'><button class = 'btn btn-material-blue-900'>Create new post</button></a>
+</style>
 
 <div id = 'top-spacer'></div>
 
-<% @posts.each do |post| %>
-	<div class = 'post-div'>
-		<p><%= post.content.html_safe %></p>
+<div id = 'nav-options' class = 'centered'>
 
-		<div class = 'meta-div'>
+	<a href = '/blog/create_post'><button class = 'btn btn-material-blue-900'>Create new post</button></a>
+
+	<div><input id = 'blog-search' type = 'text' placeholder = 'Search for posts'/></div>
+
+</div>
+
+<div id = 'top-spacer'></div>
+<!-- s -->
+
+
+<% @posts.each do |post| %>
+	<div class = 'post-div' id = '<%= post.id %>'>
+		<div class = 'meta-div pull-right'>
 			<div>Title: <%= post.title %></div>
 			<div>Author: <%= post.author %></div>
 			<div>Can View: <%= post.get_view_permissions %></div>
 			<div>Can Edit: <%= post.get_edit_permissions %></div>
 			<div>Last Updated: <%= post.updated_at.split('T')[0] %></div>
-		</div>
 
-		<div class = 'post-links'>
+			<div class = 'post-links'>
 			<% if @editable_ids.include?(post.id) %>
 				<div><a href = '/blog/edit_post?id=<%= post.id %>'>Edit this post</a></div>
 				<div><a href = '/blog/email_post?id=<%= post.id %>'>Email this post</a></div>
 			<% end %>
+			</div>
+
 		</div>
+		<h1><%= post.title %></h1>
+		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.id %>-content' class = 'content-div'>
+			<%= post.content.html_safe %>
+		</div>
+		<a class = 'read-toggle' href = 'javascript:void(0)' data-toggle = '<%= post.id %>-content'>Read More</a>
+
+		
+
+		
 	</div>
 <% end %>
+
+<script type = 'text/javascript'>
+$('.read-toggle').click(function(){
+	console.log('clicked this');
+	content_div = $('#' + $(this).attr('data-toggle'));
+	$(content_div).attr('style', '');
+	$(this).hide();
+})
+// $('#blog-search').keyup(function(e)){
+
+// }
+</script>

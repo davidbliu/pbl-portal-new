@@ -1,5 +1,4 @@
 
 <h1 class = 'centered'>Edit Post</h1>
 
-<a href = '/blog/delete_post?id=<%= @post.id %>'><button class = 'btn btn-material-red-900 centered'>Delete this post</button></a>
 <%= render partial: 'post_form', locals: {post: @post} %>
