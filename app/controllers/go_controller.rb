@@ -262,20 +262,22 @@ class GoController < ApplicationController
 		render text: golink.get_rating.to_s
 	end
 	def index
+
 		# TODO: accept id as input and redirect to url
 		# log this click 
 		go_key = params[:key].gsub('_', ' ')
-		golinks = ParseGoLink.where(key: go_key).select{|x| x.can_view(current_member)}
-		
-		email = current_member ? current_member.email : ''
-		email = params[:email] ? params[:email] : email
+		golinks = ParseGoLink.where(key: go_key).to_a
+		golinks = golinks.select{|x| x.can_view(current_member)}
+
+
+
 		# GoLog.log_click(email, go_key, Time.now)
 		if golinks.length > 0
 			# correctly used alias
 			if golinks.length > 1
 				@golinks = golinks
 				page = 1
-				render 'typeahead_homepage'
+				render 'home'
 			else
 				# send to link url
 				golink = golinks[0]

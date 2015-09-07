@@ -81,6 +81,8 @@ class ParseGoLink < ParseResource::Base
 		end
 
 		if self.get_permissions == 'Only PBL'
+			# puts 'retuning this result'
+			# puts (member and member.email != nil and member.email != '')
 			return (member and member.email != nil and member.email != '')
 		end
 
