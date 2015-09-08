@@ -350,6 +350,7 @@ Portal::Application.routes.draw do
       post 'update_post'
       get 'delete_post'
       get 'email_post'
+      get 'view_post'
     end
   end
   

@@ -1,18 +1,39 @@
 class BlogPost < ParseResource::Base
-	fields :title, :content, :author, :view_permissions, :edit_permissions, :timestamp
+	fields :title, :content, :author, :view_permissions, :edit_permissions, :timestamp, :parse_id
 
+	def get_parse_id
+		return self.parse_id ? self.parse_id : self.id
+	end
 	def self.save_post(id, title, content, author, view_permissions='Anyone', edit_permissions='Anyone')
 		if not id
-			BlogPost.create(title:title, content:content, author:author, view_permissions: view_permissions, edit_permissions: edit_permissions)
+			post = BlogPost.new(title:title, content:content, author:author, view_permissions: view_permissions, edit_permissions: edit_permissions)
 		else
 			post = BlogPost.find(id)
 			post.title = title
 			post.content = content 
 			post.author = author
+			post.timestamp = Time.now
 			post.view_permissions = view_permissions
 			post.edit_permissions = edit_permissions
-			post.save
 		end
+		post.timestamp = Time.now
+		post.save
+
+		pg_post = PgPost.where(parse_id: post.get_parse_id)
+		pg_post.destroy_all
+		# save a postgres version
+		pg_post = PgPost.new
+		pg_post.parse_id = post.get_parse_id
+		pg_post.title = post.title
+		pg_post.content = post.content
+		pg_post.author = post.author
+		pg_post.view_permissions = post.view_permissions
+		pg_post.edit_permissions = post.edit_permissions
+		pg_post.timestamp = post.timestamp
+		pg_post.save
+		# reindex to search 
+		PgPost.import
+
 	end
 
 	def get_view_permissions
@@ -61,5 +82,45 @@ class BlogPost < ParseResource::Base
 		if permissions == 'Only My Committee'
 			return true
 		end
+	end
+
+	def self.search(search_term)
+		results = PgPost.search(search_term).results
+		# results = PgPost.search(query: {multi_match: {query: search_term, fields: ['title^3', 'author^2', 'content','tags'], fuzziness:1}}, :size=>100).results
+		return self.results_to_parse_posts(results)
+	end
+
+	def self.from_pg_posts(pg_posts)
+		return pg_posts.map{|x| x.to_parse}
+	end
+
+	def self.results_to_parse_posts(results)
+		posts = []
+		ids = []
+		results.each do |result|
+			data =  result._source
+			ids << data['id']
+		end
+		posts = PgPost.find_all_by_id(ids).map{|x| x.to_parse}
+		return posts
+	end
+	def self.import
+		PgPost.destroy_all
+		all_posts = BlogPost.limit(100000).all.to_a
+		p all_posts.length
+		all_posts.each do |post|
+			pg_post = PgPost.new
+			pg_post.parse_id = post.id
+			pg_post.title = post.title
+			pg_post.author = post.author
+			pg_post.edit_permissions = post.edit_permissions
+			pg_post.view_permissions = post.view_permissions
+			pg_post.content = post.content
+			pg_post.timestamp = post.timestamp
+			puts pg_post.save
+			puts pg_post.title
+			puts pg_post.parse_id
+		end
+		PgPost.import
 	end
 end

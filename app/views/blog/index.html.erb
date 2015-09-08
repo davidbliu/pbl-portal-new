@@ -35,9 +35,24 @@
 
 <div id = 'nav-options' class = 'centered'>
 
+	<h1>Blog</h1>
 	<a href = '/blog/create_post'><button class = 'btn btn-material-blue-900'>Create new post</button></a>
-
-	<div><input id = 'blog-search' type = 'text' placeholder = 'Search for posts'/></div>
+	<input id = 'blog-search' type = 'text' placeholder = 'Search for posts' value = '<%= @search_term %>'/>
+	<div>
+		<% if @search_term %>
+		<a href = '/blog'>Remove search filter</a>
+		<% end %>
+	</div>
+	<div>
+		<h2>Categories</h2>
+		<div class = 'categories-div'>
+			<div class = 'label label-default'>HT</div>
+			<div class = 'label label-default'>WD</div>
+			<div class = 'label label-default'>PB</div>
+			<div class = 'label label-default'>SO</div>
+			<div class = 'label label-default'>FI</div>
+		</div>
+	</div>
 
 </div>
 
@@ -50,23 +65,25 @@
 		<div class = 'meta-div pull-right'>
 			<div>Title: <%= post.title %></div>
 			<div>Author: <%= post.author %></div>
+			<div>Timestamp: <%= post.timestamp %></div>
 			<div>Can View: <%= post.get_view_permissions %></div>
 			<div>Can Edit: <%= post.get_edit_permissions %></div>
-			<div>Last Updated: <%= post.updated_at.split('T')[0] %></div>
+
 
 			<div class = 'post-links'>
 			<% if @editable_ids.include?(post.id) %>
-				<div><a href = '/blog/edit_post?id=<%= post.id %>'>Edit this post</a></div>
-				<div><a href = '/blog/email_post?id=<%= post.id %>'>Email this post</a></div>
+				<div><a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a></div>
+				<div><a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a></div>
 			<% end %>
 			</div>
 
 		</div>
-		<h1><%= post.title %></h1>
-		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.id %>-content' class = 'content-div'>
+		<h1><a href = '/blog/view_post?id=<%= post.get_parse_id %>'><%= post.title %></a></h1>
+		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.get_parse_id %>-content' class = 'content-div'>
 			<%= post.content.html_safe %>
 		</div>
-		<a class = 'read-toggle' href = 'javascript:void(0)' data-toggle = '<%= post.id %>-content'>Read More</a>
+		<a class = 'read-toggle' href = 'javascript:void(0)' data-toggle = '<%= post.get_parse_id %>-content'>Read More</a>
+		<!-- <div>The parse id is id: <%= post.id %> parse_id <%= post.parse_id %> get_pid  <%= post.get_parse_id %> </div> -->
 
 		
 
@@ -74,14 +91,19 @@
 	</div>
 <% end %>
 
+<%= will_paginate @posts %>
+
 <script type = 'text/javascript'>
 $('.read-toggle').click(function(){
 	console.log('clicked this');
 	content_div = $('#' + $(this).attr('data-toggle'));
 	$(content_div).attr('style', '');
 	$(this).hide();
-})
-// $('#blog-search').keyup(function(e)){
-
-// }
+});
+$('#blog-search').keyup(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if(keycode == '13'){
+		window.location = '/blog?q='+$(this).val();
+	}
+});
 </script>
