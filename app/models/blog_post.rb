@@ -5,9 +5,11 @@ class BlogPost < ParseResource::Base
 	def get_title
 		self.title and self.title != '' ? self.title : 'no title'
 	end
+
 	def get_tags
 		self.tags ? self.tags : ['Other']
 	end
+
 	def get_post_type
 		(self.post_type and self.post_type != '') ? self.post_type : 'Other'
 	end
@@ -23,9 +25,11 @@ class BlogPost < ParseResource::Base
 	def self.types 
 		return ['Other', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
 	end
+	
 	def get_parse_id
 		return self.parse_id ? self.parse_id : self.id
 	end
+
 	def self.save_post(id, title, content, author, post_type, view_permissions='Anyone', edit_permissions='Anyone', tags = [])
 		if not id
 			post = BlogPost.new

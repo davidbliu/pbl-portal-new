@@ -47,7 +47,6 @@ class BlogController < ApplicationController
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.paginate(:page => page, :per_page => 30)
 		@editable_ids = @posts.select{|x| x.can_edit(current_member)}.map{|x| x.id}
-		# puts 'these posts are editable by you'
 	end
 
 

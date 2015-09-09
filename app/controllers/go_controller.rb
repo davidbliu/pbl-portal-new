@@ -111,7 +111,6 @@ class GoController < ApplicationController
 	end
 
 	def edit_description
-
 		# description, tags = get_description_tags(params[:description])
 		description = params[:description]
 		tags = params[:tags].split(',')
@@ -187,11 +186,34 @@ class GoController < ApplicationController
 				@golinks = @golinks.sort_by{|x| - x.get_num_clicks}
 			end
 		end
+		@post_content = ''
+		if @search_term.include?('#') and @golinks.length > 0
+			post_hash = Rails.cache.read('link_post_hash')
+			tag = @search_term.gsub('#', '')
+			if post_hash and post_hash[tag]
+				@post_content = post_hash[tag]
+			end
+		end
 
-		# end
 		page = params[:page] ? params[:page] : 1
 		@golinks = @golinks.paginate(:page => page, :per_page => 100)
 		render 'ajax_search', layout: false
+	end
+
+	def cache_post_hash
+		post_hash = Hash.new
+		LinkPost.limit(10000).all.each do |link_post|
+			content = ''
+			post_id = link_post.post_id
+			post = PgPost.where(parse_id: post_id)
+			if post.length > 0
+				post = post.first
+				content = post.content
+			end
+			post_hash[link_post.tag] = content
+		end
+		Rails.cache.write('link_post_hash', post_hash)
+		redirect_to '/go'
 	end
 
 	# def tag_search

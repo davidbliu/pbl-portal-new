@@ -52,6 +52,7 @@ Portal::Application.routes.draw do
   get 'go/keys', to: 'go#keys'
   get 'go/type', to: 'go#typeahead'
   get 'go/ajax_search', to:'go#ajax_search'
+  get '/go/cache_post_hash', to:'go#cache_post_hash'
   """ me"""
   get 'go/bundles', to: 'go#bundles'
   get 'go/my_links', to:'go#my_links'
