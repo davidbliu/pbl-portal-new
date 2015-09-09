@@ -82,6 +82,7 @@ class BlogPost < ParseResource::Base
 
 
 	def has_permissions(member, permissions)
+		permissions = permissions.strip
 		if member == nil
 			return permissions == 'Anyone'
 		end

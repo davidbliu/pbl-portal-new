@@ -34,6 +34,7 @@ class BlogController < ApplicationController
 			@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
 		end
 
+		@pinned_ids = @pinned.map{|x| x.get_parse_id}
 		@posts = @posts.select{|x| x.can_view(current_member)}
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.paginate(:page => page, :per_page => 30)
