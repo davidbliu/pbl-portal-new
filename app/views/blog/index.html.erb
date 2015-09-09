@@ -8,6 +8,8 @@
 	float: left;
 }
 .content-div{
+	height:200px;
+	overflow:hidden;
 }
 .meta-div{
 	font-size:10px;
@@ -108,15 +110,25 @@
 		<% post.get_tags.each do |tag| %>
 			<div class = 'label label-primary'><%= tag %></div>
 		<% end %>
-		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.title %></a></h2>
+		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
 		
 		
-		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.get_parse_id %>-content' class = 'content-div'>
+		<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
 			<%= post.content.html_safe %>
 		</div>
 
 		<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
-			<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
+			<% if post.can_edit(current_member) %>
+				<div>
+					<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
+					&nbsp;
+					<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
+				</div>
+				<div>
+					Permissions: <%= post.get_view_permissions %> can view, <%= post.get_edit_permissions %> can edit
+				</div>
+			<% end %>
+			<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
 		</div>
 
 		<div class = 'meta-div pull-right'>
@@ -135,18 +147,25 @@
 		<% post.get_tags.each do |tag| %>
 			<div class = 'label label-primary'><%= tag %></div>
 		<% end %>
-		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.title %></a></h2>
+		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
 		
 		
-		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.get_parse_id %>-content' class = 'content-div'>
+		<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
 			<%= post.content.html_safe %>
 		</div>
 
 		<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
 			<% if post.can_edit(current_member) %>
-				<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
-				<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
+				<div>
+					<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
+					&nbsp;
+					<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
+				</div>
+				<div>
+					Permissions: <%= post.get_view_permissions %> can view, <%= post.get_edit_permissions %> can edit
+				</div>
 			<% end %>
+			<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
 		</div>
 
 		<div class = 'meta-div pull-right'>
@@ -158,10 +177,12 @@
 </div>
 <!-- end of posts row -->
 <%= will_paginate @posts %>
-
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <script type = 'text/javascript'>
-$('.blog-link').click(function(){
-	id = $(this).attr('data-id');
+
+
+function changeModal(id){
 	content = $('#' + id + '-content').html();
 	title = $('#'+id+'-title').text();
 	options = $('#'+id+'-options').html();
@@ -171,6 +192,22 @@ $('.blog-link').click(function(){
 	$('#modal-title').text(title);
 	$('#modal-body').html(content);
 	$('#modal-options').html(options);
+}
+
+<% if @post_id %>
+jQuery(document).ready(function($) {
+	$('#myModal').modal('show');
+    changeModal('<%= @post_id %>');
+});
+	// $('#myModal').modal('show');
+	
+<% end %>	
+
+
+
+$('.blog-link').click(function(){
+	id = $(this).attr('data-id');
+	changeModal(id);
 });
 $('.read-toggle').click(function(){
 	console.log('clicked this');

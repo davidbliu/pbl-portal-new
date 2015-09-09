@@ -1,12 +1,22 @@
 require 'will_paginate/array'
 class BlogController < ApplicationController
+	before_filter :authorize
 
+	# , :except => [:index, :redirect_id, :home, :ajax_search]
+	def authorize
+		if not current_member
+			render 'layouts/authorize', layout: false
+		else
+			puts current_member.email
+		end
+	end
 
 	def index
 		# @posts = BlogPost.order('updatedAt desc').all.select{|x| x.can_view(current_member)}
 		pin = "Pin"
-		@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+		@pinned = []
 		@search_term = params[:q]
+		@post_id = params[:post_id]
 		if params[:q]
 			@filtered = true
 			@posts = BlogPost.search(params[:q])
@@ -18,6 +28,10 @@ class BlogController < ApplicationController
 			@post_type = params[:post_type]
 			@filtered = true
 			@posts = @posts.select{|x| x.get_tags.include?(params[:post_type])}
+		end
+
+		if (not params[:post_type]) and (not params[:q])
+			@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
 		end
 
 		@posts = @posts.select{|x| x.can_view(current_member)}
@@ -70,7 +84,8 @@ class BlogController < ApplicationController
 	def email_post
 		id = params[:id]
 		post = BlogPost.find(id)
-		# BlogNotifier.send_blog_email(members = ['davidbliu@gmail.com', 'eric.quach@berkeley.edu', 'akwan726@gmail.com'], post)
+		emails = Subscriber.limit(1000000).all.map{|x| x.email}
+		BlogNotifier.send_blog_email(members = emails, post)
 		redirect_to '/blog'
 	end
 

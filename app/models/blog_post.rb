@@ -2,6 +2,9 @@ class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
 	:edit_permissions, :timestamp, :parse_id, :post_type, :tags
 
+	def get_title
+		self.title and self.title != '' ? self.title : 'no title'
+	end
 	def get_tags
 		self.tags ? self.tags : ['Other']
 	end
