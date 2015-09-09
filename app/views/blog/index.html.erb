@@ -1,4 +1,7 @@
 <style type = 'text/css'>
+body{
+	color:black;
+}
 .post-div{
 	padding:20px;
 	border:1px solid rgba(0,0,0,0.1);
@@ -27,6 +30,11 @@
 	padding:8px;
 	width:50%;
 }
+#blog-search:focus{
+  border-color: rgba(185, 43, 39, 0.4);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 43, 39, 0.3);
+  outline: 0 none;
+}
 .tag-label > a{
 	color:white;
 }
@@ -39,6 +47,8 @@
 #modal-header{
 	margin-bottom:3px;
 	background-color:black;
+	text-align:center;
+	padding-bottom:3px;
 }
 #modal-options{
 	padding:15px;
@@ -46,6 +56,10 @@
 .post-options{
 	display:none;
 }
+
+
+
+
 </style>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -67,19 +81,15 @@
 </div>
 <!-- end of modal -->
 
-<div id = 'top-spacer'></div>
-
+<a href = '/blog/create_post'>
+		<button class = 'btn btn-material-red-700'>Create new post</button>
+	</a>
 <div id = 'nav-options' class = 'centered'>
 
-	<h1>PBL Blog</h1>
+	<h1><b style = 'font-size:50px;top:10px'>PBL Blog</b></h1>
 	<div>
 		<input id = 'blog-search' type = 'text' placeholder = 'Search for posts' value = '<%= @search_term %>'/>
 	</div>
-	<a href = '/blog/create_post'>
-		<button class = 'btn btn-material-blue-900'>Create new post</button>
-	</a>
-	
-	
 	<div>
 		<h2>Folders</h2>
 		<div class = 'categories-div'>
@@ -106,75 +116,17 @@
 <% if @pinned.length > 0 %>
 <h1>Pinned Posts</h1>
 <div class = 'row'>
-	<% @pinned.each do |post| %>
-	<div class = 'post-div' id = '<%= post.id %>'>
-		<% post.get_tags.each do |tag| %>
-			<div class = 'label label-primary'><%= tag %></div>
-		<% end %>
-		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
-		
-		
-		<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
-			<%= post.content.html_safe %>
-		</div>
 
-		<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
-			<% if post.can_edit(current_member) %>
-				<div>
-					<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
-					&nbsp;
-					<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
-				</div>
-				<div>
-					Permissions: <%= post.get_view_permissions %> can view, <%= post.get_edit_permissions %> can edit
-				</div>
-			<% end %>
-			<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
-		</div>
+	<%= render partial: 'posts', locals:{posts: @pinned} %>
 
-		<div class = 'meta-div'>
-			<div>Author: <%= post.author %></div>
-			<div>Timestamp: <%= post.timestamp %></div>
-		</div>
-	</div>
-<% end %>
 </div>
 <h1>Recent Posts</h1>
 <% end %>
 <!-- end if pinned post -->
 <div class = 'row'>
-<% @posts.select{|x| not @pinned_ids.include?(x.get_parse_id)}.each do |post| %>
-	<div class = 'post-div' id = '<%= post.id %>'>
-		<% post.get_tags.each do |tag| %>
-			<div class = 'label label-primary'><%= tag %></div>
-		<% end %>
-		<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
-		
-		
-		<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
-			<%= post.content.html_safe %>
-		</div>
 
-		<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
-			<% if post.can_edit(current_member) %>
-				<div>
-					<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
-					&nbsp;
-					<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
-				</div>
-				<div>
-					Permissions: <%= post.get_view_permissions %> can view, <%= post.get_edit_permissions %> can edit
-				</div>
-			<% end %>
-			<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
-		</div>
+	<%= render partial: 'posts', locals:{posts: @posts.select{|x| not @pinned_ids.include?(x.get_parse_id)}} %>
 
-		<div class = 'meta-div'>
-			<div>Author: <%= post.author %></div>
-			<div>Timestamp: <%= post.timestamp %></div>
-		</div>
-	</div>
-<% end %>
 </div>
 <!-- end of posts row -->
 <%= will_paginate @posts %>

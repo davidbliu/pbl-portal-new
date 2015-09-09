@@ -16,6 +16,10 @@ class BlogPost < ParseResource::Base
 		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
 	end
 
+	def self.permissions
+		return ['Only Me', 'Only Execs', 'Only Officers', 'Only PBL', 'Anyone']
+	end
+
 	def self.types 
 		return ['Other', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
 	end
@@ -59,11 +63,13 @@ class BlogPost < ParseResource::Base
 	end
 
 	def get_view_permissions
-		return (self.view_permissions and self.view_permissions != '')  ? self.view_permissions : 'Anyone'
+		p = (self.view_permissions and self.view_permissions != '')  ? self.view_permissions : 'Anyone'
+		return p.strip
 	end
 
 	def get_edit_permissions
-		return (self.edit_permissions and self.edit_permissions != '')  ? self.edit_permissions : 'Anyone'
+		p =  (self.edit_permissions and self.edit_permissions != '')  ? self.edit_permissions : 'Anyone'
+		return p.strip
 	end
 
 	def can_edit(member)

@@ -3,6 +3,14 @@ class BlogController < ApplicationController
 	before_filter :authorize
 
 	# , :except => [:index, :redirect_id, :home, :ajax_search]
+
+	def is_admin(member)
+		admin_emails = ['davidbliu@gmail.com']
+		if member and admin_emails.include?(member.email)
+			return true
+		end
+		return false
+	end
 	def authorize
 		if not current_member
 			render 'layouts/authorize', layout: false
@@ -57,15 +65,7 @@ class BlogController < ApplicationController
 		BlogPost.find(id).destroy
 		PgPost.where(parse_id: id).destroy_all
 		redirect_to '/blog'
-	end
-
-	# def save_post
-	# 	title = params[:title]
-	# 	content = params[:content]
-	# 	author = current_member.email
-	# 	BlogPost.save_post(nil, title, content, author)
-	# 	render nothing:true, status:200
-	# end
+	end 
 
 	def save_post
 		id = (params[:id] and params[:id] != '') ? params[:id] : nil

@@ -1,0 +1,34 @@
+<% posts.each do |post| %>
+<div class = 'post-div' id = '<%= post.id %>'>
+	<% post.get_tags.each do |tag| %>
+		<div class = 'label label-primary'><%= tag %></div>
+	<% end %>
+	<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
+	
+	
+	<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
+		<%= post.content.html_safe %>
+	</div>
+
+	<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
+		<% if post.can_edit(current_member) %>
+			<div>
+				<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
+				&nbsp;
+				<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
+				&nbsp;
+				<a href = '/blog/delete_post?id=<%= post.get_parse_id %>'>Delete this post</a>
+			</div>
+			<div>
+				Permissions: "<%= post.get_view_permissions %>" can view, "<%= post.get_edit_permissions %>" can edit
+			</div>
+		<% end %>
+		<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
+	</div>
+
+	<div class = 'meta-div'>
+		<div>Author: <%= post.author %></div>
+		<div>Timestamp: <%= post.timestamp %></div>
+	</div>
+</div>
+<% end %>

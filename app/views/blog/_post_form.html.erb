@@ -33,14 +33,13 @@
 <div class="input-group">
   <span class="input-group-addon">View Permissions</span>
   <select  id = 'view-permissions-input' class = 'form-control'>
-    <% if post %>
-    <option selected><%= post.get_view_permissions %>
+    <% BlogPost.permissions.each do |permission| %>
+      <% if post and post.get_view_permissions == permission %>
+        <option selected><%= permission %></option>
+      <% else %>
+        <option><%= permission %></option>
+      <% end %>
     <% end %>
-      <option>Only Me</option>
-      <option>Only PBL</option>
-      <option>Only Officers</option>
-      <option>Only Execs</option>
-      <option>Anyone</option>
   </select>
 </div>
 
@@ -49,14 +48,13 @@
 <div class="input-group">
   <span class="input-group-addon">Edit Permissions</span>
   <select  id = 'edit-permissions-input' class = 'form-control'>
-    <% if post %>
-    <option selected><%= post.get_edit_permissions %>
+    <% BlogPost.permissions.each do |permission| %>
+      <% if post and post.get_edit_permissions == permission %>
+        <option selected><%= permission %></option>
+      <% else %>
+        <option><%= permission %></option>
+      <% end %>
     <% end %>
-      <option>Only Me</option>
-      <option>Only PBL</option>
-      <option>Only Officers</option>
-      <option>Only Execs</option>
-      <option>Anyone</option>
   </select>
 </div>
 
@@ -81,7 +79,13 @@
 </div>
 
 <a href = '/blog'><button class = 'btn btn-material-grey-900 centered'>Cancel</button></a>
-<button id = 'save-btn' class = 'btn btn-material-blue-900'>Save post</button>
+<button id = 'save-btn' class = 'btn btn-material-blue-900'>
+  <% if post %>
+  Publish changes
+  <% else %>
+  Publish post
+  <% end %>
+  </button>
 <% if post %>
 <a href = '/blog/delete_post?id=<%= post.id %>'><button class = 'btn btn-material-red-900 centered'>Delete this post</button></a>
 <% end %>
