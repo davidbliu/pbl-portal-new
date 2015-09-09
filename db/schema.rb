@@ -343,6 +343,7 @@ ActiveRecord::Schema.define(version: 20150907173421) do
     t.string   "edit_permissions"
     t.text     "content"
     t.text     "tags"
+    t.string   "post_type"
     t.string   "parse_id"
     t.datetime "timestamp"
     t.datetime "created_at"

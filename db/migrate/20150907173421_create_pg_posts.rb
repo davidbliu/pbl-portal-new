@@ -7,6 +7,7 @@ class CreatePgPosts < ActiveRecord::Migration
       t.string :edit_permissions
       t.text :content
       t.text :tags
+      t.string :post_type
       t.string :parse_id
       t.datetime :timestamp
       t.timestamps

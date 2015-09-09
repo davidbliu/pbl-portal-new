@@ -15,6 +15,19 @@
   <input id = 'title-input' type="text" class="form-control" placeholder = 'Enter a title here' <% if post %>value='<%= post.title %>'<% end %>>
 </div>
 
+<div class = 'input-group'>
+  <span class = 'input-group-addon'>Type</span>
+  <select id = 'type-input' class = 'form-control'>
+    <% if post %>
+    <option selected><%= @post.get_post_type %>
+    <% end %>
+    <% BlogPost.types.each do |type| %>
+    <option><%= type %></option>
+    <% end %>
+  </select>
+</div>
+
+
 <div class="input-group">
   <span class="input-group-addon">View Permissions</span>
   <select  id = 'view-permissions-input' class = 'form-control'>
@@ -28,6 +41,7 @@
       <option>Anyone</option>
   </select>
 </div>
+
 
 
 <div class="input-group">
@@ -86,13 +100,13 @@ $('#save-btn').click(function(){
   <% else %>
   id = null;
   <% end %>
-
+  post_type = $("#type-input option:selected").text();
   view_permissions = $("#view-permissions-input option:selected").text();
   edit_permissions = $("#edit-permissions-input option:selected").text();
 	$.ajax({
       url: '/blog/save_post',
       type: 'POST',
-      data: {'title': $('#title-input').val(), 'content': content_html ,'id': id, 'view_permissions' : view_permissions, 'edit_permissions': edit_permissions},
+      data: {'title': $('#title-input').val(), 'content': content_html ,'id': id, 'view_permissions' : view_permissions, 'edit_permissions': edit_permissions, 'post_type': post_type},
       success:function(data){
         window.location = '/blog';
       },

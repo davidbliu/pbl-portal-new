@@ -11,6 +11,7 @@ class BlogController < ApplicationController
 			@posts = PgPost.order("timestamp desc").all.map{|x| x.to_parse}
 			# @posts += PgPost.where("timestamp is null").limit(50).map{|x| x.to_parse.select|x| }
 		end
+		@posts = @posts.select{|x| x.can_view(current_member)}
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.paginate(:page => page, :per_page => 30)
 		@editable_ids = @posts.select{|x| x.can_edit(current_member)}.map{|x| x.id}
@@ -21,7 +22,7 @@ class BlogController < ApplicationController
 	def view_post
 		id = params[:id]
 		@post = BlogPost.find(id)
-		render 'view_post', layout: false
+		render 'view_post'
 	end
 	def create_post
 
@@ -30,7 +31,7 @@ class BlogController < ApplicationController
 	def delete_post
 		id = params[:id]
 		BlogPost.find(id).destroy
-		PgBlog.where(parse_id: id).destroy_all
+		PgPost.where(parse_id: id).destroy_all
 		redirect_to '/blog'
 	end
 
@@ -50,8 +51,9 @@ class BlogController < ApplicationController
 		content = params[:content]
 		view_permissions = params[:view_permissions]
 		edit_permissions = params[:edit_permissions]
+		post_type = params[:post_type]
 		author = current_member.email
-		BlogPost.save_post(id, title, content, author, view_permissions, edit_permissions)
+		BlogPost.save_post(id, title, content, author, post_type, view_permissions, edit_permissions)
 		render nothing:true, status:200
 	end
 

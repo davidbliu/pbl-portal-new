@@ -1,2 +1,12 @@
 <h1><%= @post.title %></h1>
+
 <%= @post.content.html_safe %>
+
+<div class = 'actions-area'>
+	<a href = '/blog/edit_post?id=<%= @post.get_parse_id %>'><button class = 'btn btn-material-blue-900'>Edit this post</button></a>
+
+	<a href = '/blog/email_post?id=<%= @post.get_parse_id %>'><button class = 'btn btn-material-grey-900'>Email this post</button></a>
+
+	<a href = '/blog/delete_post?id=<%= @post.get_parse_id %>'><button class = 'btn btn-material-red-900'>Delete this post</button></a>
+
+</div>

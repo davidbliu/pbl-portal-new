@@ -4,19 +4,14 @@
 	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;
 	background-color:white;
-	overflow:auto;
-	
+	width:30%;
+	float: left;
 }
 .content-div{
 }
 .meta-div{
-	padding:15px;
-	border:1px solid rgba(0,0,0,0.1);
-	right:10px;
-	width:30%;
-
-}
-.post-links{
+	font-size:10px;
+	color:black;
 
 }
 #top-spacer{
@@ -46,11 +41,9 @@
 	<div>
 		<h2>Categories</h2>
 		<div class = 'categories-div'>
-			<div class = 'label label-default'>HT</div>
-			<div class = 'label label-default'>WD</div>
-			<div class = 'label label-default'>PB</div>
-			<div class = 'label label-default'>SO</div>
-			<div class = 'label label-default'>FI</div>
+			<% BlogPost.types.each do |type| %>
+			<div class = 'label label-default'><%= type %></div>
+			<% end %>
 		</div>
 	</div>
 
@@ -59,38 +52,39 @@
 <div id = 'top-spacer'></div>
 <!-- s -->
 
-
+<div class = 'row'>
 <% @posts.each do |post| %>
 	<div class = 'post-div' id = '<%= post.id %>'>
+		<div class = 'label label-primary'><%= post.get_post_type %></div>
+		<h2><a href = '/blog/view_post?id=<%= post.get_parse_id %>'><%= post.title %></a></h2>
+		
+		
+		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.get_parse_id %>-content' class = 'content-div'>
+			<%= post.content.html_safe %>
+		</div>
+
 		<div class = 'meta-div pull-right'>
-			<div>Title: <%= post.title %></div>
 			<div>Author: <%= post.author %></div>
 			<div>Timestamp: <%= post.timestamp %></div>
-			<div>Can View: <%= post.get_view_permissions %></div>
-			<div>Can Edit: <%= post.get_edit_permissions %></div>
+		</div>
+		<!-- <a class = 'read-toggle' href = 'javascript:void(0)' data-toggle = '<%= post.get_parse_id %>-content'>Read More</a> -->
+		<!-- <div>The parse id is id: <%= post.id %> parse_id <%= post.parse_id %> get_pid  <%= post.get_parse_id %> </div> -->
 
-
-			<div class = 'post-links'>
+		<!-- 			<div class = 'post-links'>
 			<% if @editable_ids.include?(post.id) %>
 				<div><a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a></div>
 				<div><a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a></div>
 			<% end %>
-			</div>
-
-		</div>
-		<h1><a href = '/blog/view_post?id=<%= post.get_parse_id %>'><%= post.title %></a></h1>
-		<div style = 'max-height:200px; overflow:hidden' id = '<%= post.get_parse_id %>-content' class = 'content-div'>
-			<%= post.content.html_safe %>
-		</div>
-		<a class = 'read-toggle' href = 'javascript:void(0)' data-toggle = '<%= post.get_parse_id %>-content'>Read More</a>
-		<!-- <div>The parse id is id: <%= post.id %> parse_id <%= post.parse_id %> get_pid  <%= post.get_parse_id %> </div> -->
-
-		
+			</div> -->
+			<!-- <div>Type: <%= post.get_post_type %></div>
+			<div>Can View: <%= post.get_view_permissions %></div>
+			<div>Can Edit: <%= post.get_edit_permissions %></div> -->
 
 		
 	</div>
 <% end %>
-
+</div>
+<!-- end of posts row -->
 <%= will_paginate @posts %>
 
 <script type = 'text/javascript'>

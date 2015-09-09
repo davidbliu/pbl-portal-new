@@ -1,10 +1,17 @@
 class BlogPost < ParseResource::Base
-	fields :title, :content, :author, :view_permissions, :edit_permissions, :timestamp, :parse_id
+	fields :title, :content, :author, :view_permissions, 
+	:edit_permissions, :timestamp, :parse_id, :post_type
 
+	def get_post_type
+		(self.post_type and self.post_type != '') ? self.post_type : 'Other'
+	end
+	def self.types 
+		return ['Other', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
+	end
 	def get_parse_id
 		return self.parse_id ? self.parse_id : self.id
 	end
-	def self.save_post(id, title, content, author, view_permissions='Anyone', edit_permissions='Anyone')
+	def self.save_post(id, title, content, author, post_type, view_permissions='Anyone', edit_permissions='Anyone')
 		if not id
 			post = BlogPost.new(title:title, content:content, author:author, view_permissions: view_permissions, edit_permissions: edit_permissions)
 		else
@@ -15,6 +22,7 @@ class BlogPost < ParseResource::Base
 			post.timestamp = Time.now
 			post.view_permissions = view_permissions
 			post.edit_permissions = edit_permissions
+			post.post_type = post_type
 		end
 		post.timestamp = Time.now
 		post.save
@@ -30,6 +38,7 @@ class BlogPost < ParseResource::Base
 		pg_post.view_permissions = post.view_permissions
 		pg_post.edit_permissions = post.edit_permissions
 		pg_post.timestamp = post.timestamp
+		pg_post.post_type = post.post_type
 		pg_post.save
 		# reindex to search 
 		PgPost.import
