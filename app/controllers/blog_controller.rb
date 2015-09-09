@@ -4,13 +4,22 @@ class BlogController < ApplicationController
 
 	def index
 		# @posts = BlogPost.order('updatedAt desc').all.select{|x| x.can_view(current_member)}
+		pin = "Pin"
+		@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
 		@search_term = params[:q]
 		if params[:q]
+			@filtered = true
 			@posts = BlogPost.search(params[:q])
 		else
 			@posts = PgPost.order("timestamp desc").all.map{|x| x.to_parse}
 			# @posts += PgPost.where("timestamp is null").limit(50).map{|x| x.to_parse.select|x| }
 		end
+		if params[:post_type]
+			@post_type = params[:post_type]
+			@filtered = true
+			@posts = @posts.select{|x| x.get_tags.include?(params[:post_type])}
+		end
+
 		@posts = @posts.select{|x| x.can_view(current_member)}
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.paginate(:page => page, :per_page => 30)
@@ -52,8 +61,9 @@ class BlogController < ApplicationController
 		view_permissions = params[:view_permissions]
 		edit_permissions = params[:edit_permissions]
 		post_type = params[:post_type]
+		tags = (params[:tags] and params[:tags] != '') ? params[:tags].split(',') : []
 		author = current_member.email
-		BlogPost.save_post(id, title, content, author, post_type, view_permissions, edit_permissions)
+		BlogPost.save_post(id, title, content, author, post_type, view_permissions, edit_permissions, tags)
 		render nothing:true, status:200
 	end
 

@@ -1,30 +1,39 @@
 class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
-	:edit_permissions, :timestamp, :parse_id, :post_type
+	:edit_permissions, :timestamp, :parse_id, :post_type, :tags
 
+	def get_tags
+		self.tags ? self.tags : ['Other']
+	end
 	def get_post_type
 		(self.post_type and self.post_type != '') ? self.post_type : 'Other'
 	end
+
+	def self.tags 
+		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
+	end
+
 	def self.types 
 		return ['Other', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
 	end
 	def get_parse_id
 		return self.parse_id ? self.parse_id : self.id
 	end
-	def self.save_post(id, title, content, author, post_type, view_permissions='Anyone', edit_permissions='Anyone')
+	def self.save_post(id, title, content, author, post_type, view_permissions='Anyone', edit_permissions='Anyone', tags = [])
 		if not id
-			post = BlogPost.new(title:title, content:content, author:author, view_permissions: view_permissions, edit_permissions: edit_permissions)
+			post = BlogPost.new
 		else
 			post = BlogPost.find(id)
-			post.title = title
-			post.content = content 
-			post.author = author
-			post.timestamp = Time.now
-			post.view_permissions = view_permissions
-			post.edit_permissions = edit_permissions
-			post.post_type = post_type
 		end
+		post.title = title
+		post.content = content 
+		post.author = author
 		post.timestamp = Time.now
+		post.view_permissions = view_permissions
+		post.edit_permissions = edit_permissions
+		post.timestamp = Time.now
+		post.post_type = post_type
+		post.tags = tags
 		post.save
 
 		pg_post = PgPost.where(parse_id: post.get_parse_id)
@@ -39,6 +48,7 @@ class BlogPost < ParseResource::Base
 		pg_post.edit_permissions = post.edit_permissions
 		pg_post.timestamp = post.timestamp
 		pg_post.post_type = post.post_type
+		pg_post.tags = post.tags
 		pg_post.save
 		# reindex to search 
 		PgPost.import
