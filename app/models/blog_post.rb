@@ -139,6 +139,7 @@ class BlogPost < ParseResource::Base
 			pg_post.view_permissions = post.view_permissions
 			pg_post.content = post.content
 			pg_post.timestamp = post.timestamp
+			pg_post.tags = post.tags
 			puts pg_post.save
 			puts pg_post.title
 			puts pg_post.parse_id
