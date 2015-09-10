@@ -8,8 +8,10 @@ class CreatePgPosts < ActiveRecord::Migration
       t.text :content
       t.text :tags
       t.string :post_type
+      t.string :last_editor
       t.string :parse_id
       t.datetime :timestamp
+      t.datetime :time_created
       t.timestamps
     end
   end

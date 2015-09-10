@@ -1,12 +1,23 @@
+<style type = 'text/css'>
+.event-title{
+	color:black;
+	font-size:15px;
+}
+.event-details{
+	margin-left:25px;
+}
+</style>
 <% if @google_events.length == 0 %>
 <h4>No Upcoming Events</h4>
 <% end %>
 <% @google_events.each do |event| %>
 <div class = 'event-div'>
-	<div><%= event.title %></div>
-	<div class = 'smalltext text-muted'><%= event.location %></div>
-	<div class = 'smalltext text-muted'><%= event.description %></div>
-	<div class = 'smalltext text-muted'><%= time_to_string(event.start_time) %> to <%= time_to_string(event.end_time) %></div>
+	<div class = 'event-title'><%= event.title %></div>
+	<div class = 'event-details'>
+		<div class = 'smalltext text-muted'><%= event.location %></div>
+		<div class = 'smalltext text-muted'><%= event.description %></div>
+		<div class = 'smalltext text-muted'><%= time_to_string(event.start_time) %> to <%= time_to_string(event.end_time) %></div>
+	</div>
 </div>
 <% end %>
 

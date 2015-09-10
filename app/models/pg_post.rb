@@ -1,7 +1,7 @@
 require 'elasticsearch/model'
 
 class PgPost < ActiveRecord::Base
-	attr_accessible :title, :content, :author, :view_permissions, :edit_permissions, :parse_id, :tags
+	attr_accessible :title, :content, :author, :view_permissions, :edit_permissions, :parse_id, :tags, :last_editor
 	serialize :tags
 	include Elasticsearch::Model
 	include Elasticsearch::Model::Callbacks
@@ -10,7 +10,7 @@ class PgPost < ActiveRecord::Base
 	def to_parse
 		return BlogPost.new(title:self.title, content:self.content, view_permissions:self.view_permissions, edit_permissions:self.edit_permissions,
 			author:self.author, id: self.parse_id, timestamp: self.timestamp, parse_id: self.parse_id, post_type: self.post_type,
-			tags: self.tags)
+			tags: self.tags, last_editor: self.last_editor, created_at: self.created_at)
 	end
 
 	def get_parse_id

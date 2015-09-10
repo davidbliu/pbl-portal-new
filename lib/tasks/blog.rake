@@ -18,5 +18,16 @@ namespace :blog do
 	task :reindex => :environment do 
 		BlogPost.import
 	end
+
+	task :last_editor => :environment do
+		BlogPost.all.each do |post|
+			post.last_editor = post.author
+			post.save
+		end
+	end
+	task :remove_mistake => :environment do
+		puts 'remove posts'
+		BlogPost.destroy_all(BlogPost.where(last_editor: nil).to_a)
+	end
 end
 

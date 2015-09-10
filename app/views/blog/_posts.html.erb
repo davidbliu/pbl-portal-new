@@ -1,3 +1,4 @@
+
 <% posts.each do |post| %>
 <div class = 'post-div' id = '<%= post.id %>'>
 	<% post.get_tags.each do |tag| %>
@@ -24,11 +25,14 @@
 			</div>
 		<% end %>
 		<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
+
+		<div class = 'meta-div'>
+			<div>Author: <%= post.author %></div>
+			<div>Last Edited By: <%= post.last_editor %></div>
+			<div>Timestamp: <%= post.timestamp %></div>
+		</div>
 	</div>
 
-	<div class = 'meta-div'>
-		<div>Author: <%= post.author %></div>
-		<div>Timestamp: <%= post.timestamp %></div>
-	</div>
+
 </div>
 <% end %>

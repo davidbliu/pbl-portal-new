@@ -1,6 +1,6 @@
 class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
-	:edit_permissions, :timestamp, :parse_id, :post_type, :tags
+	:edit_permissions, :timestamp, :parse_id, :post_type, :tags, :last_editor
 
 	def get_title
 		self.title and self.title != '' ? self.title : 'no title'
@@ -25,20 +25,21 @@ class BlogPost < ParseResource::Base
 	def self.types 
 		return ['Other', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
 	end
-	
+
 	def get_parse_id
 		return self.parse_id ? self.parse_id : self.id
 	end
 
-	def self.save_post(id, title, content, author, post_type, view_permissions='Anyone', edit_permissions='Anyone', tags = [])
+	def self.save_post(id, title, content, editor, post_type, view_permissions='Anyone', edit_permissions='Anyone', tags = [])
 		if not id
 			post = BlogPost.new
+			post.author = editor
 		else
 			post = BlogPost.find(id)
 		end
 		post.title = title
 		post.content = content 
-		post.author = author
+		post.last_editor = editor
 		post.timestamp = Time.now
 		post.view_permissions = view_permissions
 		post.edit_permissions = edit_permissions
@@ -55,6 +56,7 @@ class BlogPost < ParseResource::Base
 		pg_post.title = post.title
 		pg_post.content = post.content
 		pg_post.author = post.author
+		pg_post.last_editor = post.last_editor
 		pg_post.view_permissions = post.view_permissions
 		pg_post.edit_permissions = post.edit_permissions
 		pg_post.timestamp = post.timestamp
@@ -77,14 +79,14 @@ class BlogPost < ParseResource::Base
 	end
 
 	def can_edit(member)
-		if member.email == self.author
+		if member.email == self.author or member.email == self.last_editor
 			return true
 		end
 		return has_permissions(member, self.get_edit_permissions)
 	end
 
 	def can_view(member)
-		if member.email == self.author
+		if member.email == self.author or member.email == self.last_editor
 			return true
 		end
 		return has_permissions(member, self.get_view_permissions)
@@ -140,7 +142,6 @@ class BlogPost < ParseResource::Base
 	def self.import
 		PgPost.destroy_all
 		all_posts = BlogPost.limit(100000).all.to_a
-		p all_posts.length
 		all_posts.each do |post|
 			pg_post = PgPost.new
 			pg_post.parse_id = post.id
@@ -151,9 +152,10 @@ class BlogPost < ParseResource::Base
 			pg_post.content = post.content
 			pg_post.timestamp = post.timestamp
 			pg_post.tags = post.tags
-			puts pg_post.save
-			puts pg_post.title
-			puts pg_post.parse_id
+			pg_post.last_editor = post.last_editor
+			pg_post.created_at = post.created_at
+			pg_post.save
+			puts pg_post.author
 		end
 		PgPost.import
 	end

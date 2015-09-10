@@ -3,5 +3,4 @@ class LinkPost < ParseResource::Base
 
 	# , :view_permissions, 
 	# :edit_permissions, :timestamp, :parse_id, :post_type, :tags
-
 end

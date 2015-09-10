@@ -7,26 +7,47 @@
 	background-color: black;
 }
 .home-card-small{
-	/*border: 1px solid rgba(0, 0, 0, 0.1);*/
-	/*background-color:white;*/
 	padding: 0px 10px 0px 10px;
 	margin:15px;
 }
-.right-card{
-	/*border:1px solid rgba(0,0,0,0.1);*/
+.post-title{
+	color:black;
+	text-align:center;
+	padding-bottom:5px;
+	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+.post-div{
+	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;	
-	border-radius:5px;
 	background-color: rgba(247, 247, 247, 0.85);
-  border-radius:5px;
   padding: 10px;
 }
+.right-card{
+	border:1px solid rgba(0,0,0,0.1);
+	margin:10px;	
+	background-color: rgba(247, 247, 247, 0.85);
+  padding: 10px;
+}
+#main-title{
+	color:black;
+	font-size:50px;
+	font-weight:bold;
+}
+.black{
+	color:black;
+}
+</style>
+
+<style type = 'text/css'>
 </style>
 <%= stylesheet_link_tag "golink_catalogue" %>
 <%= render 'go/catalogue_modal' %>
-<div class = 'row'>
-	<div class = 'col-md-7'>
 
-		<div class="home-card">
+<h1 class = 'centered' id = 'main-title'>PBL Members Portal</h1>
+<div class = 'row'>
+	<div class = 'col-md-5'>
+
+		<!-- <div class="home-card">
 		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Notifications</h3>
 		    <div class = 'right-card shadow-z-1'>
 		    	<h4>Announcements</h4>
@@ -37,45 +58,17 @@
 			    	<li class = 'list-group-item'>Search <b>#rweek</b> on PBL Links for all Rweek materials</li>
 			    </ul>
 			</div>
-		</div>	
+		</div> -->	
 
-		<!-- pull notifications from the server -->
-<!-- 		<div class = 'home-card' id = 'notifications-container'>
-			<p class = 'smalltext text-muted'>Coming soon...</p>
-			<img id = 'notifications-loading-image' src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=50></img>
-		</div> -->
 
-		<!-- <div class="home-card">
-		    
-		    <div class = 'right-card shadow-z-1'>
-			    <ul class = 'list-group'>
-			    	<li class = 'list-group-item'>Welcome to PBL Orientation!</li>
-			    	<li class = 'list-group-item'>Alumni Mixer 9/03 8PM at Pappys</li>
-			    	<li class = 'list-group-item'>Dont forget to check out professional photos at <a href = 'http://pbl.link/of-photos'>pbl.link/of-photos</a></li>
-			    </ul>
-			</div>
-		</div>	 -->
 
 		<div class = 'home-card'>
-			<h3><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
+			<h3 class = 'black'><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
 			<p>Visit <a href = 'http://pbl.link/calendar'>pbl.link/calendar</a> for the Official Events Calendar</p>
-			<div class = 'right-card shadow-z-1' id = 'events-container'>
-
+			<div class = 'right-card' id = 'events-container'>
 				<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>
 			</div>
 		</div>
-
-
-
-		<!-- <div class = 'home-card'>
-				<h3><span class = 'mdi-notification-folder-special'></span>&nbsp;Starred Resources</h3>
-		</div>
-		<div class = 'home-card'>
-				<% if @favorites %>
-				<h3><span class = 'mdi-action-favorite'></span>&nbsp;Favorite Links</h3>
-				<% end %>
-		</div>
- -->
 
 
 
@@ -83,15 +76,14 @@
 	</div>
 	<!-- end of col md 6 -->
 
-<div class = 'col-md-5'>
-	<!-- <div class="home-card-small">
-		    <h3><img src = '/assets/trello-logo-long.png' height=45 style = 'margin-bottom:20px'></img>&nbsp;Tasks</h3>
-		    <p>PBL Tasks is a handy integration between the Portal and Trello! Click the "Tasks" icon or visit <a href = '/tasks/guide'>pbl.link/tasks</a> to read more!</p>
-		    
-		    <p><div id = 'tasks-container'><img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img></div></p>
-		</div>	 -->
-
-
+<div class = 'col-md-7'>
+	<h3 class = 'black'><span class = 'mdi-action-grade'></span>&nbsp;Pinned Posts</h3>
+	<% @posts.each do |post| %>
+	<div class = 'post-div'>
+		<h3 class = 'post-title'><%= post.title %></h3>
+		<div><%= post.content.html_safe %></div>
+	</div>
+	<% end %>
 </div>
 <!-- end of col 2 -->
 </div>

@@ -19,6 +19,9 @@ class MembersController < ApplicationController
 
 	def home
 		@current_member = current_member
+		pin = 'Pin'
+		@posts = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+
 		# @golinks = go_link_key_hash.values #ParseGoLink.limit(10000).all.to_a
 		# @trending_links = @golinks.select{|x| x.type == 'trending'}
 		# if current_member and current_member.email

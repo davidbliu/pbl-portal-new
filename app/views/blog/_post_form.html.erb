@@ -18,6 +18,12 @@
 .tag-label:hover{
   cursor:pointer;
 }
+
+#loading-gif{
+  height:75px;
+  display:none;
+  z-index:5000;
+}
 </style>
 <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 <div class = 'centered'>
@@ -91,6 +97,7 @@
 <% end %>
 <!-- <button id = 'save-btn' class = 'btn btn-material-grey-900'>Save and email post</button> -->
 
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 <div id = 'top-spacer'></div>
 
 <textarea id = 'content-input'><%= post ? post.content : '' %></textarea>
@@ -135,6 +142,7 @@ function getTags(){
   return tags;
 }
 $('#save-btn').click(function(){
+  $('#loading-gif').show();
 	content_html = tinyMCE.activeEditor.getContent();
 	console.log(content_html);
   <% if post %>
@@ -155,6 +163,7 @@ $('#save-btn').click(function(){
         window.location = '/blog';
       },
       error:function (xhr, textStatus, thrownError){
+        $('#loading-gif').hide();
         alert('failed');
       }
   });

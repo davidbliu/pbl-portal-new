@@ -19,6 +19,9 @@ class BlogController < ApplicationController
 		end
 	end
 
+	def post_catalogue
+		@posts = BlogPost.limit(100000).all.to_a
+	end
 	def index
 		# @posts = BlogPost.order('updatedAt desc').all.select{|x| x.can_view(current_member)}
 		pin = "Pin"
@@ -29,8 +32,7 @@ class BlogController < ApplicationController
 			@filtered = true
 			@posts = BlogPost.search(params[:q])
 		else
-			@posts = PgPost.order("timestamp desc").all.map{|x| x.to_parse}
-			# @posts += PgPost.where("timestamp is null").limit(50).map{|x| x.to_parse.select|x| }
+			@posts = PgPost.order("created_at desc").all.map{|x| x.to_parse}
 		end
 		if params[:post_type]
 			@post_type = params[:post_type]
@@ -41,11 +43,11 @@ class BlogController < ApplicationController
 		if (not params[:post_type]) and (not params[:q])
 			@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
 		end
-
 		@pinned_ids = @pinned.map{|x| x.get_parse_id}
-		@posts = @posts.select{|x| x.can_view(current_member)}
+		# @posts = @posts.select{|x| x.can_view(current_member)}
+		puts @posts.map{|x| x.author}
 		page = params[:page] ? params[:page] : 1
-		@posts = @posts.paginate(:page => page, :per_page => 30)
+		@posts = @posts.select{|x| x.can_view(current_member)}.paginate(:page => page, :per_page => 30)
 		@editable_ids = @posts.select{|x| x.can_edit(current_member)}.map{|x| x.id}
 	end
 

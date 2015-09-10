@@ -344,8 +344,10 @@ ActiveRecord::Schema.define(version: 20150907173421) do
     t.text     "content"
     t.text     "tags"
     t.string   "post_type"
+    t.string   "last_editor"
     t.string   "parse_id"
     t.datetime "timestamp"
+    t.datetime "time_created"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
