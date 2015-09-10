@@ -2,6 +2,14 @@ class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
 	:edit_permissions, :timestamp, :parse_id, :post_type, :tags, :last_editor
 
+	def is_admin(member)
+		admin_emails = ['davidbliu@gmail.com','akwan726@gmail.com', 'nathalie.nguyen@berkeley.edu']
+		if member and admin_emails.include?(member.email)
+			return true
+		end
+		return false
+	end
+
 	def get_title
 		self.title and self.title != '' ? self.title : 'no title'
 	end
@@ -94,6 +102,9 @@ class BlogPost < ParseResource::Base
 
 
 	def has_permissions(member, permissions)
+		if is_admin(member)
+			return true
+		end
 		permissions = permissions.strip
 		if member == nil
 			return permissions == 'Anyone'

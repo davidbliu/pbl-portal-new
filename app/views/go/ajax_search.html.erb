@@ -1,4 +1,13 @@
-<%= @post_content.html_safe %>
+<style type = 'text/css'>
+.post-div{
+	width:50%;
+	margin-left:25%;
+	padding:15px;
+}
+</style>
+<div style = 'width:100%;'>
+	<div class = 'post-div'><%= @post_content.html_safe %></div>
+</div>
 <% if @golinks.length > 0 %>
 	<h3 class = 'centered'>Search: <%= @search_term %></h3>
 

@@ -17,7 +17,16 @@ class MembersController < ApplicationController
 		end
 	end
 
+	def cache_featured_content
+		content_hash = FeaturedContent.all.index_by(&:name)
+		content_hash.keys.each do |key|
+			Rails.cache.write(key, content_hash[key].content)
+		end
+		redirect_to '/'
+	end
+
 	def home
+		@home_featured = Rails.cache.read('home_content')
 		@current_member = current_member
 		pin = 'Pin'
 		@posts = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}

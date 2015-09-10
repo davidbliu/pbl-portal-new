@@ -79,3 +79,8 @@ a.logo b {
   color : #b92b27 !important;
 }
 
+.sub-menu > a:hover, a:focus {
+    opacity: 1;
+    color: #3F8DCC !important;
+}
+

@@ -36,6 +36,9 @@
 .black{
 	color:black;
 }
+#featured-content-area{
+	padding:25px;
+}
 </style>
 
 <style type = 'text/css'>
@@ -44,6 +47,9 @@
 <%= render 'go/catalogue_modal' %>
 
 <h1 class = 'centered' id = 'main-title'>PBL Members Portal</h1>
+<div class = 'row' id = 'featured-content-area'>
+	<%= @home_featured ? @home_featured.html_safe : "" %>
+</div>
 <div class = 'row'>
 	<div class = 'col-md-5'>
 
