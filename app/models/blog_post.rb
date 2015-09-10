@@ -23,7 +23,7 @@ class BlogPost < ParseResource::Base
 	end
 
 	def self.tags 
-		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email"]
+		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email", "Tech"]
 	end
 
 	def self.permissions
@@ -93,9 +93,19 @@ class BlogPost < ParseResource::Base
 		return has_permissions(member, self.get_edit_permissions)
 	end
 
+	# true for links that only have 1 tag : "WD"
+	def is_wd
+		if self.tags and self.tags.length == 1 and self.tags[0]== 'WD'
+			return true
+		end
+	end
 	def can_view(member)
 		if member.email == self.author or member.email == self.last_editor
 			return true
+		end
+		# only show wd links to wd cms unless they have more than 1 tag
+		if self.is_wd and member.committee != "WD"
+			return false
 		end
 		return has_permissions(member, self.get_view_permissions)
 	end

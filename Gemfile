@@ -40,8 +40,6 @@ gem 'jquery-turbolinks'
 # pagination (for marking attendance)
 #
 gem 'will_paginate'
-# gem 'will_paginate', '~> 3.0'
-# gem 'will_paginate', "3.0.pre2"
 gem 'youtube_it'
 
 gem 'bootstrap-material-design'
