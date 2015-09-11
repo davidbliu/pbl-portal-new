@@ -27,6 +27,7 @@ namespace :tabling do
       puts 'backed up tabling slots to '+fname
 
       ParseTablingSlot.destroy_all
+      Rails.cache.write('tabling_schedule', nil)
       puts 'removed previous tabling slots'
     end
 
@@ -56,6 +57,7 @@ namespace :tabling do
 	
 	task :generate => :environment do 
 		TablingManager.generate_tabling
+		Rails.cache.write('tabling_schedule', nil)
 	end
 end
 

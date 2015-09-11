@@ -16,14 +16,9 @@ class PointsController < ApplicationController
 
 	def index
 		# # what events you attended
-		@attended = PointManager.attended_events(current_member.email)
-		@points = @attended.map{|x| x.get_points}.inject{|sum,x| sum + x }
-		# # how many points you have
-		# @points = PointManager.points(current_member.id)
-		# # how many points everyone on your committee has
-		# @member_name_point_dict = PointManager.member_name_point_dict
-		# # rankings for pbl (top 10 points)
-		# @top_cms = PointManager.top_cms.first(10)
+		points = PointManager.get_points(current_member.email)
+		@attended = points['attended'] #PointManager.attended_events(current_member.email)
+		@points = points['points'] #@attended.map{|x| x.get_points}.inject{|sum,x| sum + x }
 	end
 
 	def update_attendance
@@ -31,6 +26,7 @@ class PointsController < ApplicationController
 		email = params[:email]
 		type = params[:type]
 		puts 'the type was '+type
+		# save the data in parse
 		ems = ParseEventMember.where(event_id: event_id).where(member_email: email).to_a
 		if ems.length > 0
 			em = ems[0]
@@ -39,6 +35,16 @@ class PointsController < ApplicationController
 		end
 		em.type = type
 		em.save
+		# invalidate data in rails cache
+		Rails.cache.write(email+'_points', nil)
+		# Thread.new do 
+		# 	points = Hash.new
+		# 	attended_events = PointManager.attended_events(email)
+		# 	pts = attended_events.map{|x| x.get_points}.inject{|sum,x| sum + x }
+		# 	points['points'] = pts
+		# 	points['attended'] = attended_events
+		# 	Rails.cache.write(email+'_points', points)
+		# end
 		render nothing: true, status: 200
 	end
 

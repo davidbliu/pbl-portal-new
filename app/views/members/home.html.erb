@@ -37,6 +37,7 @@
 	color:black;
 }
 #featured-content-area{
+	padding-top:0px;
 	padding:25px;
 }
 </style>
@@ -53,20 +54,6 @@
 <div class = 'row'>
 	<div class = 'col-md-5'>
 
-		<!-- <div class="home-card">
-		    <h3><span class = 'mdi-social-notifications'></span>&nbsp;Notifications</h3>
-		    <div class = 'right-card shadow-z-1'>
-		    	<h4>Announcements</h4>
-			    <ul class = 'list-group'>
-			    	<li class = 'list-group-item'>Tabling form at <a href = 'http://pbl.link/tabling'>pbl.link/tabling</a></li>
-			    	<li class = 'list-group-item'>Chalking form at <a href = 'http://pbl.link/chalking'>pbl.link/chalking</a></li>
-			    	<li class = 'list-group-item'>Handbilling form at <a href = 'http://pbl.link/handbilling'>pbl.link/handbilling</a></li>
-			    	<li class = 'list-group-item'>Search <b>#rweek</b> on PBL Links for all Rweek materials</li>
-			    </ul>
-			</div>
-		</div> -->	
-
-
 
 		<div class = 'home-card'>
 			<h3 class = 'black'><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
@@ -75,6 +62,32 @@
 				<img src = 'http://wpc.077d.edgecastcdn.net/00077D/fender/images/2013/template/drop-nav-loader.gif' height=100></img>
 			</div>
 		</div>
+
+		<% if @points_data %>
+		<div class = 'home-card'>
+			<h3 class = 'black'><span class = 'mdi-social-poll'></span>&nbsp;Points</h3>
+			<div class = 'right-card' id = 'points-container'>
+				<div><h4><%= @points_data['points'] %> points earned</h4></div>
+				<ul>
+					<% @points_data['attended'].each do |attended| %>
+					<li><%= attended.name %></li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+		<% end %>
+
+		<% if @tabling_slot %>
+		<div class = 'home-card'>
+			<h3 class = 'black'>Tabling</h3>
+			<div class = 'right-card' id = 'tabling-container'>
+				<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
+				<% @tabling_slot.get_member_emails.each do |email| %>
+				<div><%= email %></div>
+				<% end %>
+			</div>
+		</div>
+		<% end %>
 
 
 

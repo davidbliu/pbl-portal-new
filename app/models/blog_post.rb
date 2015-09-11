@@ -2,6 +2,27 @@ class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
 	:edit_permissions, :timestamp, :parse_id, :post_type, :tags, :last_editor
 
+	def self.pinned_posts
+		a = Rails.cache.read('pinned_posts')
+		if a
+			return a
+		end
+		pin = "Pin"
+		pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+		Rails.cache.write('pinned_posts', pinned)
+		return pinned
+	end
+
+	def self.all_posts
+		a = Rails.cache.read('all_posts')
+		if a
+			return a
+		end
+		all_posts = PgPost.order("created_at desc").all.map{|x| x.to_parse}
+		Rails.cache.write('all_posts', all_posts)
+		return all_posts
+	end
+
 	def is_admin(member)
 		admin_emails = ['davidbliu@gmail.com','akwan726@gmail.com', 'nathalie.nguyen@berkeley.edu']
 		if member and admin_emails.include?(member.email)

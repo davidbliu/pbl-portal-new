@@ -29,36 +29,14 @@ class MembersController < ApplicationController
 		@home_featured = Rails.cache.read('home_content')
 		@current_member = current_member
 		pin = 'Pin'
+
+		tabling_hash = TablingManager.tabling_hash
+		if tabling_hash
+			@tabling_slot = tabling_hash[current_member.email]
+		end
+
+		@points_data = PointManager.get_points(current_member.email) # Rails.cache.read(current_member.email+'_points')
 		@posts = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
-
-		# @golinks = go_link_key_hash.values #ParseGoLink.limit(10000).all.to_a
-		# @trending_links = @golinks.select{|x| x.type == 'trending'}
-		# if current_member and current_member.email
-			# @favorites = Set.new(GoLinkFavorite.where(member_email: current_member.email).map{|x| x.key})
-			# @favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
-			# @favorites = (go_link_favorite_hash.keys.include?(current_member.email) ? Set.new(go_link_favorite_hash[current_member.email]) : Array.new)
-			# @favorite_links = @golinks.select{|x| @favorites.include?(x.key)}
-		# end
-	end
-
-	def notifications
-
-		# get trello notifications
-		trello_member_token = current_member.trello_token
-		Trello.configure do |config|
-		  config.developer_public_key = 'bddce21ba2ef6ac469c47202ab487119' # The "key" from step 1
-		  config.member_token = trello_member_token # The token from step 3.
-		end
-		begin
-			me = Trello::Member.find(current_member.trello_member_id)
-			@trello_notifications = me.notifications.map{|x| JSON.parse(x.to_json)}.select{|x| x['unread']}
-			puts @notifications
-		rescue
-			@trello_notifications = Array.new
-		end
-
-		render 'notifications', :layout=>false
-		
 	end
 
 	def me

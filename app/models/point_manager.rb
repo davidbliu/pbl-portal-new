@@ -3,13 +3,21 @@
 	belongs_to :semester, foreign_key: :semester_id
 
 	
-
+	def self.get_points(email)
+		a = Rails.cache.read(email+'_points')
+		if a
+			return a
+		end
+		points = Hash.new
+		attended_events = PointManager.attended_events(email)
+		pts = attended_events.map{|x| x.get_points}.inject{|sum,x| sum + x }
+		points['points'] = pts
+		points['attended'] = attended_events
+		Rails.cache.write(email+'_points', points)
+		return points
+	end
 	def self.attended_events(email)
 		""" gets the events that this member attended """
-
-		# ems = PointManager.event_members(member_id)
-		# events = Event.this_semester.where('id in (?)', ems.pluck(:event_id))
-		# return events
 		events = ParseEvent.limit(1000).where(semester_name: ParseSemester.current_semester.name)
 		member_events = ParseEventMember.limit(1000).where(member_email: email).select{|x| x.type == 'chair' or x.type == 'exec'}
 		eids = member_events.map{|x| x.event_id}

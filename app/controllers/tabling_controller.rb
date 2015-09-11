@@ -23,6 +23,8 @@ class TablingController < ApplicationController
 		slot1.member_emails = TablingHist.remove_item(slot1.member_emails, email)
 		slot2.member_emails = TablingHist.push_item(slot2.member_emails, email)
 		ParseTablingSlot.save_all([slot1, slot2])
+		Rails.cache.write('tabling_schedule', nil)
+		Rails.cache.write('tabling_hash', nil)
 		render nothing:true, status:200
 	end
 
@@ -36,16 +38,10 @@ class TablingController < ApplicationController
 		@times = (0..167).to_a
 	end
 	def index
-		@slots = ParseTablingSlot.all.sort_by{|x| x.time}
-		if @slots.length == 0
+		@tabling_hash = TablingManager.tabling_schedule
+		puts 'received tabling schedule'
+		if not @tabling_hash
 			redirect_to '/tabling/pick_slots'
-		end
-		@tabling_hash = {}
-		@slots.each do |slot|
-			if not @tabling_hash.keys.include?(slot.day)
-				@tabling_hash[slot.day] = []
-			end
-			@tabling_hash[slot.day] << slot
 		end
 		@member_email_hash = ParseMember.current_members.index_by(&:email)
 	end

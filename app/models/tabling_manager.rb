@@ -46,6 +46,27 @@ def self.get_hour(time)
   return hour_string
 end
 
+# hash from member email to tabling slot
+def self.tabling_hash
+  a = Rails.cache.read('tabling_hash')
+  if a
+    return a
+  end
+  schedule = self.tabling_schedule
+  th = Hash.new
+  if schedule
+    schedule.keys.each do |day|
+      schedule[day].each do |slot|
+        slot.member_emails.split(',').each do |email|
+          th[email] = slot
+        end
+      end
+    end
+    return th
+  end
+  return nil
+
+end
 
 def self.tabling_schedule
   """ returns the tabling schedule in a Hash
@@ -56,24 +77,21 @@ def self.tabling_schedule
   if schedule != nil
     return schedule
   end
-
-  schedule = Hash.new
-  tabling_slots = ParseTablingSlot.all.to_a
-  tabling_slots.each do |tabling_slot|
-
-    # put this slot into the day key in the schedule
-    if not schedule.keys.include?(tabling_slot.day) 
-      schedule[tabling_slot.day] = Array.new
+  puts 'calculating tabling schedule'
+  slots = ParseTablingSlot.all.sort_by{|x| x.time}
+  if slots.length == 0
+    Rails.cache.write('tabling_schedule', nil)
+    return nil
+  end
+  tabling_hash = {}
+  slots.each do |slot|
+    if not tabling_hash.keys.include?(slot.day)
+      tabling_hash[slot.day] = []
     end
-    schedule[tabling_slot.day] << tabling_slot
+    tabling_hash[slot.day] << slot
   end
-  # sort the schedule by tabling_slot time
-  schedule.keys.each do |tabling_day|
-    schedule[tabling_day].sort { |a, b| a.time <=> b.time}
-  end
-
-  Rails.cache.write('tabling_schedule', schedule)
-  return schedule
+  Rails.cache.write('tabling_schedule', tabling_hash)
+  return tabling_hash
 end
 
 

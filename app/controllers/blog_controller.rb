@@ -23,8 +23,6 @@ class BlogController < ApplicationController
 		@posts = BlogPost.limit(100000).all.to_a
 	end
 	def index
-		# @posts = BlogPost.order('updatedAt desc').all.select{|x| x.can_view(current_member)}
-		pin = "Pin"
 		@pinned = []
 		@search_term = params[:q]
 		@post_id = params[:post_id]
@@ -32,7 +30,7 @@ class BlogController < ApplicationController
 			@filtered = true
 			@posts = BlogPost.search(params[:q])
 		else
-			@posts = PgPost.order("created_at desc").all.map{|x| x.to_parse}
+			@posts = BlogPost.all_posts
 		end
 		if params[:post_type]
 			@post_type = params[:post_type]
@@ -41,10 +39,9 @@ class BlogController < ApplicationController
 		end
 
 		if (not params[:post_type]) and (not params[:q])
-			@pinned = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+			@pinned = BlogPost.pinned_posts
 		end
 		@pinned_ids = @pinned.map{|x| x.get_parse_id}
-		# @posts = @posts.select{|x| x.can_view(current_member)}
 		puts @posts.map{|x| x.author}
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.select{|x| x.can_view(current_member)}.paginate(:page => page, :per_page => 30)
@@ -65,6 +62,8 @@ class BlogController < ApplicationController
 		id = params[:id]
 		BlogPost.find(id).destroy
 		PgPost.where(parse_id: id).destroy_all
+		Rails.cache.write('pinned_posts', nil)
+		Rails.cache.write('all_posts', nil)
 		redirect_to '/blog'
 	end 
 
@@ -78,6 +77,12 @@ class BlogController < ApplicationController
 		edit_permissions = params[:edit_permissions]
 		post_type = params[:post_type]
 		tags = (params[:tags] and params[:tags] != '') ? params[:tags].split(',') : []
+		# if pinned, invalidate cache
+		if tags.include?('Pin')
+			Rails.cache.write('pinned_posts', nil)
+		end
+		Rails.cache.write('all_posts', nil)
+
 		author = current_member.email
 		BlogPost.save_post(id, title, content, author, post_type, view_permissions, edit_permissions, tags)
 		render nothing:true, status:200
