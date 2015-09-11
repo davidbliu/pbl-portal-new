@@ -81,7 +81,7 @@
                   </li>
 
                   <li class="sub-menu">
-                      <a class="<%= 'active' if controller_name == 'tabling' %>" href="/tabling" >
+                      <a class="<%= 'active' if controller_name == 'tabling' && action_name != 'commitments' %>" href="/tabling" >
                           <i class="fa fa-table"></i>
                           <span>Tabling</span>
                       </a>
@@ -92,6 +92,13 @@
                       <a class="<%= 'active' if controller_name == 'points' %>" href="/points" >
                           <i class="fa fa-trophy"></i>
                           <span>Points</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a class="<%= 'active' if controller_name == 'tabling' && action_name == 'commitments' %>" href="/tabling/commitments">
+                          <i class="fa fa-calendar-check-o"></i>
+                          <span>Schedule</span>
                       </a>
                   </li>
 

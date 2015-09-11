@@ -1,4 +1,11 @@
 <style type = 'text/css'>
+body{
+	color:black;
+}
+.day-label{
+	font-size:13px;
+	margin-bottom:10px;
+}
 .day-div {
 	padding:10px;
 	float: left;
@@ -18,11 +25,12 @@
 
 <div class = 'top-area'>
 	<h1 class = 'centered'>Tell us your schedule</h1>
-	<p class = 'centered'>Mark slots that you are free. Try to leave at least 5 slots open during tabling so we can find a good slot for you</p>
-
-	<button id = 'saveAll' class = 'btn btn-material-blue-500'>Save All</button>
-	<button id = 'clearAll' class = 'btn btn-material-gray-500'>Clear All</button>
-	<button id = 'checkAll' class = 'btn btn-material-gray-500'>Check All</button>
+	<p class = 'centered'>Mark slots that you are free. For tabling, try to leave at least 5 slots open during tabling hours so we can find a good slot for you.</p>
+	<p class = 'centered'>
+		<button id = 'saveAll' class = 'btn btn-material-blue-500'>Save All</button>
+		<button id = 'clearAll' class = 'btn btn-material-gray-500'>Clear All</button>
+		<button id = 'checkAll' class = 'btn btn-material-gray-500'>Check All</button>
+	</p>
 	<div style = 'clear:both;display:inline-block;height:10px'></div>
 </div>
 
@@ -30,7 +38,8 @@
 
 <% @times_hash.keys.each do |day| %>
 	<div class = 'day-div'>
-		<div class = 'label label-primary'><%= day %></div>
+		<div class = 'label label-default day-label'><%= day %></div>
+		<div style = 'height:3px'></div>
 		<% @times_hash[day].each do |time| %>
 			<div class = 'time-div'>
 				

@@ -10,11 +10,11 @@ end
 
 def self.times_hash
     times = []
-    times << (8..8+10).to_a
+    times << (8..8+15).to_a
     times << (32..32+15).to_a
-    times << (56..56+10).to_a
-    times << (80..80+10).to_a
-    times << (104..104+10).to_a
+    times << (56..56+15).to_a
+    times << (80..80+15).to_a
+    times << (104..104+15).to_a
     times = times.flatten()
 
     times_hash = {}
