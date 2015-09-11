@@ -65,7 +65,7 @@
 
 		<% if @points_data %>
 		<div class = 'home-card'>
-			<h3 class = 'black'><span class = 'mdi-social-poll'></span>&nbsp;Points</h3>
+			<h3 class = 'black'><span class = "fa fa-trophy"></span>&nbsp;Points</h3>
 			<div class = 'right-card' id = 'points-container'>
 				<div><h4><%= @points_data['points'] %> points earned</h4></div>
 				<ul>
@@ -79,7 +79,7 @@
 
 		<% if @tabling_slot %>
 		<div class = 'home-card'>
-			<h3 class = 'black'>Tabling</h3>
+			<h3 class = 'black'><span class = 'fa fa-table'></span>&nbsp;Tabling</h3>
 			<div class = 'right-card' id = 'tabling-container'>
 				<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
 				<% @tabling_slot.get_member_emails.each do |email| %>

@@ -39,6 +39,16 @@ class ApplicationController < ActionController::Base
     Rails.cache.clear
     redirect_to root_path
   end
+
+  def set_cache
+    render 'layouts/set_cache'
+  end
+  def update_cache
+    key = params[:key]
+    content = params[:content]
+    Rails.cache.write(key, content)
+    render nothing:true, status: 200
+  end
   
   def is_officer
     if current_member == nil
