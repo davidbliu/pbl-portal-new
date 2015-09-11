@@ -75,6 +75,7 @@ class MembersController < ApplicationController
 		blurbs = Blurb.where(member_email: current_member.email).to_a
 		if blurbs.length == 0
 			blurb = Blurb.new
+			blurb.member_email = current_member.email
 		else
 			blurb = blurbs[0]
 		end
