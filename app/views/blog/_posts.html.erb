@@ -1,9 +1,14 @@
 
 <% posts.each do |post| %>
 <div class = 'post-div' id = '<%= post.id %>'>
-	<% post.get_tags.each do |tag| %>
-		<div class = 'label label-primary'><%= tag %></div>
-	<% end %>
+	<div class = 'top-data'>
+		<div class = 'pull-right'><img src = '<%= email_hash[post.last_editor].gravatar_url %>' class = 'profile-image-small'></img></div>
+		<div class = 'time-tag label label-default'><%= post.time_string %></div>
+		<% post.get_tags.each do |tag| %>
+			<div class = 'label label-primary'><%= tag %></div>
+		<% end %>
+	</div>
+
 	<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
 	
 	
@@ -14,11 +19,12 @@
 	<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
 		<% if post.can_edit(current_member) %>
 			<div>
-				<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'>Edit this post</a>
+				<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'><button class = 
+				'btn btn-material-blue-700'>Edit this post</button></a>
 				&nbsp;
-				<a href = '/blog/email_post?id=<%= post.get_parse_id %>'>Email this post</a>
+				<a href = '/blog/email_post?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-grey-700'>Email this post</button></a>
 				&nbsp;
-				<a href = '/blog/delete_post?id=<%= post.get_parse_id %>'>Delete this post</a>
+				<a href = '/blog/delete_post?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-red-700'>Delete this post</button></a>
 			</div>
 			<div>
 				Permissions: "<%= post.get_view_permissions %>" can view, "<%= post.get_edit_permissions %>" can edit
@@ -29,7 +35,7 @@
 		<div class = 'meta-div'>
 			<div>Author: <%= post.author %></div>
 			<div>Last Edited By: <%= post.last_editor %></div>
-			<div>Timestamp: <%= post.timestamp %></div>
+			<div>Timestamp: <%= post.time_string %></div>
 		</div>
 	</div>
 

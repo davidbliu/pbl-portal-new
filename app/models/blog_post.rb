@@ -23,6 +23,11 @@ class BlogPost < ParseResource::Base
 		return all_posts
 	end
 
+	def time_string
+		pt = self.timestamp + Time.zone_offset("PDT")
+		return pt.strftime('%b %e, %l:%M %p')
+	end
+
 	def is_admin(member)
 		admin_emails = ['davidbliu@gmail.com','akwan726@gmail.com', 'nathalie.nguyen@berkeley.edu']
 		if member and admin_emails.include?(member.email)

@@ -1,16 +1,23 @@
 <style type = 'text/css'>
-
+.center-card{
+	border:1px solid rgba(0,0,0,0.1);
+	background-color:white;
+	padding:25px;
+	margin-left:25%;
+	width:50%;
+	margin-top:35px;
+}
 </style>
 
-<div class = 'centered'>
-<h1>Points</h1>
-<h3>You have <%= @points %> points</h3>
-<h2>Events You Attended</h2>
-<div><a href = '/points/attendance?filter=me'>My Attendance</a></div>
+<div class = 'center-card'>
+<h1 class = 'black'>You have <%= @points %> points</h1>
+
+<h2 class = 'black'>Events You Attended</h2>
+<a href = '/points/attendance?filter=me'><button class = 'btn btn-material-red-700'>Mark Attendance</button></a>
 <% @attended.each do |event| %>
 <div><%= event.name %> (<%= event.get_points %>)</div>
 <% end %>
-
+</div>
 <!-- <h2>Your Committee</h2> -->
 
-</div>
+

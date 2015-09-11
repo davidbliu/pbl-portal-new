@@ -7,6 +7,7 @@ Portal::Application.routes.draw do
 
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#home'
+  get 'admin', to:'application#admin'
   get 'cache_featured_content', to:'members#cache_featured_content'
   get 'set_cache', to:'application#set_cache'
   post 'update_cache', to: 'application#update_cache'

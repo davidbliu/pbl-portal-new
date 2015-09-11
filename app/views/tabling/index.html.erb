@@ -29,37 +29,29 @@ th, td {
 	font-size:20px;
 	color:black !important;
 }
-
-.tabling-slot{
-	/*border:1px solid black;*/
+.slot-label{
+	margin-bottom:5px !important;
+}
+.slot-member{
+	margin-top:5px;
 }
 </style>
 
+<%= render partial: 'layouts/modal' %>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js" type="text/javascript"></script>    
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/jquery-ui.min.js"></script>
-<!-- 
-<div class = 'col-md-2' style = 'text-align:center'>
 
-	<div class = 'tabling-nav'><a href = '/tabling/pick_slots'><span class = 'mdi-action-event'></span>
-		<div>Pick Slots</div>
-	</a></div>
-
-	<div class = 'tabling-nav'><a href = '/tabling/commitments'><span class = 'mdi-action-event'></span>
-		<div>Commitments</div>
-	</a></div>
-
-</div> -->
-
-<!-- <div class = 'col-md-10'> -->
 	<h1 class = 'centered'>Tabling Schedule</h1>
 	<div class = 'tabling-container'>
 		<% @tabling_hash.keys.each do |tabling_day| %>
 		<div class = 'tabling-day'>
 			<% @tabling_hash[tabling_day].each do |slot| %>
 			<div class = 'tabling-slot' data-time = '<%= slot.time %>'>
-				<div class = 'label label-primary'><%= TablingManager.time_string(slot.time) %></div>
+				<div class = 'label label-primary slot-label'><%= TablingManager.time_string(slot.time) %></div>
 				<% slot.get_member_emails.each do |email| %>
-					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>' data-time = '<%= slot.time %>'><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img> <%= @member_email_hash[email].name %></div>
+					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+						<a href = 'javascript:void(0)' class = 'member-link' data-name = '<%= @member_email_hash[email].name %>' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %></div>
 				<% end %>
 			</div>
 			<% end %>
@@ -67,22 +59,23 @@ th, td {
 		<% end %>
 	</div>
 <!-- </div> -->
+<%= javascript_include_tag 'member_modal' %>
 <script type = 'text/javascript'>
 
-function switchTablingSlot(email, time1, time2){
-	$.ajax({
-      url: '/tabling/switch_tabling',
-      type: 'POST',
-      data: {'email':email, 'time1':time1, 'time2':time2},
-      success:function(data){
-        console.log('success');
-      },
-      error:function (xhr, textStatus, thrownError){
-        alert('failed');
-      }
-  });
+// function switchTablingSlot(email, time1, time2){
+// 	$.ajax({
+//       url: '/tabling/switch_tabling',
+//       type: 'POST',
+//       data: {'email':email, 'time1':time1, 'time2':time2},
+//       success:function(data){
+//         console.log('success');
+//       },
+//       error:function (xhr, textStatus, thrownError){
+//         alert('failed');
+//       }
+//   });
 
-}
+// }
 var dragging = '';
 <% if current_member and current_member.email == 'davidbliu@gmail.com' or current_member.email == 'eric.quach@berkeley.edu' %>
 $('.slot-member').mousedown(function(){

@@ -34,6 +34,14 @@ class ApplicationController < ActionController::Base
     render 'layouts/google_events', :layout=>false
   end
 
+  def admin
+    admins = ['davidbliu@gmail.com', 'nathalie.nguyen@berkeley.edu', 'akwan726@gmail.com']
+    if not admins.include?(current_member.email)
+      redirect_to '/'
+    end
+    render 'layouts/admin'
+  end
+
   def clearcache
     """ clears all items from cache """
     Rails.cache.clear

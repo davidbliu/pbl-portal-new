@@ -12,6 +12,10 @@ body{
   }
 }
 
+.time-tag{
+	background-color:black !important;
+}
+
 .post-div{
 	padding:20px;
 	border:1px solid rgba(0,0,0,0.1);
@@ -22,10 +26,7 @@ body{
 	height:399px;
 	overflow:hidden;
 }
-.content-div{
-	/*height:200px;*/
-	/*overflow:hidden;*/
-}
+
 .meta-div{
 	font-size:10px;
 	color:black;
@@ -128,7 +129,7 @@ body{
 <h1>Pinned Posts</h1>
 <div class = 'row'>
 
-	<%= render partial: 'posts', locals:{posts: @pinned} %>
+	<%= render partial: 'posts', locals:{posts: @pinned, email_hash: @email_hash} %>
 
 </div>
 <h1>Recent Posts</h1>
@@ -136,7 +137,7 @@ body{
 <!-- end if pinned post -->
 <div class = 'row'>
 
-	<%= render partial: 'posts', locals:{posts: @posts.select{|x| not @pinned_ids.include?(x.get_parse_id)}} %>
+	<%= render partial: 'posts', locals:{posts: @posts.select{|x| not @pinned_ids.include?(x.get_parse_id)}, email_hash: @email_hash} %>
 
 </div>
 <!-- end of posts row -->

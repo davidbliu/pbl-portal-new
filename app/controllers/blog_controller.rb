@@ -46,6 +46,8 @@ class BlogController < ApplicationController
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.select{|x| x.can_view(current_member)}.paginate(:page => page, :per_page => 30)
 		@editable_ids = @posts.select{|x| x.can_edit(current_member)}.map{|x| x.id}
+
+		@email_hash = SecondaryEmail.email_lookup_hash
 	end
 
 
