@@ -35,16 +35,10 @@ class PointsController < ApplicationController
 		end
 		em.type = type
 		em.save
+		# puts email
+		# puts 'that was the invalidated email'
 		# invalidate data in rails cache
 		Rails.cache.write(email+'_points', nil)
-		# Thread.new do 
-		# 	points = Hash.new
-		# 	attended_events = PointManager.attended_events(email)
-		# 	pts = attended_events.map{|x| x.get_points}.inject{|sum,x| sum + x }
-		# 	points['points'] = pts
-		# 	points['attended'] = attended_events
-		# 	Rails.cache.write(email+'_points', points)
-		# end
 		render nothing: true, status: 200
 	end
 
@@ -59,6 +53,8 @@ class PointsController < ApplicationController
 			@members = [current_member]
 		elsif filter == 'chairs'
 			@members = ParseMember.current_members.select{|x| x.position == 'chair'}
+		elsif filter == 'all_cms'
+			@members = ParseMember.current_members.select{|x| x.position == 'cm'}
 		else
 			@members = ParseMember.committee_members(current_member.committee).to_a
 		end

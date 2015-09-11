@@ -48,12 +48,38 @@
 <%= render 'go/catalogue_modal' %>
 
 <h1 class = 'centered' id = 'main-title'>PBL Members Portal</h1>
-<div class = 'row' id = 'featured-content-area'>
+<h2 class = 'centered black' id = 'welcome-title'>Welcome, <%= current_member.name %></h2>
+<div class = 'row black' id = 'featured-content-area'>
 	<%= @home_featured ? @home_featured.html_safe : "" %>
 </div>
 <div class = 'row'>
 	<div class = 'col-md-5'>
 
+		<% if @tabling_slot %>
+		<div class = 'home-card'>
+			<h3 class = 'black'><span class = 'fa fa-table'></span>&nbsp;Tabling</h3>
+			<div class = 'right-card' id = 'tabling-container'>
+				<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
+				<% @tabling_slot.get_member_emails.each do |email| %>
+				<div><img src = '<%= @email_hash[email].gravatar_url %>' class = 'profile-image-tiny'>&nbsp;<%= @email_hash[email].name %></div>
+				<% end %>
+			</div>
+		</div>
+		<% end %>
+
+		<% if @points_data %>
+		<div class = 'home-card'>
+			<h3 class = 'black'><span class = "fa fa-trophy"></span>&nbsp;Points</h3>
+			<div class = 'right-card' id = 'points-container'>
+				<div><h4><%= @points_data['points'] %> points earned</h4></div>
+				<ul>
+					<% @points_data['attended'].each do |attended| %>
+					<li><%= attended.name %> (<%= attended.points %>)</li>
+					<% end %>
+				</ul>
+			</div>
+		</div>
+		<% end %>
 
 		<div class = 'home-card'>
 			<h3 class = 'black'><span class = 'mdi-notification-event-note'></span>&nbsp;Upcoming Events</h3>
@@ -63,31 +89,9 @@
 			</div>
 		</div>
 
-		<% if @points_data %>
-		<div class = 'home-card'>
-			<h3 class = 'black'><span class = "fa fa-trophy"></span>&nbsp;Points</h3>
-			<div class = 'right-card' id = 'points-container'>
-				<div><h4><%= @points_data['points'] %> points earned</h4></div>
-				<ul>
-					<% @points_data['attended'].each do |attended| %>
-					<li><%= attended.name %></li>
-					<% end %>
-				</ul>
-			</div>
-		</div>
-		<% end %>
+		
 
-		<% if @tabling_slot %>
-		<div class = 'home-card'>
-			<h3 class = 'black'><span class = 'fa fa-table'></span>&nbsp;Tabling</h3>
-			<div class = 'right-card' id = 'tabling-container'>
-				<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
-				<% @tabling_slot.get_member_emails.each do |email| %>
-				<div><%= email %></div>
-				<% end %>
-			</div>
-		</div>
-		<% end %>
+		
 
 
 

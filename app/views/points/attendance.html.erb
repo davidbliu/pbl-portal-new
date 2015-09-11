@@ -33,11 +33,11 @@ td.none-cell{
 
 
 <h1 class = 'centered'>Attendance</h1>
-
+<% if current_member.position == 'chair' or current_member.position == 'exec' %>
 <div><a href = '/points/attendance?filter=my_committee'>My Committee</a></div>
-<!-- <div><a href = '/points/attendance?filter=all'>All Members</a></div> -->
 <div><a href = '/points/attendance?filter=chairs'>All Chairs</a></div>
-<!-- <div><a href = '/points/attendance?filter=all_cms'>All CMs</a></div> -->
+<div><a href = '/points/attendance?filter=all_cms'>All CMs</a></div>
+<% end %>
 
 <table class = 'table table-bordered'>
 	<thead>

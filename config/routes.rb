@@ -176,33 +176,34 @@ Portal::Application.routes.draw do
     end
   end
 
-  resources :members do
-    member do
-      get 'destroy'
-      get 'edit'
-      get 'update'
-      get 'reconfirm'
-      get 'edit_confirmation'
-      post 'update_confirmation'
-      get 'profile'
-      post 'upload_profile'
-    end
-    collection do
-      get 'manage'
-      get 'all'
-      get 'confirm_new' # secretary view to confirm new members
-      post 'process_new'
-      get 'sign_up'
-      get 'complete_sign_up'
-      get 'wait'
-      get 'not_signed_in'
-      get 'check' # mostly for debugging purposes
-      get 'account'
-      get 'update_account'
-      get 'index_committee'
-      get 'no_permission'
-    end
-  end
+  get '/members/profile', to: 'members#profile'
+  # resources :members do
+  #   member do
+  #     get 'destroy'
+  #     get 'edit'
+  #     get 'update'
+  #     get 'reconfirm'
+  #     get 'edit_confirmation'
+  #     post 'update_confirmation'
+  #     get 'profile'
+  #     post 'upload_profile'
+  #   end
+  #   collection do
+  #     get 'manage'
+  #     get 'all'
+  #     get 'confirm_new' # secretary view to confirm new members
+  #     post 'process_new'
+  #     get 'sign_up'
+  #     get 'complete_sign_up'
+  #     get 'wait'
+  #     get 'not_signed_in'
+  #     get 'check' # mostly for debugging purposes
+  #     get 'account'
+  #     get 'update_account'
+  #     get 'index_committee'
+  #     get 'no_permission'
+  #   end
+  # end
 
 
   get "/auth/google_oauth2/callback", to: "auth#google_callback"
