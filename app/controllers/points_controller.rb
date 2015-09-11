@@ -35,9 +35,6 @@ class PointsController < ApplicationController
 		end
 		em.type = type
 		em.save
-		# puts email
-		# puts 'that was the invalidated email'
-		# invalidate data in rails cache
 		Rails.cache.write(email+'_points', nil)
 		render nothing: true, status: 200
 	end

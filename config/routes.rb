@@ -176,7 +176,12 @@ Portal::Application.routes.draw do
     end
   end
 
-  get '/members/profile', to: 'members#profile'
+  get 'members/profile', to: 'members#profile'
+  get 'members/profile/edit', to: 'members#edit_profile'
+  post 'members/profile/update', to: 'members#update_profile'
+  get 'members/member_grid', to:'members#member_grid'
+  get 'members/profile_card', to:'members#profile_card'
+  get 'members', to:'members#index'
   # resources :members do
   #   member do
   #     get 'destroy'

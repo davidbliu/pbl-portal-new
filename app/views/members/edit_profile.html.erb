@@ -1,0 +1,86 @@
+<style type = 'text/css'>
+#blurb{
+	padding:15px;
+	border-left:3px solid rgba(0,0,0,0.1);
+	/*background-color:white;*/
+}
+.black{
+	color:black;
+}
+#profile-card{
+	width:80%;
+	margin-left:10%;
+	border:1px solid rgba(0,0,0,0.1);
+	padding:15px;
+	background-color:white;
+}
+#loading-gif{
+  height:75px;
+  display:none;
+  z-index:5000;
+}
+</style>
+
+<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+<a href = '/members/profile'><button class = 'btn btn-material-red-700'>Cancel</button></a>
+<button class = 'btn btn-material-blue-700' id = 'save-btn'>Save</button>
+<div id = 'profile-card'>
+	<div><h3><%= @member.name %></h3></div>
+	<div class="input-group">
+		  <span class="input-group-addon">Profile</span>
+		  <input id = 'profile-input' type="text" class="form-control" value = '<%= @member.gravatar_url %>' placeholder = 'profile url'>
+	</div>
+
+	<div class="input-group">
+		  <span class="input-group-addon">Blurb</span>
+		  <textarea><%= @blurb_content %></textarea>
+	</div>
+	
+
+</div>
+
+</div>
+
+<script>
+//tinymce.init({selector:'textarea', plugins: ['image', 'link', 'textcolor']});
+tinymce.init({
+    selector: "textarea",
+    theme: "modern",
+    plugins: [
+        "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+        "searchreplace wordcount visualblocks visualchars code fullscreen",
+        "insertdatetime media nonbreaking save table contextmenu directionality",
+        "emoticons template paste textcolor colorpicker textpattern imagetools"
+    ],
+    toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+    toolbar2: "print preview media | forecolor backcolor emoticons",
+    image_advtab: true,
+    templates: [
+        {title: 'Test template 1', content: 'Test 1'},
+        {title: 'Test template 2', content: 'Test 2'}
+    ]
+});
+
+
+</script>
+<script type = 'text/javascript'>
+$('#save-btn').click(function(){
+  $('#loading-gif').show();
+	blurb_content = tinyMCE.activeEditor.getContent();
+	gravatar_url = $('#profile-input').val();
+	$.ajax({
+      url: '/members/profile/update',
+      type: 'POST',
+      data: {'gravatar_url': gravatar_url, 'blurb_content': blurb_content},
+      success:function(data){
+        window.location = '/members/profile';
+      },
+      error:function (xhr, textStatus, thrownError){
+        $('#loading-gif').hide();
+        alert('failed');
+      }
+  });
+});
+</script>

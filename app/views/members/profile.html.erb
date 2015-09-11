@@ -1,22 +1,41 @@
 <style type = 'text/css'>
 #blurb{
 	padding:15px;
-	background-color:white;
+	border-left:3px solid rgba(0,0,0,0.1);
+	/*background-color:white;*/
 }
 .black{
 	color:black;
 }
+#profile-card{
+	width:50%;
+	margin-left:25%;
+	border:1px solid rgba(0,0,0,0.1);
+	padding:15px;
+	background-color:white;
+}
 </style>
-<h1>Profile</h1>
 <a href = '/members/profile/edit'><button class = 'btn btn-material-red-700'>Edit my profile</button></a>
-<div class = 'row'>
-	<div class = 'col-md-6'></div>
-	<div class = 'col-md-6'>
-		<h3 class = 'black'>Blurb</h3>
-		<div id = 'blurb'>
-		<% if @blurb_content %>
-			<%= @blurb_content.html_safe %>
-		<% end %>
+
+<div id = 'profile-card'>
+
+		<div><b>Name: </b><%= @member.name %></div>
+		<div><img src = '<%= @member.gravatar_url %>' height=100/></div>
+		<div><b>Phone: </b><%= @member.phone %></div>
+		<div><b>Email: </b><%= @member.email %></div>
+		<div><b>Year: </b><%= @member.year %></div>
+		<div><b>Major: </b><%= @member.major %></div>
+		<div><b>Position: </b><%= @member.committee %> <%= @member.position %></div>
+		<div><b>Blurb: </b>
+			<div id = 'blurb'>
+				<% if @blurb_content %>
+					<%= @blurb_content.html_safe %>
+				<% else %>
+					No blurb
+				<% end %>
+			</div>
 		</div>
-	</div>
+
+</div>
+
 </div>

@@ -1,0 +1,24 @@
+<style type = 'text/css'>
+#blurb{
+	padding:15px;
+	border-left:3px solid rgba(0,0,0,0.1);
+	/*background-color:white;*/
+}
+</style>
+
+<div><b>Name: </b><%= @member.name %></div>
+<div><img src = '<%= @member.gravatar_url %>' height=100/></div>
+<div><b>Phone: </b><%= @member.phone %></div>
+<div><b>Email: </b><%= @member.email %></div>
+<div><b>Year: </b><%= @member.year %></div>
+<div><b>Major: </b><%= @member.major %></div>
+<div><b>Position: </b><%= @member.committee %> <%= @member.position %></div>
+<div><b>Blurb: </b>
+	<div id = 'blurb'>
+		<% if @blurb_content %>
+			<%= @blurb_content.html_safe %>
+		<% else %>
+			No blurb
+		<% end %>
+	</div>
+</div>

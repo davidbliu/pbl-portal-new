@@ -1,0 +1,85 @@
+<style type = 'text/css'>
+.grid-image{
+	height:300px;
+	float:left;
+	margin:5px;
+}
+#loading-gif{
+  height:75px;
+  display:none;
+  z-index:5000;
+}
+
+#modal-body{
+	padding:15px;
+}
+#modal-header{
+	margin-bottom:3px;
+	background-color:black;
+	text-align:center;
+	padding-bottom:3px;
+}
+#modal-options{
+	padding:15px;
+}
+</style>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div id = 'modal-header' class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="modal-title">Modal title</h4>
+      </div>
+      <div id="modal-body">
+      </div>
+      <div id = 'modal-options'>
+      	<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end of modal -->
+<div class = 'row'>
+	<% @members.each do |member| %>
+	<a href= 'javascript:void(0)' class = 'member-link' data-name = '<%= member.name %>' data-email = '<%= member.email %>' data-toggle="modal" data-target="#myModal"><img src = '<%= member.gravatar_url %>' class = 'grid-image'></img></a>
+	<% end %>
+</div>
+
+
+
+<script type = 'text/javascript'>
+function showSpinner(){
+	$('#loading-gif').show();
+}
+function hideSpinner(){
+	$('#loading-gif').hide();
+}
+function changeModal(email, name){
+	showSpinner();
+	$.ajax({
+      url: '/members/profile_card',
+      type: 'get',
+      data: {'email': email},
+      success:function(data){
+      	hideSpinner();
+        $('#modal-title').text(name);
+        $('#modal-body').html(data);
+      },
+      error:function (xhr, textStatus, thrownError){
+      	hideSpinner();
+        alert('failed');
+      }
+  });
+}
+$('.member-link').click(function(){
+	email = $(this).attr('data-email');
+	name = $(this).attr('data-name');
+	console.log(email);
+	changeModal(email, name);
+
+});
+</script>

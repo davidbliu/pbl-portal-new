@@ -9,6 +9,7 @@ class MembersController < ApplicationController
 
 	before_filter :authorize
 
+
 	def authorize
 		if not current_member
 			render 'layouts/authorize', layout: false
@@ -29,10 +30,58 @@ class MembersController < ApplicationController
 
 	end
 
+	def profile_card
+		@member = SecondaryEmail.email_lookup_hash[params[:email]]
+		puts @member.email
+		puts 'that was the eamil'
+		puts 'shflskjflskjdfl'
+		blurb = Blurb.where(member_email: @member.email)
+		if blurb.length > 0
+			@blurb_content = blurb[0].content
+		end
+		puts @blurb_content
+		puts 'that was blurb content'
+		render 'profile_card', layout: false
+	end
+
+	def member_grid
+		@members = ParseMember.current_members
+	end
+
 	def edit_profile
+		@member = current_member
+		if params[:id]
+			@member = ParseMember.find(params[:id])
+		end
+		blurb = Blurb.where(member_email: current_member.email)
+		if blurb.length > 0
+			@blurb_content = blurb[0].content
+		end
 	end
 
 	def update_profile
+		blurb_content = params[:blurb_content]
+		gravatar_url = params[:gravatar_url]
+		if not gravatar_url.include?('gravatar.com')
+			if gravatar_url == ''
+				current_member.facebook_url = nil
+			else
+				current_member.facebook_url = gravatar_url
+			end
+			current_member.save
+			Rails.cache.write('email_lookup_hash', nil)
+		end
+
+		blurbs = Blurb.where(member_email: current_member.email).to_a
+		if blurbs.length == 0
+			blurb = Blurb.new
+		else
+			blurb = blurbs[0]
+		end
+		blurb.content = blurb_content
+		blurb.save
+		render nothing:true, status:200
+
 	end
 
 	def cache_featured_content
