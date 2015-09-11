@@ -79,11 +79,9 @@ class BlogController < ApplicationController
 		edit_permissions = params[:edit_permissions]
 		post_type = params[:post_type]
 		tags = (params[:tags] and params[:tags] != '') ? params[:tags].split(',') : []
-		# if pinned, invalidate cache
-		if tags.include?('Pin')
-			Rails.cache.write('pinned_posts', nil)
-		end
 		Rails.cache.write('all_posts', nil)
+		Rails.cache.write('pinned_posts', nil)
+
 
 		author = current_member.email
 		BlogPost.save_post(id, title, content, author, post_type, view_permissions, edit_permissions, tags)

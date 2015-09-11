@@ -188,11 +188,16 @@ class GoController < ApplicationController
 		end
 		@post_content = ''
 		if @search_term.include?('#') and @golinks.length > 0
-			post_hash = Rails.cache.read('link_post_hash')
-			tag = @search_term.gsub('#', '')
-			if post_hash and post_hash[tag]
-				@post_content = post_hash[tag]
+			post = Rails.cache.read(@search_term)
+			if post
+				@post_content = post.content
+				puts @post_content
 			end
+			# post_hash = Rails.cache.read('link_post_hash')
+			# tag = @search_term.gsub('#', '')
+			# if post_hash and post_hash[tag]
+			# 	@post_content = post_hash[tag]
+			# end
 		end
 
 		page = params[:page] ? params[:page] : 1

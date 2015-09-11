@@ -98,7 +98,13 @@ class BlogPost < ParseResource::Base
 		pg_post.tags = post.tags
 		pg_post.save
 		# reindex to search 
+		#TODO new thread
 		PgPost.import
+
+		# save rails cache if hashtag
+		if post.get_title[0] == '#'
+			Rails.cache.write(post.title, post)
+		end
 
 	end
 
