@@ -68,7 +68,26 @@ body{
 	display:none;
 }
 
+a:hover, a:focus {
+	color: white !important;
+}
 
+.post-div h2:visited {
+	color: #3F8DCC !important;
+}
+
+.post-title a:hover, a:focus {
+	color: #3F8DCC !important;
+	opacity: .5;
+}
+
+.post-title a:after
+{
+    content:' ';
+    margin: 10px;
+    display:block;
+    border: 1px solid black;
+}
 
 
 </style>
@@ -116,7 +135,7 @@ body{
 
 	<div style = 'margin-top:10px'>
 		<% if @filtered %>
-		<a href = '/blog'>Remove filters</a>
+		<a href = '/blog'>Remove Filter</a>
 		<% end %>
 	</div>
 

@@ -16,23 +16,20 @@
 	padding-bottom:5px;
 	border-bottom:1px solid rgba(0,0,0,0.1);
 }
-.post-div{
+
+.right-card, .post-div{
 	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;	
-	background-color: rgba(247, 247, 247, 0.85);
+	background-color: white;
   padding: 10px;
 }
-.right-card{
-	border:1px solid rgba(0,0,0,0.1);
-	margin:10px;	
-	background-color: rgba(247, 247, 247, 0.85);
-  padding: 10px;
-}
+
 #main-title{
-	color:black;
+	color: #212121;
 	font-size:50px;
 	font-weight:bold;
 }
+
 .black{
 	color:black;
 }
@@ -40,6 +37,8 @@
 	padding-top:0px;
 	padding:25px;
 }
+
+
 </style>
 
 <style type = 'text/css'>
@@ -49,20 +48,24 @@
 
 <h1 class = 'centered' id = 'main-title'>PBL Members Portal</h1>
 <h2 class = 'centered black' id = 'welcome-title'>Welcome, <%= current_member.name %></h2>
-<div class = 'row black' id = 'featured-content-area'>
-	<%= @home_featured ? @home_featured.html_safe : "" %>
-</div>
+<% if @home_ %>
+	<div class = 'row black' id = 'featured-content-area'>
+		<%= @home_featured ? @home_featured.html_safe : "" %>
+	</div>
+<% end %>	
 <div class = 'row'>
 	<div class = 'col-md-5'>
+
 
 		<% if @tabling_slot %>
 		<div class = 'home-card'>
 			<h3 class = 'black'><span class = 'fa fa-table'></span>&nbsp;Tabling</h3>
 			<div class = 'right-card' id = 'tabling-container'>
-				<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
-				<% @tabling_slot.get_member_emails.each do |email| %>
-				<div><img src = '<%= @email_hash[email].gravatar_url %>' class = 'profile-image-tiny'>&nbsp;<%= @email_hash[email].name %></div>
-				<% end %>
+				<h4>Your Tabling</h4>
+					<div class = 'label label-default'><%= TablingManager.time_string(@tabling_slot.time) %></div>
+					<% @tabling_slot.get_member_emails.each do |email| %>
+						<div><img src = '<%= @email_hash[email].gravatar_url %>' class = 'profile-image-tiny'>&nbsp;<%= @email_hash[email].name %></div>
+					<% end %>
 			</div>
 		</div>
 		<% end %>
@@ -103,7 +106,7 @@
 	<h3 class = 'black'><span class = 'mdi-action-grade'></span>&nbsp;Pinned Posts</h3>
 	<% @posts.each do |post| %>
 	<div class = 'post-div'>
-		<h3 class = 'post-title'><%= post.title %></h3>
+		<h2 class = 'post-title'><%= post.title %></h2>
 		<div><%= post.content.html_safe %></div>
 	</div>
 	<% end %>

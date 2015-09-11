@@ -161,6 +161,7 @@ Portal::Application.routes.draw do
   get 'static/extension', to:'static#extension'
 
 
+  get 'members', to:'members#index'
 
   # points and attendance routess
   get 'points', to:'points#index'

@@ -4,7 +4,7 @@
 	<% post.get_tags.each do |tag| %>
 		<div class = 'label label-primary'><%= tag %></div>
 	<% end %>
-	<h2><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
+	<h2 class ='post-title'><a id = '<%= post.get_parse_id %>-title' class = 'blog-link' data-id = '<%= post.get_parse_id %>' href = 'javascript:void(0)' data-toggle="modal" data-target="#myModal"><%= post.get_title %></a></h2>
 	
 	
 	<div id = '<%= post.get_parse_id %>-content' class = 'content-div'>
@@ -32,7 +32,6 @@
 			<div>Timestamp: <%= post.timestamp %></div>
 		</div>
 	</div>
-
-
+	
 </div>
 <% end %>

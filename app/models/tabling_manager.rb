@@ -8,6 +8,12 @@ def self.time_string(time)
   return self.get_day(time) + ' at '+self.get_hour(time)
 end
 
+
+def self.current_slots
+  tabling_time = TablingManager.tabling_hash[email].time
+  tabling_string = TablingManager.time_string[tabling_time]
+end
+
 def self.times_hash
     times = []
     times << (8..8+15).to_a
