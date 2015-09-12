@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<ShortName>PBL Links</ShortName>
+	<Description>Go to or search in PBL Links.</Description>
+	<Url type="text/html" template="http://testing.berkeley-pbl.com/{searchTerms}/go"/>
+	<Tags>pbl</Tags>
+	<Image height="900" width="900" type="image/png">http://testing.berkeley-pbl.com/assets/pbl-logo-circle.png</Image>
+</OpenSearchDescription>
