@@ -96,7 +96,7 @@ class MembersController < ApplicationController
 	def home
 		@home_featured = Rails.cache.read('home_content')
 		@current_member = current_member
-		pin = 'Pin'
+		# pin = 'Pin'
 
 		tabling_hash = TablingManager.tabling_hash
 		if tabling_hash
@@ -105,7 +105,8 @@ class MembersController < ApplicationController
 		end
 
 		@points_data = PointManager.get_points(current_member.email) # Rails.cache.read(current_member.email+'_points')
-		@posts = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+		# @posts = PgPost.where("tags LIKE ?", "%#{pin}%").to_a.map{|x| x.to_parse}
+		@posts = BlogPost.pinned_posts.select{|x| x.can_view(current_member)}
 	end
 
 	def me

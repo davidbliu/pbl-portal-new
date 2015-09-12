@@ -3,11 +3,16 @@
 	width:50%;
 	margin-left:25%;
 	padding:15px;
+	background-color:white;
+
 }
 </style>
+<% if @post_content and @post_content != '' %>
 <div style = 'width:100%;'>
-	<div class = 'post-div'><%= @post_content.html_safe %></div>
+	<div class = 'post-div'>
+		<%= @post_content.html_safe %></div>
 </div>
+<% end %>
 <% if @golinks.length > 0 %>
 	<h3 class = 'centered'>Search: <%= @search_term %></h3>
 

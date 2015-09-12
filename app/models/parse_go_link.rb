@@ -65,7 +65,7 @@ class ParseGoLink < ParseResource::Base
 	end
 
 	def get_permissions
-		(self.permissions and self.permissions != '') ? self.permissions : 'Only PBL'
+		(self.permissions and self.permissions != '') ? self.permissions : 'Only Officers'
 
 	end
 	def get_creator

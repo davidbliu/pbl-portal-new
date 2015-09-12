@@ -14,18 +14,28 @@
 	color:black;
 	text-align:center;
 	padding-bottom:5px;
-	border-bottom:1px solid rgba(0,0,0,0.1);
+}
+.post-content:hover{
+	cursor:pointer;
+}
+.hidden-content{
+	max-height:300px;
+	overflow:hidden;
+}
+.label-default{
+	background-color:black !important;
 }
 .post-div{
 	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;	
-	background-color: rgba(247, 247, 247, 0.85);
-  padding: 10px;
+	background-color:white;
+  	padding: 10px;
 }
 .right-card{
 	border:1px solid rgba(0,0,0,0.1);
 	margin:10px;	
-	background-color: rgba(247, 247, 247, 0.85);
+	/*background-color: rgba(247, 247, 247, 0.85);*/
+	background-color:white;
   padding: 10px;
 }
 #main-title{
@@ -98,7 +108,15 @@
 	<% @posts.each do |post| %>
 	<div class = 'post-div'>
 		<h3 class = 'post-title'><%= post.title %></h3>
-		<div><%= post.content.html_safe %></div>
+		<div class = 'top-data'>
+			<div class = 'pull-right'><img src = '<%= @email_hash[post.last_editor].gravatar_url %>' class = 'profile-image-small'></img></div>
+			<div class = 'time-tag label label-default'><%= post.time_string %></div>
+			<% post.get_tags.each do |tag| %>
+				<div class = 'label label-primary'><%= tag %></div>
+			<% end %>
+		</div>
+		
+		<div class = 'post-content hidden-content'><%= post.content.html_safe %></div>
 	</div>
 	<% end %>
 </div>
@@ -115,3 +133,14 @@ var email = "asdf";
 </script>
 <%= javascript_include_tag "golink_catalogue" %>
 <%= javascript_include_tag "calendar_pull" %>
+
+<script>
+$('.post-content').click(function(){
+	if($(this).hasClass('hidden-content')){
+		$(this).removeClass('hidden-content');
+	}
+	else{
+		$(this).addClass("hidden-content");
+	}
+});
+</script>

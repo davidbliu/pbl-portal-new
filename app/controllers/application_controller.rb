@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
     render 'layouts/admin'
   end
 
+  def cache
+    render 'layouts/cache'
+  end
+
   def clearcache
     """ clears all items from cache """
     Rails.cache.clear
