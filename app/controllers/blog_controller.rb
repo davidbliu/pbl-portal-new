@@ -39,7 +39,7 @@ class BlogController < ApplicationController
 		end
 
 		if (not params[:post_type]) and (not params[:q])
-			@pinned = BlogPost.pinned_posts
+			@pinned = BlogPost.pinned_posts.select{|x| x.can_view(current_member)}
 		end
 		@pinned_ids = @pinned.map{|x| x.get_parse_id}
 		puts @posts.map{|x| x.author}
