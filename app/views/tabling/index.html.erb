@@ -50,8 +50,16 @@ th, td {
 			<div class = 'tabling-slot' data-time = '<%= slot.time %>'>
 				<div class = 'label label-primary slot-label'><%= TablingManager.time_string(slot.time) %></div>
 				<% slot.get_member_emails.each do |email| %>
+					
 					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
-						<a href = 'javascript:void(0)' class = 'member-link' data-name = '<%= @member_email_hash[email].name %>' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %></div>
+						<a href = 'javascript:void(0)' class = 'member-link' data-name = '<%= @member_email_hash[email].name %>' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %>
+
+						<% if @member_email_hash[email].committee == 'GM' %>
+						(GM)
+						<% end %>
+
+					</div>
+
 				<% end %>
 			</div>
 			<% end %>
@@ -62,22 +70,22 @@ th, td {
 <%= javascript_include_tag 'member_modal' %>
 <script type = 'text/javascript'>
 
-// function switchTablingSlot(email, time1, time2){
-// 	$.ajax({
-//       url: '/tabling/switch_tabling',
-//       type: 'POST',
-//       data: {'email':email, 'time1':time1, 'time2':time2},
-//       success:function(data){
-//         console.log('success');
-//       },
-//       error:function (xhr, textStatus, thrownError){
-//         alert('failed');
-//       }
-//   });
+function switchTablingSlot(email, time1, time2){
+	$.ajax({
+      url: '/tabling/switch_tabling',
+      type: 'POST',
+      data: {'email':email, 'time1':time1, 'time2':time2},
+      success:function(data){
+        console.log('success');
+      },
+      error:function (xhr, textStatus, thrownError){
+        alert('failed');
+      }
+  });
 
-// }
+}
 var dragging = '';
-<% if current_member and current_member.email == 'davidbliu@gmail.com' or current_member.email == 'eric.quach@berkeley.edu' %>
+<% if TablingManager.is_admin(current_member.email) %>
 $('.slot-member').mousedown(function(){
 	dragging = $(this);
 

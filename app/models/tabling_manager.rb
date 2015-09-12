@@ -4,6 +4,13 @@ class TablingManager < ActiveRecord::Base
 
 """ displaying tabling schedules """
 
+def self.is_admin(email)
+  admins = ['davidbliu@gmail.com', 'eric.quach@berkeley.edu', 'nathalie.nguyen@berkeley.edu']
+  if admins.include?(email)
+    return true
+  end
+  return false
+end
 def self.time_string(time)
   return self.get_day(time) + ' at '+self.get_hour(time)
 end
@@ -128,7 +135,7 @@ def self.generate_tabling
   while member_slots.keys.length > 0
     slots_available = Set.new(member_slots.values.flatten())
     slot = self.get_least_filled_slot(slots_available, assignments)
-    member = slots[slot].select{|x| not assigned.include?(x)}.sample
+    member = slots[slot].select{|x| not assigned.include?(x)}.sample # should try to pick chairs first
     assigned.add(member)
     assignments[slot] << member
     member_slots = member_slots.except(member)

@@ -1,3 +1,21 @@
+task :check_wrong_members => :environment do
+	ParseMember.limit(10000).all.each do |member|
+		if member.email
+			email1 = member.email
+			email2 = member.email.strip
+			if email1 != email2
+				puts email
+			end
+			if member.email.include?("\n")
+				puts member.name
+				puts 'had a line break'
+			end
+		else 
+			puts member.name
+		end
+	end
+end
+
 task :flag_all_members => :environment do
 	Member.all.each do |member|
 		member.confirmation_status = 0

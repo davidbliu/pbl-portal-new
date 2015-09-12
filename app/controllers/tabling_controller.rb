@@ -12,6 +12,25 @@ class TablingController < ApplicationController
 		end
 	end
 
+	def check
+		slots = TablingHist.all.to_a
+		@slots = slots
+
+		rec = {}
+		current_members = ParseMember.current_members
+		current_members.each do |m|
+			rec[m.email] = []
+		end
+		slots.each do |slot|
+			members = slot.get_unconfirmed + slot.get_confirmed
+			members.each do |m|
+				rec[m] << slot.time
+			end
+		end
+		@rec = rec
+
+	end
+
 	def switch_tabling
 		email = params[:email]
 		time1 = params[:time1].to_i

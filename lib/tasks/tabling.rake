@@ -5,11 +5,11 @@ namespace :tabling do
 		current_members = ParseMember.current_members
 
 		slots = []
-		slots << (10..11).to_a
-		slots << (34..36).to_a
-		slots << (58..60).to_a
-		slots << (82..84).to_a
-		slots << (106..108).to_a
+		slots << (10..10+5).to_a
+		slots << (34..34+5).to_a
+		slots << (58..58+5).to_a
+		slots << (82..82+5).to_a
+		slots << (106..106+5).to_a
 		slots = slots.flatten()
 
 		TablingHist.initialize_histogram(current_members, slots)
