@@ -168,6 +168,11 @@ def self.get_least_filled_slot(slots, assignments)
 
 end
 
+def self.get_member(emails, assigned, chairs)
+  # unassigned_chairs = emails.select{|x| }
+  puts 'hi'
+end
+
 def self.get_most_constrained_slot(slots, assignments, assigned)
   mcv = slots
   num_assigned = 10000
