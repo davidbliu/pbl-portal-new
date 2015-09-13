@@ -97,11 +97,11 @@ class MembersController < ApplicationController
 		@home_featured = Rails.cache.read('home_content')
 		@current_member = current_member
 		# pin = 'Pin'
-
+		@email_hash = SecondaryEmail.email_lookup_hash
 		tabling_hash = TablingManager.tabling_hash
 		if tabling_hash
 			@tabling_slot = tabling_hash[current_member.email]
-			@email_hash = SecondaryEmail.email_lookup_hash
+			
 		end
 
 		@points_data = PointManager.get_points(current_member.email) # Rails.cache.read(current_member.email+'_points')
