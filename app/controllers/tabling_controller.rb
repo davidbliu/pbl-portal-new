@@ -48,11 +48,33 @@ class TablingController < ApplicationController
 	end
 
 	def whenisgood
+		c = current_member.committee
+		cms = ParseMember.current_members.select{|x| x.committee == c}
+
+		# @commitments = Commitments.get_commitments(email)
+		commitments = Commitments.commitments_hash
+		@times_hash = TablingManager.times_hash
+		times = @times_hash.values.flatten()
 		@commitments = {}
-		Commitments.limit(1000).all.each do |commitment|
-			commitments[commitment.member_email] = commitments.commitments
+
+
+		# cms.each do |cm|
+		# 	@commitments[cm.email] = commitments[cm.email]
+		# end
+
+		
+		times.each do |time|
+			@commitments[time] = []
+			cms.each do |cm|
+				if commitments[cm.email].include?(time)
+					@commitments[time] << cm.email
+				end
+			end
 		end
+		@email_hash = SecondaryEmail.email_lookup_hash
+		puts @commitments
 	end
+
 	def slot_guide
 		@times = (0..167).to_a
 	end
@@ -113,7 +135,12 @@ class TablingController < ApplicationController
 	end
 
 	def commitments
-		@commitments = Commitments.get_commitments(current_member.email)
+		email = current_member.email
+		if params[:email]
+			@other = true
+			email = params[:email]
+		end
+		@commitments = Commitments.get_commitments(email)
 		@times_hash = TablingManager.times_hash
 	end
 
@@ -126,6 +153,7 @@ class TablingController < ApplicationController
 		end
 		c.commitments = params[:commitments].split(',')
 		c.save
+		Rails.cache.delete('commitments_hash')
 		render nothing: true, status: 200
 
 	end

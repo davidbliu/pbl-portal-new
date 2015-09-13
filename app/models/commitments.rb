@@ -12,6 +12,21 @@ class Commitments < ParseResource::Base
 		
 	end
 
+	def self.commitments_hash
+		Rails.cache.fetch 'commitments_hash' do 
+			commitments = Commitments.limit(100000).all.index_by(&:member_email)
+			c = {}
+			ParseMember.current_members.each do |cm|
+				if commitments.keys.include?(cm.email)
+					c[cm.email] = commitments[cm.email].commitments.map{|x| x.to_i}
+				else
+					c[cm.email] = []
+				end
+			end
+			return c
+		end
+	end
+
 	def self.rand_n(n, max)
 		randoms = Set.new
 		loop do

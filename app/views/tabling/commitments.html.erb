@@ -24,6 +24,7 @@ body{
 
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
 
+<% if not @other %>
 <div class = 'top-area'>
 	<h1 class = 'centered'>Tell us your schedule</h1>
 	
@@ -35,7 +36,7 @@ body{
 	<p class = 'centered'>Mark slots that you are free. For tabling, try to leave at least 5 slots open during tabling hours so we can find a good slot for you.</p>
 	<div style = 'clear:both;display:inline-block;height:10px'></div>
 </div>
-
+<% end %>
 
 <div id = 'schedule-div' class = 'row'>
 <% @times_hash.keys.each do |day| %>

@@ -1,0 +1,45 @@
+<style type = 'text/css'>
+body{
+	color:black;
+}
+.day-label{
+	font-size:13px;
+	margin-bottom:10px;
+}
+.day-div {
+	padding:10px;
+	/*float: left;*/
+	width:20%;
+}
+
+#loading-gif{
+  height:150px;
+  position:fixed;
+  left:500px;
+  top:175px;
+  display:none;
+  z-index:5000;
+}
+</style>
+
+<img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
+
+<div id = 'schedule-div' class = 'row'>
+<% @times_hash.keys.each do |day| %>
+	<div class = 'day-div col-md-2'>
+		<div style = 'height:3px'></div>
+		<% @times_hash[day].each do |time| %>
+			<div class = 'time-div'>
+				<div class = 'label label-default'><%= TablingManager.time_string(time) %></div>
+					<% if @commitments[time].length == 0 %>
+						No available
+					<% else %>
+						<% @commitments[time].each do |email| %>
+						<div><img src = '<%= @email_hash[email].gravatar_url %>' class = 'profile-image-small'></img>&nbsp;<%= @email_hash[email].name %></div>
+						<% end %>
+					<% end %>
+			</div>
+		<% end %>
+	</div>
+<% end %>
+</div>
