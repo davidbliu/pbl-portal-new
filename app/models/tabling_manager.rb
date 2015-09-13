@@ -22,6 +22,8 @@ def self.times_hash
     times << (56..56+15).to_a
     times << (80..80+15).to_a
     times << (104..104+15).to_a
+    times << (128..128+15).to_a
+    times << (152..152+15).to_a
     times = times.flatten()
 
     times_hash = {}
@@ -108,7 +110,10 @@ end
 
 
 """ use tabling histogram to generate tabling"""
-def self.generate_tabling
+def self.generate_tabling()
+
+  chairs = ParseMember.current_members.select{|x| x.position == 'exec' or x.position == 'chair'}.map{|x| x.email}
+  puts 'chairs: '+chairs.to_s
   slots = {}
   assignments = {}
   assigned = Set.new
@@ -135,7 +140,8 @@ def self.generate_tabling
   while member_slots.keys.length > 0
     slots_available = Set.new(member_slots.values.flatten())
     slot = self.get_least_filled_slot(slots_available, assignments)
-    member = slots[slot].select{|x| not assigned.include?(x)}.sample # should try to pick chairs first
+    member = self.get_member(slots[slot], assigned, chairs)
+    #slots[slot].select{|x| not assigned.include?(x)}.sample # should try to pick chairs first
     assigned.add(member)
     assignments[slot] << member
     member_slots = member_slots.except(member)
@@ -169,8 +175,13 @@ def self.get_least_filled_slot(slots, assignments)
 end
 
 def self.get_member(emails, assigned, chairs)
-  # unassigned_chairs = emails.select{|x| }
-  puts 'hi'
+  emails = emails.select{|x| not assigned.include?(x)}
+  unassigned_chairs = emails.select{|x| chairs.include?(x)}
+  unassigned_members = emails.select{|x| not chairs.include?(x)}
+  if unassigned_chairs.length > 0
+    return unassigned_chairs.sample
+  end
+  return unassigned_members.sample
 end
 
 def self.get_most_constrained_slot(slots, assignments, assigned)
