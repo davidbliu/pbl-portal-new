@@ -91,7 +91,15 @@ class BlogController < ApplicationController
 	def email_post
 		id = params[:id]
 		post = BlogPost.find(id)
-		emails = Subscriber.limit(1000000).all.map{|x| x.email}
+		if post.view_permissions == 'Only PBL' or post.view_permissions == 'Anyone'
+			emails = ParseMember.current_members.map{|x| x.email}.select{|x| x!= nil and x!= ''}
+		elsif post.view_permissions == 'Only Officers' or post.view_permissions == 'Only Execs'
+			emails = ParseMember.current_members.select{|x| x.position == 'chair' or x.position == 'exec'}.map{|x| x.email}.select{|x| x!= nil and x!= ''}
+		else
+			emails = [current_member.email]
+		end
+		puts emails
+		# emails = Subscriber.limit(1000000).all.map{|x| x.email}
 		BlogNotifier.send_blog_email(members = emails, post)
 		redirect_to '/blog'
 	end
