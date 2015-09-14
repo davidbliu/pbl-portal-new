@@ -92,7 +92,7 @@ class BlogController < ApplicationController
 		id = params[:id]
 		post = BlogPost.find(id)
 		if post.view_permissions == 'Only PBL' or post.view_permissions == 'Anyone'
-			emails = ['berkeley-pbl-fall-2015-committee-members@googlegroups.com']# emails = ParseMember.current_members.map{|x| x.email}.select{|x| x!= nil and x!= '' and not x.include?('_')}
+			emails = ['berkeley-pbl-fall-2015-committee-members@googlegroups.com', 'berkeleypblofficers@lists.berkeley.edu']# emails = ParseMember.current_members.map{|x| x.email}.select{|x| x!= nil and x!= '' and not x.include?('_')}
 		elsif post.view_permissions == 'Only Officers' or post.view_permissions == 'Only Execs'
 			# emails = ParseMember.current_members.select{|x| x.position == 'chair' or x.position == 'exec'}.map{|x| x.email}.select{|x| x!= nil and x!= ''}
 			emails = ['berkeleypblofficers@lists.berkeley.edu']
