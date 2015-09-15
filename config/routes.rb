@@ -3,7 +3,10 @@ Portal::Application.routes.draw do
   get "/sign_out", to: "auth#sign_out"
   # get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
 
+  """ WD CONTROLLER ROUTES"""
+  get '/david', to:'wd#david'
 
+  """ END OF WD CONTROLLER ROUTES"""
 
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#home'
