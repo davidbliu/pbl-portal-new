@@ -63,7 +63,7 @@ class ParseMember < ParseResource::Base
 		# cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
 		# return cms
 		""" new method using member blob""" 
-		ParseMember.order("committee").where(latest_semester: semester.name)
+		ParseMember.limit(100000).order("committee").where(latest_semester: semester.name)
 	end
 
 	def self.committee_members(semester = ParseSemester.current_semester, committee)
