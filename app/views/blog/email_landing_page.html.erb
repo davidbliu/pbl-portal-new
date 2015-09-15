@@ -1,0 +1,10 @@
+<h1>Who should we mail this post to?</h1>
+<h3>Post: <%= @post.get_title %></h3>
+
+<a href = '/blog?post_id=<%= @post.get_parse_id %>'><button class = 'btn btn-material-red-700'>Cancel</button></a>
+
+<div>
+<% @options.each do |option| %>
+<a href = '/blog/email_post?id=<%= @post.get_parse_id %>&option=<%= option %>'><button class = 'btn btn-material-grey-500'><%= option %></button></a>
+<% end %>
+</div>

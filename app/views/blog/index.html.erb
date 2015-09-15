@@ -60,7 +60,18 @@ body{
 	margin-bottom:3px;
 	background-color:black;
 	text-align:center;
-	padding-bottom:3px;
+}
+#modal-title{
+	color: white;
+    font-weight: bold;
+    font-size: 25px;
+    padding-bottom: 15px;
+}
+body .modal {
+    /* new custom width */
+    width: 90% !important;
+    /* must be half of the width, minus scrollbar on the left (30px) */
+    margin-left: 5%;
 }
 #modal-options{
 	padding:15px;
@@ -74,6 +85,10 @@ body{
 }
 #modal-body>ul li{
 	list-style:inherit !important;
+}
+.modal-dialog{
+	min-width:65% !important;
+	width:600pxf;
 }
 
 
@@ -170,8 +185,8 @@ function changeModal(id){
 jQuery(document).ready(function($) {
 	$('#myModal').modal('show');
     changeModal('<%= @post_id %>');
+    activatePostButtons();
 });
-	// $('#myModal').modal('show');
 	
 <% end %>	
 
@@ -180,6 +195,7 @@ jQuery(document).ready(function($) {
 $('.blog-link').click(function(){
 	id = $(this).attr('data-id');
 	changeModal(id);
+	activatePostButtons();
 });
 $('.read-toggle').click(function(){
 	console.log('clicked this');
@@ -193,4 +209,14 @@ $('#blog-search').keyup(function(event){
 		window.location = '/blog?q='+$(this).val();
 	}
 });
+
+// show and hide post buttons
+function activatePostButtons(){
+	$('.post-btn-link').click(function(){
+		$(this).next().show();
+		$(this).remove();
+	});
+}
+activatePostButtons();
+
 </script>

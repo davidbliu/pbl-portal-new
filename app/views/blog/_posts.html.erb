@@ -1,4 +1,8 @@
-
+<style type = 'text/css'>
+.post-buttons{
+	display:none;
+}
+</style>
 <% posts.each do |post| %>
 <div class = 'post-div' id = '<%= post.id %>'>
 	<div class = 'top-data'>
@@ -18,18 +22,23 @@
 
 	<div class = 'post-options' id = '<%= post.get_parse_id %>-options'>
 		<% if post.can_edit(current_member) %>
-			<div>
+		<div>
+			<a href = 'javascript:void(0)' class = 'post-btn-link'>Show options</a>
+			<div id = '<%= post.get_parse_id %>-buttons' class = 'post-buttons'>
 				<a href = '/blog/edit_post?id=<%= post.get_parse_id %>'><button class = 
 				'btn btn-material-blue-700'>Edit this post</button></a>
 				&nbsp;
-				<a href = '/blog/email_post?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-grey-700'>Email this post</button></a>
+				<a href = '/blog/email_landing_page?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-grey-700'>Email this post</button></a>
 				&nbsp;
 				<a href = '/blog/delete_post?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-red-700'>Delete this post</button></a>
 			</div>
-			<div>
-				Permissions: "<%= post.get_view_permissions %>" can view, "<%= post.get_edit_permissions %>" can edit
-			</div>
+		</div>
 		<% end %>
+
+		<div>
+			View Permissions: "<%= post.get_view_permissions %>", Edit Permissions: "<%= post.get_edit_permissions %>"
+		</div>
+
 		<a href = '/blog?post_id=<%= post.get_parse_id %>'>Link to the post</a>
 
 		<div class = 'meta-div'>
@@ -42,3 +51,7 @@
 
 </div>
 <% end %>
+
+<script type = 'text/javascript'>
+
+</script>

@@ -23,6 +23,36 @@ class BlogPost < ParseResource::Base
 		return all_posts
 	end
 
+	def self.email_options
+		options = ['All PBL', 'Officers','Execs', 'CMs', 'GMs', 'Only Me']
+	end
+
+	def self.email_options_to_emails(option, current_member = nil)
+		gm = 'davidbliu@gmail.com'
+		cm = 'berkeley-pbl-fall-2015-committee-members@googlegroups.com'
+		of = 'berkeley-pbl-fall-2015-officer-team@googlegroups.com'
+		ex = 'berkeleypblexecs@lists.berkeley.edu'
+		if option == 'All PBL'
+			return [gm, cm, of]
+		end
+		if option == 'Only Me'
+			return [current_member ? current_member.email : 'davidbliu@gmail.com']
+		end
+		if option == 'Officers'
+			return [of]
+		end 
+		if option == 'Execs'
+			return [ex]
+		end
+		if option == 'CMs'
+			return [cm]
+		end
+		if option == 'GMs'
+			return [gm]
+		end
+		return ['davidbliu@gmail.com']
+	end
+
 	def time_string
 		pt = self.timestamp + Time.zone_offset("PDT")
 		return pt.strftime('%b %e, %l:%M %p')

@@ -88,19 +88,16 @@ class BlogController < ApplicationController
 		render nothing:true, status:200
 	end
 
+	def email_landing_page
+		id = params[:id]
+		@post = BlogPost.find(id)
+		@options = BlogPost.email_options
+	end
 	def email_post
 		id = params[:id]
+		option = params[:option]
 		post = BlogPost.find(id)
-		if post.view_permissions == 'Only PBL' or post.view_permissions == 'Anyone'
-			emails = ['berkeley-pbl-fall-2015-committee-members@googlegroups.com', 'berkeleypblofficers@lists.berkeley.edu']# emails = ParseMember.current_members.map{|x| x.email}.select{|x| x!= nil and x!= '' and not x.include?('_')}
-		elsif post.view_permissions == 'Only Officers' or post.view_permissions == 'Only Execs'
-			# emails = ParseMember.current_members.select{|x| x.position == 'chair' or x.position == 'exec'}.map{|x| x.email}.select{|x| x!= nil and x!= ''}
-			emails = ['berkeleypblofficers@lists.berkeley.edu']
-		else
-			emails = [current_member.email]
-		end
-		puts emails
-		# emails = Subscriber.limit(1000000).all.map{|x| x.email}
+		emails = BlogPost.email_options_to_emails(option)
 		BlogNotifier.send_blog_email(members = emails, post)
 		redirect_to '/blog'
 	end
