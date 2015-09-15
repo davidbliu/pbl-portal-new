@@ -1,6 +1,6 @@
 <style type = 'text/css'>
 .dashboard-panel-title{
-	color:white;
+	color:blue;
 }
 .dashboard-panel-blue{
 	background-color: black;
@@ -41,7 +41,7 @@
   padding: 10px;
 }
 #main-title{
-	color:black;
+	color:red;
 	font-size:50px;
 	font-weight:bold;
 }
@@ -52,6 +52,9 @@
 	padding-top:0px;
 	padding:25px;
 }
+#welcome-title {
+	color: blue;
+}
 </style>
 
 <style type = 'text/css'>
@@ -60,7 +63,8 @@
 <%= render 'go/catalogue_modal' %>
 <!-- <h1 class = 'centered'><img src = 'http://www.medhatspca.ca/sites/default/files/news_photos/2014-Apr-15/node-147/cute-little-cat.jpg' height=300></img></h1>
 -->
-<h1 class = 'centered' id = 'main-title'>PBL Members Portal: Staging</h1>
+<h1>jason shan is da bomb</h1>
+<h1 class = 'centered' id = 'main-title'>I am a cool dude PBL Members Portal: Staging</h1>
 <h2 class = 'centered black' id = 'welcome-title'>Welcome, <%= current_member.name %>, WD is the best</h2>
 <div class = 'row black' id = 'featured-content-area'>
 	<%= @home_featured ? @home_featured.html_safe : "" %>

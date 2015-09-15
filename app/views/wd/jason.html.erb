@@ -1,0 +1,6 @@
+<h1>Hi im jason</h1>
+<%= @points['points'] %>
+<h1>here is what i attended</h1>
+<%= @points['attended'].each do |event| %>
+<div><%= event.name %></div>
+<% end %>
