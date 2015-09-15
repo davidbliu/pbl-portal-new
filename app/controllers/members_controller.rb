@@ -133,20 +133,6 @@ class MembersController < ApplicationController
 		# @committee_hash = ParseCommittee.hash	
 	end
 
-	
-	
-	
-
-	# def upload_profile
-	# 	@member = Member.find(params[:id])
-	# 	if @member != current_member
-	# 		render :nothing => true, :status => 500, :content_type => 'text/html'
-	# 	end
-	# 	current_member.profile = params[:image]
-	# 	current_member.save
-	# 	render :nothing => true, :status => 200, :content_type => 'text/html'
-	# end
-
 	def index_committee
 		# begin
 		cid = params[:id]

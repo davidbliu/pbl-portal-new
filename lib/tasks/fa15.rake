@@ -7,7 +7,7 @@ task :import_fa15 => :environment do
 		# saved_cms = Array.new
 		# chash = Committee.all.index_by(&:abbr)
 		semester = ParseSemester.current_semester
-		CSV.foreach("fa15_cms.csv") do |row|
+		CSV.foreach("fa15_gms.csv") do |row|
 			# puts 'row was ' + row.to_s
 			committee = row[0].strip
 			committee.slice! '['
@@ -27,9 +27,9 @@ task :import_fa15 => :environment do
 				member = ParseMember.new
 				member.confirmation_status = 13
 			end
-			member.name = name
-			member.email = email
-			member.committee = committee
+			member.name = name.strip
+			member.email = email.strip
+			member.committee = committee.strip
 			member.latest_semester = semester.name
 			member.position = 'cm'
 			saved_members << member

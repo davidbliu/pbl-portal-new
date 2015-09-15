@@ -7,7 +7,7 @@ class BlogNotifier < ActionMailer::Base
   	puts members.join(',')
     @post = post
     mail( :to => members.join(','),
-    :subject => 'PBL Blog: ' + post.title ).deliver
+    :subject => '[PBL][BLOG]: ' + post.title ).deliver
   end
 
 
