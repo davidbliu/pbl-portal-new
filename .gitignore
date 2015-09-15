@@ -32,3 +32,5 @@ cron.log
 error.log
 /log/*
 /config/database.yml
+*nohup.out
+
