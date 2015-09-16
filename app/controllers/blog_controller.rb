@@ -19,6 +19,15 @@ class BlogController < ApplicationController
 		end
 	end
 
+	def cache_link_posts
+		BlogPost.all_posts.each do |post|
+			if post.get_title[0] == '#'
+				Rails.cache.write(post.get_title, post)
+			end
+		end
+		redirect_to '/'
+	end
+
 	def post_catalogue
 		@posts = BlogPost.limit(100000).all.to_a
 	end

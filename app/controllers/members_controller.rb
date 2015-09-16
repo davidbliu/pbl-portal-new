@@ -94,7 +94,7 @@ class MembersController < ApplicationController
 	end
 
 	def home
-		@home_featured = Rails.cache.read('home_content')
+		@home_content = FeaturedContent.home_content
 		@current_member = current_member
 		# pin = 'Pin'
 		@email_hash = SecondaryEmail.email_lookup_hash

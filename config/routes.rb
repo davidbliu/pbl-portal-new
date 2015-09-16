@@ -357,6 +357,7 @@ Portal::Application.routes.draw do
 
   resources :blog do
     collection do 
+      get 'cache_link_posts'
       get 'email_landing_page'
       get 'post_catalogue'
       get 'create_post'

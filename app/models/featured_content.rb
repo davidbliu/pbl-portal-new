@@ -1,5 +1,14 @@
 class FeaturedContent < ParseResource::Base
 	fields :name, :content
-	# , :author, :view_permissions, 
-	# :edit_permissions, :timestamp, :parse_id, :post_type, :tags, :last_editor
+
+	def self.home_content
+		Rails.cache.fetch 'home_content' do 
+			hc = FeaturedContent.where(name: 'home_content').first
+			return hc ? hc.content : nil
+		end
+	end
+
+	def self.content_keys
+		['home_content']
+	end
 end

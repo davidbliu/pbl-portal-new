@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   # include EventsHelper
   include CacheHelper
   before_filter :current_member 
-  
 
   def send_email
     puts ENV['GMAIL_USERNAME']
@@ -35,11 +34,12 @@ class ApplicationController < ActionController::Base
   end
 
   def admin
-    admins = ['davidbliu@gmail.com', 'nathalie.nguyen@berkeley.edu', 'akwan726@gmail.com']
+    admins = ParseMember.admins
     if not admins.include?(current_member.email)
       redirect_to '/'
     end
     render 'layouts/admin'
+
   end
 
   def cache
@@ -53,12 +53,29 @@ class ApplicationController < ActionController::Base
   end
 
   def set_cache
-    render 'layouts/set_cache'
+    if not current_member.admin?
+      render 'layouts/unauthorized'
+    else
+      render 'layouts/set_cache'
+    end
   end
+
   def update_cache
     key = params[:key]
     content = params[:content]
     Rails.cache.write(key, content)
+
+    # save it as featured content
+    fc = FeaturedContent.where(name: key).to_a 
+    if fc.length > 0
+      fc = fc[0]
+    else
+      fc = FeatureContent.new
+      fc.name = key
+    end
+    fc.content = content 
+    fc.save
+
     render nothing:true, status: 200
   end
   

@@ -53,6 +53,13 @@ class ParseMember < ParseResource::Base
 		self.position and self.position == 'exec' ? true : false
 	end
 
+	def self.admins
+		['davidbliu@gmail.com', 'nathalie.nguyen@berkeley.edu', 'akwan726@gmail.com']
+	end
+	def admin?
+		ParseMember.admins.include?(self.email)
+	end
+
 
 	""" get members by types """
 	def self.current_members(semester = ParseSemester.current_semester)

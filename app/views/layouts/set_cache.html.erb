@@ -1,10 +1,27 @@
 <script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
 
-<h1>Set Cache Value</h1>
-<input id = 'key-input' class = 'form-control' type = 'text' placeholder = 'cache key'></input>
+<h1 class = 'centered'>Set Cache Value</h1>
+<!-- <input id = 'key-input' class = 'form-control' type = 'text' placeholder = 'cache key'></input>
+ -->
 
-<button class = 'btn btn-material-red-900' id = 'save-btn'>Save</button>
-<textarea id = 'content-input'></textarea>
+
+ <div class="input-group">
+  <span class="input-group-addon">Which content key?</span>
+  <select  id = 'content-key-input' class = 'form-control'>
+    <% FeaturedContent.content_keys.each do |content_key| %>
+        <option><%= content_key %></option>
+      <% end %>
+  </select>
+</div>
+
+
+
+<div><button class = 'btn btn-material-red-900' id = 'save-btn'>Save</button></div>
+<div>
+  <a href = '/clearcache'><button class = 'btn btn-material-grey-500'>Clearcache</button></a>
+  <a href = '/blog/cache_link_posts'><button class = 'btn btn-material-grey-500'>Cache Posts</button></a>
+</div>
+<textarea id = 'content-input'><%= FeaturedContent.home_content %></textarea>
 
 <script>
 //tinymce.init({selector:'textarea', plugins: ['image', 'link', 'textcolor']});
@@ -23,13 +40,15 @@ tinymce.init({
     templates: [
         {title: 'Test template 1', content: 'Test 1'},
         {title: 'Test template 2', content: 'Test 2'}
-    ]
+    ],
+    height : 500
 });
 </script>
 <script type = 'text/javascript'>
 $('#save-btn').click(function(){
 	content = tinyMCE.activeEditor.getContent();
-	key = $('#key-input').val();
+	  key = $("#content-key-input option:selected").text();
+
 	$.ajax({
       url: '/update_cache',
       type: 'POST',
