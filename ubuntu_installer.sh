@@ -23,7 +23,7 @@ cd pbl-portal-new
 bundle install
 
 # clone dumps
-git clone https://github.com/davidbliu/dumps
+#git clone https://github.com/davidbliu/dumps
 
 sudo apt-get install postgresql postgresql-contrib
 # see pbl.link/postgres-setup for further user postgres-setup. you will need to setup a postgres user with a password and change config/database.yml file for the portal to reflect that
@@ -33,5 +33,5 @@ sudo apt-get install postgresql postgresql-contrib
 # sudo apt-get update
 # sudo apt-get install oracle-java7-installer
 
-wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.7.tar.gz
-tar -xf elasticsearch-0.90.7.tar.gz
+#wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.7.tar.gz
+#tar -xf elasticsearch-0.90.7.tar.gz
