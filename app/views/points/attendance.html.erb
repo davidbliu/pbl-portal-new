@@ -27,6 +27,10 @@ td.none-cell{
 .member-col{
 	min-width:100px;
 }
+.selected{
+	background-color:yellow;
+}
+
 </style>
 
 <img src = 'https://cdn.wpfaster.org/wp-content/uploads/2013/06/loading-gif.gif' id = 'loading-gif'></img>
@@ -39,6 +43,9 @@ td.none-cell{
 <div><a href = '/points/attendance?filter=all_cms'>All CMs</a></div>
 <% end %>
 
+<div id = 'options-div'>
+	<button id = 'toggle-selected-btn' class = 'btn btn-material-grey-500'>Hide unselected</button>
+</div>
 <table class = 'table table-bordered'>
 	<thead>
 		<tr>
@@ -50,8 +57,8 @@ td.none-cell{
 	</thead>
 	<tbody>
 		<% @events.each do |event| %>
-		<tr>
-			<td><%= event.name %> (<%= event.get_points %>)</td>
+		<tr class = 'event-row'>
+			<td class = 'event-name'><%= event.name %> (<%= event.get_points %>)</td>
 			<% @members.each do |member| %>
 			<td class = 'attendance-cell <%= ParseEventMember.get_status(event, member, @event_members) %>-cell' data-type = '<%= ParseEventMember.get_status(event, member, @event_members) %>' data-eventid = '<%= event.google_id %>' data-email = '<%= member.email %>'></td>
 			<% end %>
@@ -62,6 +69,34 @@ td.none-cell{
 
 
 <script type = 'text/javascript'>
+hide_unselected = false;
+$('#toggle-selected-btn').click(function(){
+	if(!hide_unselected){
+		$('.event-row').each(function(){
+			if(!$(this).hasClass('selected')){
+				$(this).hide();
+			}
+		});
+		$(this).text('show all');
+	}
+	else{
+		$('.event-row').each(function(){
+			$(this).show();
+		});
+		$(this).text('hide unselected');
+	}
+	hide_unselected = !hide_unselected;
+});
+$('.event-name').click(function(){
+	row = $(this).parent();
+	selected = 'selected';
+	if($(row).hasClass(selected)){
+		$(row).removeClass(selected);
+	}
+	else{
+		$(row).addClass(selected);
+	}
+});
 
 function showSpinner(){
   $('#loading-gif').show();

@@ -41,7 +41,7 @@ class PointsController < ApplicationController
 
 	def attendance
 
-		@events = ParseEvent.order("start_time desc").where(semester_name: ParseSemester.current_semester.name).all
+		@events = ParseEvent.order("start_time asc").where(semester_name: ParseSemester.current_semester.name).all
 		@ems = ParseEventMember.limit(1000000).all
 		filter = params[:filter] ? params[:filter] : 'my_committee'
 		if filter == 'all'

@@ -32,9 +32,10 @@ namespace :events do
 				pe.location = e.location
 				pe.description = e.description
 				pe.google_id = e.id
-				pe.type = 'google'
+				pe.type = 'google_new'
 				pe.semester_name = find_closest_semester(e.start_time, semesters).name
 				save << pe
+				pe.save
 			else
 				puts 'no changes to ' + pe.name
 			end
