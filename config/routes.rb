@@ -6,6 +6,7 @@ Portal::Application.routes.draw do
   """ WD CONTROLLER ROUTES"""
   get '/david', to:'wd#david'
   get '/jason', to:'wd#jason'
+  get '/kimberly', to:'wd#kimberly'
   """ END OF WD CONTROLLER ROUTES"""
 
   # get "/pull_google_events", to: "events#pull_google_events"

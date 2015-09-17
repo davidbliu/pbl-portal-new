@@ -1,0 +1,8 @@
+<h1>hi im kimberly</h1>
+<h1>I have this many points <%= PointManager.get_points(@my_email)['points'] %></h1>
+<% @current_emails.each do |email| %>
+	<div><%= @member_email_hash[email].name %>
+		<%= @member_email_hash[email].phone %>
+		<img src = '<%= @member_email_hash[email].gravatar_url %>' height=50></img>
+	</div>
+<% end %>

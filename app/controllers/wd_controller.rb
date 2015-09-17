@@ -9,4 +9,13 @@ class WdController < ApplicationController
 		@points = PointManager.get_points('davidbliu@gmail.com')
 		render 'jason'
 	end
+
+	def kimberly
+		@my_email = current_member.email
+		@current_members = ParseMember.current_members
+		@current_emails = @current_members.map{|x| x.email}
+		@member_emails = SecondaryEmail.email_lookup_hash.keys
+		@member_email_hash = SecondaryEmail.email_lookup_hash
+		render 'kimberly'
+	end
 end
