@@ -14,6 +14,9 @@ class GoController < ApplicationController
 	end
 
 	def home
+		if params[:no_permissions]
+			@no_permissions = true
+		end
 		if params[:search_term] and params[:search_term] != ''
 			@search_term = params[:search_term]
 		elsif params[:tag_search_term] and params[:tag_search_term] != ''
@@ -294,10 +297,9 @@ class GoController < ApplicationController
 		# log this click 
 		go_key = params[:key].gsub('_', ' ')
 		golinks = ParseGoLink.where(key: go_key).to_a
+		pre = golinks.length
 		golinks = golinks.select{|x| x.can_view(current_member)}
-
-
-
+		post = golinks.length 
 		# GoLog.log_click(email, go_key, Time.now)
 		if golinks.length > 0
 			# correctly used alias
@@ -317,7 +319,12 @@ class GoController < ApplicationController
 		else
 			search_term = go_key
 			URI.escape(search_term, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
-			redirect_to '/go?search_term='+search_term
+			puts 'searching instead, pre and post were '+pre.to_s+',' +post.to_s
+			if pre > post
+				redirect_to '/go?search_term='+search_term+'&no_permissions=true'
+			else
+				redirect_to '/go?search_term='+search_term
+			end
 		end
 	end
 

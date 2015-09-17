@@ -13,10 +13,14 @@ class ParseMember < ParseResource::Base
 		if self.facebook_url
 			return facebook_url
 		end
-		gravatar_id = Digest::MD5.hexdigest(self.email.downcase)
+		gravatar_id = Digest::MD5.hexdigest(self.get_email.downcase)
     	return "http://gravatar.com/avatar/#{gravatar_id}.png?s="+size.to_s
 	end
 
+	def get_email
+		return self.email ? self.email : ''
+	end
+	
 	def has_trello
 		self.trello_id != nil and self.trello_id != '' and self.trello_token != nil and self.trello_token != '' and self.trello_member_id and self.trello_member_id != ''
 	end

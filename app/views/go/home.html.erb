@@ -76,8 +76,6 @@
 <div style = 'text-align:center'>
 
 
-
-
   <h1><a href = '/go'><img style = 'margin-top:-10px' src = '/assets/link-circle.png' height=50></img></a> <b style = 'font-size:50px;color:black'>PBL Links</b></h1>
 
   
@@ -92,6 +90,9 @@
   </div>
 
 
+  <% if @no_permissions %>
+  <h3 class = 'centered' style = 'color:red'>You may not have permissions to access that link</h3>
+  <% end %>
 
 <% if current_member %>
    <div id = 'page-card-container'>
