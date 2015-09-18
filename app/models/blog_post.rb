@@ -28,7 +28,7 @@ class BlogPost < ParseResource::Base
 	end
 
 	def self.email_options_to_emails(option, current_member = nil)
-		gm = 'davidbliu@gmail.com'
+		gm = 'berkeley-pbl-general-members-15@googlegroups.com'
 		cm = 'berkeley-pbl-fall-2015-committee-members@googlegroups.com'
 		of = 'berkeley-pbl-fall-2015-officer-team@googlegroups.com'
 		ex = 'berkeleypblexecs@lists.berkeley.edu'
