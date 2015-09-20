@@ -62,6 +62,10 @@ namespace :tabling do
 end
 
 
+task :cantmake => :environment do
+end
+
+
 
 task :g_tabling => :environment do
 	times = 20..50

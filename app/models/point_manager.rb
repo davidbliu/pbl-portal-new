@@ -20,6 +20,7 @@
 		if type == 'exec'
 			return chair
 		end
+		return type
 	end
 	
 	def self.attended_events(email)
