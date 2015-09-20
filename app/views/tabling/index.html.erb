@@ -3,6 +3,10 @@
 th, td {
     vertical-align: top;
 }
+.pink{
+	color:pink;
+	background-color:black;
+}
 
 @media (max-width: 700px) {
   .tabling-day{
@@ -50,8 +54,11 @@ th, td {
 			<div class = 'tabling-slot' data-time = '<%= slot.time %>'>
 				<div class = 'label label-primary slot-label'><%= TablingManager.time_string(slot.time) %></div>
 				<% slot.get_member_emails.each do |email| %>
-					
+					<% if email == @current_email %>
+					<div id = '<%= SecureRandom.hex %>' class = 'slot-member pink' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+					<% else %>
 					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+					<% end %>
 						<a href = 'javascript:void(0)' class = 'member-link' data-name = '<%= @member_email_hash[email].name %>' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %>
 
 						<% if @member_email_hash[email].committee == 'GM' %>

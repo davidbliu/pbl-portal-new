@@ -105,6 +105,7 @@ class TablingController < ApplicationController
 		if not @tabling_hash
 			redirect_to '/tabling/pick_slots'
 		end
+		@current_email = current_member.email
 		@member_email_hash = ParseMember.current_members.index_by(&:email)
 	end
 
