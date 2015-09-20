@@ -16,6 +16,12 @@
 		Rails.cache.write(email+'_points', points)
 		return points
 	end
+	def self.get_type(type)
+		if type == 'exec'
+			return chair
+		end
+	end
+	
 	def self.attended_events(email)
 		""" gets the events that this member attended """
 		events = ParseEvent.limit(1000).where(semester_name: ParseSemester.current_semester.name)

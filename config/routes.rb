@@ -322,6 +322,7 @@ Portal::Application.routes.draw do
   resources :tabling do
     collection do
       get 'check' #hack 
+      get 'check2' #hack checks who confirmed
       post 'switch_tabling'
       get 'whenisgood'
       get 'slot_guide'

@@ -12,6 +12,27 @@ class TablingController < ApplicationController
 		end
 	end
 
+	def check2
+		@histogram = TablingHist.limit(100000).all
+		@unconf_hash = {}
+		@conf_hash = {}
+		@histogram.each do |hist|
+			hist.get_confirmed.each do |conf|
+				if not @conf_hash.keys.include?(conf)
+					@conf_hash[conf] = 0
+				end
+				@conf_hash[conf] += 1
+			end
+			hist.get_unconfirmed.each do |conf|
+				if not @unconf_hash.keys.include?(conf)
+					@unconf_hash[conf] = 0
+				end
+				@unconf_hash[conf] += 1
+			end
+		end
+		@member_hash = SecondaryEmail.email_lookup_hash
+
+	end
 	def check
 		slots = TablingHist.all.to_a
 		@slots = slots

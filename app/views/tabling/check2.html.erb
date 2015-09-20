@@ -1,0 +1,45 @@
+<style type = 'text/css'>
+.person{
+	float:left;
+}
+</style>
+<h1>tabling check2</h1>
+<h2>who did not confirm on the histogram</h2>
+<table class = 'table table-striped'>
+	<thead>
+		<th></th>
+		<th>Name</th>
+		<th>Committee</th>
+		<th>Num slots</th>
+	</thead>
+	<tbody>
+		<% @unconf_hash.keys.each do |email| %>
+		<tr>
+		<td><img src = '<%= @member_hash[email].gravatar_url %>' class = 'profile-image-small'/></td>
+		<td><%= @member_hash[email].name %></td>
+		<td><%= @member_hash[email].committee %></td>
+		<td><%= @unconf_hash[email] %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>
+
+<h2>who did confirm on the histogram</h2>
+<table class = 'table table-striped'>
+	<thead>
+		<th></th>
+		<th>Name</th>
+		<th>Committee</th>
+		<th>Num slots</th>
+	</thead>
+	<tbody>
+		<% @conf_hash.keys.each do |email| %>
+		<tr>
+		<td><img src = '<%= @member_hash[email].gravatar_url %>' class = 'profile-image-small'/></td>
+		<td><%= @member_hash[email].name %></td>
+		<td><%= @member_hash[email].committee %></td>
+		<td><%= @conf_hash[email] %></td>
+		</tr>
+	<% end %>
+	</tbody>
+</table>

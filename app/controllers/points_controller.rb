@@ -25,6 +25,7 @@ class PointsController < ApplicationController
 		event_id = params[:event_id]
 		email = params[:email]
 		type = params[:type]
+		type = PointManager.get_type(type)
 		puts 'the type was '+type
 		# save the data in parse
 		ems = ParseEventMember.where(event_id: event_id).where(member_email: email).to_a
