@@ -1,0 +1,40 @@
+<style type = 'text/css'>
+.major-td{
+  width:15%;
+}
+</style>
+
+<% @committee_hash.keys.each do |committee| %>
+  <h1>
+    <%= committee %>
+  </h1>
+  <table class='table table-striped'>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Committee</th>
+      <th>Role</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Year</th>
+      <th>Major</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @committee_hash[committee].each do |member| %>
+      <tr>
+        <td><a href = 'javascript:void(0)' class = 'member-link' data-email = '<%= member.email %>' data-name = '<%= member.name %>' data-toggle="modal" data-target="#myModal"><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img></a></td>
+        <td><%= member.name %></td>
+        <td><%= member.committee %></td>
+        <td><%= member.position ? member.position.capitalize : 'none' %></td>
+        <td><%= member.email %></td>
+        <td><%= member.phone %></td>
+        <td><%= member.year %></td>
+        <td class = 'major-td'><%= member.major %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>

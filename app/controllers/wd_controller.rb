@@ -18,4 +18,9 @@ class WdController < ApplicationController
 		@member_email_hash = SecondaryEmail.email_lookup_hash
 		render 'kimberly'
 	end
+
+	def eric
+		@committee_hash = ParseMember.committee_hash
+		@current_member = current_member
+	end
 end
