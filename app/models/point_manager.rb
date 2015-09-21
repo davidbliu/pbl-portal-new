@@ -16,6 +16,18 @@
 		Rails.cache.write(email+'_points', points)
 		return points
 	end
+
+	def self.get_committee_points(committee)
+		# Rails.cache.fetch committee+'_points' do 
+		# 	events = ParseEvent.limit(10000).where(semester_name: ParseSemester.current_semester.name)
+		# 	member_events = ParseEventMember.limit(1000000).where(member_email: email).select{|x| x.type == 'chair' or x.type == 'exec'}
+		# 	eids = member_events.map{|x| x.event_id}
+		# 	attended = events.select{|x| eids.include?(x.google_id)}
+		# 	return attended
+		# end
+		return 10
+	end
+
 	def self.get_type(type)
 		if type == 'exec'
 			return chair

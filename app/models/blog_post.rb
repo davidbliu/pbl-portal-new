@@ -79,7 +79,7 @@ class BlogPost < ParseResource::Base
 	end
 
 	def self.tags 
-		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', "Email", "Tech"]
+		return ['Other', 'Announcements', 'Events', 'Reminders', 'CO', 'CS', 'FI', 'HT', 'IN', 'PB', 'SO', 'WD', 'EX', 'PD', 'MK', 'OF', "Email", "Tech"]
 	end
 
 	def self.permissions
