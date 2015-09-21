@@ -77,6 +77,20 @@ class ParseMember < ParseResource::Base
 		ParseMember.limit(100000).order("committee").where(latest_semester: semester.name)
 	end
 
+	def self.committee_hash(semester = ParseSemester.current_semester)
+		Rails.cache.fetch "committee_hash" do
+			current_members = self.current_members
+			member_hash = Hash.new
+			current_members.each do |member|
+				if not member_hash.keys.include?(member.committee)
+					member_hash[member.committee] = Array.new
+				end
+				member_hash[member.committee] << member
+			end
+			return member_hash
+		end
+	end
+
 	def self.committee_members(semester = ParseSemester.current_semester, committee)
 		ParseMember.where(latest_semester:semester.name).where(committee:committee)
 	end

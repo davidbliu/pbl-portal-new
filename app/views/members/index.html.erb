@@ -1,12 +1,14 @@
-
 <style type = 'text/css'>
 .major-td{
   width:15%;
 }
 </style>
-<%= render partial: 'layouts/modal' %>
-<% if @current_member %>
-<table class='table table-striped'>
+
+<% @committee_hash.keys.each do |committee| %>
+  <h1>
+    <%= committee %>
+  </h1>
+  <table class='table table-striped'>
   <thead>
     <tr>
       <th></th>
@@ -21,7 +23,7 @@
   </thead>
 
   <tbody>
-    <% @current_members.each do |member| %>
+    <% @committee_hash[committee].each do |member| %>
       <tr>
         <td><a href = 'javascript:void(0)' class = 'member-link' data-email = '<%= member.email %>' data-name = '<%= member.name %>' data-toggle="modal" data-target="#myModal"><img src = '<%= member.gravatar_url %>' class = 'profile-image profile-image-small'></img></a></td>
         <td><%= member.name %></td>
@@ -35,9 +37,4 @@
     <% end %>
   </tbody>
 </table>
-<%else%>
-<h3>Please sign in to view the portal.</h3>
 <% end %>
-<br>
-
-<%= javascript_include_tag 'member_modal.js' %>
