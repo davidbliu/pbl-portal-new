@@ -1,5 +1,0 @@
-<h1><%= @events.length %> Synced with Google</h1>
-
-<%= @events.each do |event| %>
-<p><%= event.name %>, <%= event.time_string %>, <% if event.semester_id %><%= @semester_hash[event.semester_id].name %><% end %>, <%= event.location %>, <%= event.description %></p>
-<% end %>
