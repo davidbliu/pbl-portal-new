@@ -4,4 +4,7 @@ class PushController < ApplicationController
 		render 'index', :layout=>false
 	end
 
+	def register_push
+	end
+
 end

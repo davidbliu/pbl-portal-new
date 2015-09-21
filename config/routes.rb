@@ -86,6 +86,7 @@ Portal::Application.routes.draw do
 
   get 'go/quick_add', to:'go#quick_add'
 
+
   """ cache """
   get '/cache_golinks', to:'cache#cache_golinks'
   get '/cache_members', to: 'cache#cache_members'
@@ -148,7 +149,7 @@ Portal::Application.routes.draw do
   """ push notifications """
   get '/push', to:'push#index'
   get '/pull_notifications', to: 'members#notifications'
-
+  get '/push/register_push', to: 'push#register_push'
 
   """me routes"""
   get '/member/:email', to: 'members#member'
