@@ -3,6 +3,16 @@ class ParseGoLink < ParseResource::Base
 	fields :key, :url, :description, :member_id, :old_id, :type, :directory, 
 	:old_member_id, :num_clicks, :member_email, :permissions, :parse_id, :rating, :votes, :tags
 
+	MAXINT = (2**(0.size * 8 -2) -1)
+	def self.all_golinks
+		Rails.cache.fetch 'all_golinks' do 
+			puts 'fetching from real '
+			golinks = ParseGoLink.limit(MAXINT).all.to_a
+			Rails.cache.write('all_golinks', golinks)
+			return golinks
+		end
+	end
+
 
 	def get_num_clicks
 		self.num_clicks ? self.num_clicks : 0

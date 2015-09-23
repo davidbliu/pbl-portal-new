@@ -3,7 +3,13 @@ Portal::Application.routes.draw do
   get "/sign_out", to: "auth#sign_out"
   # get "/auth/google_oauth2/callback", to: "sessions#sign_onto_google"
 
-
+  """ API Server """
+  resources :api do 
+    collection do 
+      get 'all_golinks'
+      get 'recent_clicks'
+    end
+  end
 
   # get "/pull_google_events", to: "events#pull_google_events"
   root 'members#home'
