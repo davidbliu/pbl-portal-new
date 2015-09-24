@@ -7,12 +7,49 @@ class ParseGoLink < ParseResource::Base
 	def self.all_golinks
 		Rails.cache.fetch 'all_golinks' do 
 			puts 'fetching from real '
-			golinks = ParseGoLink.limit(MAXINT).all.to_a
+			golinks = ParseGoLink.order('num_clicks desc').limit(MAXINT).all.to_a
 			Rails.cache.write('all_golinks', golinks)
 			return golinks
 		end
 	end
 
+	def to_json
+		json_hash = {}
+		json_hash['id'] = self.get_parse_id
+		json_hash['key'] = self.key
+		json_hash['url'] = self.url
+		json_hash['description'] = self.description
+		json_hash['tags'] = self.get_tags
+		json_hash['type'] = self.resolve_type
+		json_hash['member_email'] = self.member_email ? self.member_email : 'no_email'
+		json_hash['permissions'] = self.get_permissions
+		json_hash['num_clicks'] = self.get_num_clicks
+		return json_hash
+	end
+
+	def self.main_users
+		Rails.cache.fetch 'golink_users' do
+			puts 'fetching'
+			users = {}
+			clicks = ParseGoLinkClick.order("time desc").limit(10000).to_a
+			clicks.each do |click|
+				if not users.keys.include?(click.member_email)
+					users[click.member_email] = 0
+				end
+				users[click.member_email] += 1
+			end
+			user_list = []
+			users.keys.each do |user|
+				user_list << {'email'=> user, 'num_clicks'=> users[user]}
+			end
+			puts user_list
+			Rails.cache.write('golink_users', user_list)
+			return user_list
+		end
+	end
+
+	def self.main_adders
+	end
 
 	def get_num_clicks
 		self.num_clicks ? self.num_clicks : 0
@@ -256,6 +293,7 @@ class ParseGoLink < ParseResource::Base
 		type = self.resolve_type
 		return ParseGoLink.type_to_image(type)
 	end
+
 
 	def self.type_to_image(type)
 		prefix = '/assets/'

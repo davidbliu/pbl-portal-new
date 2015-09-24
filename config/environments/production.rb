@@ -85,6 +85,4 @@ Portal::Application.configure do
   config.assets.compile = true
   config.assets.precompile =  ['*.js', '*.css', '*.css.erb'] 
   # config.serve_static_assets = true
-
-
 end

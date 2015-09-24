@@ -8,6 +8,10 @@ Portal::Application.routes.draw do
     collection do 
       get 'all_golinks'
       get 'recent_clicks'
+      get 'search_golinks'
+      get 'main_users'
+      get 'user_clicks'
+      post 'save_golink'
     end
   end
 
