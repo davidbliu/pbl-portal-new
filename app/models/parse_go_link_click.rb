@@ -36,6 +36,10 @@ class ParseGoLinkClick < ParseResource::Base
 		self.get_time.strftime("%b %e, %Y at %l:%M %p")
 	end
 
+	def timestamp
+		self.time.to_i
+	end
+
 	def self.click_hash 
 		chash = Hash.new
 		ParseGoLinkClick.limit(10000000).all.each do |click|

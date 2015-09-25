@@ -23,6 +23,24 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def send_push
+		recipients = params[:recipients]
+		message = params[:message]
+		links = params[:links]
+		email = params[:email]
+		recipients = Set.new(recipients).to_a
+		Share.create(sender: email, recipient: 'old', message: message, links: links, time:Time.now, message_id: SecureRandom.hex.to_s, all_recipients: recipients.join(','))
+		recipients << email
+		message = NotificationClient.push(current_member, recipients, 'PBL Link Notifier',  message, links)
+		render json: message
+	end
+	def golink_clicks
+		key = params[:key]
+		clicks = ParseGoLinkClick.limit(1000).order('createdAt desc').where(key: key).to_a
+		clicks = clicks.map{|x| {'email'=> x.member_email, 'time'=>x.time_string, 'timestamp'=>x.timestamp}}
+		render json: clicks
+	end
+
 	def get_link_post
 		search_term = params[:search_term]
 		post = PgPost.where(title: search_term)
@@ -109,6 +127,18 @@ class ApiController < ApplicationController
 	def main_users
 		@main_users = ParseGoLink.main_users
 		render json: @main_users
+	end
+
+	def add_golink
+		key = params[:key]
+		url = params[:url]
+		email = params[:email]
+		golink = ParseGoLink.create(url:url, key: key, permissions:'Anyone', member_email:email)
+		# reflect changes in GoLink so appears in search
+		gl = GoLink.new(key: key, member_email: email, permissions: 'Anyone', url: url)
+		gl.parse_id = golink.id
+		gl.save
+		render nothing:true, status:200
 	end
 
 	def save_golink

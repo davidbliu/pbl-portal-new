@@ -12,11 +12,16 @@ Portal::Application.routes.draw do
       get 'main_users'
       get 'user_clicks'
       post 'save_golink'
+      post 'add_golink'
       get 'popular_golinks'
       get 'recent_golinks'
       post 'delete_golink'
       get 'top_recent'
       get 'get_link_post'
+      get 'golink_clicks'
+      
+      '''push notifications'''
+      post 'send_push'
 
 
       """ golink users """
