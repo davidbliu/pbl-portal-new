@@ -23,6 +23,19 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def get_link_post
+		search_term = params[:search_term]
+		post = PgPost.where(title: search_term)
+		if post.length == 0
+			puts 'no post for that resutl'
+			render nothing: true, status:200
+		else
+			puts 'found post'
+			puts post.first.content
+			render json: {'content'=>post.first.content}
+		end
+	end
+
 	def top_recent
 		email = get_email_from_token(params[:token])
 		@results = GoStat.top_recent
@@ -63,7 +76,13 @@ class ApiController < ApplicationController
 		search_term = params[:search_term]
 		email = get_email_from_token(params[:token])
 		page = params[:page] ? params[:page] : 1
-		@golinks = ParseGoLink.search(search_term)
+		# if tag search
+		if search_term.include?('#')
+			@golinks = ParseGoLink.tag_search(search_term.gsub('#', ''))
+		else
+		# if regular search
+			@golinks = ParseGoLink.search(search_term)
+		end
 		@golinks = @golinks.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}.map{|x| x.to_json}
 		render json: @golinks.paginate(:page => page, :per_page => 100)
 	end

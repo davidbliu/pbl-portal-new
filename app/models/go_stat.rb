@@ -48,7 +48,7 @@ class GoStat < ParseResource::Base
 			results << {'num_clicks' => click_hash[gl.get_parse_id], 'golink'=> gl.to_json}
 		end
 		# puts golinks
-		self.put_key(results.to_json)
+		self.put_key('top_recent', results.to_json)
 	end
 
 	def self.recent_contributors

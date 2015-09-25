@@ -16,6 +16,7 @@ Portal::Application.routes.draw do
       get 'recent_golinks'
       post 'delete_golink'
       get 'top_recent'
+      get 'get_link_post'
 
 
       """ golink users """
