@@ -1,6 +1,6 @@
 class ParseGoLinkClick < ParseResource::Base
 
-	fields :key, :member_id, :time, :old_member_id, :member_email, :golink_id
+	fields :key, :golink_id, :time, :member_email
 
 	def self.histogram
 		# keys are ids, values are num clicks

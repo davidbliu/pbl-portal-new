@@ -12,6 +12,20 @@ Portal::Application.routes.draw do
       get 'main_users'
       get 'user_clicks'
       post 'save_golink'
+      get 'popular_golinks'
+      get 'recent_golinks'
+      post 'delete_golink'
+      get 'top_recent'
+
+
+      """ golink users """
+      get 'contributors'
+      get 'contributions'
+      
+
+      """ members """
+      get 'current_members'
+      get 'committee_hash'
     end
   end
 

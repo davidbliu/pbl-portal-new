@@ -9,6 +9,18 @@ class ParseMember < ParseResource::Base
 	# member blog migration
 	:latest_semester, :position
 	
+	def to_json
+		jsonRep = {}
+		jsonRep['name']=self.name
+		jsonRep['email'] = self.email
+		jsonRep['id'] = self.email
+		jsonRep['gravatar_url']=self.gravatar_url
+		jsonRep['committee'] = self.committee
+		jsonRep['latest_semester'] = self.latest_semester
+		jsonRep['position'] = self.position
+		return jsonRep
+	end
+
 	def gravatar_url(size = 100)
 		if self.facebook_url
 			return facebook_url

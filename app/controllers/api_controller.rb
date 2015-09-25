@@ -23,6 +23,12 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def top_recent
+		email = get_email_from_token(params[:token])
+		@results = GoStat.top_recent
+		render json: @results
+	end
+
 	def get_email_from_token(token)
 		if not token
 			return nil
@@ -46,6 +52,13 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def recent_golinks
+		email = get_email_from_token(params[:token])
+		@golinks = ParseGoLink.order('createdAt desc').all.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}
+		@golinks = @golinks.map{|x| x.to_json}
+		render json: @golinks
+	end
+
 	def search_golinks
 		search_term = params[:search_term]
 		email = get_email_from_token(params[:token])
@@ -53,6 +66,13 @@ class ApiController < ApplicationController
 		@golinks = ParseGoLink.search(search_term)
 		@golinks = @golinks.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}.map{|x| x.to_json}
 		render json: @golinks.paginate(:page => page, :per_page => 100)
+	end
+
+	def popular_golinks
+		email = get_email_from_token(params[:token])
+		@golinks = ParseGoLink.order("num_clicks desc").select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}
+		@golinks = @golinks.map{|x| x.to_json}
+		render json: @golinks	
 	end
 
 	def recent_clicks
@@ -105,6 +125,34 @@ class ApiController < ApplicationController
 		end
 		golink.save
 		render nothing:true, status:200
-
 	end
+	def delete_golink
+		ParseGoLink.find(params[:id]).destroy
+		GoLink.destroy_all(parse_id: params[:id])
+		render nothing:true, status:200
+	end
+
+	""" golink users """
+	def contributors
+		render json: GoStat.contributors
+	end
+
+	def contributions
+		email = params[:email]
+		token = params[:token]
+		my_email = get_email_from_token(token)
+		contributions = ParseGoLink.limit(1000).order('createdAt desc').where(member_email: email).to_a
+		contributions = contributions.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[my_email])}
+		contributions = contributions.map{|x| x.to_json}
+		render json: contributions
+	end
+
+
+	""" Members API Routes"""
+	def current_members
+		render json: ParseMember.current_members.map{|x| x.to_json}
+	end
+	# def committee_hash
+		# render 
+	# end
 end
