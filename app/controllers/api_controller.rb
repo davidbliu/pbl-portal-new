@@ -24,6 +24,8 @@ class ApiController < ApplicationController
 		end
 	end
 
+
+
 	def get_email_from_token(token)
 		if not token
 			return nil
@@ -46,6 +48,11 @@ class ApiController < ApplicationController
 
 	def api_key
 		render json: ParseGoLink.to_hex(current_member.email)
+	end
+
+	def link_posts
+		posts = PgPost.where("title like ?", "%\#%").map{|x| x.to_parse.to_json}
+		render json: posts
 	end
 
 	def go_tags

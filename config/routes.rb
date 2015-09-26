@@ -8,6 +8,7 @@ Portal::Application.routes.draw do
     collection do 
       get 'api_key'
 
+      """ pbl links """
       get 'all_golinks'
       get 'recent_clicks'
       get 'search_golinks'
@@ -28,10 +29,12 @@ Portal::Application.routes.draw do
       post 'register_push'
       get 'my_chrome_id'
 
-
       """ golink users """
       get 'contributors'
       get 'contributions'
+
+      """ blog """
+      get 'link_posts'
       
 
       """ members """

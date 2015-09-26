@@ -2,6 +2,18 @@ class BlogPost < ParseResource::Base
 	fields :title, :content, :author, :view_permissions, 
 	:edit_permissions, :timestamp, :parse_id, :post_type, :tags, :last_editor
 
+	def to_json
+		jsonHash = {}
+		jsonHash['title']= self.title
+		jsonHash['content']=self.content
+		jsonHash['author']=self.author
+		jsonHash['view_permissions']=self.view_permissions
+		jsonHash['edit_permissions']=self.edit_permissions
+		jsonHash['timestamp']=self.timestamp
+		jsonHash['tags']=self.tags
+		jsonHash['last_editor']=self.last_editor
+		return jsonHash
+	end
 	def self.pinned_posts
 		a = Rails.cache.read('pinned_posts')
 		if a
