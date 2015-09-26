@@ -8,6 +8,7 @@ class ParseEvent < ParseResource::Base
             'start_time'=> self.start_time, 
             'end_time'=> self.end_time, 
             'semester'=> self.semester_name, 
+            'timestamp'=>Time.parse(self.start_time).to_i,
             'id'=>self.google_id,
             'points' => self.points}
   end
