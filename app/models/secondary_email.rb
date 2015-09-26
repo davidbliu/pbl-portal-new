@@ -11,6 +11,18 @@ class SecondaryEmail < ParseResource::Base
 		return h
 	end
 
+	def self.json_email_lookup_hash
+		Rails.cache.fetch 'json_email_lookup_hash' do 
+			h = Hash.new
+			lookup_hash = self.email_lookup_hash
+			lookup_hash.keys.each do |email|
+				h[email] = lookup_hash[email].to_json
+			end
+			Rails.cache.write('json_email_lookup_hash', h)
+			return h
+		end
+	end
+
 	def self.valid_emails
 		v = Rails.cache.read('valid_emails')
 		if v!= nil

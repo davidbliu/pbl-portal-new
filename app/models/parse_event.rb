@@ -1,9 +1,37 @@
 class ParseEvent < ParseResource::Base
   fields :name, :location, :start_time, :end_time, :description, :points, :google_id, :type, :semester_name, :points
-
+  MAXINT = (2**(0.size * 8 -2) -1)
   """ convenience methods: a replacement for PointManager"""
+  def to_json
+    return {'name' => self.name,
+            'location' => self.location,
+            'start_time'=> self.start_time, 
+            'end_time'=> self.end_time, 
+            'semester'=> self.semester_name, 
+            'id'=>self.google_id,
+            'points' => self.points}
+  end
+
+  def self.all_events
+    ParseEvent.limit(MAXINT).where(semester_name: ParseSemester.current_semester.name)
+  end
+
+  def self.event_point_hash
+    Rails.cache.fetch 'event_point_hash' do 
+      h = {}
+      self.all_events.each do |event|
+        h[event.get_id] = event.points
+      end
+      Rails.cache.write('event_point_hash', h)
+      return h
+    end
+  end
   def self.attended_events(member, semester = ParseSemester.current_semester)
     
+  end
+
+  def get_id
+    return self.google_id ? self.google_id : 'noid'
   end
 
   def get_points

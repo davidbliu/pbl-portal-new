@@ -36,9 +36,18 @@ Portal::Application.routes.draw do
       """ blog """
       get 'link_posts'
       
+      """ points """
+  
+      get 'points'
+      get 'get_points'
+
+      """ events """
+      get 'events'
+      get 'attendees'
 
       """ members """
       get 'current_members'
+      get 'member_hash'
       get 'committee_hash'
     end
   end

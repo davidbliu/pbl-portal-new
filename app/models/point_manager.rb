@@ -1,7 +1,7 @@
  class PointManager < ActiveRecord::Base
 	attr_accessible :semester_id
 	belongs_to :semester, foreign_key: :semester_id
-
+	MAXINT = (2**(0.size * 8 -2) -1)
 	
 	def self.get_points(email)
 		a = Rails.cache.read(email+'_points')
@@ -16,6 +16,31 @@
 		Rails.cache.write(email+'_points', points)
 		return points
 	end
+
+	def self.json_get_points(email)
+		points = self.get_points(email)
+		jsonPoints = {}
+		jsonPoints['points'] = points['points']
+		jsonPoints['attended'] = points['attended'].map{|x| x.get_id}
+		return jsonPoints
+	end
+
+	#calculate points for each member
+	def self.all_points
+		event_members = ParseEventMember.limit(MAXINT).all.to_a
+		event_point_hash = ParseEvent.event_point_hash
+		point_hash = {}
+		event_members.each do |em|
+			if event_point_hash.keys.include?(em.event_id)
+				if not point_hash.keys.include?(em.member_email)
+					point_hash[em.member_email] = 0
+				end
+				point_hash[em.member_email] += event_point_hash[em.event_id]
+			end
+		end
+		return point_hash.keys.map{|x| {'email'=>x, 'points'=>point_hash[x]}}
+	end
+
 
 	def self.get_committee_points(committee)
 		# Rails.cache.fetch committee+'_points' do 
@@ -44,12 +69,12 @@
 		return attended
 	end
 
-	def self.points(member_id)
-		""" gets this member's points """
+	# def self.points(member_id)
+	# 	""" gets this member's points """
 
-		events = self.attended_events(member_id)
-		return events.pluck(:points).sum
-	end
+	# 	events = self.attended_events(member_id)
+	# 	return events.pluck(:points).sum
+	# end
 
 	def self.member_point_dict(semester = Semester.current_semester)
 		""" returns a dict of keys member ids and values points """

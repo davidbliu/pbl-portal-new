@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check, :authenticate_token
+	before_filter :cors_preflight_check#, :authenticate_token
 	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
@@ -235,6 +235,29 @@ class ApiController < ApplicationController
 	""" Members API Routes"""
 	def current_members
 		render json: ParseMember.current_members.map{|x| x.to_json}
+	end
+
+	def member_hash
+		render json: SecondaryEmail.json_email_lookup_hash
+	end
+
+	""" Points API Routes"""
+	def get_points
+		render json: PointManager.json_get_points(params[:email])
+	end
+
+	def points
+		render json: PointManager.all_points
+	end
+
+	""" Events API Routes """
+	def events
+		render json: ParseEvent.all_events.map{|x| x.to_json}
+	end
+
+	def attendees
+		event_id = params[:event_id]
+		render json: ParseEventMember.attendees(event_id)
 	end
 	# def committee_hash
 		# render 
