@@ -1,7 +1,8 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check
+	before_filter :cors_preflight_check, :authenticate_token
+	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
 	# davids token is 6461766964626c697540676d61696c2e636f6d
@@ -23,6 +24,50 @@ class ApiController < ApplicationController
 		end
 	end
 
+	def get_email_from_token(token)
+		if not token
+			return nil
+		end
+		s = token.scan(/../).map { |x| x.hex.chr }.join
+		return s
+	end
+
+	def authenticate_token
+		token = params[:token]
+		if not token
+			render nothing: true, status: 200
+		else
+			@email = get_email_from_token(token)
+		end
+		if not SecondaryEmail.valid_emails.include?(@email)
+			render nothing:true, status:200
+		end
+	end
+
+	def api_key
+		render json: ParseGoLink.to_hex(current_member.email)
+	end
+
+	def go_tags
+		tags = GoStat.tags
+		render json:tags
+	end
+
+	def my_chrome_id
+		nc = NotificationClient.where(email: @email).to_a
+		if nc.length > 0
+			render json: {'id'=>nc[0].registration_id}
+		else
+			render json: {'id'=>''}
+		end
+	end
+	def register_push
+		chrome_id = params[:chrome_id]
+		email = params[:email]
+		NotificationClient.register(email, chrome_id)
+		render nothing:true, status:200
+	end
+
 	def send_push
 		recipients = params[:recipients]
 		message = params[:message]
@@ -34,6 +79,7 @@ class ApiController < ApplicationController
 		message = NotificationClient.push(current_member, recipients, 'PBL Link Notifier',  message, links)
 		render json: message
 	end
+
 	def golink_clicks
 		key = params[:key]
 		clicks = ParseGoLinkClick.limit(1000).order('createdAt desc').where(key: key).to_a
@@ -55,44 +101,29 @@ class ApiController < ApplicationController
 	end
 
 	def top_recent
-		email = get_email_from_token(params[:token])
 		@results = GoStat.top_recent
 		render json: @results
 	end
 
-	def get_email_from_token(token)
-		if not token
-			return nil
-		end
-		s = token.scan(/../).map { |x| x.hex.chr }.join
-		return s
-	end
+	
 
 	def all_golinks
 		sort_by = 'createdAt desc'
-		email = get_email_from_token(params[:token])
-		puts 'email was '+email.to_s
 		page = params[:page] ? params[:page] : 1
-		if not email
-			render json: []
-		else
-			@golinks = GoLink.order("created_at desc").all.paginate(:page=>page, :per_page=>100).map{|x| x.to_parse}.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}
-			# to json
-			@golinks = @golinks.map{|x| x.to_json}
-			render json: @golinks # @golinks.paginate(:page => page, :per_page => 100)
-		end
+		@golinks = GoLink.order("created_at desc").all.paginate(:page=>page, :per_page=>100).map{|x| x.to_parse}.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[@email])}
+		# to json
+		@golinks = @golinks.map{|x| x.to_json}
+		render json: @golinks
 	end
 
 	def recent_golinks
-		email = get_email_from_token(params[:token])
-		@golinks = ParseGoLink.order('createdAt desc').all.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}
+		@golinks = ParseGoLink.order('createdAt desc').all.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[@email])}
 		@golinks = @golinks.map{|x| x.to_json}
 		render json: @golinks
 	end
 
 	def search_golinks
 		search_term = params[:search_term]
-		email = get_email_from_token(params[:token])
 		page = params[:page] ? params[:page] : 1
 		# if tag search
 		if search_term.include?('#')
@@ -101,13 +132,12 @@ class ApiController < ApplicationController
 		# if regular search
 			@golinks = ParseGoLink.search(search_term)
 		end
-		@golinks = @golinks.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}.map{|x| x.to_json}
+		@golinks = @golinks.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[@email])}.map{|x| x.to_json}
 		render json: @golinks.paginate(:page => page, :per_page => 100)
 	end
 
 	def popular_golinks
-		email = get_email_from_token(params[:token])
-		@golinks = ParseGoLink.order("num_clicks desc").select{|x| x.can_view(SecondaryEmail.email_lookup_hash[email])}
+		@golinks = ParseGoLink.order("num_clicks desc").select{|x| x.can_view(SecondaryEmail.email_lookup_hash[@email])}
 		@golinks = @golinks.map{|x| x.to_json}
 		render json: @golinks	
 	end
@@ -132,10 +162,9 @@ class ApiController < ApplicationController
 	def add_golink
 		key = params[:key]
 		url = params[:url]
-		email = params[:email]
-		golink = ParseGoLink.create(url:url, key: key, permissions:'Anyone', member_email:email)
+		golink = ParseGoLink.create(url:url, key: key, permissions:'Anyone', member_email:@email)
 		# reflect changes in GoLink so appears in search
-		gl = GoLink.new(key: key, member_email: email, permissions: 'Anyone', url: url)
+		gl = GoLink.new(key: key, member_email: @email, permissions: 'Anyone', url: url)
 		gl.parse_id = golink.id
 		gl.save
 		render nothing:true, status:200
@@ -189,9 +218,8 @@ class ApiController < ApplicationController
 	def contributions
 		email = params[:email]
 		token = params[:token]
-		my_email = get_email_from_token(token)
 		contributions = ParseGoLink.limit(1000).order('createdAt desc').where(member_email: email).to_a
-		contributions = contributions.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[my_email])}
+		contributions = contributions.select{|x| x.can_view(SecondaryEmail.email_lookup_hash[@email])}
 		contributions = contributions.map{|x| x.to_json}
 		render json: contributions
 	end

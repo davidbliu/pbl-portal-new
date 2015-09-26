@@ -1,3 +1,4 @@
+require 'set'
 class GoStat < ParseResource::Base
 	fields :name, :data, :other
 	MAXINT = (2**(0.size * 8 -2) -1)
@@ -28,6 +29,10 @@ class GoStat < ParseResource::Base
 	def self.contributors
 		c = self.get_key('contributors')
 		return c ? c : []
+	end
+
+	def self.tags
+		return self.get_key('tags')
 	end
 
 	""" calculate methods """
@@ -74,6 +79,16 @@ class GoStat < ParseResource::Base
 			contributors << {'email'=>c, 'num_added'=> adders[c]}
 		end
 		self.put_key('contributors', contributors.to_json)
+	end
+
+	def self.calculate_tags
+		tags = []
+		ParseGoLink.limit(MAXINT).all.each do |golink|
+			tags.push(*golink.get_tags)  
+		end
+		tags = Set.new(tags).to_a
+		puts tags
+		self.put_key('tags', tags.to_json)
 	end
 
 end

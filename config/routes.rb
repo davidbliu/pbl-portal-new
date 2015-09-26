@@ -6,6 +6,8 @@ Portal::Application.routes.draw do
   """ API Server """
   resources :api do 
     collection do 
+      get 'api_key'
+
       get 'all_golinks'
       get 'recent_clicks'
       get 'search_golinks'
@@ -19,9 +21,12 @@ Portal::Application.routes.draw do
       get 'top_recent'
       get 'get_link_post'
       get 'golink_clicks'
+      get 'go_tags'
       
       '''push notifications'''
       post 'send_push'
+      post 'register_push'
+      get 'my_chrome_id'
 
 
       """ golink users """
@@ -46,6 +51,7 @@ Portal::Application.routes.draw do
   get '/clearcache', to: 'application#clearcache'
 
   # get '/go', to: 'go#typeahead'
+  get '/go/pooble_redirect', to:'go#pooble_redirect'
   get '/go', to: 'go#home'
   get '/go/manage', to: 'go#manage'
   get '/go/add', to:'go#add'

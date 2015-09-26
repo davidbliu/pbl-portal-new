@@ -32,3 +32,4 @@ cron.log
 error.log
 /log/*
 /config/database.yml
+/tabling-backups*

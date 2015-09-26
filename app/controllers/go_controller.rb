@@ -13,6 +13,11 @@ class GoController < ApplicationController
 		end
 	end
 
+	def pooble_redirect
+		token = ParseGoLink.to_hex(current_member.email)
+		redirect_to 'http://wd.berkeley-pbl.com/pooble/mainpage.html?token='+token
+	end
+
 	def home
 		if params[:no_permissions]
 			@no_permissions = true

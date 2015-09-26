@@ -13,6 +13,15 @@ class ParseGoLink < ParseResource::Base
 		end
 	end
 
+	def self.to_hex(email)
+		hex_str = ''
+		email.each_byte do |c|
+			hex_str+=c.to_s(16)
+		end
+		return hex_str
+	end
+
+
 	def to_json
 		json_hash = {}
 		json_hash['id'] = self.get_parse_id
@@ -24,7 +33,12 @@ class ParseGoLink < ParseResource::Base
 		json_hash['member_email'] = self.member_email ? self.member_email : 'no_email'
 		json_hash['permissions'] = self.get_permissions
 		json_hash['num_clicks'] = self.get_num_clicks
+		json_hash['time'] = self.time_string
 		return json_hash
+	end
+
+	def time_string
+		self.updated_at ? self.updated_at_string : 'no_time'
 	end
 
 	def self.main_users
