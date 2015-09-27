@@ -23,6 +23,12 @@ Portal::Application.routes.draw do
       get 'get_link_post'
       get 'golink_clicks'
       get 'go_tags'
+
+      """ pages """ 
+      get 'page_posts'
+      get 'pages'
+      get 'page_names'
+      post 'save_page_post'
       
       '''push notifications'''
       post 'send_push'

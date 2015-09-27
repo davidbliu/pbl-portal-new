@@ -1,4 +1,12 @@
 namespace :go_links do
+	task :get_posts => :environment do 
+		posts = BlogPost.limit(1000000).all.each do |post|
+			if post.title.include?('#')
+				puts post.title
+				LinkPost.create(title: post.title, content: post.content, tag: post.title)
+			end
+		end
+	end
 	task :populate  => :environment do
 		file = File.read('go_links.json') 
 		go_links = JSON.parse(file)

@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check, :authenticate_token
+	before_filter :cors_preflight_check#, :authenticate_token
 	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
@@ -23,8 +23,6 @@ class ApiController < ApplicationController
 			render :text => '', :content_type => 'text/plain'
 		end
 	end
-
-
 
 	def get_email_from_token(token)
 		if not token
@@ -48,6 +46,25 @@ class ApiController < ApplicationController
 
 	def api_key
 		render json: ParseGoLink.to_hex(current_member.email)
+	end
+
+	def page_posts
+		render json: LinkPost.page_posts(params[:tag]).map{|x| x.to_json}
+	end
+
+	def pages
+		render json: LinkPost.limit(MAXINT).all.map{|x| x.to_json}
+	end
+
+	def page_names
+		render json: LinkPost.limit(MAXINT).all.map{|x| x.tag}.uniq
+	end
+
+	def save_page_post
+		tag = params[:tag]
+		content = params[:content]
+		LinkPost.save_post(title, content, tag)
+		render nothing: true, status: 200
 	end
 
 	def link_posts
