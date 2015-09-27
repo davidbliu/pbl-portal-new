@@ -63,6 +63,7 @@ class ApiController < ApplicationController
 	def save_page_post
 		tag = params[:tag]
 		content = params[:content]
+		title = params[:title]
 		LinkPost.save_post(title, content, tag)
 		render nothing: true, status: 200
 	end
