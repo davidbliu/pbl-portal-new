@@ -60,6 +60,10 @@ class ApiController < ApplicationController
 		render json: LinkPost.limit(MAXINT).all.map{|x| x.tag}.uniq
 	end
 
+	def delete_page_post
+		LinkPost.destroy_all(LinkPost.where(title: params[:title], tag: params[:tag]).to_a)
+		render nothing:true, status:200
+	end
 	def save_page_post
 		tag = params[:tag]
 		content = params[:content]

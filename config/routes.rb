@@ -29,6 +29,7 @@ Portal::Application.routes.draw do
       get 'pages'
       get 'page_names'
       post 'save_page_post'
+      post 'delete_page_post'
       
       '''push notifications'''
       post 'send_push'
