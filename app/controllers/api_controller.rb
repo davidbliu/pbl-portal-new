@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check#, :authenticate_token
+	before_filter :cors_preflight_check, :authenticate_token
 	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
