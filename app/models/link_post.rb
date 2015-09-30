@@ -2,7 +2,7 @@ class LinkPost < ParseResource::Base
 	fields :title, :content, :tag
 
 	def to_json
-		return {'title'=> self.title, 'content'=> self.content, 'tag'=> self.tag}
+		return {'title'=> self.title, 'content'=> self.content, 'tag'=> self.tag, 'id'=>self.id}
 	end
 	def self.save_post(title, content, tag)
 		post = LinkPost.where(title: title).where(tag: tag).to_a

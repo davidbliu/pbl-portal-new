@@ -61,11 +61,13 @@ class ApiController < ApplicationController
 	end
 
 	def delete_page_post
+		# LinkPost.find(params[:id]).destroy
 		LinkPost.destroy_all(LinkPost.where(title: params[:title], tag: params[:tag]).to_a)
 		render nothing:true, status:200
 	end
 	def save_page_post
 		tag = params[:tag]
+		# id = params[:id]
 		content = params[:content]
 		title = params[:title]
 		LinkPost.save_post(title, content, tag)
