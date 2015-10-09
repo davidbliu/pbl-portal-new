@@ -80,11 +80,6 @@ class ParseMember < ParseResource::Base
 	""" get members by types """
 	def self.current_members(semester = ParseSemester.current_semester)
 		""" old method using jointable"""
-		# mhash = ParseMember.email_hash
-		# keys = Set.new(mhash.keys)
-		# emails = ParseCommitteeMember.limit(10000).where(semester_name: semester.name).map{|x| x.member_email}
-		# cms = emails.select{|x| keys.include?(x)}.map{|x| mhash[x]}
-		# return cms
 		""" new method using member blob""" 
 		ParseMember.limit(100000).order("committee").where(latest_semester: semester.name)
 	end

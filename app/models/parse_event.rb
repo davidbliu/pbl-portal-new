@@ -13,6 +13,10 @@ class ParseEvent < ParseResource::Base
             'points' => self.points}
   end
 
+  def get_points
+    self.points ? self.points : 0
+  end
+  
   def self.all_events
     ParseEvent.limit(MAXINT).where(semester_name: ParseSemester.current_semester.name)
   end
@@ -21,7 +25,7 @@ class ParseEvent < ParseResource::Base
     Rails.cache.fetch 'event_point_hash' do 
       h = {}
       self.all_events.each do |event|
-        h[event.get_id] = event.points
+        h[event.get_id] = event.get_points
       end
       Rails.cache.write('event_point_hash', h)
       return h
@@ -88,13 +92,13 @@ class ParseEvent < ParseResource::Base
       	pe.google_id = e.id
       	pe.type = 'google'
         pe.semester_name = find_closest_semester(e.start_time, semesters).name
-        # pe.save
+        pe.save
       	save << pe
       else
         puts 'no changes to ' + pe.name
       end
     end
     puts 'saving all events : '+ save.length.to_s
-    ParseEvent.save_all(save)
+    #ParseEvent.save_all(save)
   end
 end

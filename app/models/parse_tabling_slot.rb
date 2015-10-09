@@ -5,4 +5,8 @@ class ParseTablingSlot < ParseResource::Base
     self.member_emails and self.member_emails != '' ? self.member_emails.split(',') : []
   end
 
+  def to_json
+  	return {'time'=> self.time, 'member_emails'=>self.member_emails.split(',')}
+  end
+
 end

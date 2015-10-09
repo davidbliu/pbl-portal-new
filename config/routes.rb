@@ -22,7 +22,8 @@ Portal::Application.routes.draw do
       get 'top_recent'
       get 'get_link_post'
       get 'golink_clicks'
-      get 'go_tags'
+      get 'go_tags' 
+      get 'url_lookup'
 
       """ pages """ 
       get 'page_posts'
@@ -31,7 +32,7 @@ Portal::Application.routes.draw do
       post 'save_page_post'
       post 'delete_page_post'
       
-      '''push notifications'''
+      """push notifications"""
       post 'send_push'
       post 'register_push'
       get 'my_chrome_id'
@@ -44,7 +45,6 @@ Portal::Application.routes.draw do
       get 'link_posts'
       
       """ points """
-  
       get 'points'
       get 'get_points'
 
@@ -56,6 +56,11 @@ Portal::Application.routes.draw do
       get 'current_members'
       get 'member_hash'
       get 'committee_hash'
+
+      """ tabling """
+      get 'commitments'
+      get 'tabling_schedule'
+      get 'weekly_slots'
     end
   end
 
@@ -300,17 +305,6 @@ Portal::Application.routes.draw do
     end
   end
 
-  # resources :points do
-  #   collection do
-  #     get 'all_points' # display points for all semesters. like a master view
-  #     get 'rankings'
-  #     get 'mark_attendance'
-  #     post 'update_attendance'
-  #     get 'apprentice'
-  #     get 'coocurrence'
-  #   end
-
-  # end
 
   resources :event_members do 
     member do

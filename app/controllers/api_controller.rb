@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check, :authenticate_token
+	before_filter :cors_preflight_check#, :authenticate_token
 	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
@@ -136,7 +136,11 @@ class ApiController < ApplicationController
 		render json: @results
 	end
 
-	
+	def url_lookup
+		url = params[:url]
+		@matches = GoLink.url_matches(url)
+		render json: @matches
+	end
 
 	def all_golinks
 		sort_by = 'createdAt desc'
@@ -198,7 +202,7 @@ class ApiController < ApplicationController
 		gl = GoLink.new(key: key, member_email: @email, permissions: 'Anyone', url: url)
 		gl.parse_id = golink.id
 		gl.save
-		render nothing:true, status:200
+		render json: {"id"=>golink.id, 'golink'=>golink.to_json}
 	end
 
 	def save_golink
@@ -283,7 +287,23 @@ class ApiController < ApplicationController
 		event_id = params[:event_id]
 		render json: ParseEventMember.attendees(event_id)
 	end
-	# def committee_hash
-		# render 
-	# end
+	
+	""" Tabling API Routes """
+	def tabling_schedule
+		render json: ParseTablingSlot.all.to_a.map{|x| x.to_json}
+	end
+	def weekly_slots
+		render json: TablingSlot.all.map{|x| x.to_json}
+	end
+
+	def commitments
+		render json: Commitments.commitments_hash
+	end
+
+	def join_slot
+		email = params[:email]
+		time = params[:time]
+		render nothing: true, status: 200
+	end
+
 end
