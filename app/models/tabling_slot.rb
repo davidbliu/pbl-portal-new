@@ -8,7 +8,15 @@ class TablingSlot < ParseResource::Base
     return Array.new
   end
 
+  def assign_member(email)
+    emails = self.get_member_emails
+    emails << email 
+    self.member_emails = emails.join(',')
+  end
+
+
   def self.init
+    TablingSlot.destroy_all(TablingSlot.all.to_a)
     slots = []
     slots << (10..10+4).to_a
     slots << (34..34+4).to_a

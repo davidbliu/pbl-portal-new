@@ -1,7 +1,7 @@
 require 'will_paginate/array'
 class ApiController < ApplicationController
 	MAXINT = (2**(0.size * 8 -2) -1)
-	before_filter :cors_preflight_check, :authenticate_token
+	before_filter :cors_preflight_check#, :authenticate_token
 	skip_before_filter :authenticate_token, :only => [:api_key]
 	after_filter :cors_set_access_control_headers
 
@@ -290,7 +290,7 @@ class ApiController < ApplicationController
 	
 	""" Tabling API Routes """
 	def tabling_schedule
-		render json: ParseTablingSlot.all.to_a.map{|x| x.to_json}
+		render json: TablingSlot.all.to_a.map{|x| x.to_json}
 	end
 	def weekly_slots
 		render json: TablingSlot.all.map{|x| x.to_json}

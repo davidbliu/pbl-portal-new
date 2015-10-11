@@ -39,6 +39,9 @@ th, td {
 .slot-member{
 	margin-top:5px;
 }
+.draggable-slot-member{
+	color:blue;
+}
 </style>
 
 <%= render partial: 'layouts/modal' %>
@@ -57,9 +60,14 @@ th, td {
 					<% if email == @current_email %>
 					<div id = '<%= SecureRandom.hex %>' class = 'slot-member pink' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
 					<% else %>
-					<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+						<% if TablingManager.is_admin(current_member.email) or (current_member.position == 'chair' and @member_email_hash[email].committee == current_member.committee) %>
+							<div id = '<%= SecureRandom.hex %>' class = 'slot-member draggable-slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+						<% else %>
+							<div id = '<%= SecureRandom.hex %>' class = 'slot-member' data-email = '<%= email %>'  data-time = '<%= slot.time %>'>
+						<% end %>
+					
 					<% end %>
-						<a href = 'javascript:void(0)' class = 'member-link' data-name = '<%= @member_email_hash[email].name %>' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %>
+						<a href = 'javascript:void(0)' class = 'member-link' data-email = '<%= email %>' data-toggle="modal" data-target="#myModal"><img class = 'profile-image profile-image-small' src = '<%= @member_email_hash[email].gravatar_url %>'></img></a> <%= @member_email_hash[email].name %>
 
 						<% if @member_email_hash[email].committee == 'GM' %>
 						(GM)
@@ -93,12 +101,12 @@ function switchTablingSlot(email, time1, time2){
 }
 var dragging = '';
 <% if TablingManager.is_admin(current_member.email) %>
-$('.slot-member').mousedown(function(){
+$('.draggable-slot-member').mousedown(function(){
 	dragging = $(this);
 
 });
 
-$('.slot-member').draggable(
+$('.draggable-slot-member').draggable(
 );
 
 $('.tabling-slot').droppable( {

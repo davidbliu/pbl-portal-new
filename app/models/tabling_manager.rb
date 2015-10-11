@@ -2,6 +2,85 @@ require 'set'
 
 class TablingManager < ActiveRecord::Base
 
+MAXINT = (2**(0.size * 8 -2) -1)
+
+""" new tabling generator """
+def self.gen_tabling
+  current_members = ParseMember.current_members
+  chairs = current_members.select{|x| x.position == 'chair' or x.position == 'exec'}
+  cms = current_members.select{|x| x.position == 'cm' and (x.committee != 'GM' and x.committee != 'ADV')}
+  gms = current_members.select{|x| x.committee ==  'GM'}
+  puts 'there are '+chairs.length.to_s + ' chairs'
+  puts 'there are '+cms.length.to_s+' cms'
+  puts 'there are '+gms.length.to_s+' gms'
+  # pull in slots
+  slots = ParseTablingSlot.all.to_a
+  puts 'got '+slots.length.to_s+' slots'
+
+  self.fill_slots(chairs, slots)
+  self.fill_slots(cms, slots)
+  self.fill_slots(gms, slots)
+  puts 'saving all slots'
+  ParseTablingSlot.save_all(slots)
+  return true
+end
+
+# fill the slots with members
+def self.fill_slots(members, slots)
+  unassigned = members
+  commitments = Commitments.commitments_hash
+  while unassigned.length > 0
+    mcv = self.get_mcv(unassigned, slots, commitments)
+    unassigned.delete(mcv)
+    mcv_times = commitments[mcv.email] ? commitments[mcv.email] : []
+    lcv = self.get_lcv(mcv_times, slots)
+    #assign member to lcv
+    # lcv.member_emails = (lcv.get_member_emails + mcv.email).join(',')
+    puts 'assigning '+mcv.name+' to slot '+lcv.time.to_s
+    lcv.assign_member(mcv.email)
+  end
+  
+  
+end
+
+def self.get_mcv(members, slots, commitments_hash)
+  # return the member with the least slots available during tabling
+  mcvalue = MAXINT
+  mcv = []
+  tabling_times = slots.map{|x| x.time}
+  members.each do |member|
+    c = commitments_hash[member.email]
+    available = c & tabling_times
+    if available.length < mcvalue
+      mcvalue = available.length
+      mcv = [member]
+    elsif available.length == mcvalue
+      mcv << member
+    end
+  end
+  return mcv.sample
+end
+
+def self.get_lcv(times, slots)
+  t_slots = slots.select{|x| times.include?(x.time)}
+  if t_slots.length == 0
+    puts '-------->'+'this person cannot attend any slots'
+  else
+    slots = t_slots
+  end
+  lcvalue = MAXINT
+  lcv = []
+  slots.each do |slot|
+    if slot.get_member_emails.length < lcvalue
+      lcvalue = slot.get_member_emails.length
+      lcv = [slot]
+    elsif slot.get_member_emails.length == lcvalue
+      lcv << slot
+    end
+  end
+  return lcv.sample
+end
+
 """ displaying tabling schedules """
 
 def self.is_admin(email)
