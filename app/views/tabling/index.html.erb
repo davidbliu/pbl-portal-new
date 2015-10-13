@@ -100,7 +100,7 @@ function switchTablingSlot(email, time1, time2){
 
 }
 var dragging = '';
-<% if TablingManager.is_admin(current_member.email) %>
+<% if TablingManager.is_admin(current_member.email) or current_member.position == 'chair' %>
 $('.draggable-slot-member').mousedown(function(){
 	dragging = $(this);
 
