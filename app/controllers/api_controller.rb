@@ -197,7 +197,8 @@ class ApiController < ApplicationController
 	def add_golink
 		key = params[:key]
 		url = params[:url]
-		golink = ParseGoLink.create(url:url, key: key, permissions:'Anyone', member_email:@email)
+		email = params[:email]
+		golink = ParseGoLink.create(url:url, key: key, permissions:'Anyone', member_email:email)
 		# reflect changes in GoLink so appears in search
 		gl = GoLink.new(key: key, member_email: @email, permissions: 'Anyone', url: url)
 		gl.parse_id = golink.id
