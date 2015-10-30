@@ -47,6 +47,7 @@ Portal::Application.routes.draw do
       """ points """
       get 'points'
       get 'get_points'
+      
 
       """ events """
       get 'events'
@@ -418,6 +419,7 @@ Portal::Application.routes.draw do
       get 'delete_post'
       get 'email_post'
       get 'view_post'
+      get 'toggle_pinned'
     end
   end
   

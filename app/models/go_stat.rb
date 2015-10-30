@@ -38,22 +38,22 @@ class GoStat < ParseResource::Base
 	""" calculate methods """
 
 	def self.calculate_top_recent
-		last_clicks = ParseGoLinkClick.order('createdAt desc').limit(1000).all.to_a
-		click_hash = {}
-		last_clicks.each do |click|
-			if not click_hash.keys.include?(click.golink_id)
-				click_hash[click.golink_id] = 0
-			end
-			click_hash[click.golink_id] += 1
-		end
-		golinks = GoLink.where("parse_id in (?)", click_hash.keys)
-		results = []
-		golinks.each do |golink|
-			gl = golink.to_parse
-			results << {'num_clicks' => click_hash[gl.get_parse_id], 'golink'=> gl.to_json}
-		end
-		# puts golinks
-		self.put_key('top_recent', results.to_json)
+          last_clicks = ParseGoLinkClick.order('createdAt desc').limit(1000).all.to_a
+          click_hash = {}
+          last_clicks.each do |click|
+                  if not click_hash.keys.include?(click.golink_id)
+                          click_hash[click.golink_id] = 0
+                  end
+                  click_hash[click.golink_id] += 1
+          end
+          golinks = GoLink.where("parse_id in (?)", click_hash.keys)
+          results = []
+          golinks.each do |golink|
+              gl = golink.to_parse
+              results << {'num_clicks' => click_hash[gl.get_parse_id], 'golink'=> gl.to_json}
+          end
+          # puts golinks
+          self.put_key('top_recent', results.to_json)
 	end
 
 	def self.recent_contributors
@@ -67,12 +67,12 @@ class GoStat < ParseResource::Base
 		adders = {}
 		golinks.each do |golink|
 			puts golink.key
-			if golink.member_email
-				if not adders.keys.include?(golink.member_email)
-					adders[golink.member_email] = 0
-				end
-				adders[golink.member_email] += 1
-			end
+                        if golink.member_email
+                            if not adders.keys.include?(golink.member_email)
+                                      adders[golink.member_email] = 0
+                            end
+                            adders[golink.member_email] += 1
+                        end
 		end
 		contributors = []
 		adders.keys.each do |c|

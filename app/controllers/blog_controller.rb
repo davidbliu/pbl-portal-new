@@ -1,4 +1,5 @@
 require 'will_paginate/array'
+require 'json'
 class BlogController < ApplicationController
 	before_filter :authorize
 
@@ -51,7 +52,6 @@ class BlogController < ApplicationController
 			@pinned = BlogPost.pinned_posts.select{|x| x.can_view(current_member)}
 		end
 		@pinned_ids = @pinned.map{|x| x.get_parse_id}
-		puts @posts.map{|x| x.author}
 		page = params[:page] ? params[:page] : 1
 		@posts = @posts.select{|x| x.can_view(current_member)}.paginate(:page => page, :per_page => 30)
 		@editable_ids = @posts.select{|x| x.can_edit(current_member)}.map{|x| x.id}
@@ -69,6 +69,31 @@ class BlogController < ApplicationController
 
 	end
 
+        def toggle_pinned
+          puts 'this method is being run'
+          id = params[:id]
+          post = BlogPost.find(id)
+          tags = post.get_tags
+          if tags.include?('Pin')
+            tags.delete('Pin')
+          else
+            tags << 'Pin'
+          end
+          post.tags = []
+          post.tags = tags
+
+          post.save
+          p = BlogPost.find(id)
+          puts 'the tags are now:'+p.tags.to_s
+          # update postgres version too
+          pg_post = PgPost.where(parse_id: post.id)
+          if pg_post.length > 0
+            pg_post = pg_post.first
+            pg_post.tags = post.tags
+            pg_post.save
+          end
+          redirect_to '/blog'
+        end
 	def delete_post
 		id = params[:id]
 		BlogPost.find(id).destroy
@@ -80,8 +105,6 @@ class BlogController < ApplicationController
 
 	def save_post
 		id = (params[:id] and params[:id] != '') ? params[:id] : nil
-		puts id 
-		puts 'this is the id'
 		title = params[:title]
 		content = params[:content]
 		view_permissions = params[:view_permissions]

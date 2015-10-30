@@ -31,6 +31,9 @@
 				<a href = '/blog/email_landing_page?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-grey-700'>Email this post</button></a>
 				&nbsp;
 				<a href = '/blog/delete_post?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-red-700'>Delete this post</button></a>
+                                <% if current_member.position == 'exec' or current_member.name == 'David Liu' %>
+                                 <a style = 'display:none' id='<%= post.get_parse_id %>' href = '/blog/toggle_pinned?id=<%= post.get_parse_id %>'><button class = 'btn btn-material-purple-700' data-tags = '<%= post.get_tags.join(',') %>' data-id = '<%= post.get_parse_id %>'>Toggle Pinned/Unpinned</button></a>
+                              <% end %>
 			</div>
 		</div>
 		<% end %>
@@ -51,7 +54,3 @@
 
 </div>
 <% end %>
-
-<script type = 'text/javascript'>
-
-</script>

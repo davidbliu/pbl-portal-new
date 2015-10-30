@@ -14,6 +14,7 @@ class BlogPost < ParseResource::Base
 		jsonHash['last_editor']=self.last_editor
 		return jsonHash
 	end
+
 	def self.pinned_posts
 		a = Rails.cache.read('pinned_posts')
 		if a
@@ -150,6 +151,16 @@ class BlogPost < ParseResource::Base
 
 	end
 
+        def get_pin_toggled_tags
+
+          tags = self.get_tags
+          if tags.include?('Pin')
+            tags.delete('Pin')
+          else
+            tags << 'Pin'
+          end
+          return tags
+        end
 	def get_view_permissions
 		p = (self.view_permissions and self.view_permissions != '')  ? self.view_permissions : 'Anyone'
 		return p.strip

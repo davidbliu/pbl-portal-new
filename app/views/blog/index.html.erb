@@ -174,9 +174,6 @@ function changeModal(id){
 	content = $('#' + id + '-content').html();
 	title = $('#'+id+'-title').text();
 	options = $('#'+id+'-options').html();
-	console.log(id);
-	console.log(content);
-	console.log(title);
 	$('#modal-title').text(title);
 	$('#modal-body').html(content);
 	$('#modal-options').html(options);
@@ -210,7 +207,6 @@ $('#blog-search').keyup(function(event){
 		window.location = '/blog?q='+$(this).val();
 	}
 });
-
 // show and hide post buttons
 function activatePostButtons(){
 	$('.post-btn-link').click(function(){
